@@ -3,13 +3,18 @@ services:
   wwww:
     image: php:apache
     volumes:
-      - "./:/var/www/html"
+      - "./src:/var/www/html"
     ports:
-      - 80:80
+      - '80:80'
+    environment:
   db: 
     image: mysql:latest
+    volumes:
+      - ./data:/var/lib/mysql
     enviroment:
-      - MYSQL_DATABASE
-      - MYSQL_USER
-      - MYSQL_PASSWORD
-      - MYSQL_ALLOW_EMPT_PASSWORD 
+      - MYSQL_DATABASE:
+      - MYSQL_USER:
+      - MYSQL_PASSWORD:
+      - MYSQL_ALLOW_EMPTY_PASSWORD: 
+    ports:
+      -'3306:3306'
