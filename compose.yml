@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   wwww:
-    image: php:apache
+    image: php:apachea
     volumes:
       - "./src:/var/www/html"
     ports:
@@ -10,7 +10,7 @@ services:
   db: 
     image: mysql:latest
     volumes:
-      - ./data:/var/lib/mysql
+      - ./database:/var/lib/mysql
     enviroment:
       - MYSQL_DATABASE:
       - MYSQL_USER:
