@@ -44,13 +44,44 @@
 }
 .div-for-product {
     margin: 8px;
-    border-bottom: .5px solid #000;
+    border: .3px solid #000;
     display: flex;
+    border-radius: 6px;
     flex-direction: column;
-    max-width: 320px;
-    padding: 6px;
+    max-width: 300px;
+    padding: 1.5rem 1rem;
 }
-
+.div-for-product figure {
+    margin: auto;
+}
+.div-buy-product {
+    display: flex;
+    padding: 6px;
+    width: 100%;
+}
+.div-buy-product span {
+    padding: 8px;
+}
+.span-old-price {
+    text-decoration-line: line-through;
+}
+.span-price {
+    background-color: transparent;
+    box-shadow:0 0.5rem .5rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 7px;
+    margin-right: 12px; 
+}
+.span-action {
+    background-color: #ff5252;
+    padding: 6px;
+    color: #fff;
+    font-weight: 650;
+    border-radius: 6px;
+}
 img {
     max-width: 150px;
+    aspect-ratio: 9/11;
 }
