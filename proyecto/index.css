@@ -92,20 +92,21 @@ a {
     font-size: .7rem;
 }
 .span-old-price {
+    font-size: 12px;
     text-decoration-line: line-through;
 }
 .span-price {
     background-color: transparent;
     box-shadow:0 0.5rem .5rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
     border-radius: 6px;
     padding: 7px;
-    margin-right: 12px; 
+    margin-right: 10px; 
 }
 .button-action {
     background-color: #ff5252;
-    padding: 6px;
+    padding: 6px 8px;
     color: #fff;
     font-weight: 650;
     cursor: pointer;
@@ -120,6 +121,7 @@ a {
     width: 100%;
     padding: 1rem;
     margin: auto;
+    height: 150px;
     align-items: center;
 }
 .pay-methods h3 {
@@ -134,8 +136,9 @@ a {
     padding: 4px 12px;
     aspect-ratio: 11/7;
     max-width: 70px;
-    width: 70px;
-    height: 50px;
+    margin: 0 .3rem;
+    width: 80px;
+    height: auto;
 }
 .footer-commerce {
     width: 100%;
