@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', serif;
+    background-image: url('./imgs/ecommercebg.jpeg');
+    background-repeat: no-repeat;
+    background-position: center 70%;
+    background-size: 50%;
+    height: 100vh;
+    background-size: cover;
+}
+main { 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    background-color: rgba(255 ,255 ,255 ,0.15);
+    margin: auto;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 530px;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    color: #fff;
+}
+form label { 
+    font-size: 1.322rem;
+}
+form input {
+    margin: .5rem;
+}
+form label ,form input, form button {
+    padding: 6px 2px;
+    width: 50%;
+    align-self: center;
+}
+form button {
+    padding: 4px 0;
+    text-transform: uppercase;
+    background-color: #ffe37a;
+    font-weight: 650;
+    font-size: 1.123rem;
+    margin: .5rem;
+    color: #000;
+}
+main div {
+    display: flex;
+    width: 80%;
+    margin: 1rem auto;
+    justify-content: space-evenly;
+    align-items: center;
+}
+main div a {
+    border-radius: 2px;
+    padding: 6px 5px;
+    font-size: 1.123rem;
+    text-decoration: none;
+    background-color: #faeab2;
+    color: #000;
+    border: 1px solid #c2c2c2;
+}
