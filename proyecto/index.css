@@ -134,10 +134,10 @@ a {
 }
 .pay-options img {
     padding: 4px 12px;
-    aspect-ratio: 11/7;
-    max-width: 70px;
+    aspect-ratio: 12/7;
+    max-width: 80px;
     margin: 0 .3rem;
-    width: 80px;
+    width: 100%;
     height: auto;
 }
 .footer-commerce {
