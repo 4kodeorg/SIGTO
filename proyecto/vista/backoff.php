@@ -20,7 +20,7 @@
         </div>
 
         <div class="searchbar">
-        <input type="text" placeholder="Search">
+        <input type="text" placeholder="Buscar">
         <div class="searchbtn">
             <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor" 
                 x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor">
