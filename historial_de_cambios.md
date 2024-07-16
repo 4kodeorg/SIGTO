@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 - 1d09ff9 - **est3banst**, 7 hours ago : ansible inventory ? ok c b
+=======
+- 1d09ff9 - **est3banst**, 6 hours ago : ansible inventory ? ok c b
+>>>>>>> dca4d9256158ab0262bdb92395c11363531e54df
 - a69fd8a - **est3banst**, 27 hours ago : agrego secciones del backoffice
 - 1993ff7 - **est3banst**, 10 days ago : ansible books added
 - 47594a1 - **est3banst**, 11 days ago : bug
