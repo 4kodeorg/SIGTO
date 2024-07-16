@@ -12,9 +12,9 @@ services:
     volumes:
       - ./database:/var/lib/mysql
     environment:
-      - MYSQL_DATABASE:
-      - MYSQL_USER:
-      - MYSQL_PASSWORD:
-      - MYSQL_ALLOW_EMPTY_PASSWORD: 
+      - MYSQL_DATABASE: dbtest
+      - MYSQL_USER: superman
+      - MYSQL_PASSWORD: test
+      - MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
       -'3306:3306'
