@@ -147,8 +147,10 @@
 
                 </div>
             </nav>
+
         </div>
-        <div class="main">
+
+<div class="main">
 
 <div class="searchbar2">
     <input type="text" name="" id="" placeholder="Search">
@@ -161,4 +163,6 @@
             </g>
         </svg>
     </div>
+</div>
+
 </div>

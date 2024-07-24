@@ -6,3 +6,4 @@
   - name: install apache2 package
     yum:
       name: apache2
+      state: latest

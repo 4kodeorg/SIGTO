@@ -1,10 +1,28 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Inter', serif;
+}
+.header-store {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: #ffd58d;
+    padding: 1rem 0;
+}
+.header-store svg {
+    color: #923737;
+    margin: 0 1rem;
+    border-bottom: 1px solid #000;
+    border-radius: 30%;
+   
+}
+.header-section {
+    text-align: left;
+    padding: 0 1rem;
 }
 
 .bg-image {
-    font-family: 'Inter', serif;
     background-image: url('./imgs/ecommercebg.jpeg');
     background-repeat: no-repeat;
     background-position: center;
@@ -20,33 +38,39 @@ main {
     backdrop-filter: blur(5px);
     background-color: rgba(255 ,255 ,255 ,0.15);
 }
-.form-login {
+
+/* Login CSS */
+.form-login-container {
     display: flex;
+    height: 100vh;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-form {
+.login-form {
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin: auto;
     max-width: 530px;
     justify-content: center;
     align-items: center;
     gap: .5rem;
     color: #fff;
 }
-form label { 
+.login-form label { 
     font-size: 1.322rem;
     color: #000;
 }
-form input {
+.login-form input {
     margin: .5rem;
 }
-form label ,form input, form button {
+.login-form label ,.login-form input, .login-form button {
     padding: 6px 2px;
     width: 50%;
     align-self: center;
 }
-form button {
+.login-form button {
     padding: 4px 0;
     text-transform: uppercase;
     background-color: #ffe37a;
@@ -55,6 +79,66 @@ form button {
     margin: .5rem;
     color: #000;
 }
+/*  */
+
+/* Registro CSS */
+
+.bg-shopp {
+    background-image: url('../assets/imgs/eshopreg.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 250px;
+    background-position: center 80%;
+}
+
+.registration-form {
+    display: flex;
+    width: 60%;
+    justify-content: center;
+    margin: auto;
+    min-width: 400px;
+    height: 100vh;
+    flex-direction: column;
+}
+.registration-form label {
+    font-size: 1.123rem;
+}
+.registration-form label, .registration-form input {
+    align-self: center;
+    width: 50%;
+    max-width: 500px;
+    padding: .3rem .5rem;
+}
+.registration-form button {
+    align-self: center;
+    margin: 1.5rem;
+    font-size: 1.232rem;
+    padding: 5px 1rem;
+    text-transform: uppercase;
+    border-radius: 4px;
+    background-color: #ffd58d;
+}
+footer { 
+    background-color: #ffd58df2;
+    height: 20vh;
+    display: flex;
+}
+footer ul {
+    display: flex;
+    padding: 4px 7px;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+    margin: auto;
+}
+ul a {
+    text-decoration: none;
+    color: #020202;
+    margin: 0 12px;
+    align-self: center;
+}
+
+/*  */
 main div {
     display: flex;
     width: 80%;

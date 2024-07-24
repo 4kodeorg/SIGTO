@@ -7,7 +7,6 @@ async function displayProds() {
     const prodS = await response.json();
     
     const productList = prodS.products   
-    console.log(productList[1]);
     let elementsHolder = document.getElementById('product-container');
     let data = ''
     for (let product of productList) {
