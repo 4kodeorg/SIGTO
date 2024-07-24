@@ -1,63 +1,14 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php
+session_start();
+if(isset($_SESSION['username'])) {
+require('./headerback.php')
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Backoffice</title>
-    <link rel="stylesheet" href="../assets/backstyle.css">
-    <link rel="stylesheet" href="../assets/backresponsive.css">
-</head>
-
-<body>
-
-    <header>
-
-        <div class="logosec">
-            <h2 class="logo">youCommerce</h2>
-
-        </div>
-
-        <div class="searchbar">
-        <input type="text" placeholder="Buscar">
-        <div class="searchbtn">
-            <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor" 
-                x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor">
-                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                 d="m42.501 42.5l-7.351-7.776a17.244 17.244 0 1 0-7.075 4.422"/></g>
-            </svg>
-        </div>
-        </div>
-
-        <div class="message">
-            <span class="circle"></span>
-            <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor" 
-                x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path fill="none" 
-                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-                d="M40.462 32.173c-2.53-1.967-2.918-2.596-4.611-11.571c-1.438-7.623-4.59-9.993-8.504-11.232c.217-.47.347-.99.347-1.543a3.694
-                3.694 0 0 0-7.388 0c0 .553.13 1.072.347 1.543c-3.913 1.24-7.066 3.61-8.504 11.232c-1.693 8.975-2.08 9.604-4.61 11.57c-2.614
-                2.032-2.53 6.71.948 6.71h10.464c.04 2.76 2.281 4.985 5.049 4.985s5.01-2.226 5.049-4.984h10.463c3.479 0 3.563-4.68.95-6.71Z"/></g>
-            </svg>
-            <div class="dp">
-            <svg width="36px" height="36px" viewBox="0 0 1200 1200" fill="currentColor" x="128" y="128" role="img"
-                xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path fill="currentColor" d="M605.096 
-                480c-135.542-2.098-239.082-111.058-239.999-240C367.336 105.667 477.133.942 605.096 0c135.662 5.13 
-                239.036 108.97 240.001 240c-2.668 134.439-111.907 239.09-240.001 240zm194.043 49.788c170.592 1.991 
-                257.094 151.63 257.881 301.269V1200H889.784l.001-324.254c-4.072-22.416-19.255-30.018-33.164-27.82c-13.022
-                2.059-24.929 12.701-25.56 27.82V1200h-464.67V875.746c-3.557-21.334-17.128-29.537-30.331-28.709c-14.138.889-27.853
-                12.135-28.393 28.709V1200h-164.68V831.057c-.98-159.475 99.901-300.087 259.137-301.269h397.015z"/></g>
-        </svg>
-        </div>
-        </div>
-
-    </header>
-
-    <div class="main-container">
+<div class="main-container">
         <div class="navcontainer">
             <nav class="nav">
                 <div class="nav-upper-options">
-                    <a href="./backoff.php" class="nav-option option1">
+                    <a href="./general.php" class="nav-option option1">
                         <svg width="36px" height="36px" viewBox="0 0 16 16" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                             <g fill="currentColor">
                                 <path fill="currentColor" d="m1 2l1-1h12l1 1v12l-1 1H2l-1-1V2Zm1 
@@ -148,17 +99,107 @@
                 </div>
             </nav>
         </div>
-        <div class="main">
+        
+        
 
-<div class="searchbar2">
-    <input type="text" name="" id="" placeholder="Search">
-    <div class="searchbtn">
-        <svg width="30px" height="30px" viewBox="0 0 24 24" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
-            <g fill="currentColor">
-                <path fill="currentColor" d="M15.25 0a8.25 8.25 0 0 0-6.18 13.72L1 22.88l1.12 
-        1l8.05-9.12A8.251 8.251 0 1 0 15.25.01V0zm0 15a6.75 6.75 0 1 1 0-13.5a6.75 6.75 
-        0 0 1 0 13.5z" />
-            </g>
-        </svg>
-    </div>
+<div class="main">
+
+            <div class="searchbar2">
+                <input type="text" name="" id="" placeholder="Search">
+                <div class="searchbtn">
+                    <svg width="30px" height="30px" viewBox="0 0 24 24" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="currentColor">
+                            <path fill="currentColor" d="M15.25 0a8.25 8.25 0 0 0-6.18 13.72L1 22.88l1.12 
+                    1l8.05-9.12A8.251 8.251 0 1 0 15.25.01V0zm0 15a6.75 6.75 0 1 1 0-13.5a6.75 6.75 
+                    0 0 1 0 13.5z" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="box-container">
+
+                <div class="box box1">
+                    <div class="text">
+                        <h2 class="topic-heading">60.5k</h2>
+                        <h2 class="topic">Visitas</h2>
+                    </div>
+                    <svg width="56px" height="56px" viewBox="0 0 16 16" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="currentColor">
+                            <path fill="currentColor" d="M8 6.003a2.667 2.667 0 1 1 
+                    0 5.334a2.667 2.667 0 0 1 0-5.334Zm0 1a1.667 1.667 0 1 0 0 3.334a1.667 1.667 0 
+                    0 0 0-3.334Zm0-3.336c3.076 0 5.73 2.1 6.467 5.043a.5.5 0 1 1-.97.242a5.67 5.67 
+                    0 0 0-10.995.004a.5.5 0 0 1-.97-.243A6.669 6.669 0 0 1 8 3.667Z" />
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="box box2">
+                    <div class="text">
+                        <h2 class="topic-heading">150</h2>
+                        <h2 class="topic">En favoritos</h2>
+                    </div>
+
+                    <svg width="56px" height="56px" viewBox="0 0 16 16" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="currentColor">
+                            <path fill="currentColor" d="M10.54 2c.289.001.57.088.81.25a1.38
+                    1.38 0 0 1 .45 1.69l-.97 2.17h2.79a1.36 1.36 0 0 1 1.16.61a1.35 1.35 0 0 1 
+                    .09 1.32c-.67 1.45-1.87 4.07-2.27 5.17a1.38 1.38 0 0 1-1.29.9H2.38A1.4 1.4 
+                    0 0 1 1 12.71V9.2a1.38 1.38 0 0 1 1.38-1.38h1.38L9.6 2.36a1.41 1.41 0 0 1 
+                    .94-.36zm.77 11.11a.39.39 0 0 0 .36-.25c.4-1.09 1.47-3.45 2.33-5.24a.39.39 0 
+                    0 0 0-.36a.37.37 0 0 0-.38-.15h-3.3l-.52-.68v-.46l1.09-2.44a.37.37 0 0 
+                    0-.13-.46a.38.38 0 0 0-.48 0L4.22 8.66l-.47.13H2.38A.38.38 0 0 0 2 9.2v3.51a.4.4
+                    0 0 0 .38.4h8.93z" />
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="box box3">
+                    <div class="text">
+                        <h2 class="topic-heading">320</h2>
+                        <h2 class="topic">Comentarios</h2>
+                    </div>
+                    <svg width="56px" height="56px" viewBox="0 0 16 16" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="currentColor">
+                            <path fill="currentColor" d="M14.5 2h-13l-.5.5v9l.5.5H4v2.5l.854.354L7.707 
+                    12H14.5l.5-.5v-9l-.5-.5zm-.5 9H7.5l-.354.146L5 13.293V11.5l-.5-.5H2V3h12v8z" />
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="box box4">
+                    <div class="text">
+                        <h2 class="topic-heading">70</h2>
+                        <h2 class="topic">Publicados</h2>
+                    </div>
+                    <svg width="56px" height="56px" viewBox="0 0 16 16" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="currentColor">
+                            <path fill="currentColor" fill-rule="evenodd" d="m14.431 3.323l-8.47 10l-.79-.036l-3.35-4.77l.818-.574l2.978 
+                    4.24l8.051-9.506l.764.646z" clip-rule="evenodd" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="report-container">
+                <div class="report-header">
+                    <h1 class="recent-Articles">Articulos recientes</h1>
+                    <button class="view">Ver todos</button>
+                </div>
+
+                <div class="report-body">
+
+
+                    </div>
+                </div>
+            </div>
+            </div>
 </div>
+</div>
+
+<?php
+} else {
+    header('Location: index.html');
+    exit();
+}
+?>
