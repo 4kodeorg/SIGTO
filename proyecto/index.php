@@ -31,10 +31,10 @@
         </nav>
         </div>
         <ul class="ul-for-nav">
-            <a href="">
+            <a href="./vista/register.php">
             <li>Regístrate</li>
             </a>
-            <a href="">
+            <a href="./vista/account.php">
             <li>Mi cuenta</li>
             </a>
             <a href="">

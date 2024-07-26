@@ -1,6 +1,6 @@
 <?php
-session_start();
-if(isset($_SESSION['username'])) {
+// session_start();
+// if(isset($_SESSION['username'])) {
 require('./headerback.php')
 ?>
 
@@ -198,8 +198,8 @@ require('./headerback.php')
 </div>
 
 <?php
-} else {
-    header('Location: index.html');
-    exit();
-}
+// } else {
+//     header('Location: ../../index.php');
+//     exit();
+// }
 ?>

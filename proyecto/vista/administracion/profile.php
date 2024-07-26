@@ -1,7 +1,7 @@
 <?php
 // RUTAS PROTEGIDAS
-session_start();
-if(isset($_SESSION['username'])) {
+// session_start();
+// if(isset($_SESSION['username'])) {
 require('./headerback.php')
 ?>
 
@@ -124,8 +124,8 @@ require('./headerback.php')
 
             <div class="report-container">
                 <div class="report-header">
-                    <h1 class="recent-Articles">Articulos recientes</h1>
-                    <button class="view">Ver todos</button>
+                    <h1 class="recent-Articles">Información del perfil</h1>
+                    <button class="view">Modificar</button>
                 </div>
             </div>
             </div>
@@ -133,9 +133,9 @@ require('./headerback.php')
 </div>
 
 <?php
-}
-else {
-    header('Location: index.html');
-    exit();
-}
+// }
+// else {
+//     header('Location: ../../index.php');
+//     exit();
+// }
 ?>
