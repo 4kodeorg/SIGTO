@@ -1,7 +1,20 @@
+:root {
+    --background-color1: #fafaff;
+    --background-color2: #ffffff;
+    --background-color3: #ededed;
+    --background-color4: #cad7fda4;
+    --primary-color: #ffd000;
+    --secondary-color: #ffc300;
+    --Border-color: #ffb700;
+    --stats-use-color: #ff8800;
+    --two-use-color: #ffea00;
+  }
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: content-box;
+    scroll-behavior: smooth;
     font-family: 'Inter', serif;
 }
 .header-commerce {
@@ -13,40 +26,64 @@
     box-shadow:0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
     align-items: center;
 }
-.div-for-container {
-    display: flex;
-    margin: auto;
+.message {
+    position: relative;
 }
+.logo {
+    font-size: 27px;
+    font-weight: 600;
+    color: rgb(47, 141, 70);
+  }
+  .circle {
+    height: 7px;
+    width: 7px;
+    display: none;
+    position: absolute;
+    background-color: #fa7bb4;
+    left: 19px;
+    top: 8px;
+  }
+
 a {
     text-decoration: none;
     color: #002000;
 }
-.nav-for {
+.nav {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: .5rem;
+    margin: auto;
 }
-.nav-for h1 {
+.nav h1 {
     font-weight: 400;
     font-size: 2.23rem;
     text-shadow: 0 1px .3px #002000;
 }
-.form-for {
+.searchbar form{
     display: flex;
-    gap: .5rem;
 }
-.input-search {
-    padding: 8px 6px;
-    border-radius: 3px;
-    box-shadow: 0 1px 1.5px .5px #a6a6a6;
-}
-.button-search {
-    margin: auto 0;
-    background-color: transparent;
-    border-radius: 3px;
+.searchbar input {
+    width: 250px;
+    height: 42px;
+    border-radius: 50px 0 0 50px;
+    background-color: var(--background-color3);
+    padding: 0 20px;
+    font-size: 15px;
+    outline: none;
+    border: none;
+  }
+  .searchbtn {
+    width: 50px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px 50px 50px 0px;
+    background-color: var(--secondary-color);
     cursor: pointer;
-}
+  }
+
 .ul-for-nav {
     display: flex;
     list-style-type: none;
@@ -118,10 +155,10 @@ a {
 }
 .pay-methods {
     display: flex;
-    width: 100%;
-    padding: 1rem;
+    justify-content: center;
+    padding: 2rem;
     margin: auto;
-    height: 150px;
+    height: 200px;
     align-items: center;
 }
 .pay-methods h3 {
@@ -182,3 +219,117 @@ a {
     margin: auto;
     text-align: center;
 }
+.business-logo {
+    display: flex;
+    margin: auto;
+    align-items: center;
+    border-bottom: 1px solid #020202;
+    width: 80%;
+}
+.responsive-menu {
+    display: block;
+}
+.responsive-menu-list {
+    display: flex;
+    height: 100vh;
+    justify-content: space-evenly;
+    width: 55%;
+    max-width: 400px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #f2f2f2;
+    flex-direction: column;
+    border: 1px solid #040404;
+}
+.active {
+    color: rgb(47, 141, 70);
+}
+.responsive-menu-list h2 {
+    padding: 1rem;
+}
+.close-icon {
+    margin: 2rem auto;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #040404;
+}
+.menu-normal {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: 60%;
+    border-bottom: .5px solid #020202;
+    margin: 2rem;
+}
+.menu-normal-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+    padding: 1rem 0;
+    
+}
+.responsive-menu-list .opinions {
+    padding-left: 1rem;
+    display: flex;
+    margin: auto 8px;
+    position: relative;
+    justify-content: flex-start;
+    align-items: center;
+}
+.responsive-menu-list .opinions svg{
+    padding: 3px 5px;
+}
+.responsive-menu {
+    display: none;
+}
+.screen {
+    visibility: hidden;
+}
+.visible {
+    display: none;
+}
+@media (width < 850px) {
+    .ul-for-nav {
+        display: none;
+    }
+    .responsive-menu {
+        display: block;
+    }
+    .nav {
+        display: block;
+    }
+    .header-commerce {
+        flex-direction: row-reverse;
+        padding: 0 1rem;
+    }
+    #cart-responsive {
+        display: block;
+        padding: 6px;
+        border: 2px solid #020202;
+        border-radius: 40%;
+        margin-right: 20px;
+    }
+
+}
+@media (width > 850px) {
+    .responsive-menu-list {
+        visibility: hidden;
+    }
+    #cart-responsive {
+        display: none;
+    }
+}
+
+@media (width < 420px) {
+
+    .header-commerce {
+        flex-direction: column;
+    }
+    .nav-for {
+        flex-direction: column;
+    }
+}
+

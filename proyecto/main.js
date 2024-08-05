@@ -1,3 +1,31 @@
+const menu = document.getElementById('menu-responsive')
+const close = document.getElementById('close-ico')
+const optionsResponsive = document.getElementById('options-responsive')
+
+const menuItems = document.querySelectorAll('.menu-normal-actions')
+
+function menuResponsive() {
+    menu.classList.add('screen');
+    optionsResponsive.classList.toggle('visible')
+}
+function isMenuVisible() {
+    menu.classList.toggle('screen')
+    optionsResponsive.classList.toggle('visible')
+}
+
+    
+menuItems.forEach(item => {
+    let i = 0
+    item.addEventListener('click',() => {
+        if (item.classList.contains('active')) { return }
+        else { item.classList.add('active')
+            menuItems[i].classList.remove('active')
+            }
+            i++
+        });
+    })
+    
+
 
 async function displayProds() { 
     const response = await fetch('https://dummyjson.com/products')
