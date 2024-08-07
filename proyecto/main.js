@@ -1,8 +1,9 @@
 const menu = document.getElementById('menu-responsive')
 const close = document.getElementById('close-ico')
 const optionsResponsive = document.getElementById('options-responsive')
-
+const cartItems = document.getElementById('counter')
 const menuItems = document.querySelectorAll('.menu-normal-actions')
+const addBtn = document.getElementById('add-btn')
 
 function menuResponsive() {
     menu.classList.add('screen');
@@ -13,18 +14,23 @@ function isMenuVisible() {
     optionsResponsive.classList.toggle('visible')
 }
 
-    
-menuItems.forEach(item => {
-    let i = 0
-    item.addEventListener('click',() => {
-        if (item.classList.contains('active')) { return }
-        else { item.classList.add('active')
-            menuItems[i].classList.remove('active')
-            }
-            i++
-        });
+var n = 0
+
+function addToCart() {
+    n++
+    cartItems.innerText = n
+}
+
+for (let i = 0; i < menuItems.length; i++) {
+    menuItems[i].addEventListener('click', () => {
+        if (menuItems[i].classList.contains('active')) return
+        else {
+            menuItems[i].classList.add('active')
+            menuItems[i - 1].classList.remove('active')
+            return
+        }
     })
-    
+}
 
 
 async function displayProds() { 
@@ -51,7 +57,7 @@ async function displayProds() {
                  <div class='div-buy-product'>
                  <span class='span-old-price'>\$${Math.round(product.price * 1.20)}</span>
                  <span class='span-price'>\$${product.price}</span>
-                 <a class='button-action'>Agregar al carrito</a>
+                 <a id='add-btn' onclick='addToCart()' class='button-action'>Agregar al carrito</a>
                  </div>
                  </section>
                `
