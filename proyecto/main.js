@@ -21,16 +21,12 @@ function addToCart() {
     cartItems.innerText = n
 }
 
-for (let i = 0; i < menuItems.length; i++) {
-    menuItems[i].addEventListener('click', () => {
-        if (menuItems[i].classList.contains('active')) return
-        else {
-            menuItems[i].classList.add('active')
-            menuItems[i - 1].classList.remove('active')
-            return
-        }
+menuItems.forEach(link => {
+    link.addEventListener('click', () => {
+        menuItems.forEach(prevActive => prevActive.classList.remove('active'))
+        link.classList.add('active')
     })
-}
+})
 
 
 async function displayProds() { 
