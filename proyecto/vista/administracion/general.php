@@ -9,7 +9,7 @@ require('./headerback.php')
         <div class="navcontainer">
             <nav class="nav">
                 <div class="nav-upper-options">
-                    <a href="./general.php" class="nav-option option1">
+                    <a href="./general.php" class="nav-option option1 active">
                         <svg width="36px" height="36px" viewBox="0 0 16 16" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                             <g fill="currentColor">
                                 <path fill="currentColor" d="m1 2l1-1h12l1 1v12l-1 1H2l-1-1V2Zm1 
@@ -19,7 +19,7 @@ require('./headerback.php')
                         <h3> Panel</h3>
                     </a>
 
-                    <a href="./productos.php" class="option2 nav-option">
+                    <a href="./productos.php" class="nav-option option2">
                     <svg width="36px" height="36px" viewBox="0 0 24 24" 
                         fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                         <g fill="currentColor"><g fill="none" stroke="currentColor" stroke-linejoin="round" 

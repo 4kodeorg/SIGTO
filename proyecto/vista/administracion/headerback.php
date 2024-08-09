@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backoffice</title>
     <link rel="stylesheet" href="../../assets/backstyle.css">
+    <script src="../../assets/main.js" defer></script>
     <link rel="stylesheet" href="../../assets/backresponsive.css">
 </head>
 
