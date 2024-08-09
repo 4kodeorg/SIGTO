@@ -196,27 +196,11 @@ require('./headerback.php')
                     </div>
 
                     <div class="items">
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 73</h3>
-                            <h3 class="t-op-nextlvl">2.9k</h3>
-                            <h3 class="t-op-nextlvl">210</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
+                    <?php
+                        require_once('./functions/addProd.php')
+                        
 
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 72</h3>
-                            <h3 class="t-op-nextlvl">1.5k</h3>
-                            <h3 class="t-op-nextlvl">360</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 71</h3>
-                            <h3 class="t-op-nextlvl">1.1k</h3>
-                            <h3 class="t-op-nextlvl">150</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
+                    ?>
                         <div class="item1">
                             <h3 class="t-op-nextlvl">Article 70</h3>
                             <h3 class="t-op-nextlvl">1.2k</h3>
@@ -262,11 +246,35 @@ require('./headerback.php')
                     </div>
                 </div>
             </div>
+
+            <div class="product-form">
+
+            <form action="./functions/addProd.php" method="POST" class="form-product">
+                <label for="titulo">Nombre del producto</label>
+                <input id="titulo" type="text" name="titulo">
+                <label for="descr">Descripción</label>
+                <input id="descr" type="text" name="descripcion">
+
+                <label for="estado">Estado del producto</label>
+
+                <select name="estado" id="estado">
+                    <optgroup label="Estado del producto">
+                    <option value="usado">Nuevo</option>
+                    <option value="nuevo">Como nuevo</option>
+                    </optgroup>
+                </select>
+
+                <label for="precio">Precio</label>
+                <input id="precio" type="text" name="precio">
+                    <input type="submit" value="Agregar Producto">
+            </form>
+            </div>
             </div>
 </div>
 </div>
 
 <?php
+
 // } else {
 //     header('Location: ../../index.php');
 //     exit();
