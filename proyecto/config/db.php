@@ -1,15 +1,25 @@
 <?php
 
-
 class Database {
     
-    private $host;
-    private $db_name;
-    private $user;
-    private $password;
+    private $host = "localhost:3306";
+    private $db_name = "dbtest";
+    private $user = "superman";
+    private $password = "test";
     private $conn;
 
-    public function getConnection() {
-        
+
+    public function __construct()
+    {
+        if(!isset($this->conn)) {
+            try { $this->conn = new mysqli($this->host,$this->user, $this->password, $this->db_name); }
+            catch (Exception $e) {
+                echo "Error al conectar con la base de datos". $e->getMessage();
+            }
+        }
     }
+    public function getConnection() {
+        return $this->conn;
+    }
+    
 }

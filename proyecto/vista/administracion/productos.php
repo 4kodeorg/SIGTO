@@ -199,7 +199,6 @@ require('./headerback.php')
                     <?php
                         require_once('./functions/addProd.php')
                         
-
                     ?>
                         <div class="item1">
                             <h3 class="t-op-nextlvl">Article 70</h3>
