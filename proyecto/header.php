@@ -14,21 +14,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>youCommerce</title>
 </head>
 <body>
 
-    <header class="header-commerce">
-    
-        <nav class="nav">
-            <h1 class="logo">youCommerce</h1>
-            <div class="searchbar">
-            <form class="form-for" action="" method="get">
+<nav class="navbar navbar-expand-lg bg-body-tertiary px-4 py-4">
+    <div class="container-fluid">
+       <div class="brand-container">
+       <a href="" class="navbar-brand">
+            <h1 class="logo">Mercado Ya</h1>
+        </a>
+            <form class="d-flex" role="search" action="" method="post">
                 <label for="busqueda"></label>
                 <input type="text" id="busqueda" name="buscar" placeholder="Encontrá todo lo que buscas">
-                <button class="searchbtn" type="submit">
+                <button class="btn btn-outline-success" type="submit">
                 <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor" 
                 x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor">
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -36,37 +39,48 @@
             </svg>
             </button>
             </form>
-            </div>
-        </nav>
-        
+       </div>
 
         <ul class="ul-for-nav">
-            <a href="./vista/register.php">
-            <li>Regístrate</li>
-            </a>
-            <a href="./vista/account.php">
-            <li>Mi cuenta</li>
-            </a>
-            <a href="./cart.php" class="message">
+       
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Mi cuenta
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="./vista/register.php">Registrate</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="./vista/account.php">Inicia sesión</a></li>
+            
+          </ul>
+          <li class="nav-item">
+            <a href="" class="nav-link">Ayuda</a>
+        </li>
+          <li class="nav-item">
+          <a href="./cart.php" class="nav-link message">
             <div class="circle"></div>
             <svg 
-            width="46px" height="46px" viewBox="0 0 1024 1024" fill="currentColor" x="128" y="128" role="img" 
+            width="32px" height="32px" viewBox="0 0 1024 1024" fill="currentColor" x="128" y="128" role="img" 
             xmlns="http://www.w3.org/2000/svg"><g fill="currentColor">
             <path fill="currentColor" d="M922.9 701.9H327.4l29.9-60.9l496.8-.9c16.8 0 31.2-12 34.2-28.6l68.8-385.1c1.8-10.1-.9-20.5-7.5-28.4a34.99 34.99 0 0 0-26.6-12.5l-632-2.1l-5.4-25.4c-3.4-16.2-18-28-34.6-28H96.5a35.3 35.3 0 1 0 0 70.6h125.9L246 312.8l58.1 281.3l-74.8 122.1a34.96 34.96 0 0 0-3 36.8c6 11.9 18.1 19.4 31.5 19.4h62.8a102.43 102.43 0 0 0-20.6 61.7c0 56.6 46 102.6 102.6 102.6s102.6-46 102.6-102.6c0-22.3-7.4-44-20.6-61.7h161.1a102.43 102.43 0 0 0-20.6 61.7c0 56.6 46 102.6 102.6 102.6s102.6-46 102.6-102.6c0-22.3-7.4-44-20.6-61.7H923c19.4 0 35.3-15.8 35.3-35.3a35.42 35.42 0 0 0-35.4-35.2zM305.7 253l575.8 1.9l-56.4 315.8l-452.3.8L305.7 253zm96.9 612.7c-17.4 0-31.6-14.2-31.6-31.6c0-17.4 14.2-31.6 31.6-31.6s31.6 14.2 31.6 31.6a31.6 31.6 0 0 1-31.6 31.6zm325.1 0c-17.4 0-31.6-14.2-31.6-31.6c0-17.4 14.2-31.6 31.6-31.6s31.6 14.2 31.6 31.6a31.6 31.6 0 0 1-31.6 31.6z"/></g>
             </svg>
             </a>
+          </li>
+            
         </ul>
-        <div class="responsive-header">
-        <div onclick="menuResponsive()" id="menu-responsive" class="responsive-menu">
-        <svg width="48px" height="48px" 
+       
+        <a class="btn btn-primary" id="burger-menu" data-bs-toggle="offcanvas" href="#sidebar-menu" role="button" aria-controls="offcanvasExample">
+        <svg width="42px" height="42px" 
         viewBox="0 0 32 32" fill="currentColor" x="217" y="217" role="img"
          xmlns="http://www.w3.org/2000/svg">
          <g fill="currentColor"><path fill="none" 
          stroke="currentColor" stroke-linecap="round" 
          stroke-linejoin="round" stroke-width="2" 
          d="M4 8h24M4 16h24M4 24h24"/></g>
-    </svg>
-        </div>
+        </svg>
+        </a>
+
         <a href="./cart.php" id="cart-responsive" class="message">
             <div id="counter" class="circle"></div>
             <svg 
@@ -76,9 +90,14 @@
             </svg>
             </a>
         </div>
-    </header>
 
-    <ul id="options-responsive" class="responsive-menu-list visible">
+        </nav>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar-menu" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Mercado Ya &copy;</h5>
+    </div>
+  <div class="offcanvas-body">
+  <ul>
         <div class="business-logo">
         <svg 
         width="40px" height="40px" viewBox="0 0 48 48" fill="currentColor" 
@@ -89,7 +108,7 @@
         stroke-linecap="round" stroke-linejoin="round"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.805h4.678L13.856 34.5h17.899"/><circle cx="37.5" cy="16.703" r="6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M41.161 9.28L40.1 11.299m-7.583-2.375l4.017-1.526m.966 9.305l-1.271-3.661m-26.155 2.302l18.07.902M13.031 30.323h20.91c3.254 0 3.56-4.416 3.56-4.416m-26.345-5.084l18.005.508m-17.098 4.09l23.075.441m-4.604 4.461l.966-6.603m-6.763 6.603l-.153-14.255m-6.965-.347l1.49 14.602"/></g>
         </svg>
 
-        <h2 class="logo">youCommerce</h2>
+        <h2 class="logo">Comprar y vender</h2>
         </div>
         <div class="menu-normal">
         <a href="" class="menu-normal-actions active">
@@ -124,13 +143,15 @@
         xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 4h28v18H16l-8 7v-7H2Z"/></g>
         </svg>
         Dejanos tu opinión</a>
-        <svg onclick="isMenuVisible()" class="close-icon" id="close-ico" width="28px" height="28px" 
-            viewBox="0 0 16 16" fill="currentColor" 
-            x="128" y="128" role="img"
-            xmlns="http://www.w3.org/2000/svg">
-            <g fill="currentColor">
-            <path fill="currentColor" 
-            fill-rule="evenodd" 
-            d="m8 8.707l3.646 3.647l.708-.707L8.707 8l3.647-3.646l-.707-.708L8 7.293L4.354 3.646l-.707.708L7.293 8l-3.646 3.646l.707.708L8 8.707z" clip-rule="evenodd"/></g>
-    </svg>
+       
     </ul>
+    <div class="container">
+
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+    </div>
+  </div>
+</div>
+
+
+   

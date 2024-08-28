@@ -50,6 +50,20 @@ class Usuario {
         $this->seg_direccion = $seg_direccion;
     }
 
+    public function create() {
+        $query = "INSERT INTO ". $this->table_name . "SET nombre=?, correo=?, celular=?, direccion=?";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param("ssis", $this->nombre, $this->correo, $this->celular, $this->direccion);
+
+        try {
+            $stmt->execute();
+        } catch(Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function getUserById() {
         $query = "SELECT * FROM " .$this->table_name ." WHERE ID=?";
 

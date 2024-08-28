@@ -6,11 +6,11 @@ class Producto {
     private $conn;
     private $table_name = "productos";
 
-    private $id;
-    private $titulo;
-    private $descripcion;
-    private $precio;
-    private $cantidad;
+    private int $id;
+    private string $titulo;
+    private string $descripcion;
+    private string $precio;
+    private string $cantidad;
 
     public function __construct()
     {
