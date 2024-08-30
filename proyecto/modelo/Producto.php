@@ -49,7 +49,7 @@ class Producto {
         $this->cantidad = $cantidad;
     }
 
-    public function create() {
+    public function createNew() {
         $query = "INSERT INTO ". $this->table_name . "SET titulo=?, descripcion=?, precio=?, cantidad=?";
 
         $stmt = $this->conn->prepare($query);

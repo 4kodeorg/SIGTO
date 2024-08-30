@@ -11,7 +11,7 @@ class UsuarioController {
         $usuario->setDireccion($data['direccion']);
 
         try {
-            $usuario->create();
+            $usuario->createNew();
         } catch (Exception $e) {
             $e->getMessage();
         }

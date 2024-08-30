@@ -87,8 +87,8 @@ a {
     padding: 1.5rem 1rem;
 }
 .btn-primary {
-    background-color: #d4ded6 !important;
-    border-color: #000 !important;
+   background: none !important;
+   border: none !important;
 }
 .btn-primary:hover {
     background-color: #b6e2be !important;
@@ -103,8 +103,8 @@ a {
     color: #002000;
 }
 .ul-for-nav li {
-    padding: 0 6px;
-    margin: 8px 0;
+    padding: 0 10px;
+    margin: 8px 10px;
     font-size: 1.12rem;
 }
 .main-products {
@@ -316,11 +316,7 @@ a {
     #cart-responsive {
         display: none;
     }
-    .responsive-header {
-        display: flex;
-        justify-content: space-evenly;
-        margin: 1rem 0;
-    }
+
 }
 @media (width < 690px) {
     .brand-container {

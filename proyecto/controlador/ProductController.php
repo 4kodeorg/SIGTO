@@ -10,7 +10,7 @@ class ProductController {
         $producto->setPrecio($data['precio']);
     
     try {
-        $producto->create();
+        $producto->createNew();
     } catch (Exception $e) {
         echo $e->getMessage();
     }

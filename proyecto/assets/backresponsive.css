@@ -31,19 +31,12 @@
     .items {
       width: 700px;
     }
-    .navcontainer {
-      width: 100vw;
-      position: absolute;
-      transition: all 0.6s ease-in-out;
-      top: 0;
-      left: -100vw;
-    }
     .nav {
       width: 100%;
       position: absolute;
     }
     .navclose {
-      left: 00px;
+      left: 0px;
     }
     .searchbar {
       display: none;
@@ -51,21 +44,7 @@
     .main {
       padding: 40px 30px 30px 30px;
     }
-    .searchbar2 {
-      width: 100%;
-      display: flex;
-      margin: 0 0 40px 0;
-      justify-content: center;
-    }
-    .searchbar2 input {
-      width: 250px;
-      height: 42px;
-      border-radius: 50px 0 0 50px;
-      background-color: var(--background-color3);
-      padding: 0 20px;
-      font-size: 15px;
-      border: 2px solid var(--secondary-color);
-    }
+
   }
   
   @media screen and (max-width: 490px) {

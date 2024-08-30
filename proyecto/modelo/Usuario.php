@@ -50,7 +50,7 @@ class Usuario {
         $this->seg_direccion = $seg_direccion;
     }
 
-    public function create() {
+    public function createNew() {
         $query = "INSERT INTO ". $this->table_name . "SET nombre=?, correo=?, celular=?, direccion=?";
 
         $stmt = $this->conn->prepare($query);
