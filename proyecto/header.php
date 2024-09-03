@@ -28,16 +28,16 @@
        <a href="" class="navbar-brand">
             <h1 class="logo">Mercado Ya</h1>
         </a>
-            <form class="d-flex" role="search" action="" method="post">
+            <form class="d-flex searchbar2" role="search" action="" method="post">
                 <label for="busqueda"></label>
                 <input type="text" id="busqueda" name="buscar" placeholder="Encontrá todo lo que buscas">
-                <button class="btn btn-outline-success" type="submit">
+                <div class="searchbtn" type="submit">
                 <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor" 
                 x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor">
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                  d="m42.501 42.5l-7.351-7.776a17.244 17.244 0 1 0-7.075 4.422"/></g>
-            </svg>
-            </button>
+              </svg>
+            </div>
             </form>
        </div>
 

@@ -71,89 +71,39 @@ require('./headerback.php')
                     </svg>
                 </div>
             </div>
+    <table class="table px-4 my-5">
+    <thead>
+        <div class="report-header">
+        <h2 class="pt-5">Articulos recientes</h2>
+        <a href="./productos.php" class="view mt-5 px-3 py-1">Ver todos</a>
+        </div>
+        <hr>
+            <tr>
+            <th scope="col">Identificador</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Visitas</th>
+            <th scope="col">Comentarios</th>
+            <th scope="col">Estado</th>
+            </tr>
+        </thead>
+        <?php 
+        require_once('./items.php');
+        foreach ($productos as $prod) {
+                echo "
+        <tbody>
+            <tr>
+            <th>". $prod["id"] ."</th>
+            <td>". $prod["titulo"] ." </td>
+            <td>".$prod["visitas"] ."</td>
+            <td>". $prod["comentarios"] ."</td>
+            <td>Publicado</td>
+            </tr>
+            "
+            ;}
+            ?>
+            </tbody>
+            </table>
 
-            <div class="report-container">
-                <div class="report-header">
-                    <h1 class="recent-Articles">Articulos recientes</h1>
-                    <button class="view">Ver todos</button>
-                </div>
-
-                <div class="report-body">
-                    <div class="report-topic-heading">
-                        <h3 class="t-op">Articulo</h3>
-                        <h3 class="t-op">Visitas</h3>
-                        <h3 class="t-op">Comentarios</h3>
-                        <h3 class="t-op">Estado</h3>
-                    </div>
-
-                    <div class="items">
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 73</h3>
-                            <h3 class="t-op-nextlvl">2.9k</h3>
-                            <h3 class="t-op-nextlvl">210</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 72</h3>
-                            <h3 class="t-op-nextlvl">1.5k</h3>
-                            <h3 class="t-op-nextlvl">360</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 71</h3>
-                            <h3 class="t-op-nextlvl">1.1k</h3>
-                            <h3 class="t-op-nextlvl">150</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 70</h3>
-                            <h3 class="t-op-nextlvl">1.2k</h3>
-                            <h3 class="t-op-nextlvl">420</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 69</h3>
-                            <h3 class="t-op-nextlvl">2.6k</h3>
-                            <h3 class="t-op-nextlvl">190</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 68</h3>
-                            <h3 class="t-op-nextlvl">1.9k</h3>
-                            <h3 class="t-op-nextlvl">390</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 67</h3>
-                            <h3 class="t-op-nextlvl">1.2k</h3>
-                            <h3 class="t-op-nextlvl">580</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 66</h3>
-                            <h3 class="t-op-nextlvl">3.6k</h3>
-                            <h3 class="t-op-nextlvl">160</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 65</h3>
-                            <h3 class="t-op-nextlvl">1.3k</h3>
-                            <h3 class="t-op-nextlvl">220</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            </div>
 </div>
 </div>
 

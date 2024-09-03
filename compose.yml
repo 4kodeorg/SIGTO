@@ -1,15 +1,15 @@
-version: "4.0"
+version: "4.4"
 services:
   web:
     image: php:apache
     volumes:
-      - ./proyecto/index.phps:/var/www/html
+      - ./proyecto:/application/proyecto/
     ports:
       - 8080:80
   db: 
     image: mysql:latest
     volumes:
-      - ./db:/var/lib/mysql
+      - ./proyecto/db:/var/lib/mysql
     environment:
       MYSQL_DATABASE: dbtest
       MYSQL_USER: superman
