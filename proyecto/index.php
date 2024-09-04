@@ -1,5 +1,6 @@
 <?php
-include('header.php')
+include('header.php');
+include('hero.php');
 ?>
 
     <main class="main-products" id="product-container">

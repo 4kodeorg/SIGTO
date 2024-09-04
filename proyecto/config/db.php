@@ -9,12 +9,16 @@ class Database {
     private $conn;
 
 
-    public function getConnection()
+    public function __construct()
     {
-        $this->conn = null;
-            try { 
-                $this->conn = new mysqli(
-                    $this->host,$this->user, $this->password, $this->db_name); }
+    $this->conn = null;
+        try { 
+            $this->conn = new mysqli(
+                $this->host,$this->user, $this->password, $this->db_name);
+                if (mysqli_connect_errno()) {
+                    throw new Exception("No se pudo establecer la conexión");
+                } 
+            }
             catch (Exception $e) {
                 echo "Error al conectar con la base de datos". $e->getMessage();
             }
