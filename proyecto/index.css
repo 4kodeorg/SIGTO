@@ -47,10 +47,11 @@ a {
 
   .searchbar2 {
     display: flex;
+    min-width: 300px;
     justify-content: center;
   }
   .searchbar2 input {
-    width: 250px;
+    width: 100%;
     height: 42px;
     border-radius: 50px 0 0 50px;
     background-color: var(--background-color3);
@@ -308,8 +309,16 @@ a {
     padding: 1rem 0;
     
 }
+#cart-responsive {
+    display: none;
+}
 #burger-menu {
     display: none;
+}
+.carousel-item >.img {
+    aspect-ratio: 7/7;
+    border-radius: 50%;
+    max-height: 470px;
 }
 .screen {
     visibility: hidden;
@@ -317,9 +326,12 @@ a {
 .visible {
     display: none;
 }
-@media (width < 850px) {
+@media (width <= 920px) {
     .ul-for-nav {
         display: none;
+    }
+    #cart-responsive {
+        display: block;
     }
     .responsive-menu {
         display: block;
@@ -340,9 +352,6 @@ a {
 @media (width > 850px) {
     .responsive-menu-list {
         visibility: hidden;
-    }
-    #cart-responsive {
-        display: none;
     }
 
 }

@@ -1,11 +1,11 @@
-version: "4.4"
+version: "4"
 services:
   web:
     image: php:apache
     volumes:
-      - ./proyecto:/application/proyecto/
+      - ./proyecto:/var/www/html
     ports:
-      - 8080:80
+      - 80:80
   db: 
     image: mysql:latest
     volumes:
