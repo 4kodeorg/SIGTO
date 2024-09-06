@@ -2,7 +2,7 @@
 
 require_once './config/db.php';
 
-class Usuario {
+class Usuario extends Database{
     private $conn;
     private $table_name = "usuarios";
 
@@ -12,12 +12,6 @@ class Usuario {
     private int $celular;
     private string $direccion;
     private string $seg_direccion;
-
-    public function __construct()
-    {
-    $db = new Database();
-    $this->conn = $db->getConnection();   
-    }
 
     public function getNombre() {
         return $this->nombre;

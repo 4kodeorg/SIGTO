@@ -1,5 +1,6 @@
 <?php
-include('header.php')
+include('header.php');
+include('hero.php');
 ?>
 
     <main class="main-products" id="product-container">
@@ -12,6 +13,15 @@ include('header.php')
             <img src="./assets/imgs/mercado.png" alt="">
             <img src="./assets/imgs/paypal.png" alt="">
             <img src="./assets/imgs/visa.png" alt="">
+            <img src="./assets/imgs/abitab.png" alt="">
+            <img src="./assets/imgs/redpagos.png" alt="">
+            <img src="./assets/imgs/mastercard.png" alt="">
+            <img src="./assets/imgs/mercado.png" alt="">
+            <img src="./assets/imgs/paypal.png" alt="">
+            <img src="./assets/imgs/visa.png" alt="">
+            <img src="./assets/imgs/abitab.png" alt="">
+            <img src="./assets/imgs/redpagos.png" alt="">
+      
         </div>
     </section>
     <?php

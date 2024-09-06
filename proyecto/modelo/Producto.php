@@ -2,7 +2,7 @@
 
 require_once './config/db.php';
 
-class Producto {
+class Producto extends Database{
     private $conn;
     private $table_name = "productos";
 
@@ -12,12 +12,6 @@ class Producto {
     private string $precio;
     private string $cantidad;
 
-    public function __construct()
-    {
-        $db = new Database();
-        $this->conn = $db->getConnection();
-        
-    }
     public function getId() {
         return $this->id;
     }
