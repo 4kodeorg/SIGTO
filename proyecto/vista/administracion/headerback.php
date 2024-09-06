@@ -23,11 +23,9 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary py-4">
     <div class="container-fluid px-4" >
     <div class="container-mobile">
-<<<<<<< HEAD
-    <a href="/proyecto/index.php"> <h2 class="logo px-3">Mercado Ya!</h2> </a>
-=======
+    <!-- <a href="/proyecto/index.php"> <h2 class="logo px-3">Mercado Ya!</h2> </a> -->
     <img src="../../assets/imgs/Mercado_ya.png" alt="Logo" width="200" height="80" class="d-inline-block align-text-top">
->>>>>>> 9afe14dc1119ccd54b20279dd1441e20b921e3cc
+
     <form class="d-flex searchbar2">
         <input type="text" placeholder="Buscar">
         <div class="searchbtn">
