@@ -28,16 +28,16 @@
        <a href="" class="navbar-brand">
             <h1 class="logo">Mercado Ya</h1>
         </a>
-            <form class="d-flex" role="search" action="" method="post">
+            <form class="d-flex searchbar2" role="search" action="" method="post">
                 <label for="busqueda"></label>
                 <input type="text" id="busqueda" name="buscar" placeholder="Encontrá todo lo que buscas">
-                <button class="btn btn-outline-success" type="submit">
+                <div class="searchbtn" type="submit">
                 <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor" 
                 x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor">
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                  d="m42.501 42.5l-7.351-7.776a17.244 17.244 0 1 0-7.075 4.422"/></g>
-            </svg>
-            </button>
+              </svg>
+            </div>
             </form>
        </div>
 
@@ -108,7 +108,7 @@
         stroke-linecap="round" stroke-linejoin="round"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.805h4.678L13.856 34.5h17.899"/><circle cx="37.5" cy="16.703" r="6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M41.161 9.28L40.1 11.299m-7.583-2.375l4.017-1.526m.966 9.305l-1.271-3.661m-26.155 2.302l18.07.902M13.031 30.323h20.91c3.254 0 3.56-4.416 3.56-4.416m-26.345-5.084l18.005.508m-17.098 4.09l23.075.441m-4.604 4.461l.966-6.603m-6.763 6.603l-.153-14.255m-6.965-.347l1.49 14.602"/></g>
         </svg>
 
-        <h2 class="logo">Comprar y vender</h2>
+        <h2 class="logo">Mercado Ya!</h2>
         </div>
         <div class="menu-normal">
         <a href="" class="menu-normal-actions active">

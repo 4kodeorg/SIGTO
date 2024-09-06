@@ -25,7 +25,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary py-4">
     <div class="container-fluid px-4" >
     <div class="container-mobile">
-    <h2 class="logo">Mercado Ya!</h2>
+    <a href="/proyecto/index.php"> <h2 class="logo px-3">Mercado Ya!</h2> </a>
     <form class="d-flex searchbar2">
         <input type="text" placeholder="Buscar">
         <div class="searchbtn">
@@ -37,16 +37,18 @@
         </div>
     </form>
     </div>
-  
-            <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor" 
+    <div class="header-options">
+    <small>Notificaciones</small>
+            <svg class="p-1" width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor" 
                 x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path fill="none" 
                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
                 d="M40.462 32.173c-2.53-1.967-2.918-2.596-4.611-11.571c-1.438-7.623-4.59-9.993-8.504-11.232c.217-.47.347-.99.347-1.543a3.694
                 3.694 0 0 0-7.388 0c0 .553.13 1.072.347 1.543c-3.913 1.24-7.066 3.61-8.504 11.232c-1.693 8.975-2.08 9.604-4.61 11.57c-2.614
                 2.032-2.53 6.71.948 6.71h10.464c.04 2.76 2.281 4.985 5.049 4.985s5.01-2.226 5.049-4.984h10.463c3.479 0 3.563-4.68.95-6.71Z"/></g>
             </svg>
-            <div class="dp">
-            <svg width="36px" height="36px" viewBox="0 0 1200 1200" fill="currentColor" x="128" y="128" role="img"
+            
+            <small>Perfil</small>
+            <svg class="p-1" width="36px" height="36px" viewBox="0 0 1200 1200" fill="currentColor" x="128" y="128" role="img"
                 xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path fill="currentColor" d="M605.096 
                 480c-135.542-2.098-239.082-111.058-239.999-240C367.336 105.667 477.133.942 605.096 0c135.662 5.13 
                 239.036 108.97 240.001 240c-2.668 134.439-111.907 239.09-240.001 240zm194.043 49.788c170.592 1.991 
@@ -54,11 +56,14 @@
                 2.059-24.929 12.701-25.56 27.82V1200h-464.67V875.746c-3.557-21.334-17.128-29.537-30.331-28.709c-14.138.889-27.853
                 12.135-28.393 28.709V1200h-164.68V831.057c-.98-159.475 99.901-300.087 259.137-301.269h397.015z"/></g>
         </svg>
-        </div>
+    </div>
 
 </div>
 </nav>
-<button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Menu</button>
+<button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+<svg width="40px" height="40px" viewBox="0 0 24 24" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path fill="currentColor" d="M4 11h12v2H4zm0-5h16v2H4zm0 12h7.235v-2H4z"/></g>
+</svg>
+</button>
 
 <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
   <div class="offcanvas-header">
@@ -161,8 +166,6 @@
                 </div>
             </nav>
         </div>
-
-    <p>Try scrolling the rest of the page to see this option in action.</p>
   </div>
 </div>
 

@@ -3,9 +3,10 @@
     .nav-img {
       height: 25px;
     }
+  
     .nav-option {
       gap: 30px;
-    }
+    } 
     .nav-option h3 {
       font-size: 15px;
     }
@@ -73,9 +74,6 @@
     .nav-upper-options {
       gap: 15px;
     }
-    .recent-Articles {
-      font-size: 20px;
-    }
     .report-topic-heading,
     .item1,
     .items {
@@ -84,9 +82,7 @@
   }
   
   @media screen and (max-width: 400px) {
-    .recent-Articles {
-      font-size: 17px;
-    }
+
     .view {
       width: 60px;
       font-size: 10px;
@@ -102,9 +98,7 @@
   }
   
   @media screen and (max-width: 320px) {
-    .recent-Articles {
-      font-size: 12px;
-    }
+
     .view {
       width: 50px;
       font-size: 8px;

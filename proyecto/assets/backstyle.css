@@ -27,20 +27,33 @@ body {
   overflow-x: hidden;
 }
 .navbar > .container-fluid {
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .logo {
   color: rgb(47, 141, 70);
 }
-
+a {
+  text-decoration: none;
+}
 .icn {
   height: 30px;
 }
 .menuicn {
   cursor: pointer;
 }
-
+.header-options {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.header-options svg {
+  border-radius: 25px;
+  
+}
+.header-options svg:hover {
+  background-color: #ffc300;
+}
 .searchbar,
 .message,
 .logosec {
@@ -48,11 +61,6 @@ body {
   align-items: center;
   justify-content: center;
 }
-
-.searchbar2 {
-  display: none;
-}
-
 .logosec {
   gap: 60px;
 }
@@ -78,38 +86,13 @@ body {
   cursor: pointer;
 }
 
-.message {
-  gap: 40px;
-  position: relative;
-  cursor: pointer;
-}
-
-.dp {
-  height: 40px;
-  width: 40px;
-  background-color: #626262;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
 .main-container {
   display: flex;
   width: 100vw;
-  position: relative;
-  top: 70px;
-  z-index: 1;
 }
-.dpicn {
-  height: 42px;
-}
-
 .main {
-  height: calc(100vh - 70px);
   width: 100%;
   overflow-y: scroll;
-  overflow-x: hidden;
   padding: 40px 30px 30px 30px;
 }
 
@@ -215,7 +198,9 @@ body {
 .box:nth-child(4) {
   background-color: var(--stats-use-color);
 }
-
+.nav-option h3 {
+  font-size: 18px;
+}
 .box img {
   height: 50px;
 }
@@ -233,15 +218,6 @@ body {
   letter-spacing: 3px;
 }
 
-.report-container {
-  min-height: 300px;
-  max-width: 1200px;
-  margin: 70px auto 0px auto;
-  background-color: #ffffff;
-  border-radius: 30px;
-  box-shadow: 3px 3px 10px rgb(188, 188, 188);
-  padding: 0px 20px 20px 20px;
-}
 .report-header {
   height: 80px;
   width: 100%;
@@ -249,37 +225,15 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px 10px 20px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.59);
 }
 
-.recent-Articles {
-  font-size: 30px;
-  font-weight: 600;
-  color: #ff8800;
-}
 
 .view {
-  height: 35px;
-  width: 90px;
+  width: 110px;
   border-radius: 8px;
   background-color: #ff8800;
   color: white;
-  font-size: 15px;
   border: none;
-  cursor: pointer;
-}
-
-.report-body {
-  max-width: 1160px;
-  overflow-x: auto;
-  padding: 20px;
-}
-.report-topic-heading,
-.item1 {
-  width: 1120px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .product-form {
@@ -315,15 +269,6 @@ body {
 .items {
   width: 1120px;
   margin-top: 15px;
-}
-
-.item1 {
-  margin-top: 20px;
-}
-.t-op-nextlvl {
-  font-size: 14px;
-  letter-spacing: 0px;
-  font-weight: 600;
 }
 
 .label-tag {

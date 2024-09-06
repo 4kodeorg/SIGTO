@@ -72,74 +72,43 @@ require('./headerback.php')
                 </div>
             </div>
 
-            <div class="report-container">
-                <div class="report-header">
-                    <h1 class="recent-Articles">Productos recientes</h1>
-                    <button class="view">Ver todos</button>
-                </div>
-
-                <div class="report-body">
-                    <div class="report-topic-heading">
-                        <h3 class="t-op">Producto</h3>
-                        <h3 class="t-op">Visitas</h3>
-                        <h3 class="t-op">Comentarios</h3>
-                        <h3 class="t-op">Estado</h3>
-                    </div>
-
-                    <div class="items">
-                    <?php
-                        require_once('./functions/addProd.php')
-                        
-                    ?>
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 70</h3>
-                            <h3 class="t-op-nextlvl">1.2k</h3>
-                            <h3 class="t-op-nextlvl">420</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 69</h3>
-                            <h3 class="t-op-nextlvl">2.6k</h3>
-                            <h3 class="t-op-nextlvl">190</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 68</h3>
-                            <h3 class="t-op-nextlvl">1.9k</h3>
-                            <h3 class="t-op-nextlvl">390</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 67</h3>
-                            <h3 class="t-op-nextlvl">1.2k</h3>
-                            <h3 class="t-op-nextlvl">580</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 66</h3>
-                            <h3 class="t-op-nextlvl">3.6k</h3>
-                            <h3 class="t-op-nextlvl">160</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                        <div class="item1">
-                            <h3 class="t-op-nextlvl">Article 65</h3>
-                            <h3 class="t-op-nextlvl">1.3k</h3>
-                            <h3 class="t-op-nextlvl">220</h3>
-                            <h3 class="t-op-nextlvl label-tag">Publicado</h3>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
+            <table class="table px-4 my-5">
+    <thead>
+        <div class="report-header">
+        <h2 class="mx-auto pt-5">Articulos publicados</h2>
+        </div>
+        <hr>
+            <tr>
+            <th scope="col">Identificador</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Visitas</th>
+            <th scope="col">Comentarios</th>
+            <th scope="col">Estado</th>
+            </tr>
+        </thead>
+        <?php 
+        require_once('./items.php');
+        foreach ($productos as $prod) {
+                echo "
+        <tbody>
+            <tr>
+            <th>". $prod["id"] ."</th>
+            <td>". $prod["titulo"] ." </td>
+            <td>". $prod["visitas"] ."</td>
+            <td>". $prod["comentarios"] ."</td>
+            <td>Publicado</td>
+            </tr>
+            "
+            ;}
+            ?>
+            </tbody>
+            </table>
             <div class="product-form">
 
-            <form action="./functions/addProd.php" method="POST" class="form-product">
+            <form 
+            action="./items.php" 
+            method="POST" 
+            class="form-product">
                 <label for="titulo">Nombre del producto</label>
                 <input id="titulo" type="text" name="titulo">
                 <label for="descr">Descripción</label>

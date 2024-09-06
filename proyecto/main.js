@@ -5,6 +5,40 @@ const cartItems = document.getElementById('counter')
 const menuItems = document.querySelectorAll('.menu-normal-actions')
 const addBtn = document.getElementById('add-btn')
 
+const sections = document.querySelectorAll('.gallery-section');
+const leftArrow = document.querySelector('.arrow-left');
+const rightArrow = document.querySelector('.arrow-right');
+const totalSections = sections.length;
+
+let currentIndex = 0;
+
+const root = document.documentElement;
+const marqueeElementsDisplayed = getComputedStyle(root).getPropertyValue("--marquee-elements-displayed");
+const marqueeContent = document.querySelector(".pay-options");
+
+root.style.setProperty("--marquee-elements", marqueeContent.children.length);
+
+for(let i=0; i<marqueeElementsDisplayed; i++) {
+  marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
+}
+
+function updateSlider() {
+    sections.forEach((section, index) => {
+    section.style.transform = `translateX(${(index - currentIndex) * 100}%)`;
+    });
+}
+
+rightArrow.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % totalSections;
+        updateSlider();
+});
+
+leftArrow.addEventListener('click', () => { 
+        currentIndex = (currentIndex - 1 + totalSections) % totalSections;
+        updateSlider();
+});
+updateSlider();
+
 function menuResponsive() {
     menu.classList.add('screen');
     optionsResponsive.classList.toggle('visible')
