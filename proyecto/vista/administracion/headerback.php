@@ -12,9 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backoffice</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
     <link rel="stylesheet" href="../../assets/backstyle.css">
     <!-- <script src="../../assets/main.js" defer></script> -->
     <link rel="stylesheet" href="../../assets/backresponsive.css">
@@ -25,7 +23,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary py-4">
     <div class="container-fluid px-4" >
     <div class="container-mobile">
-    <h2 class="logo px-3">Mercado Ya!</h2>
+    <img src="../../assets/imgs/Mercado_ya.png" alt="Logo" width="200" height="80" class="d-inline-block align-text-top">
     <form class="d-flex searchbar2">
         <input type="text" placeholder="Buscar">
         <div class="searchbtn">

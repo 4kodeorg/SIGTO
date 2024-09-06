@@ -51,6 +51,12 @@ a {
   border-radius: 25px;
   
 }
+.container-mobile{
+justify-content: space-between;
+width: 50%;
+align-items: center;
+
+}
 .header-options svg:hover {
   background-color: #ffc300;
 }
