@@ -25,7 +25,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary py-4">
     <div class="container-fluid px-4" >
     <div class="container-mobile">
-    <h2 class="logo px-3">Mercado Ya!</h2>
+    <a href="/proyecto/index.php"> <h2 class="logo px-3">Mercado Ya!</h2> </a>
     <form class="d-flex searchbar2">
         <input type="text" placeholder="Buscar">
         <div class="searchbtn">

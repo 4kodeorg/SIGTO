@@ -2,7 +2,8 @@
 
 class Database {
     
-    private $host = "127.0.0.1:3306";
+    private $host = "localhost";
+    private $port = "3306";
     private $db_name = "dbtest";
     private $user = "superman";
     private $password = "test";
@@ -14,7 +15,7 @@ class Database {
     $this->conn = null;
         try { 
             $this->conn = new mysqli(
-                $this->host,$this->user, $this->password, $this->db_name);
+                $this->host,$this->user, $this->password, $this->db_name, $this->port);
                 if (mysqli_connect_errno()) {
                     throw new Exception("No se pudo establecer la conexión");
                 } 

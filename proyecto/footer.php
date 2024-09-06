@@ -27,5 +27,5 @@
     </footer>
     <div class="div-for-small">
 
-    <small class="tienda-copy"> &copy;<span>youCommerce 2024</span> </small>
+    <small class="tienda-copy"> &copy;<span>Mercado Ya! 2024</span> </small>
     </div>
