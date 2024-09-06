@@ -9,7 +9,7 @@
   --background-color3: #ededed;
   --background-color4: #cad7fda4;
   --primary-color: #ffd000;
-  --secondary-color: #ffc300;
+  --secondary-color: black;
   --Border-color: #ffb700;
   --stats-use-color: #ff8800;
   --two-use-color: #ffea00;
@@ -88,8 +88,11 @@ align-items: center;
   align-items: center;
   justify-content: center;
   border-radius: 0 8px 8px 0;
-  background-color: var(--secondary-color);
+  background-color: black;
   cursor: pointer;
+}
+.searchbtn>svg {
+  color:white;
 }
 
 .main-container {
