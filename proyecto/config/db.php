@@ -4,9 +4,9 @@ class Database {
     
     private $host = "localhost";
     private $port = "3306";
-    private $db_name = "dbtest";
-    private $user = "superman";
-    private $password = "test";
+    private $db_name = "SIGTO";
+    private $user = "root";
+    private $password = "";
     private $conn;
 
 
