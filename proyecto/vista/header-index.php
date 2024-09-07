@@ -29,7 +29,7 @@
        <a href="" class="navbar-brand">
             <h1 class="logo">Mercado Ya</h1>
         </a>
-            <form class="d-flex searchbar2" role="search" action="" method="post">
+            <form class="searchbar2" role="search" action="" method="post">
                 <label for="busqueda"></label>
                 <input type="text" id="busqueda" name="buscar" placeholder="Encontrá todo lo que buscas">
                 <div class="searchbtn" type="submit">
@@ -43,23 +43,22 @@
        </div>
 
         <ul class="ul-for-nav">
-       
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Mi cuenta
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="./vista/register.php">Registrate</a></li>
+            <li><a class="dropdown-item" href="/registrarse">Registrate</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="./vista/account.php">Inicia sesión</a></li>
+            <li><a class="dropdown-item" href="/cuenta">Inicia sesión</a></li>
             
           </ul>
           <li class="nav-item">
             <a href="" class="nav-link">Ayuda</a>
         </li>
           <li class="nav-item">
-          <a href="./cart.php" class="nav-link message">
+          <a href="/carrito" class="nav-link message">
             <div class="circle"></div>
             <svg 
             width="32px" height="32px" viewBox="0 0 1024 1024" fill="currentColor" x="128" y="128" role="img" 
@@ -82,7 +81,7 @@
         </svg>
         </a>
 
-        <a href="./cart.php" id="cart-responsive" class="message">
+        <a href="/carrito" id="cart-responsive" class="message">
             <div id="counter" class="circle"></div>
             <svg 
             width="40px" height="40px" viewBox="0 0 1024 1024" fill="currentColor" x="128" y="128" role="img" 

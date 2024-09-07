@@ -40,7 +40,6 @@ a {
 }
 .searchbtn {
     width: 50px;
-    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,11 +139,12 @@ a {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 10px;
 }
 .container-controlls span {
     cursor: pointer;
     color: #020202;
+    margin: 0 8px;
 }
 span>.arrow-left ,span>.arrow-right{
     cursor: pointer;
@@ -334,7 +334,9 @@ span>.arrow-left ,span>.arrow-right{
     max-width: 150px;
     aspect-ratio: 9/11;
 }
-
+.pay-methods {
+    margin: 1rem 0;
+}
 .pay-methods h3 {
     font-weight: 450;
     text-align: center;
@@ -343,7 +345,7 @@ span>.arrow-left ,span>.arrow-right{
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 390px;
+    max-width: 660px;
     margin: auto;
     overflow: hidden;
 }
@@ -352,15 +354,16 @@ span>.arrow-left ,span>.arrow-right{
     padding: 4px 12px;
     max-width: 100px;
     min-height: 80px;
+    object-fit: contain;
     margin: 0 .3rem;
     width: 100%;
-    height: auto;
+    height: 50px;
     animation: scroll 10s linear alternate-reverse infinite;
 
 }
 @keyframes scroll {
     to {
-        transform: translateX(-200%);
+        transform: translateX(-150%);
     }
     
 }
