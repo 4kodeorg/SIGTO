@@ -1,6 +1,7 @@
 <?php
 // session_start();
-// if(isset($_SESSION['username'])) {
+// if(isset($_SESSION['username'])) 
+// {
 
 ?>
 
@@ -178,8 +179,8 @@
 </html>
 
 <?php
-// } else {
-//     header('Location: ../../index.php');
-//     exit();
-// }
+//  } else {
+    //  header('Location: ../../index.php');
+    //  exit();
+//  }
 ?>

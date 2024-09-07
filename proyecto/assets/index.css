@@ -10,7 +10,7 @@
     --two-use-color: #ffea00;    
  }
 
-  * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: content-box;
@@ -111,7 +111,8 @@ a {
 .container-gallery {
    position: relative;
    width: 100vw;
-   height: 100vh;
+   min-height: 380px;
+   height: 100%;
    overflow: hidden;
 }
 .gallery-section {
@@ -119,7 +120,6 @@ a {
     justify-content: center;
     align-items: center;
     width: 100dvw;
-    height: 100vh;
     position: absolute;
     left: 0;
     top: 0;
@@ -127,7 +127,7 @@ a {
 }
 .gallery-section img {
     max-width: 100%;
-    max-height: 100%;
+    max-height: 420px;
     object-fit: cover;
 }
 .gallery-section article {
@@ -175,7 +175,7 @@ span>.arrow-left ,span>.arrow-right{
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   }
   
-  .hero-button svg {
+.hero-button svg {
     position: absolute;
     width: 24px;
     fill: #2f8d46;
@@ -183,15 +183,15 @@ span>.arrow-left ,span>.arrow-right{
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
   }
   
-  .hero-button .arr-1 {
+.hero-button .arr-1 {
     right: 16px;
   }
   
-  .hero-button .arr-2 {
+.hero-button .arr-2 {
     left: -25%;
   }
   
-  .hero-button .circle {
+.hero-button .circle {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -204,46 +204,45 @@ span>.arrow-left ,span>.arrow-right{
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
   }
   
-  .hero-button .text {
+.hero-button .text {
     position: relative;
     z-index: 1;
     transform: translateX(-12px);
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
   }
   
-  .hero-button:hover {
+.hero-button:hover {
     box-shadow: 0 0 0 12px transparent;
     color: #212121;
     border-radius: 12px;
   }
   
-  .hero-button:hover .arr-1 {
+.hero-button:hover .arr-1 {
     right: -25%;
   }
   
-  .hero-button:hover .arr-2 {
+.hero-button:hover .arr-2 {
     left: 16px;
   }
   
-  .hero-button:hover .text {
+.hero-button:hover .text {
     transform: translateX(12px);
   }
   
-  .hero-button:hover svg {
+.hero-button:hover svg {
     fill: #212121;
   }
   
-  .hero-button:active {
+.hero-button:active {
     scale: 0.95;
     box-shadow: 0 0 0 4px #2f8d46;
   }
   
-  .hero-button:hover .circle {
+.hero-button:hover .circle {
     width: 220px;
     height: 220px;
     opacity: 1;
   }
-  
 
 #hero-blob img{
     height: 100vh;
@@ -351,7 +350,8 @@ span>.arrow-left ,span>.arrow-right{
 
 .pay-options img {
     padding: 4px 12px;
-    max-width: 80px;
+    max-width: 100px;
+    min-height: 80px;
     margin: 0 .3rem;
     width: 100%;
     height: auto;

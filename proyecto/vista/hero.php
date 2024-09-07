@@ -1,6 +1,6 @@
 <div class="container-gallery">
 <section class="gallery-section">
-    <img src="./assets/imgs/deselectr.png" alt="">
+    <img src="./assets/imgs/vrpro-bg.png" alt="">
     <article>
     <h5>Los últimos descuentos en tecnología los encontras acá</h5>
     <button class="hero-button">

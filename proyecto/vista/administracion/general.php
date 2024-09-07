@@ -1,6 +1,5 @@
 <?php
-// RUTAS PROTEGIDAS
-// session_start();
+
 // if(isset($_SESSION['username'])) {
 require('./headerback.php')
 ?>

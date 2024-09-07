@@ -1,15 +1,14 @@
 <?php 
-    session_start();
-    if (isset($_SESSION['username'])) {
+    // session_start();
+    // if (isset($_SESSION['username'])) {
 
-    }
+    // }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="index.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,13 +16,15 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="../assets/index.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>youCommerce</title>
+    <title>Mercado Ya!</title>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary px-4 py-4">
-    <div class="container-fluid px-4" >
+    <div class="container-fluid px-4">
        <div class="brand-container">
        <a href="" class="navbar-brand">
             <h1 class="logo">Mercado Ya</h1>
