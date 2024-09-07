@@ -1,5 +1,5 @@
 <?php 
-include('./header.php')
+include('header.php')
 ?>
 <div>
         <div class="bg-shopp"></div>
@@ -21,5 +21,5 @@ include('./header.php')
     </div>
 
 <?php 
-include('./footer-index.php')
+include('footer-index.php')
 ?>

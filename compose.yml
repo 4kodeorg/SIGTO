@@ -11,9 +11,16 @@ services:
     volumes:
       - ./proyecto/db:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: dbtest
-      MYSQL_USER: superman
-      MYSQL_PASSWORD: test
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    - MYSQL_DATABASE=sigto
+    - MYSQL_USER=root
+    - MYSQL_PASSWORD=password
+    - MYSQL_ALLOW_EMPTY_PASSWORD= 1
     ports:
       - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8001:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306

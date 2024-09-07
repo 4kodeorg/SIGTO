@@ -3,7 +3,7 @@
     // if (isset($_SESSION['username'])) {
 
     // }
-?>
+ ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +26,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary px-4 py-4">
     <div class="container-fluid px-4">
        <div class="brand-container">
-       <a href="" class="navbar-brand">
+       <a href="/" class="navbar-brand">
             <h1 class="logo">Mercado Ya</h1>
         </a>
             <form class="searchbar2" role="search" action="" method="post">
@@ -49,7 +49,7 @@
             Mi cuenta
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/registrarse">Registrate</a></li>
+            <li><a class="dropdown-item" href="/registro">Registrate</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/cuenta">Inicia sesión</a></li>
             
@@ -111,7 +111,7 @@
         <h2 class="logo">Mercado Ya!</h2>
         </div>
         <div class="menu-normal">
-        <a href="" class="menu-normal-actions active">
+        <a href="/" class="menu-normal-actions active">
         <svg 
         width="28px" height="28px" viewBox="0 0 16 16" 
         fill="currentColor" x="128" y="128" role="img" 
@@ -120,7 +120,7 @@
         fill-rule="evenodd" d="m8.36 1.37l6.36 5.8l-.71.71L13 6.964v6.526l-.5.5h-3l-.5-.5v-3.5H7v3.5l-.5.5h-3l-.5-.5V6.972L2 7.88l-.71-.71l6.35-5.8h.72zM4 6.063v6.927h2v-3.5l.5-.5h3l.5.5v3.5h2V6.057L8 2.43L4 6.063z" clip-rule="evenodd"/></g>
         </svg>   
         Inicio</a>
-        <a class="menu-normal-actions">
+        <a href="/cuenta" class="menu-normal-actions">
             <svg width="28px" height="28px" viewBox="0 0 32 32" 
             fill="currentColor" x="217" y="217" role="img" 
             xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +131,7 @@
             </svg>
         Mi cuenta</a>
 
-        <a class="menu-normal-actions" >Regístrate</a>
+        <a href="/registro" class="menu-normal-actions" >Regístrate</a>
         <a class="menu-normal-actions" >
             <svg width="28px" height="28px" viewBox="0 0 32 32" fill="currentColor" x="217" y="217" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path fill="currentColor" d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12a12 12 0 0 1-12 12Z"/><circle cx="16" cy="23.5" r="1.5" fill="currentColor"/><path fill="currentColor" d="M17 8h-1.5a4.49 4.49 0 0 0-4.5 4.5v.5h2v-.5a2.5 2.5 0 0 1 2.5-2.5H17a2.5 2.5 0 0 1 0 5h-2v4.5h2V17a4.5 4.5 0 0 0 0-9Z"/></g>
             </svg>

@@ -1,7 +1,7 @@
 
 <footer>
         <ul>
-            <a href="./administracion/general.php">
+            <a href="/admin">
                 <li>
                     Para empresas
                 </li>

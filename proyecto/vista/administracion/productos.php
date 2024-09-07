@@ -1,7 +1,7 @@
 <?php
 // session_start();
 // if(isset($_SESSION['username'])) {
-require('./headerback.php')
+require('headerback.php')
 ?>
 
 <div class="main-container">
@@ -87,7 +87,7 @@ require('./headerback.php')
             </tr>
         </thead>
         <?php 
-        require_once('./items.php');
+        require_once('items.php');
         foreach ($productos as $prod) {
                 echo "
         <tbody>
@@ -106,7 +106,7 @@ require('./headerback.php')
             <div class="product-form">
 
             <form 
-            action="./items.php" 
+            action="items.php" 
             method="POST" 
             class="form-product">
                 <label for="titulo">Nombre del producto</label>

@@ -1,5 +1,5 @@
 <?php 
-        include('./header.php');
+        include('header.php');
     if (!isset($_SESSION['username'])) {
     ?>
     <main>
@@ -15,7 +15,7 @@
           <a href="">
             <span>Olvidè mi contraseña</span>
           </a>
-          <a href="./register.php">
+          <a href="/registro">
             <span>Registrarse</span>
           </a>
         </div>
@@ -30,7 +30,7 @@
         
     <?php
     }
-    include('./footer.php')
+    include('footer.php')
     ?>
 
 </body>
