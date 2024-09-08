@@ -1,5 +1,5 @@
 <?php
-include('header.php');
+include('header-index.php');
 
 if(isset($_SESSION['username'])) {
     
