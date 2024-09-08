@@ -38,29 +38,31 @@ switch ($request) {
         renderPage('cart');
         break;
     case 'admin':
+        header('Location: /admin/main');
+        break;
+    case 'admin/main':
         renderBackOffice('general');
         break;
-    case 'estadisticas':
+    case 'admin/estadisticas':
         renderBackOffice('estadisticas');
         break;
-    case 'empresa':
+    case 'admin/empresa':
         renderBackOffice('company');
         break;
-    case 'productos':
+    case 'admin/productos':
         renderBackOffice('productos');
         break;
-    case 'perfil':
+    case 'admin/perfil':
         renderBackOffice('profile');
         break;
     case 'logout':
         header('Location: /cuenta');
-        renderPage('account');
         break;
     case '':
     case '/':
         renderPage('home');
         break;
     default:
-        renderPage('home');
+        renderPage('error');
         break;
 }

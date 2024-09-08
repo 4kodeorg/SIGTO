@@ -2,16 +2,16 @@
         include('header.php');
     if (!isset($_SESSION['username'])) {
     ?>
-    <main>
+    <main class="main-form-container">
       <div class="form-login-container">
         <form class="login-form" action="" method="post">
           <label for="username">Usuario</label>
-          <input type="username" name="username" id="username" required>
+          <input type="username" name="username" placeholder="Ingresar usuario" id="username" required>
           <label for="password">Contraseña</label>
-          <input type="password" name="psw" id="password" required>
+          <input type="password" placeholder="Contraseña" name="psw" id="password" required>
           <button type="submit">Iniciar sesión</button>
-        </form>
-        <div class="form-helpers">
+
+          <div class="form-helpers">
           <a href="">
             <span>Olvidè mi contraseña</span>
           </a>
@@ -19,6 +19,8 @@
             <span>Registrarse</span>
           </a>
         </div>
+        </form>
+        
       </div>
 
       <div class="bg-image"></div>

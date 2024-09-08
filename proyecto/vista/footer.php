@@ -25,7 +25,8 @@
             </a>
         </ul>
     </footer>
-    <div class="div-for-small">
+    
+<?php
+include('footer-index.php');
 
-    <small class="tienda-copy"> &copy;<span>Mercado Ya! 2024</span> </small>
-    </div>
+?>
