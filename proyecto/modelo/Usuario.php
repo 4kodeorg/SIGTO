@@ -84,5 +84,3 @@ class Usuario extends Database{
     }
 }
 
-
-?>

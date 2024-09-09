@@ -1,34 +1,68 @@
 <?php
-include('header.php');
-include('hero.php');
-?>
+include('./config/config.php');
 
-    <main class="main-products" id="product-container">
+$request = trim($_SERVER['REQUEST_URI'], '/');
+$request = strtok($request, '?');
 
-    </main>
-    <section class="pay-methods">
-        <h3>Métodos de pago</h3>
-        <div class="pay-options">
-            <img src="./assets/imgs/mastercard.png" alt="">
-            <img src="./assets/imgs/mercado.png" alt="">
-            <img src="./assets/imgs/paypal.png" alt="">
-            <img src="./assets/imgs/visa.png" alt="">
-            <img src="./assets/imgs/abitab.png" alt="">
-            <img src="./assets/imgs/redpagos.png" alt="">
-            <img src="./assets/imgs/mastercard.png" alt="">
-            <img src="./assets/imgs/mercado.png" alt="">
-            <img src="./assets/imgs/paypal.png" alt="">
-            <img src="./assets/imgs/visa.png" alt="">
-            <img src="./assets/imgs/abitab.png" alt="">
-            <img src="./assets/imgs/redpagos.png" alt="">
-      
-        </div>
-    </section>
-    <?php
-    include('footer.php')
-    ?>
-    <script src="main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  
-</body>
-</html>
+function renderPage($page) {
+    $file = __DIR__ . "/vista/{$page}.php";
+    if(file_exists($file)) {
+        include ($file);
+    } else {
+        http_response_code(404);
+        echo "404 - Page not found";
+    }
+}
+function renderBackOffice($page) {
+    $file = __DIR__ ."/vista/administracion/{$page}.php";
+    if ( file_exists($file) ) {
+        include($file);
+    }
+    else {
+        http_response_code(404);
+        echo "404 - Page not found";
+    }
+}
+
+switch ($request) {
+    case 'registro':
+        renderPage('register');
+        break;
+    case 'product':
+        renderPage('product');
+        break;
+    case 'cuenta':
+        renderPage('account');
+        break;
+    case 'carrito':
+        renderPage('cart');
+        break;
+    case 'admin':
+        header('Location: /admin/main');
+        break;
+    case 'admin/main':
+        renderBackOffice('general');
+        break;
+    case 'admin/estadisticas':
+        renderBackOffice('estadisticas');
+        break;
+    case 'admin/empresa':
+        renderBackOffice('company');
+        break;
+    case 'admin/productos':
+        renderBackOffice('productos');
+        break;
+    case 'admin/perfil':
+        renderBackOffice('profile');
+        break;
+    case 'logout':
+        header('Location: /cuenta');
+        break;
+    case '':
+    case '/':
+        renderPage('home');
+        break;
+    default:
+        renderPage('error');
+        break;
+}

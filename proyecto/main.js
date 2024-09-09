@@ -12,19 +12,11 @@ const totalSections = sections.length;
 
 let currentIndex = 0;
 
-const root = document.documentElement;
-const marqueeElementsDisplayed = getComputedStyle(root).getPropertyValue("--marquee-elements-displayed");
-const marqueeContent = document.querySelector(".pay-options");
-
-root.style.setProperty("--marquee-elements", marqueeContent.children.length);
-
-for(let i=0; i<marqueeElementsDisplayed; i++) {
-  marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
-}
-
 function updateSlider() {
     sections.forEach((section, index) => {
+    section.style.transition = "transform 1s ease-in"
     section.style.transform = `translateX(${(index - currentIndex) * 100}%)`;
+
     });
 }
 
@@ -38,6 +30,13 @@ leftArrow.addEventListener('click', () => {
         updateSlider();
 });
 updateSlider();
+
+function spinRight() {
+    currentIndex = (currentIndex + 1) % totalSections;
+    updateSlider();
+    setTimeout(spinRight, 3500);
+}
+spinRight();
 
 function menuResponsive() {
     menu.classList.add('screen');
@@ -61,7 +60,6 @@ menuItems.forEach(link => {
         link.classList.add('active')
     })
 })
-
 
 async function displayProds() { 
     const response = await fetch('https://dummyjson.com/products')

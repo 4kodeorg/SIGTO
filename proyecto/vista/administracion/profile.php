@@ -2,7 +2,7 @@
 // RUTAS PROTEGIDAS
 // session_start();
 // if(isset($_SESSION['username'])) {
-require('./headerback.php')
+require('headerback.php')
 ?>
 
 <div class="main-container">

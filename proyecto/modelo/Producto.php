@@ -83,6 +83,6 @@ class Producto extends Database{
 
 
 
-?>
+
 
 
