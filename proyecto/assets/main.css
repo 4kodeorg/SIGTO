@@ -177,7 +177,13 @@ ul a {
     margin: 0 12px;
     align-self: center;
 }
-
+.errorsp {
+    font-size: 1rem;
+    padding: 6px;
+    border: .5px solid #c12727;
+    color: #c12727;
+    border-radius: 4px;
+}
 /*  */
 .main-form-container div {
     display: flex;

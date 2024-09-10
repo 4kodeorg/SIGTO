@@ -1,7 +1,7 @@
 <?php
 
-require_once './modelo/Usuario.php';
-require_once './config/Database.php';
+require_once '../modelo/Usuario.php';
+require_once '../config/Database.php';
 
 class UsuarioController extends Database
 {
@@ -29,7 +29,7 @@ class UsuarioController extends Database
 
         $stmt->bind_param(
             'ssssssss',
-            $usuario->getName(),
+            $usuario->getNombre(),
             $usuario->getApellido(),
             $usuario->getEmail(),
             $usuario->getUsername(),
@@ -38,11 +38,43 @@ class UsuarioController extends Database
             $usuario->getFechaNac(),
             $usuario->getDireccion()
         );
-        error_log("Executing query: " . $stmt->error);
+        error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {
             return true;
         } else {
             throw new Exception("Error al crear usuario");
         }
+    }
+    public function validateUser($username, $password) {
+        
+        $query = 'SELECT * FROM usuarios WHERE username=?';
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt) {
+            throw new Exception("Error en la base de datos");
+        }
+        $stmt->bind_param('s', $paramUsername);
+        
+        $paramUsername = $username;
+
+        if($stmt->execute()) {
+            $res = $stmt->get_result();
+            if( $res->num_rows == 1 ) {
+                $usuario = $res->fetch_assoc();
+                $passwd = $usuario['passw'];
+                if (password_verify($password, $passwd)) {
+                    return $usuario;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        } else {
+            throw new Exception("Error en el servidor");
+        }
+        
     }
 }

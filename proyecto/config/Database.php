@@ -2,11 +2,11 @@
 
 class Database {
     
-    private $host = "db";
+    private $host = "localhost";
     private $port = 3306;
     private $db_name = "sigto";
     private $user = "root";
-    private $password = "passwd";
+    private $password = "passwd123";
     protected $conn;
 
 

@@ -58,6 +58,7 @@ switch ($request) {
         header('Location: /cuenta');
         break;
     case '':
+    case 'home':
     case '/':
         renderPage('home');
         break;
