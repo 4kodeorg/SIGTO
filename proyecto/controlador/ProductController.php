@@ -8,9 +8,9 @@ class ProductController extends Database {
         $producto = new Producto();
         $producto->setTitulo($data['titulo']);
         $producto->setDescripcion($data['descripcion']);
-        $producto->setPrecio($data['precio']);
         $producto->setOrigen($data['origen']);
         $producto->setCantidad($data['cantidad']);
+        $producto->setPrecio($data['precio']);
         try {
             $this->createProduct($producto);
         } catch (Exception $e) {
@@ -19,17 +19,17 @@ class ProductController extends Database {
     }
     public function createProduct($producto)
     {
-        $query = 'INSERT INTO productos (titulo, descripcion, origen, cantidad, precio) VALUES 
-                    (?, ?, ?, ?, ?);';
+        $query = 'INSERT INTO productos (titulo, descripcion, origen, cantidad, precio) VALUES (?, ?, ?, ?, ?);';
         $stmt = $this->conn->prepare($query);
-
+      
+        $titulo = $producto->getTitulo();
+        $descripcion = $producto->getDescripcion();
+        $origen = $producto->getOrigen();
+        $cantidad = $producto->getCantidad();
+        $precio = $producto->getPrecio();
+    
         $stmt->bind_param(
-            'ssssssss',
-            $producto->getTitulo(),
-            $producto->getDescripcion(),
-            $producto->getOrigen(),
-            $producto->getCantidad(),
-            $producto->getPrecio(),
+            'sssss', $titulo, $descripcion, $origen, $cantidad, $precio     
         );
         error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {

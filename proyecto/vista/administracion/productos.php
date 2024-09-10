@@ -1,6 +1,41 @@
 <?php
 // session_start();
 // if(isset($_SESSION['username'])) {
+
+require_once '../../config/config.php';
+            require_once '../../modelo/Producto.php';
+            require_once '../../controlador/ProductController.php';
+
+            if (isset($_POST['submit'])) {
+                $errors = array();
+                $data = [
+                    'titulo' => $_POST['titulo'],
+                    'descripcion' => $_POST['descripcion'],
+                    'origen' => $_POST['origen'],
+                    'cantidad' => $_POST['cantidad'],
+                    'precio' => $_POST['precio']
+                ];
+                
+                $emptyFields = false;
+                foreach ($data as $clave => $valor) {
+                    if (empty(trim($valor))) {
+                        $emptyFields = true;
+                        array_push($errors, "El campo $clave es requerido");
+                    }
+                }
+                if (!$emptyFields && count($errors) === 0) {
+                    $productController = new ProductController();
+                    $productController->create($data);
+                    header('Location: /admin');
+                } else {
+                    foreach ($errors as $error) {
+                        echo "<p>$error</p>";
+                    }
+                } 
+                // var_dump($errors);
+            
+        } 
+        // else { echo "Error con el formulario" ;}
 require('headerback.php')
 ?>
 
@@ -104,61 +139,26 @@ require('headerback.php')
             </tbody>
         </table>
         <div class="product-form">
-
-            <?php
-            require_once '../../config/config.php';
-            require_once '../../modelo/Producto.php';
-            require_once '../../controlador/ProductController.php';
-
-            if (isset($_POST['submit'])) {
-                $errors = array();
-                $data = [
-                    'titulo' => $_POST['titulo'],
-                    'descripcion' => $_POST['descripcion'],
-                    'origen' => $_POST['origen'],
-                    'cantidad' => $_POST['cantidad'],
-                    'precio' => $_POST['precio']
-                ];
-                print_r($data);
-                $emptyFields = false;
-                foreach ($data as $clave => $valor) {
-                    if (empty(trim($valor))) {
-                        $emptyFields = true;
-                        array_push($errors, "El campo $clave es requerido");
-                    }
-                }
-                if (!$emptyFields) {
-                        if (count($errors) === 0) {
-                            $productController = new ProductController();
-                            $productController->create($data);
-                            header('Location: /admin');
-                        } else {
-                            foreach ($errors as $error) { echo "<p>$error</p>"; } 
-                        }
-                     } else {
-                    array_push($errors, "Todos los campos son requeridos");
-                }
-                var_dump($errors);
-            
-        }
-            ?>
-
             <form
                 action="productos.php"
                 method="POST"
                 class="form-product">
                 <label for="titulo">Nombre del producto</label>
                 <input id="titulo" type="text" name="titulo" required>
+
                 <label for="descr">Descripción</label>
                 <input id="descr" type="text" name="descripcion" required>
+
                 <label for="origen">Origen</label>
                 <input type="text" name="origen" id="origen" required>
+
                 <label for="cantidad">Cantidad de unidades</label>
                 <input type="text" name="cantidad" id="cantidad" required>
+
                 <label for="precio">Precio</label>
                 <input id="precio" type="text" name="precio" required>
 
-                <input type="submit" value="Agregar producto">
+                <button name="submit" type="submit">Agregar producto</button>
             </form>
         </div>
     </div>
