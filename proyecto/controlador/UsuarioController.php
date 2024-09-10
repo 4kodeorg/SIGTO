@@ -27,16 +27,17 @@ class UsuarioController extends Database
         $query = 'INSERT INTO usuarios (name, lastname, email, username, passw, telefono, fecha_nac, direccion) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
         $stmt = $this->conn->prepare($query);
 
+        $name = $usuario->getNombre();
+        $apellido = $usuario->getApellido();
+        $email = $usuario->getEmail();
+        $username = $usuario->getUsername();
+        $passw = $usuario->getPassword();
+        $telefono = $usuario->getTelefono();
+        $fecha_nac = $usuario->getFechaNac();
+        $direccion = $usuario->getDireccion();
+
         $stmt->bind_param(
-            'ssssssss',
-            $usuario->getNombre(),
-            $usuario->getApellido(),
-            $usuario->getEmail(),
-            $usuario->getUsername(),
-            $usuario->getPassword(),
-            $usuario->getTelefono(),
-            $usuario->getFechaNac(),
-            $usuario->getDireccion()
+            'ssssssss', $name, $apellido, $email, $username, $passw, $telefono, $fecha_nac, $direccion
         );
         error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {

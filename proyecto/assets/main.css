@@ -184,6 +184,41 @@ ul a {
     color: #c12727;
     border-radius: 4px;
 }
+
+.modal-redirect {
+    position: fixed;
+    font-family: system-ui, serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+    opacity:0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+}
+.modal-redirect p {
+    width: 350px;
+    margin: 25% auto;
+    border-radius: 8px;
+    position: relative;
+    padding: 1rem 18px;
+    background-color: #fff;
+}
+.close-modal {
+    background: #606061;
+    color: #FFFFFF;
+    line-height: 25px;
+    position: absolute;
+    border-radius: 12px;
+    right: -12px;
+    text-align: center;
+    top: -10px;
+    width: 24px;
+}
 /*  */
 .main-form-container div {
     display: flex;
