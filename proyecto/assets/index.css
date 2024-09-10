@@ -355,7 +355,6 @@ span>.arrow-left ,span>.arrow-right{
     width: 100%;
     height: 50px;
     animation: scroll 10s linear alternate-reverse infinite;
-
 }
 
 /* Pagina de error */
@@ -397,31 +396,27 @@ a >.error-link {
     }
     
 }
-.footer-commerce {
-    width: 100%;
-    min-height: 360px;
-    display: flex;
-    background-color: transparent;
-    box-shadow:0 .3rem .7rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
-    align-items: center;   
-}
-.ul-footer-one {
-    padding: .5rem 1rem;
-}
-.ul-footer-one h2 {
-    font-weight: 450;
-}
-.ul-footer-two h2 {
-    font-weight: 450;
-}
-.ul-footer-one li, .ul-footer-two li { 
+ul {
     list-style-type: none;
-    padding: 6px 0;
 }
-.ul-footer-two {
-    padding: .5rem 1rem;
+.ul-footer-one, .ul-footer-two {
+    padding: 1rem 6px;
+    text-align: left;
+    list-style-type: none;
+    margin: 0 auto;
 }
-
+.footer-commerce {
+    text-align: center;
+    padding: 1rem auto;
+    background-color: transparent;
+    box-shadow:0 .3rem .7rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15); 
+}
+.container-ul-footer {
+    display: flex;
+    width: 90%;
+    margin: auto;
+    border-bottom: .5px solid #000;
+}
 .div-for-small {
     width: 100%;
     margin: auto;
@@ -491,6 +486,15 @@ a >.error-link {
     padding: 1rem 0;
     
 }
+.end-page-ul {
+    gap: 1rem;
+}
+ul a {
+    text-decoration: none;
+    color: #020202;
+    margin: 0 12px;
+    align-self: center;
+}
 #cart-responsive {
     display: none;
 }
@@ -507,6 +511,13 @@ a >.error-link {
 }
 .visible {
     display: none;
+}
+@media (width > 1024px) {
+    .end-page-ul {
+        display: flex;
+        justify-content: center;
+        margin: 1.5rem auto;
+    }
 }
 @media (width <= 920px) {
     .ul-for-nav {
@@ -537,15 +548,7 @@ a >.error-link {
     }
 
 }
-@media (max-width: 600px) {
-   
-    :root {
-      --marquee-width: 100vw;
-      --marquee-height: 16vh;
-      --marquee-elements-displayed: 3;
-    }
-    .pay-methods:before, .pay-methods:after { width: 5rem; }
-  }
+
 @media (width < 690px) {
     .brand-container {
         flex-direction: column;
@@ -554,9 +557,4 @@ a >.error-link {
         align-items: center;
     }
 }
-
-@keyframes scrolling {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-1 * var(--marquee-element-width) * var(--marquee-elements))); }
-  }
 

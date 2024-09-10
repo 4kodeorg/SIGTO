@@ -4,19 +4,23 @@ services:
     build: .
     volumes:
       - ./proyecto:/var/www/html
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
     ports:
       - 80:80
   db: 
-    image: mysql:latest
+    image: mysql:8.0
     volumes:
       - ./proyecto/db:/var/lib/mysql
     environment:
+    - MYSQL_ROOT_PASSWORD=passwd
     - MYSQL_DATABASE=sigto
-    - MYSQL_USER=root
-    - MYSQL_PASSWORD=password
-    - MYSQL_ALLOW_EMPTY_PASSWORD= 1
+    expose:
+      - "3306"
     ports:
-      - "3306:3306"
+      - "3307:3306"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:

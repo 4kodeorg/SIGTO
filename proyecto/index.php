@@ -1,5 +1,4 @@
 <?php
-include('./config/config.php');
 
 $request = trim($_SERVER['REQUEST_URI'], '/');
 $request = strtok($request, '?');
