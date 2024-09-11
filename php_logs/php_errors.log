@@ -16,3 +16,13 @@
 [11-Sep-2024 04:20:55 UTC] Error: 
 [11-Sep-2024 04:21:53 UTC] Error: 
 [11-Sep-2024 04:22:41 UTC] Error: 
+[11-Sep-2024 22:02:51 UTC] PHP Fatal error:  Uncaught Error: Class "mysqli" not found in /var/www/html/config/Database.php:16
+Stack trace:
+#0 /var/www/html/index.php(139): Database->__construct()
+#1 {main}
+  thrown in /var/www/html/config/Database.php on line 16
+[11-Sep-2024 22:03:55 UTC] PHP Fatal error:  Uncaught Error: Class "mysqli" not found in /var/www/html/config/Database.php:16
+Stack trace:
+#0 /var/www/html/index.php(63): Database->__construct()
+#1 {main}
+  thrown in /var/www/html/config/Database.php on line 16
