@@ -1,41 +1,6 @@
 <?php
 // session_start();
 // if(isset($_SESSION['username'])) {
-
-require_once '../../config/config.php';
-            require_once '../../modelo/Producto.php';
-            require_once '../../controlador/ProductController.php';
-
-            if (isset($_POST['submit'])) {
-                $errors = array();
-                $data = [
-                    'titulo' => $_POST['titulo'],
-                    'descripcion' => $_POST['descripcion'],
-                    'origen' => $_POST['origen'],
-                    'cantidad' => $_POST['cantidad'],
-                    'precio' => $_POST['precio']
-                ];
-                
-                $emptyFields = false;
-                foreach ($data as $clave => $valor) {
-                    if (empty(trim($valor))) {
-                        $emptyFields = true;
-                        array_push($errors, "El campo $clave es requerido");
-                    }
-                }
-                if (!$emptyFields && count($errors) === 0) {
-                    $productController = new ProductController();
-                    $productController->create($data);
-                    header('Location: /admin');
-                } else {
-                    foreach ($errors as $error) {
-                        echo "<p>$error</p>";
-                    }
-                } 
-                // var_dump($errors);
-            
-        } 
-        // else { echo "Error con el formulario" ;}
 require('headerback.php')
 ?>
 
@@ -140,7 +105,7 @@ require('headerback.php')
         </table>
         <div class="product-form">
             <form
-                action="productos.php"
+                action="?action=agregar_producto"
                 method="POST"
                 class="form-product">
                 <label for="titulo">Nombre del producto</label>

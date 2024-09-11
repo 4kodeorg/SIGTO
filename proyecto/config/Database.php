@@ -2,7 +2,7 @@
 
 class Database {
     
-    private $host = "localhost";
+    private $host = "db";
     private $port = 3306;
     private $db_name = "sigto";
     private $user = "root";

@@ -4,6 +4,8 @@ services:
     build: .
     volumes:
       - ./proyecto:/var/www/html
+      - ./proyecto/php.ini:/usr/local/etc/php/php.ini
+      - ./php_logs:/var/log/
     depends_on:
       - db
     environment:
@@ -15,12 +17,12 @@ services:
     volumes:
       - ./proyecto/db:/var/lib/mysql
     environment:
-    - MYSQL_ROOT_PASSWORD=passwd
+    - MYSQL_ROOT_PASSWORD=passwd123
     - MYSQL_DATABASE=sigto
     expose:
       - "3306"
     ports:
-      - "3307:3306"
+      - "3306:3306"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:

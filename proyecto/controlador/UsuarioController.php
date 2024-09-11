@@ -1,7 +1,7 @@
 <?php
 
-require_once '../modelo/Usuario.php';
-require_once '../config/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/modelo/Usuario.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/config/Database.php';
 
 class UsuarioController extends Database
 {
@@ -17,7 +17,7 @@ class UsuarioController extends Database
         $usuario->setFechaNac($data['fecha_nac']);
         $usuario->setPassword($data['confirm_passwd']);
         try {
-            $this->createUser($usuario);
+            return $this->createUser($usuario);
         } catch (Exception $e) {
             $e->getMessage();
         }
@@ -41,7 +41,7 @@ class UsuarioController extends Database
         );
         error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {
-            return true;
+            return $this->conn->insert_id;
         } else {
             throw new Exception("Error al crear usuario");
         }

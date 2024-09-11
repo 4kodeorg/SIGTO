@@ -1,6 +1,6 @@
 <?php
-require_once '../../modelo/Producto.php';
-require_once '../../config/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/modelo/Producto.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/config/Database.php';
 
 class ProductController extends Database {
     public function create($data)
@@ -12,7 +12,7 @@ class ProductController extends Database {
         $producto->setCantidad($data['cantidad']);
         $producto->setPrecio($data['precio']);
         try {
-            $this->createProduct($producto);
+            return $this->createProduct($producto);
         } catch (Exception $e) {
             $e->getMessage();
         }
@@ -33,7 +33,7 @@ class ProductController extends Database {
         );
         error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {
-            return true;
+            return $this->conn->insert_id;
         } else {
             throw new Exception("Error al crear producto");
         }

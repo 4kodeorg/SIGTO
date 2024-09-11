@@ -1,34 +1,30 @@
 <?php
+
+require_once $_SERVER['DOCUMENT_ROOT'].'/modelo/Usuario.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/UsuarioController.php';
+
+$errors = array();
+if (isset($_POST['submit'])) {
+  if (empty(trim($_POST['username'])) || empty(trim($_POST['passwd']))) {
+    array_push($errors, "Credenciales inválidas");
+  }
+  $username = htmlspecialchars($_POST['username']);
+  $password = $_POST['passwd'];
+  if (count($errors) == 0) {
+    $userController = new UsuarioController();
+    $usuario = $userController->validateUser($username, $password);
+    session_start();
+    $_SESSION['id'] = $usuario['id'];
+    $_SESSION['username'] = $usuario['username'];
+    header('Location: /home');
+  }
+}
 include('header.php');
-if (!isset($_SESSION['username'])) {
 ?>
+
   <main class="main-form-container">
     <div class="form-login-container">
 
-      <?php
-
-      require_once '../config/config.php';
-      require_once '../modelo/Usuario.php';
-      require_once '../controlador/UsuarioController.php';
-
-      $errors = array();
-      if (isset($_POST['submit'])) {
-        if (empty(trim($_POST['username'])) || empty(trim($_POST['passwd']))) {
-          array_push($errors, "Credenciales inválidas");
-        }
-        $username = htmlspecialchars($_POST['username']);
-        $password = $_POST['passwd'];
-        if (count($errors) == 0) {
-          $userController = new UsuarioController();
-          $usuario = $userController->validateUser($username, $password);
-          session_start();
-          $_SESSION['id'] = $usuario['id'];
-          $_SESSION['username'] = $usuario['username'];
-          header('Location: /home');
-        }
-      }
-
-      ?>
       <form class="login-form" action="account.php" method="post">
         <label for="username">Usuario</label>
         <input type="username" name="username" placeholder="Ingresar usuario" id="username" required>
@@ -58,14 +54,9 @@ if (!isset($_SESSION['username'])) {
     <div class="bg-image"></div>
   </main>
 <?php
-} else {
-?>
 
-<?php
-}
 include('footer.php')
 ?>
-
 </body>
 
 </html>
