@@ -16,3 +16,46 @@
 [11-Sep-2024 04:20:55 UTC] Error: 
 [11-Sep-2024 04:21:53 UTC] Error: 
 [11-Sep-2024 04:22:41 UTC] Error: 
+[12-Sep-2024 22:38:25 UTC] Error: 
+[12-Sep-2024 22:40:35 UTC] Error: 
+[12-Sep-2024 22:44:38 UTC] Error: 
+[12-Sep-2024 23:30:33 UTC] PHP Warning:  Undefined variable $errors in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:30:33 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/account.php:15
+Stack trace:
+#0 /var/www/html/index.php(14): include()
+#1 /var/www/html/index.php(123): renderPage('account')
+#2 {main}
+  thrown in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:31:21 UTC] PHP Warning:  Undefined variable $errors in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:31:21 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/account.php:15
+Stack trace:
+#0 /var/www/html/index.php(14): include()
+#1 /var/www/html/index.php(123): renderPage('account')
+#2 {main}
+  thrown in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:38:48 UTC] PHP Warning:  Undefined variable $errors in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:38:48 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/account.php:15
+Stack trace:
+#0 /var/www/html/index.php(14): include()
+#1 /var/www/html/index.php(123): renderPage('account')
+#2 {main}
+  thrown in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:39:51 UTC] PHP Warning:  Undefined variable $errors in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:39:51 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/account.php:15
+Stack trace:
+#0 /var/www/html/index.php(14): include()
+#1 /var/www/html/index.php(123): renderPage('account')
+#2 {main}
+  thrown in /var/www/html/vista/account.php on line 15
+[13-Sep-2024 00:18:23 UTC] PHP Warning:  Undefined variable $username in /var/www/html/vista/header-index.php on line 53
+[13-Sep-2024 00:18:24 UTC] PHP Warning:  Undefined variable $username in /var/www/html/vista/header-index.php on line 53
+[13-Sep-2024 00:18:30 UTC] PHP Warning:  Undefined variable $username in /var/www/html/vista/header-index.php on line 53
+[13-Sep-2024 00:18:30 UTC] PHP Warning:  Undefined variable $username in /var/www/html/vista/header-index.php on line 53
+[13-Sep-2024 16:05:36 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:32:30 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:34:23 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:34:23 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
+[13-Sep-2024 16:34:35 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:34:35 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
+[13-Sep-2024 16:39:57 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:39:57 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188

@@ -13,7 +13,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: content-box;
+    box-sizing: border-box;
     scroll-behavior: smooth;
     font-family: 'Inter', serif;
 }
@@ -269,11 +269,11 @@ span>.arrow-left ,span>.arrow-right{
 .ul-for-nav a {
     text-decoration: none;
     color: #002000;
+    width: auto;
 }
-.ul-for-nav li {
-    padding: 0 10px;
-    margin: 8px 10px;
-    font-size: 1.12rem;
+.nav-item >.dropdown-menu li {
+    padding: 0 4px;
+    margin: 2px;
 }
 .main-products {
     display: flex;
@@ -517,7 +517,14 @@ ul a {
         display: flex;
         justify-content: center;
         margin: 1.5rem auto;
+        }
+}
+@media (width <= 1024px) {
+
+    .navbar>.container-fluid {
+        flex-wrap: nowrap;
     }
+
 }
 @media (width <= 920px) {
     .ul-for-nav {
@@ -525,6 +532,9 @@ ul a {
     }
     #cart-responsive {
         display: block;
+    }
+    .brand-container {
+        width: auto;
     }
     .responsive-menu {
         display: block;

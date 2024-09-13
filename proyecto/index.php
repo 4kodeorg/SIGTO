@@ -29,6 +29,9 @@ function renderBackOffice($page)
 }
 
 switch ($request) {
+    case 'info':
+        renderPage('info');
+        break;
     case 'registro':
         if ($action === 'registrarse' & $_SERVER['REQUEST_METHOD'] == 'POST') {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Usuario.php';
@@ -95,7 +98,30 @@ switch ($request) {
         renderPage('product');
         break;
     case 'cuenta':
-        renderPage('account');
+        if ($action === '1' & $_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Usuario.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+
+            $errors = array();
+            if (isset($_POST['submit'])) {
+                if (empty(trim($_POST['username'])) || empty(trim($_POST['passwd']))) {
+                    array_push($errors, "Credenciales inválidas");
+                }
+                $username = htmlspecialchars($_POST['username']);
+                $password = $_POST['passwd'];
+                if (count($errors) == 0) {
+                    $userController = new UsuarioController();
+                    $usuario = $userController->validateUser($username, $password);
+                    session_start();
+                    $_SESSION['id'] = $usuario['id'];
+                    $_SESSION['username'] = $usuario['username'];
+                    header('Location: /?id=' . $usuario['id']);
+                }
+            }
+        } else {
+            renderPage('account');
+        }
         break;
     case 'carrito':
         renderPage('cart');
@@ -138,7 +164,9 @@ switch ($request) {
                 if (!$emptyFields && count($errors) === 0) {
                     $productController = new ProductController();
                     $productId = $productController->create($data);
-                    if ( $productId ) { header('refresh: 2'); }
+                    if ($productId) {
+                        header('refresh: 1; url=/admin/productos');
+                    }
                 } else {
                     foreach ($errors as $error) {
                         echo "<p>$error</p>";
@@ -153,7 +181,12 @@ switch ($request) {
         renderBackOffice('profile');
         break;
     case 'logout':
-        header('Location: /cuenta');
+        session_unset();
+        session_destroy();
+        session_write_close();
+        setcookie(session_name(), '', 0, '/');
+        session_regenerate_id(true);
+        header('Location: /');
         break;
     case '':
     case 'home':

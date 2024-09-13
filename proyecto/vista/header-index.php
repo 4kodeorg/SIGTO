@@ -48,40 +48,38 @@ session_start();
 
       <ul class="ul-for-nav">
         <?php
-        // if ($username) {
-        // echo "<li class='nav-item'>
-        // <a href='/'>Hola ". $username ." </a>
-        // </li>";
+        if (isset($_SESSION['username'])) {
+        $username = $_SESSION['username'];
+        echo '<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" 
+        aria-expanded="false">Hola '. ucfirst($username) .' </a>
+        <ul class="dropdown-menu drodown-menu-end">
+        <li><a class="dropdown-item" href="/perfil">Mi perfil </a> </li>
+        <li><a class="dropdown-item" href="/perfil">Favoritos </a> </li>
+        <li><a class="dropdown-item" href="/perfil">Historial de compra </a> </li>
+        <hr class="dropdown-divider">
+        <li><a class="dropdown-item" href="/logout"> Cerrar sesión</a> </li>
+        </ul>
+        </li>';
 
         ?>
         <?php
-        // } else { echo '<li class="nav-item dropdown">
-        // <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        // Mi cuenta
-        // </a>
-        // <ul class="dropdown-menu">
-        // <li><a class="dropdown-item" href="/registro">Registrate</a></li>
-        // <li>
-        // <hr class="dropdown-divider">
-        // </li>
-        // <li><a class="dropdown-item" href="/cuenta">Inicia sesión</a></li>
-
-        // </ul>
-        // </li>'; }
-        ?>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Mi cuenta
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/registro">Registrate</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="/cuenta">Inicia sesión</a></li>
-
-          </ul>
+        } else { 
+          echo '<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Mi cuenta
+        </a>
+        <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/registro">Registrate</a></li>
+        <li>
+        <hr class="dropdown-divider">
         </li>
+        <li><a class="dropdown-item" href="/cuenta">Inicia sesión</a></li>
+
+        </ul>
+        </li>'; 
+      }
+        ?>
         <li class="nav-item">
           <a href="" class="nav-link">Ayuda</a>
         </li>
@@ -100,7 +98,7 @@ session_start();
 
       </ul>
 
-      <a class="btn btn-primary" id="burger-menu" data-bs-toggle="offcanvas" href="#sidebar-menu" role="button" aria-controls="offcanvasExample">
+      <a class="" id="burger-menu" data-bs-toggle="offcanvas" href="#sidebar-menu" role="button" aria-controls="offcanvasExample">
         <svg width="42px" height="42px"
           viewBox="0 0 32 32" fill="currentColor" x="217" y="217" role="img"
           xmlns="http://www.w3.org/2000/svg">
