@@ -72,3 +72,12 @@ Stack trace:
 #1 {main}
   thrown in /var/www/html/config/Database.php on line 16
 >>>>>>> f321c4cf390a9d49a18f7f6d5e894def97f8c3e6
+[13-Sep-2024 22:46:39 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 22:46:39 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
+[13-Sep-2024 23:04:59 UTC] Error: 
+[13-Sep-2024 23:06:28 UTC] PHP Warning:  Trying to access array offset on value of type bool in /var/www/html/index.php on line 117
+[13-Sep-2024 23:06:28 UTC] PHP Warning:  Trying to access array offset on value of type bool in /var/www/html/index.php on line 118
+[13-Sep-2024 23:06:28 UTC] PHP Warning:  Trying to access array offset on value of type bool in /var/www/html/index.php on line 119
+[13-Sep-2024 23:07:22 UTC] Error: 
+[13-Sep-2024 23:25:32 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 23:25:32 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188

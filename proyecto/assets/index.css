@@ -556,7 +556,6 @@ ul a {
     .responsive-menu-list {
         visibility: hidden;
     }
-
 }
 
 @media (width < 690px) {
