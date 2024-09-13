@@ -77,6 +77,7 @@
 192.168.65.1 - - [11/Sep/2024:04:22:41 +0000] "POST /registro?action=registrarse HTTP/1.1" 302 251 "http://localhost/registro" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 192.168.65.1 - - [11/Sep/2024:04:22:41 +0000] "GET /?id=12 HTTP/1.1" 200 4161 "http://localhost/registro" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 192.168.65.1 - - [11/Sep/2024:04:22:41 +0000] "GET /favicon.ico HTTP/1.1" 200 4161 "http://localhost/?id=12" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+<<<<<<< HEAD
 192.168.65.1 - - [12/Sep/2024:22:33:54 +0000] "GET / HTTP/1.1" 200 4162 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 192.168.65.1 - - [12/Sep/2024:22:33:54 +0000] "GET /assets/index.css HTTP/1.1" 200 2927 "http://localhost/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 192.168.65.1 - - [12/Sep/2024:22:33:54 +0000] "GET /assets/imgs/oeeman.png HTTP/1.1" 304 251 "http://localhost/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
@@ -991,3 +992,18 @@
 192.168.65.1 - - [13/Sep/2024:17:02:57 +0000] "GET /assets/imgs/abitab.png HTTP/1.1" 200 5183 "http://localhost/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 192.168.65.1 - - [13/Sep/2024:17:02:58 +0000] "GET /favicon.ico HTTP/1.1" 200 4138 "http://localhost/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 127.0.0.1 - - [13/Sep/2024:17:03:01 +0000] "OPTIONS * HTTP/1.0" 200 126 "-" "Apache/2.4.62 (Debian) PHP/8.0.30 (internal dummy connection)"
+=======
+172.18.0.1 - - [11/Sep/2024:22:02:07 +0000] "GET / HTTP/1.1" 200 4174 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/imgs/mercado.png HTTP/1.1" 200 18374 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/index.css HTTP/1.1" 200 2955 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /main.js HTTP/1.1" 200 1401 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/imgs/mastercard.png HTTP/1.1" 200 26320 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/imgs/paypal.png HTTP/1.1" 200 7620 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/imgs/visa.png HTTP/1.1" 200 11899 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/imgs/abitab.png HTTP/1.1" 200 5183 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/imgs/phoneup.png HTTP/1.1" 200 42580 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/imgs/vrpro-bg.png HTTP/1.1" 200 163337 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/imgs/redpagos.png HTTP/1.1" 200 2886 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:08 +0000] "GET /assets/imgs/oeeman.png HTTP/1.1" 200 225356 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.18.0.1 - - [11/Sep/2024:22:02:09 +0000] "GET /favicon.ico HTTP/1.1" 200 4173 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+>>>>>>> f321c4cf390a9d49a18f7f6d5e894def97f8c3e6

@@ -16,6 +16,7 @@
 [11-Sep-2024 04:20:55 UTC] Error: 
 [11-Sep-2024 04:21:53 UTC] Error: 
 [11-Sep-2024 04:22:41 UTC] Error: 
+<<<<<<< HEAD
 [12-Sep-2024 22:38:25 UTC] Error: 
 [12-Sep-2024 22:40:35 UTC] Error: 
 [12-Sep-2024 22:44:38 UTC] Error: 
@@ -59,3 +60,15 @@ Stack trace:
 [13-Sep-2024 16:34:35 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
 [13-Sep-2024 16:39:57 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
 [13-Sep-2024 16:39:57 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
+=======
+[11-Sep-2024 22:02:51 UTC] PHP Fatal error:  Uncaught Error: Class "mysqli" not found in /var/www/html/config/Database.php:16
+Stack trace:
+#0 /var/www/html/index.php(139): Database->__construct()
+#1 {main}
+  thrown in /var/www/html/config/Database.php on line 16
+[11-Sep-2024 22:03:55 UTC] PHP Fatal error:  Uncaught Error: Class "mysqli" not found in /var/www/html/config/Database.php:16
+Stack trace:
+#0 /var/www/html/index.php(63): Database->__construct()
+#1 {main}
+  thrown in /var/www/html/config/Database.php on line 16
+>>>>>>> f321c4cf390a9d49a18f7f6d5e894def97f8c3e6
