@@ -1,37 +1,34 @@
-<?php 
-        include('./header.php');
-    if (!isset($_SESSION['username'])) {
-    ?>
-    <main>
-      <div class="form-login-container">
-        <form class="login-form" action="" method="post">
-          <label for="username">Usuario</label>
-          <input type="username" name="username" id="username" required>
-          <label for="password">Contraseña</label>
-          <input type="password" name="psw" id="password" required>
-          <button type="submit">Iniciar sesión</button>
-        </form>
+<?php
+
+include('header.php');
+?>
+
+  <main class="main-form-container">
+    <div class="form-login-container">
+
+      <form class="login-form" action="?action=1" method="post">
+        <label for="username">Usuario</label>
+        <input type="username" name="username" placeholder="Ingresar usuario" id="username" required>
+        <label for="password">Contraseña</label>
+        <input type="password" placeholder="Contraseña" name="passwd" id="password" required>
+     
+        <button name="submit" type="submit">Iniciar sesión</button>
+
         <div class="form-helpers">
           <a href="">
             <span>Olvidè mi contraseña</span>
           </a>
-          <a href="./register.php">
+          <a href="/registro">
             <span>Registrarse</span>
           </a>
         </div>
-      </div>
+      </form>
 
-      <div class="bg-image"></div>
-    </main>
-        <?php
-    }
-    else {
-        ?>
-        
-    <?php
-    }
-    include('./footer.php')
-    ?>
+    </div>
 
-</body>
-</html>
+    <div class="bg-image"></div>
+  </main>
+<?php
+
+include('footer.php')
+?>

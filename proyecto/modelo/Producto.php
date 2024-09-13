@@ -1,15 +1,12 @@
 <?php 
 
-require_once './config/db.php';
-
-class Producto extends Database{
-    private $conn;
-    private $table_name = "productos";
+class Producto{
 
     private int $id;
     private string $titulo;
     private string $descripcion;
     private string $precio;
+    private string $origen;
     private string $cantidad;
 
     public function getId() {
@@ -18,71 +15,41 @@ class Producto extends Database{
     public function setId($id) {
         $this->id = $id;
     }
-    public function getTitulo() {
-        return $this->titulo;
-    }
     public function setTitulo($titulo) {
         $this->titulo = $titulo;
-    }
-    public function getDescripcion() {
-        return $this->descripcion;
     }
     public function setDescripcion($descripcion) { 
         $this->descripcion = $descripcion;
     }
+    public function setPrecio($precio) {
+        $this->precio = $precio;
+    }
+    public function setOrigen($origen) {
+        $this->origen = $origen;
+    } 
+    public function setCantidad($cantidad) {
+        $this->cantidad = $cantidad;
+    }
+    public function getTitulo() {
+        return $this->titulo;
+    }
+    public function getDescripcion() {
+        return $this->descripcion;
+    }
     public function getPrecio() {
         return $this->precio;
     }
-    public function setPrecio($precio) {
-        $this->precio = $precio;
+    public function getOrigen() {
+        return $this->origen;
     }
     public function getCantidad() {
         return $this->cantidad;
     }
-    public function setCantidad($cantidad) {
-        $this->cantidad = $cantidad;
-    }
-
-    public function createNew() {
-        $query = "INSERT INTO ". $this->table_name . "SET titulo=?, descripcion=?, precio=?, cantidad=?";
-
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bind_param("ssss", $this->titulo, $this->descripcion, $this->precio, $this->cantidad);
-
-        try {
-            $stmt->execute();
-        } catch(Exception $e) {
-            echo $e->getMessage();
-        }
-    }
-
-    public function readAll() {
-        $query = "SELECT * FROM ". $this->table_name;
-        return $this->conn->query($query);
-    }
-
-    public function update() {
-        $query = "UPDATE ". $this->table_name ."SET titulo=?, descripcion=?, precio=?, cantidad=?";
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bind_param("ssss",$this->titulo, $this->descripcion, $this->precio, $this->cantidad);
-
-        return $stmt->execute();
-    }
-    public function delete() {
-        $query = "DELETE FROM ". $this->table_name ." WHERE id=?";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $this->id);
-
-        return $stmt->execute();
-    }
-
+   
 }
 
 
 
-?>
+
 
 

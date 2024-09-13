@@ -1,0 +1,74 @@
+[11-Sep-2024 03:41:17 UTC] Error: 
+[11-Sep-2024 03:41:17 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/index.php:66) in /var/www/html/index.php on line 72
+[11-Sep-2024 03:45:00 UTC] Error: 
+[11-Sep-2024 03:45:00 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/index.php:65) in /var/www/html/index.php on line 71
+[11-Sep-2024 03:45:00 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /var/www/html/index.php on line 72
+[11-Sep-2024 03:45:48 UTC] Error: 
+[11-Sep-2024 03:45:48 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /var/www/html/index.php on line 71
+[11-Sep-2024 03:46:23 UTC] Error: 
+[11-Sep-2024 03:46:23 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /var/www/html/index.php on line 71
+[11-Sep-2024 03:47:32 UTC] Error: 
+[11-Sep-2024 04:00:15 UTC] Error: 
+[11-Sep-2024 04:08:14 UTC] Error: 
+[11-Sep-2024 04:13:48 UTC] Error: 
+[11-Sep-2024 04:18:01 UTC] Error: 
+[11-Sep-2024 04:18:01 UTC] PHP Warning:  Array to string conversion in /var/www/html/index.php on line 74
+[11-Sep-2024 04:20:55 UTC] Error: 
+[11-Sep-2024 04:21:53 UTC] Error: 
+[11-Sep-2024 04:22:41 UTC] Error: 
+<<<<<<< HEAD
+[12-Sep-2024 22:38:25 UTC] Error: 
+[12-Sep-2024 22:40:35 UTC] Error: 
+[12-Sep-2024 22:44:38 UTC] Error: 
+[12-Sep-2024 23:30:33 UTC] PHP Warning:  Undefined variable $errors in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:30:33 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/account.php:15
+Stack trace:
+#0 /var/www/html/index.php(14): include()
+#1 /var/www/html/index.php(123): renderPage('account')
+#2 {main}
+  thrown in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:31:21 UTC] PHP Warning:  Undefined variable $errors in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:31:21 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/account.php:15
+Stack trace:
+#0 /var/www/html/index.php(14): include()
+#1 /var/www/html/index.php(123): renderPage('account')
+#2 {main}
+  thrown in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:38:48 UTC] PHP Warning:  Undefined variable $errors in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:38:48 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/account.php:15
+Stack trace:
+#0 /var/www/html/index.php(14): include()
+#1 /var/www/html/index.php(123): renderPage('account')
+#2 {main}
+  thrown in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:39:51 UTC] PHP Warning:  Undefined variable $errors in /var/www/html/vista/account.php on line 15
+[12-Sep-2024 23:39:51 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/account.php:15
+Stack trace:
+#0 /var/www/html/index.php(14): include()
+#1 /var/www/html/index.php(123): renderPage('account')
+#2 {main}
+  thrown in /var/www/html/vista/account.php on line 15
+[13-Sep-2024 00:18:23 UTC] PHP Warning:  Undefined variable $username in /var/www/html/vista/header-index.php on line 53
+[13-Sep-2024 00:18:24 UTC] PHP Warning:  Undefined variable $username in /var/www/html/vista/header-index.php on line 53
+[13-Sep-2024 00:18:30 UTC] PHP Warning:  Undefined variable $username in /var/www/html/vista/header-index.php on line 53
+[13-Sep-2024 00:18:30 UTC] PHP Warning:  Undefined variable $username in /var/www/html/vista/header-index.php on line 53
+[13-Sep-2024 16:05:36 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:32:30 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:34:23 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:34:23 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
+[13-Sep-2024 16:34:35 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:34:35 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
+[13-Sep-2024 16:39:57 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[13-Sep-2024 16:39:57 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
+=======
+[11-Sep-2024 22:02:51 UTC] PHP Fatal error:  Uncaught Error: Class "mysqli" not found in /var/www/html/config/Database.php:16
+Stack trace:
+#0 /var/www/html/index.php(139): Database->__construct()
+#1 {main}
+  thrown in /var/www/html/config/Database.php on line 16
+[11-Sep-2024 22:03:55 UTC] PHP Fatal error:  Uncaught Error: Class "mysqli" not found in /var/www/html/config/Database.php:16
+Stack trace:
+#0 /var/www/html/index.php(63): Database->__construct()
+#1 {main}
+  thrown in /var/www/html/config/Database.php on line 16
+>>>>>>> f321c4cf390a9d49a18f7f6d5e894def97f8c3e6

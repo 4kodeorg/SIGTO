@@ -1,25 +1,61 @@
-<?php 
-include('./header.php')
-?>
-<div>
+    <?php
+    // ini_set('display_errors', 1);
+    // ini_set('display_startup_errors', 1);
+    // error_reporting(E_ALL);
+    include('header.php')
+    ?>
+    <div>
         <div class="bg-shopp"></div>
-        <form class="registration-form" action="" method="post">
-            <label for="nombre">Nombre</label>
-            <input type="text" name="name" id="nombre" required>
-            <label for="apellido">Apellido</label>
-            <input type="text" name="lastname" id="apellido" required>
-            <label for="correo">Correo</label>
-            <input type="email" name="email" id="correo" required>
-            <label for="usuario">Nombre de usuario</label>
-            <input type="text" name="username" id="usuario" required>
-            <label for="password">Contraseña</label>
-            <input type="password" name="psw" id="password" required>
-            <label for="fecha">Fecha de nacimiento</label>
-            <input type="date" id="fecha" name="date" required>
-            <button type="submit">Crear usuario</button>
+        <form class="registration-form" action="?action=registrarse" method="POST">
+            <div class="container-inputs">
+                <label for="nombre">Nombre</label>
+                <input type="text" placeholder="Nombre" name="name" id="nombre" required>
+            </div>
+            <div class="container-inputs">
+                <label for="apellido">Apellido</label>
+                <input type="text" placeholder="Apellido" name="apellido" id="apellido" required>
+            </div>
+            <div class="container-inputs">
+                <label for="correo">Correo</label>
+                <input type="email" placeholder="alguien@example.com" name="email" id="correo" required>
+            </div>
+            <div class="container-inputs">
+                <label for="usuario">Nombre de usuario</label>
+                <input type="text" placeholder="Nombre de usuario" name="username" id="usuario" required>
+            </div>
+            <div class="container-inputs">
+                <label for="password">Contraseña</label>
+                <input type="password" placeholder="Contraseña" name="psw" id="password" required>
+            </div>
+            <div class="container-inputs">
+                <label for="passwd">Repetir contraseña</label>
+                <input type="password" placeholder="Confirmar contraseña" name="confirm_passwd" id="passwd">
+            </div>
+            <div class="container-inputs">
+                <label for="telefono">Número de celular</label>
+                <input type="tel" name="phone" id="telefono">
+            </div>
+            <div class="container-inputs">
+
+                <label for="fecha">Fecha de nacimiento</label>
+                <input type="date" id="fecha" name="fecha_nac" required>
+            </div>
+            <div class="container-inputs">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Ingrese su dirección" name="direccion" required>
+            </div>
+            <div class="container-inputs">
+                <label for="terminos">Acepto los términos y condiciones</label>
+                <input type="checkbox" name="terminos" id="terminos" value="1">
+
+            </div>
+            <div class="buttons-registro">
+                <button class="button-registro" name="submit">Crear usuario</button>
+                <a class="button-registro" href="/cuenta">Ya tienes cuenta?</a>
+            </div>
         </form>
     </div>
+    <?php
 
-<?php 
-include('./footer.php')
-?>
+    include('footer.php')
+    ?>

@@ -2,7 +2,8 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $titulo = testData($_POST['titulo']);
     $descr = testData($_POST['descripcion']);
-    $estado = testData($_POST['estado']);
+    $origen = testData($_POST['origen']);
+    $cantidad = testData($_POST['cantidad']);
     $precio = testData($_POST['precio']);
 
 }

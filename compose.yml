@@ -1,19 +1,32 @@
-version: "4"
+version: "3.8"
 services:
   web:
-    image: php:apache
+    build: .
     volumes:
       - ./proyecto:/var/www/html
+      - ./proyecto/php.ini:/usr/local/etc/php/php.ini
+      - ./php_logs:/var/log/
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
     ports:
       - 80:80
   db: 
-    image: mysql:latest
+    image: mysql:8.0
     volumes:
       - ./proyecto/db:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: dbtest
-      MYSQL_USER: superman
-      MYSQL_PASSWORD: test
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    - MYSQL_ROOT_PASSWORD=passwd123
+    - MYSQL_DATABASE=sigto
+    expose:
+      - "3306"
     ports:
       - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8001:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306

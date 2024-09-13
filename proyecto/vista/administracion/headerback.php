@@ -1,6 +1,7 @@
 <?php
-// session_start();
-// if(isset($_SESSION['username'])) {
+session_start();
+// if(isset($_SESSION['username'])) 
+// {
 
 ?>
 
@@ -25,7 +26,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary py-4">
     <div class="container-fluid px-4" >
     <div class="container-mobile">
-    <a href="/proyecto/index.php"> <h2 class="logo px-3">Mercado Ya!</h2> </a>
+    <a href="/admin"> <h2 class="logo px-3">Mercado Ya!</h2> </a>
     <form class="d-flex searchbar2">
         <input type="text" placeholder="Buscar">
         <div class="searchbtn">
@@ -75,7 +76,7 @@
   <div class="navcontainer">
             <nav class="nav">
                 <div class="nav-upper-options">
-                    <a href="./general.php" class="nav-option option1 active">
+                    <a href="/admin/main" class="nav-option option1 active">
                         <svg width="36px" height="36px" viewBox="0 0 16 16" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                             <g fill="currentColor">
                                 <path fill="currentColor" d="m1 2l1-1h12l1 1v12l-1 1H2l-1-1V2Zm1 
@@ -85,7 +86,7 @@
                         <h3> Panel</h3>
                     </a>
 
-                    <a href="./productos.php" class="nav-option option2">
+                    <a href="/admin/productos" class="nav-option option2">
                     <svg width="36px" height="36px" viewBox="0 0 24 24" 
                         fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                         <g fill="currentColor"><g fill="none" stroke="currentColor" stroke-linejoin="round" 
@@ -97,7 +98,7 @@
                     <h3>Productos</h3>
                     </a>
 
-                    <a href="./estadisticas.php" class="nav-option option3">
+                    <a href="/admin/estadisticas" class="nav-option option3">
                         <svg width="36px" height="36px" viewBox="0 0 36 36" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                             <g fill="currentColor">
                                 <path fill="currentColor" d="M32 5H4a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h28a2 2 0 0 0
@@ -110,7 +111,7 @@
                         <h3>Estadísticas</h3>
                     </a>
 
-                    <a href="./company.php" class="nav-option option4">
+                    <a href="/admin/empresa" class="nav-option option4">
                         <svg width="36px" height="36px" viewBox="0 0 512 512" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                             <g fill="currentColor">
                             <path fill="currentColor" d="M393.674 430.14V448H54.326l.004-17.86zm-13.395-26.791v22.325H67.721V403.35zM100.452
@@ -127,7 +128,7 @@
                         <h3> Empresa</h3>
                     </a>
 
-                    <a href="./profile.php" class="nav-option option5">
+                    <a href="/admin/perfil" class="nav-option option5">
                         <svg width="36px" height="36px" viewBox="0 0 16 16" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                             <g fill="currentColor">
                                 <path fill="currentColor" d="M16 7.992C16 3.58 12.416 0 8 0S0 3.58 0 7.992c0 
@@ -149,7 +150,7 @@
                         <h3> Perfil</h3>
                     </a>
 
-                    <a href="./logout.php" class="nav-option logout">
+                    <a href="/logout" class="nav-option logout">
                         <svg width="36px" height="36px" viewBox="0 0 36 36" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                             <g fill="currentColor">
                                 <path fill="currentColor" d="M7 6h16v9.8h2V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v24a2 2 
@@ -178,8 +179,8 @@
 </html>
 
 <?php
-// } else {
-//     header('Location: ../../index.php');
-//     exit();
-// }
+//  } else {
+    //  header('Location: ../../index.php');
+    //  exit();
+//  }
 ?>
