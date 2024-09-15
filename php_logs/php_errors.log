@@ -81,3 +81,62 @@ Stack trace:
 [13-Sep-2024 23:07:22 UTC] Error: 
 [13-Sep-2024 23:25:32 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
 [13-Sep-2024 23:25:32 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
+[13-Sep-2024 23:33:45 UTC] PHP Fatal error:  Uncaught Exception: Error en la base de datos in /var/www/html/controlador/UsuarioController.php:55
+Stack trace:
+#0 /var/www/html/index.php(115): UsuarioController->validateUser('pablo', '123')
+#1 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 55
+[15-Sep-2024 01:16:17 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/UsuarioController.php:39
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(20): UsuarioController->createUser(Object(Usuario))
+#1 /var/www/html/index.php(67): UsuarioController->create(Array)
+#2 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 39
+[15-Sep-2024 01:16:45 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/UsuarioController.php:39
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(20): UsuarioController->createUser(Object(Usuario))
+#1 /var/www/html/index.php(67): UsuarioController->create(Array)
+#2 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 39
+[15-Sep-2024 01:16:50 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/UsuarioController.php:39
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(20): UsuarioController->createUser(Object(Usuario))
+#1 /var/www/html/index.php(67): UsuarioController->create(Array)
+#2 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 39
+[15-Sep-2024 01:20:12 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/UsuarioController.php:39
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(20): UsuarioController->createUser(Object(Usuario))
+#1 /var/www/html/index.php(67): UsuarioController->create(Array)
+#2 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 39
+[15-Sep-2024 01:22:03 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/UsuarioController.php:39
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(20): UsuarioController->createUser(Object(Usuario))
+#1 /var/www/html/index.php(67): UsuarioController->create(Array)
+#2 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 39
+[15-Sep-2024 01:48:22 UTC] Error: 
+[15-Sep-2024 01:49:05 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 185
+[15-Sep-2024 01:49:05 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 188
+[15-Sep-2024 01:58:29 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 186
+[15-Sep-2024 01:58:29 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 189
+[15-Sep-2024 02:00:21 UTC] Error: 
+[15-Sep-2024 02:04:59 UTC] Error: 
+[15-Sep-2024 02:04:59 UTC] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on bool in /var/www/html/controlador/UsuarioController.php:45
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(20): UsuarioController->createUser(Object(Usuario))
+#1 /var/www/html/index.php(67): UsuarioController->create(Array)
+#2 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 45
+[15-Sep-2024 02:07:31 UTC] Error: 
+[15-Sep-2024 02:07:31 UTC] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on bool in /var/www/html/controlador/UsuarioController.php:45
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(20): UsuarioController->createUser(Object(Usuario))
+#1 /var/www/html/index.php(67): UsuarioController->create(Array)
+#2 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 45
+[15-Sep-2024 02:19:47 UTC] Error: 
+[15-Sep-2024 02:19:47 UTC] PHP Warning:  Undefined variable $userId in /var/www/html/index.php on line 81
+[15-Sep-2024 02:19:47 UTC] PHP Warning:  Array to string conversion in /var/www/html/index.php on line 81
+[15-Sep-2024 02:24:41 UTC] Error: 

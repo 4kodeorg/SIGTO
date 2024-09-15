@@ -31,9 +31,13 @@ session_start();
         <a href="/" class="navbar-brand">
           <h1 class="logo">Mercado Ya</h1>
         </a>
-        <form class="searchbar2" role="search" action="" method="post">
+        <form class="searchbar2" role="search" action="?=search" method="post">
+        <select name="acategory" id="">
+            <option value="0">Todas las categorías</option>
+          </select>
           <label for="busqueda"></label>
-          <input type="text" id="busqueda" name="buscar" placeholder="Encontrá todo lo que buscas">
+          <input type="text" id="busqueda" name="buscar" placeholder="Buscar cualquier artículo">
+          
           <div class="searchbtn" type="submit">
             <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor"
               x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">

@@ -64,15 +64,18 @@ switch ($request) {
                         $data['confirm_passwd'] = password_hash($data['confirm_passwd'], PASSWORD_BCRYPT);
                         if (count($errors) === 0) {
                             $userController = new UsuarioController();
-                            $userId = $userController->create($data);
+                            $newUser = $userController->create($data);
                             // echo "<div class='modal-redirect'>
                             // <div>
                             // <a class='close-modal' href=#close> </a>
                             // <p>Cuenta creada con éxito, redirigiendo al inicio..</p> 
                             // </div>
                             // </div>";
-                            if ($userId) {
-                                header('Location: /?id=' . $userId);
+                            if ($newUser) {
+                                session_start();
+                                $_SESSION['username'] = $newUser['username'];
+                                $_SESSION['id'] = $newUser['id'];
+                                header('Location: /?id=' . $newUser['id']);
                                 exit();
                             } else {
                                 echo "Error al crear el usuario" . $userId . "\n" . $data;

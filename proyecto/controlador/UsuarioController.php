@@ -41,10 +41,17 @@ class UsuarioController extends Database
         );
         error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {
-            return $this->conn->insert_id;
+            $query = 'SELECT * FROM usuarios WHERE id='.$this->conn->insert_id.';';
+            $stmtn = $this->conn->prepare($query);
+            if($stmtn->execute()) {
+                $res = $stmtn->get_result();
+                if( $res->num_rows == 1 ) {
+                    return $res->fetch_assoc();
+                }
         } else {
             throw new Exception("Error al crear usuario");
         }
+    }
     }
     public function validateUser($username, $password) {
         

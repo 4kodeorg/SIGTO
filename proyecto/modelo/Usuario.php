@@ -9,7 +9,7 @@ class Usuario {
     private string $password;
     private string $email;
     private string $fecha_nac;
-    private int $telefono;
+    private string $telefono;
     private string $direccion;
     private string $seg_direccion;
 
