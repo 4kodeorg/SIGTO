@@ -31,6 +31,7 @@ session_start();
         <a href="/" class="navbar-brand">
           <h1 class="logo">Mercado Ya</h1>
         </a>
+        <div class="search-form-container">
         <form class="searchbar2" role="search" action="?=search" method="post">
         <select name="acategory" id="">
             <option value="0">Todas las categorías</option>
@@ -48,6 +49,7 @@ session_start();
             </svg>
           </div>
         </form>
+        </div>
       </div>
 
       <ul class="ul-for-nav">
