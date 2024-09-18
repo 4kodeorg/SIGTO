@@ -32,33 +32,33 @@ session_start();
           <h1 class="logo">Mercado Ya</h1>
         </a>
         <div class="search-form-container">
-        <form class="searchbar2" role="search" action="?=search" method="post">
-        <select name="acategory" id="">
-            <option value="0">Todas las categorías</option>
-          </select>
-          <label for="busqueda"></label>
-          <input type="text" id="busqueda" name="buscar" placeholder="Buscar cualquier artículo">
-          
-          <div class="searchbtn" type="submit">
-            <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor"
-              x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
-              <g fill="currentColor">
-                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                  d="m42.501 42.5l-7.351-7.776a17.244 17.244 0 1 0-7.075 4.422" />
-              </g>
-            </svg>
-          </div>
-        </form>
+          <form class="searchbar2" role="search" action="?=search" method="post">
+            <select name="acategory" id="">
+              <option value="0">Todas las categorías</option>
+            </select>
+            <label for="busqueda"></label>
+            <input type="text" id="busqueda" name="buscar" placeholder="Buscar cualquier artículo">
+
+            <div class="searchbtn" type="submit">
+              <svg width="36px" height="36px" viewBox="0 0 48 48" fill="currentColor"
+                x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                <g fill="currentColor">
+                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    d="m42.501 42.5l-7.351-7.776a17.244 17.244 0 1 0-7.075 4.422" />
+                </g>
+              </svg>
+            </div>
+          </form>
         </div>
       </div>
 
       <ul class="ul-for-nav">
         <?php
         if (isset($_SESSION['username'])) {
-        $username = $_SESSION['username'];
-        echo '<li class="nav-item dropdown">
+          $username = $_SESSION['username'];
+          echo '<li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" 
-        aria-expanded="false">Hola '. ucfirst($username) .' </a>
+        aria-expanded="false">Hola ' . ucfirst($username) . ' </a>
         <ul class="dropdown-menu drodown-menu-end">
         <li><a class="dropdown-item" href="/perfil">Mi perfil </a> </li>
         <li><a class="dropdown-item" href="/perfil">Favoritos </a> </li>
@@ -70,7 +70,7 @@ session_start();
 
         ?>
         <?php
-        } else { 
+        } else {
           echo '<li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         Mi cuenta
@@ -83,8 +83,8 @@ session_start();
         <li><a class="dropdown-item" href="/cuenta">Inicia sesión</a></li>
 
         </ul>
-        </li>'; 
-      }
+        </li>';
+        }
         ?>
         <li class="nav-item">
           <a href="" class="nav-link">Ayuda</a>
@@ -135,7 +135,7 @@ session_start();
       <h5 class="offcanvas-title" id="offcanvasExampleLabel">Mercado Ya &copy;</h5>
     </div>
     <div class="offcanvas-body">
-      <ul>
+      <ul class="ul-sidebar-menu">
         <div class="business-logo">
           <svg
             width="40px" height="40px" viewBox="0 0 48 48" fill="currentColor"
@@ -154,6 +154,11 @@ session_start();
           <h2 class="logo">Mercado Ya!</h2>
         </div>
         <div class="menu-normal">
+          <?php
+          if (isset($_SESSION['username'])) {
+            echo '<p class="logo">Hola '.ucfirst($_SESSION['username']).'</p>';
+          
+          ?>
           <a href="/" class="menu-normal-actions active">
             <svg
               width="28px" height="28px" viewBox="0 0 16 16"
@@ -165,6 +170,45 @@ session_start();
               </g>
             </svg>
             Inicio</a>
+          <?php 
+            echo '
+            <a href="/perfil" class="menu-normal-actions">
+            <svg width="28px" height="28px" viewBox="0 0 32 32"
+              fill="currentColor" x="217" y="217" role="img"
+              xmlns="http://www.w3.org/2000/svg">
+              <g fill="currentColor">
+                <path fill="none"
+                  stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="2"
+                  d="M22 11c0 5-3 9-6 9s-6-4-6-9s2-8 6-8s6 3 6 8ZM4 30h24c0-9-6-10-12-10S4 21 4 30Z" />
+              </g>
+            </svg>
+            Mi perfil</a>
+            <a href="/perfil" class="menu-normal-actions">
+            <svg width="28px" 
+            height="28px" viewBox="0 0 24 24" fill="currentColor" x="128" y="128" 
+            role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor">
+            <path fill="currentColor" fill-rule="evenodd" 
+            d="M10.486 4.114c.675-1.162 2.353-1.162 3.028 0l2.065 3.56c.19.328.52.551.895.608l3.43.518c1.494.226 2.018 2.114.854 3.078l-2.499 2.07a1.25 1.25 0 0 0-.43 1.197l.7 3.676c.274 1.44-1.238 2.558-2.535 1.876L12.582 18.9a1.25 1.25 0 0 0-1.164 0l-3.412 1.797c-1.297.683-2.809-.436-2.535-1.876l.7-3.676a1.25 1.25 0 0 0-.43-1.197l-2.5-2.07c-1.163-.964-.64-2.852.856-3.078l3.43-.518a1.25 1.25 0 0 0 .894-.609l2.065-3.559Zm1.73.753a.25.25 0 0 0-.432 0l-2.066 3.56a2.75 2.75 0 0 1-1.967 1.338l-3.43.518a.25.25 0 0 0-.122.44l2.499 2.07a2.75 2.75 0 0 1 .947 2.632l-.7 3.676a.25.25 0 0 0 .362.268l3.412-1.796a2.75 2.75 0 0 1 2.562 0l3.412 1.796a.25.25 0 0 0 .362-.268l-.7-3.676a2.75 2.75 0 0 1 .947-2.632l2.5-2.07a.25.25 0 0 0-.123-.44l-3.43-.518a2.75 2.75 0 0 1-1.967-1.339l-2.066-3.559Z" clip-rule="evenodd"/></g>
+            </svg>
+            Mis favoritos</a>
+            <a href="/perfil" class="menu-normal-actions">
+            <svg width="28px" height="28px" viewBox="0 0 32 32" fill="currentColor" x="217" y="217" role="img" xmlns="http://www.w3.org/2000/svg">
+              <g fill="currentColor">
+                <path fill="currentColor" d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12a12 12 0 0 1-12 12Z" />
+                <circle cx="16" cy="23.5" r="1.5" fill="currentColor" />
+                <path fill="currentColor" d="M17 8h-1.5a4.49 4.49 0 0 0-4.5 4.5v.5h2v-.5a2.5 2.5 0 0 1 2.5-2.5H17a2.5 2.5 0 0 1 0 5h-2v4.5h2V17a4.5 4.5 0 0 0 0-9Z" />
+              </g>
+            </svg>
+            Ayuda</a>
+            <a href="/logout" class="menu-normal-actions">
+            <svg width="28px" height="28px" viewBox="0 0 24 24" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path fill="currentColor" d="M12 18.25a.75.75 0 0 0 0 1.5h6A1.75 1.75 0 0 0 19.75 18V6A1.75 1.75 0 0 0 18 4.25h-6a.75.75 0 0 0 0 1.5h6a.25.25 0 0 1 .25.25v12a.25.25 0 0 1-.25.25h-6Z"/><path fill="currentColor" fill-rule="evenodd" d="M14.503 14.365c.69 0 1.25-.56 1.25-1.25v-2.24c0-.69-.56-1.25-1.25-1.25H9.89a26.723 26.723 0 0 0-.02-.22l-.054-.556a1.227 1.227 0 0 0-1.751-.988a15.059 15.059 0 0 0-4.368 3.163l-.099.104a1.253 1.253 0 0 0 0 1.734l.1.103a15.06 15.06 0 0 0 4.367 3.164a1.227 1.227 0 0 0 1.751-.988l.054-.556l.02-.22h4.613Zm-5.308-1.5a.75.75 0 0 0-.748.704c-.019.29-.042.581-.07.871l-.016.162a13.562 13.562 0 0 1-3.516-2.607a13.558 13.558 0 0 1 3.516-2.607l.016.162c.028.29.051.58.07.871a.75.75 0 0 0 .748.704h5.058v1.74H9.195Z" clip-rule="evenodd"/></g>
+            </svg>
+            Cerrar sesión</a>
+            ';
+          }
+          else {
+          ?>
           <a href="/cuenta" class="menu-normal-actions">
             <svg width="28px" height="28px" viewBox="0 0 32 32"
               fill="currentColor" x="217" y="217" role="img"
@@ -189,6 +233,9 @@ session_start();
             </svg>
             Ayuda</a>
         </div>
+        <?php
+          }
+          ?>
         <a class="opinions">
           <svg width="28px" height="28px" viewBox="0 0 32 32"
             fill="currentColor" x="217" y="217" role="img"

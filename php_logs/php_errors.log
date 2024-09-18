@@ -140,3 +140,6 @@ Stack trace:
 [15-Sep-2024 02:19:47 UTC] PHP Warning:  Undefined variable $userId in /var/www/html/index.php on line 81
 [15-Sep-2024 02:19:47 UTC] PHP Warning:  Array to string conversion in /var/www/html/index.php on line 81
 [15-Sep-2024 02:24:41 UTC] Error: 
+[18-Sep-2024 14:52:31 UTC] Error: 
+[18-Sep-2024 18:04:02 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /var/www/html/index.php on line 188
+[18-Sep-2024 18:04:02 UTC] PHP Warning:  session_regenerate_id(): Session ID cannot be regenerated when there is no active session in /var/www/html/index.php on line 191

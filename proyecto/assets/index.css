@@ -278,6 +278,7 @@ span>.arrow-left ,span>.arrow-right{
 .ul-for-nav a {
     text-decoration: none;
     color: #002000;
+    margin: 0 10px;
     width: auto;
 }
 .nav-item >.dropdown-menu li {
@@ -483,7 +484,8 @@ ul {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    height: 80%;
+    height: 100%;
+    gap: 1rem;
     border-bottom: .5px solid #020202;
     margin: 2rem;
 }
@@ -491,18 +493,25 @@ ul {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: .5rem;
+    gap: 1rem;
     padding: 1rem 0;
     
 }
 .end-page-ul {
     gap: 1rem;
 }
-ul a {
+.ul-sidebar-menu {
+    height: 80%;
+    width: auto;
+}
+.ul-sidebar-menu a {
+    display: flex;
     text-decoration: none;
     color: #020202;
-    margin: 0 12px;
-    align-self: center;
+    padding: 8px;
+    align-items: center;
+    gap: 1rem;
+    justify-content: start;
 }
 #cart-responsive {
     display: none;
