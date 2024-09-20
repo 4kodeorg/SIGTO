@@ -5,5 +5,5 @@
 # Para ejectuarlo desde otra maquina virtual para hacer los respaldos en la misma hay que crear sus respectivas claves
 # Rregistrar la clave publica en el servidor host y luego cambiar el path de destino de la copia
 scp sysadmin@192.168.1.22:/temp/data /Users/estebanmartinez/Documents/sigtodata
-rm -rf sysadmin@192.168.1.22:/temp/data/
+rm -rf sysadmin@192.168.1.22:/temp/data
 exit
