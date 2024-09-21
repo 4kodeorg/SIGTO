@@ -94,6 +94,16 @@ a {
 .iniciar-carrito a:hover{
     background-color: #f3ca65;
 }
+.nav-link.message {
+    padding: 4px;
+}
+.nav-link.message > img {
+    width: 36px;
+    height: 36px;
+    padding: 2px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+}
 .message {
     position: relative;
 }
@@ -273,6 +283,7 @@ span>.arrow-left ,span>.arrow-right{
 .ul-for-nav {
     display: flex;
     list-style-type: none;
+    align-items: center;
     margin: auto;
 }
 .ul-for-nav a {
