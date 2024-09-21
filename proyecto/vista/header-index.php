@@ -24,7 +24,7 @@ session_start();
 </head>
 
 <body>
-
+  <div class="container-fluid navigation">
   <nav class="navbar navbar-expand-lg bg-body-tertiary px-4 py-4">
     <div class="container-fluid px-4">
       <div class="brand-container">
@@ -120,6 +120,7 @@ session_start();
     </div>
 
   </nav>
+  </div>
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar-menu" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasExampleLabel">Mercado Ya &copy;</h5>

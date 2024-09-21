@@ -269,8 +269,16 @@ span>.arrow-left ,span>.arrow-right{
     width: 100%;
     align-items: flex-start;
 }
+.container-fluid.navigation {
+position: relative;
+height: 200px;
+}
 .navbar {
     margin: auto;
+    position: fixed;
+    width: 100%;
+    z-index: 993;
+    top: 0;
     padding: 1.5rem 1rem;
 }
 .btn-primary {
