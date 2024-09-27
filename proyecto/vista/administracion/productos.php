@@ -1,6 +1,4 @@
 <?php
-// session_start();
-// if(isset($_SESSION['username'])) {
 require('headerback.php')
 ?>
 
@@ -104,36 +102,38 @@ require('headerback.php')
             </tbody>
         </table>
         <div class="product-form">
+           <div id="sub-product" class="added-product">
+            <p></p>
+            <svg onclick="this.parentElement.style.display=`none`";
+            width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor" 
+            x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6"/><circle cx="12" cy="12" r="10"/></g></g>
+            </svg>
+           
+            </div>
+           
             <form
+                id="add_product_form"
                 action="?action=agregar_producto"
                 method="POST"
                 class="form-product">
                 <label for="titulo">Nombre del producto</label>
-                <input id="titulo" type="text" name="titulo" required>
+                <input id="titulo" placeholder="Título del producto" type="text" name="titulo" required>
 
                 <label for="descr">Descripción</label>
-                <input id="descr" type="text" name="descripcion" required>
+                <input id="descr" placeholder="Descripción del producto" type="text" name="descripcion" required>
 
                 <label for="origen">Origen</label>
-                <input type="text" name="origen" id="origen" required>
+                <input type="text" placeholder="Origen del producto" name="origen" id="origen" required>
 
                 <label for="cantidad">Cantidad de unidades</label>
-                <input type="text" name="cantidad" id="cantidad" required>
+                <input type="text" placeholder="Stock del producto" name="cantidad" id="cantidad" required>
 
                 <label for="precio">Precio</label>
-                <input id="precio" type="text" name="precio" required>
+                <input id="precio" placeholder="Precio del producto en pesos" type="text" name="precio" required>
 
-                <button name="submit" type="submit">Agregar producto</button>
+                <button class="send-product" name="submit" type="button" onclick="productsForm()">Agregar producto</button>
             </form>
         </div>
     </div>
 </div>
 </div>
-
-<?php
-
-// } else {
-//     header('Location: ../../index.php');
-//     exit();
-// }
-?>

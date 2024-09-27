@@ -226,8 +226,6 @@ a {
   justify-content: space-between;
   padding: 20px 20px 10px 20px;
 }
-
-
 .view {
   width: 110px;
   border-radius: 8px;
@@ -235,7 +233,31 @@ a {
   color: white;
   border: none;
 }
-
+.added-product {
+  display: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff8800;
+}
+.added-product p {
+  margin: 0;
+  color: #fff;
+  font-size: 1.123rem;
+}
+.added-product svg {
+  color: #fff;
+  cursor: pointer;
+}
+.send-product {
+  background-color: #ff8800;
+  color: #fff;
+  padding: .8rem;
+  margin: 12px 0;
+  width: 60%;
+}
 .product-form {
     width: 100%;
     margin: auto;

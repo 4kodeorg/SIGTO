@@ -1,12 +1,12 @@
     <?php
-    // ini_set('display_errors', 1);
-    // ini_set('display_startup_errors', 1);
-    // error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     include('header.php')
     ?>
     <div>
         <div class="bg-shopp"></div>
-        <form class="registration-form" action="?action=registrarse" method="POST">
+        <form id="registration-form" class="registration-form" action="?action=registrarse" method="POST">
             <div class="container-inputs">
                 <label for="nombre">Nombre</label>
                 <input type="text" placeholder="Nombre" name="name" id="nombre" required>
@@ -49,13 +49,33 @@
                 <input type="checkbox" name="terminos" id="terminos" value="1">
 
             </div>
+            <section id="register-message" class="registration-message">
+                <p></p>
+                <svg onclick="this.parentElement.style.display=`none`" ;
+                    width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor"
+                    x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="currentColor">
+                        <g fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6" />
+                            <circle cx="12" cy="12" r="10" />
+                        </g>
+                    </g>
+                </svg>
+            </section>
             <div class="buttons-registro">
-                <button class="button-registro" name="submit">Crear usuario</button>
-                <a class="button-registro" href="/cuenta">Ya tienes cuenta?</a>
+            <a class="button-registro" href="/cuenta">Ya tienes cuenta?</a>
+                <button class="button-registro" type="button" name="submit" onclick="registrationForm()">Crear usuario</button>
+                
             </div>
         </form>
     </div>
+    <div id="modal-redirect" class='modal-redirect'>
+        <div>
+            <a class='close-modal' href=#close> </a>
+            <p>Cuenta creada con éxito, redirigiendo al inicio..</p>
+        </div>
+    </div>
     <?php
 
-    include('footer.php')
-    ?>
+    include('footer.php');
+ 

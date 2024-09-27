@@ -38,6 +38,15 @@ class ProductController extends Database {
             throw new Exception("Error al crear producto");
         }
     }
+    public function getProductsByLimit() {
+        $query = 'SELECT * FROM productos LIMIT 15;';
+        $stmt = $this->conn->prepare($query);
+        try {
+            return $stmt->execute();
+        } catch (Exception $err) {
+            echo "Error en la base de datos" .$err->getMessage();
+        }
+    }
 
 }
 

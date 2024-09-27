@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 // if(isset($_SESSION['username'])) 
 // {
 
@@ -19,6 +19,8 @@ session_start();
     <link rel="stylesheet" href="../../assets/backstyle.css">
     <!-- <script src="../../assets/main.js" defer></script> -->
     <link rel="stylesheet" href="../../assets/backresponsive.css">
+
+    <script src="../../assets/js/backoff.js" defer></script>
 </head>
 
 <body>
@@ -180,7 +182,7 @@ session_start();
 
 <?php
 //  } else {
-    //  header('Location: ../../index.php');
-    //  exit();
+//      header('Location: /cuenta');
+//      exit();
 //  }
 ?>

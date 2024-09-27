@@ -1,6 +1,5 @@
 <?php
 
-// if(isset($_SESSION['username'])) {
 require('headerback.php')
 ?>
 
@@ -74,7 +73,7 @@ require('headerback.php')
     <thead>
         <div class="report-header">
         <h2 class="pt-5">Articulos recientes</h2>
-        <a href="/productos" class="view mt-5 px-3 py-1">Ver todos</a>
+        <a href="/admin/productos" class="view mt-5 px-3 py-1">Ver todos</a>
         </div>
         <hr>
             <tr>
@@ -105,11 +104,3 @@ require('headerback.php')
 
 </div>
 </div>
-
-<?php
-// }
-// else {
-//     header('Location: ../../index.php');
-//     exit();
-// }
-?>

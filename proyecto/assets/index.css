@@ -1,13 +1,21 @@
+@font-face {
+    font-family: titleFont;
+    src: url(./fonts/santor.otf);
+}
+
 :root {
     --background-color1: #fafaff;
     --background-color2: #ffffff;
     --background-color3: #ededed;
-    --background-color4: #cad7fda4;
+    --background-color4: #939393c3;
     --primary-color: #ffd000;
     --secondary-color: #ffc300;
     --Border-color: #ffb700;
     --stats-use-color: #ff8800;
-    --two-use-color: #ffea00;    
+    --two-use-color: #ffea00;   
+    --cart-counter : #f6e6373b;
+    --main-brand-color: #2f8d46; 
+    --main-hover-color: #4d8c5d;
  }
 
 * {
@@ -56,8 +64,7 @@ a {
     width: 100%;
     border-radius: 50px 25px 25px 50px;
     border: 3px solid var(--secondary-color);
-    background-color: var(--background-color3);
-    /* max-width: 420px; */
+    background-color: var(--gradient-bg-color);
     min-width: 300px;
     justify-content: center;
   }
@@ -87,8 +94,8 @@ a {
     padding: 1rem;
     margin-bottom: 1.5rem;
     font-weight: 600;
-    background-color: #ffb700;
-    border-radius: 12px;
+    background-color: var(--Border-color);
+    border-radius: 6px;
     border: 1px solid #020202;
 }
 .iniciar-carrito a:hover{
@@ -98,9 +105,10 @@ a {
     padding: 4px;
 }
 .nav-link.message > img {
-    width: 36px;
-    height: 36px;
-    padding: 2px;
+    width: 42px;
+    height: 42px;
+    margin: 4px;
+    padding: 6px;
     border-radius: 50%;
     background-color: var(--secondary-color);
 }
@@ -110,16 +118,18 @@ a {
 .logo {
     font-size: clamp(22px, 1.67rem, 2.11rem);
     font-weight: 600;
-    color: rgb(47, 141, 70);
+    font-family: titleFont, serif;
+    color: var(--main-brand-color);
   }
   .circle {
     position: absolute;
-    color: #f12727;
-    background-color: rgba(255, 232, 29, 0.898);
-    left: 25px;
-    font-weight: 800;
-    top: 12px;
-    border-radius: 6px;
+    left: 28px;
+    font-weight: 600;
+    top: 2px;
+  }
+  .circle small {
+    background-color: var(--cart-counter);
+    border-radius: 80%;
   }
 
 .container-gallery {
@@ -128,6 +138,19 @@ a {
    min-height: 380px;
    height: 100%;
    overflow: hidden;
+}
+.navbar-brand {
+    width: max-content;
+    clip-path: polygon(27.5% 0%, 100% 33.25%, 79.27% 86.85%, 0% 75.25%);
+    background-color: var(--main-brand-color); 
+}
+.navbar-brand:hover {
+    background-color: var(--main-hover-color);
+}
+.navbar-brand>.logo {
+    color: #fff;
+    width: 80%;
+    padding: 1rem 2.23rem;
 }
 .gallery-section {
     display: flex;
@@ -183,8 +206,8 @@ span>.arrow-left ,span>.arrow-right{
     background-color: inherit;
     border-radius: 100px;
     font-weight: 600;
-    color: #2f8d46;
-    box-shadow: 0 0 0 2px #2f8d46;
+    color: var(--main-brand-color);
+    box-shadow: 0 0 0 2px var(--main-brand-color);
     cursor: pointer;
     overflow: hidden;
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
@@ -193,7 +216,7 @@ span>.arrow-left ,span>.arrow-right{
 .hero-button svg {
     position: absolute;
     width: 24px;
-    fill: #2f8d46;
+    fill: var(--main-brand-color);
     z-index: 9;
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
   }
@@ -213,7 +236,7 @@ span>.arrow-left ,span>.arrow-right{
     transform: translate(-50%, -50%);
     width: 20px;
     height: 20px;
-    background-color: #2f8d46;
+    background-color: var(--main-brand-color);
     border-radius: 50%;
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
@@ -267,7 +290,7 @@ span>.arrow-left ,span>.arrow-right{
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    align-items: flex-start;
+    align-items: center;
 }
 .container-fluid.navigation {
 position: relative;
@@ -320,6 +343,9 @@ height: 200px;
     max-width: 300px;
     padding: 1.5rem 1rem;
 }
+.div-for-product:hover {
+    transform: scale(1.023);
+}
 .div-for-product figure {
     margin: auto;
 }
@@ -335,25 +361,32 @@ height: 200px;
     font-size: .7rem;
 }
 .span-old-price {
-    font-size: 12px;
+    font-size: 8px;
     text-decoration-line: line-through;
 }
 .span-price {
     background-color: transparent;
     box-shadow:0 0.5rem .5rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
-    font-size: 14px;
+    font-size: 10px;
     font-weight: bold;
     border-radius: 6px;
     padding: 7px;
     margin-right: 10px; 
 }
-.button-action {
-    background-color: #ff5252;
-    padding: 6px 8px;
-    color: #fff;
-    font-weight: 650;
-    cursor: pointer;
-    border-radius: 6px;
+.add-item-cart {
+    width: 100%;
+    padding: 7px;
+    text-align: center;
+    border-radius: 12px;
+    font-size: .87rem;
+    background: rgb(255,183,0);
+    background: linear-gradient(145deg, rgba(255,183,0,0.5382746848739496) 4%, rgba(247,253,65,0.8688068977591037) 49%, rgba(255,183,0,0.5774903711484594) 93%);
+    box-shadow:  6px 6px 12px #c1c1c1,
+             -6px -6px 12px #ffffff;
+}
+.add-item-cart:hover {
+    background: rgb(255,248,0);
+    background: linear-gradient(145deg, rgba(255,248,0,0.7007396708683473) 4%, rgba(255,183,0,1) 49%, rgba(255,248,0,0.8267900910364145) 93%);
 }
 .img-product {
     max-width: 150px;
@@ -416,7 +449,7 @@ height: 200px;
     font-weight: bolder;
 }
 a >.error-link {
-    background-color: #2f8d46;
+    background-color: var(--main-brand-color);
     padding: 8px;
 }
 @keyframes scroll {
@@ -445,6 +478,10 @@ ul {
     width: 90%;
     margin: auto;
     border-bottom: .5px solid #000;
+}
+.container-ul-footer> ul a {
+    margin: 0 12px;
+    align-self: center;
 }
 .div-for-small {
     width: 100%;
@@ -519,6 +556,9 @@ ul {
 .end-page-ul {
     gap: 1rem;
 }
+.end-page-ul a{
+    margin: 8px 3px;
+}
 .ul-sidebar-menu {
     height: 80%;
     width: auto;
@@ -563,7 +603,7 @@ ul {
     }
 
 }
-@media (width <= 920px) {
+@media (width <= 950px) {
     .ul-for-nav {
         display: none;
     }

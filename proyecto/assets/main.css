@@ -1,3 +1,20 @@
+@font-face {
+    font-family: titleFont;
+    src: url(./fonts/santor.otf);
+}
+
+:root {
+
+    --background-color3: #ededed;
+    --background-hover : #e2e2e2b5;
+
+    --Border-color: #ffb700;
+
+    --main-brand-color: #2f8d46; 
+
+    --background-color4: #939393c3;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,22 +25,35 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    background-color: #ffd58d;
-    padding: 1rem 0;
-}
+    background-color: var(--background-color3);
+    padding: 2rem 0;
 
+}
+.header-store a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #020202;
+    width: 30%;
+    text-decoration: none;
+}
 .header-store svg {
-    color: #923737;
+    color: var(--main-brand-color);
     margin: 0 1rem;
     border-bottom: 1px solid #000;
-    border-radius: 30%;
-   
-}
-.header-section {
-    text-align: left;
-    padding: 0 1rem;
+    border-radius: 30%;  
 }
 
+.header-section {
+    text-align: center;
+    padding: 0 1rem;
+    width: 100%;
+    color: var(--main-brand-color);
+
+}
+.header-section h1 {
+    font-family: titleFont, serif;
+}
 .bg-image {
     background-image: url('./imgs/ecommercebg.jpeg');
     background-repeat: no-repeat;
@@ -41,6 +71,24 @@
 }
 
 /* Login CSS */
+.container-mssg-login {
+    display: none;
+    width: 70%;
+    padding: 12px;
+    border-radius: 8px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff0f0;
+}
+.container-mssg-login> p {
+    color: #bd5a5a;
+    font-size: 1.123rem;
+    margin: 0;
+}
+.container-mssg-login> svg {
+    color: #020202;
+    cursor: pointer;
+}
 
 .login-form {
     display: flex;
@@ -66,23 +114,21 @@
     align-self: center;
 }
 .login-form button, .form-helpers a {
+    border-radius: 6px;
+    background: rgb(255,183,0);
+background: linear-gradient(145deg, rgba(255,183,0,0.5382746848739496) 4%, rgba(247,253,65,0.8688068977591037) 49%, rgba(255,183,0,0.5774903711484594) 93%);
+    box-shadow:  6px 6px 12px #c1c1c1,
+             -6px -6px 12px #ffffff;
     padding: 1rem .6rem;
     cursor: pointer;
-    background-color: #ffd997;
-    font-weight: 650;
     font-size: 1.123rem;
     margin: .5rem auto;
-    border: .5px solid #000;
     color: #000;
-    border-radius: 12px;
 }
-.login-form button:hover {
-    background-color: #f4b952;
+.login-form button:hover, .form-helpers a:hover {
+    background: rgb(255,248,0);
+    background: linear-gradient(145deg, rgba(255,248,0,0.7007396708683473) 4%, rgba(255,183,0,1) 49%, rgba(255,248,0,0.8267900910364145) 93%);
 }
-.form-helpers a:hover{
-    background-color: #f4b952;
-}
-
 /*  */
 
 /* Registro CSS */
@@ -143,16 +189,18 @@ input[type="checkbox"] {
     padding: 1rem;
     color: #000;
     cursor: pointer;
-    border: .5px solid #000;
-    text-transform: uppercase;
     border-radius: 4px;
-    background-color: #ffd997;
+    background: rgb(255,183,0);
+    background: linear-gradient(145deg, rgba(255,183,0,0.5382746848739496) 4%, rgba(247,253,65,0.8688068977591037) 49%, rgba(255,183,0,0.5774903711484594) 93%);
+    box-shadow:  6px 6px 12px #c1c1c1,
+             -6px -6px 12px #ffffff;
 }
 .button-registro:hover {
-    background-color: #f4b952;
+    background: rgb(255,248,0);
+    background: linear-gradient(145deg, rgba(255,248,0,0.7007396708683473) 4%, rgba(255,183,0,1) 49%, rgba(255,248,0,0.8267900910364145) 93%);
 }
 .footer-commerce { 
-    background-color: #ffd58df2;
+    background-color: var(--background-color3);
     padding: 1rem auto;
     text-align: center;
 }
@@ -161,6 +209,17 @@ input[type="checkbox"] {
     width: 90%;
     margin: auto;
     border-bottom: .5px solid #000;
+}
+.container-ul-footer>ul a li {
+    padding: 4px;
+}
+.end-page-ul li {
+    margin: auto;
+    padding: 6px 8px;
+    width: max-content;
+}
+.container-ul-footer>ul li:hover, .end-page-ul li:hover {
+    background: #dfdedebc;
 }
 .ul-footer-one, .ul-footer-two {
     padding: 1rem 6px;
@@ -177,6 +236,7 @@ ul a {
     margin: 0 12px;
     align-self: center;
 }
+
 .errorsp {
     font-size: 1rem;
     padding: 6px;
@@ -184,9 +244,26 @@ ul a {
     color: #c12727;
     border-radius: 4px;
 }
-
+.registration-message {
+    display: none;
+    align-items: center;
+    border: .5px solid #c12727;
+    background-color: #f2f2f2;
+    padding: .5rem;
+    justify-content: space-between;
+}
+.registration-message p {
+    margin: 0;
+    text-align: center;
+    font-size: 1.212rem;
+}
+.registration-message svg {
+    color: #000;
+    cursor: pointer;
+}
 .modal-redirect {
     position: fixed;
+    display: none;
     font-family: system-ui, serif;
     top: 0;
     right: 0;
@@ -226,6 +303,10 @@ ul a {
     margin: 1rem auto;
     justify-content: space-evenly;
     align-items: center;
+}
+
+.tienda-copy {
+    color: var(--main-brand-color);
 }
 @media (width > 1024px) {
     .end-page-ul {

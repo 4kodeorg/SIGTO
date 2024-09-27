@@ -1,6 +1,6 @@
 <div class="container-gallery">
 <section class="gallery-section">
-    <img src="../assets/imgs/vrpro-bg.png" alt="">
+    
     <article>
     <h5>Los últimos descuentos en tecnología los encontras acá</h5>
     <button class="hero-button">
@@ -17,12 +17,11 @@
         ></path>
         </svg>
 </button>
-
-
     </article>
+    <img src="../assets/imgs/vrpro-bg.png" alt="">
 </section>
 <section class="gallery-section">
-    <img src="../assets/imgs/oeeman.png" alt="">
+    
     <article>
     <h5>Ultima oportunidad para aprovechar estos descuentos</h5>
     <button class="hero-button">
@@ -40,9 +39,10 @@
         </svg>
 </button>
     </article>
+    <img src="../assets/imgs/oeeman.png" alt="">
 </section>
 <section class="gallery-section">
-    <img src="../assets/imgs/phoneup.png" alt="">
+    
     <article>
         <h5>No esperes más, los últimos celulares a precios imperdibles</h5>
     <button class="hero-button">
@@ -60,6 +60,7 @@
         </svg>
 </button>
     </article>
+    <img src="../assets/imgs/phoneup.png" alt="">
 </section>
 <div class="container-controlls">
     <span>

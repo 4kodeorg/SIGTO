@@ -1,8 +1,5 @@
 <?php
-// LAS RUTAS DEL BACK OFFICE SON RUTAS PROTEGIDAS SE VERIFICA LA SESION ANTES DE PERMITIR ACCESO
-// session_start();
 
-// if(isset($_SESSION['username'])) {
 require('headerback.php');
 ?>
 
@@ -76,10 +73,3 @@ require('headerback.php');
 </div>
 </div>
 </div>
-<?php 
-// } else {
-//     // SI EL USUARIO NO ESTA AUTENTICADO / AUTORIZADO SE REDIRECCIONA A UNA RUTA PUBLICA
-//     header('Location: ../../index.php');
-//     exit();
-// }
-?>

@@ -61,14 +61,16 @@ class UsuarioController extends Database
         if (!$stmt) {
             throw new Exception("Error en la base de datos");
         }
-        $stmt->bind_param('s', $paramUsername);
-        
         $paramUsername = $username;
+        $stmt->bind_param('s', $paramUsername);
 
         if($stmt->execute()) {
             $res = $stmt->get_result();
             if( $res->num_rows == 1 ) {
                 $usuario = $res->fetch_assoc();
+                if (!$usuario) {
+                    return false;
+                }
                 $passwd = $usuario['passw'];
                 if (password_verify($password, $passwd)) {
                     return $usuario;

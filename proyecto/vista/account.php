@@ -1,22 +1,39 @@
 <?php
-
+   ini_set('display_errors', 1);
+   ini_set('display_startup_errors', 1);
+   error_reporting(E_ALL);
+  //  if (isset($_SESSION['username']) || isset($_SESSION['id']))
+  //       {
+  //           if (session_status() === PHP_SESSION_NONE) {
+  //               session_start();
+  //           }
+  //           header('Location: /');
+  //           exit();
+  //       }
 include('header.php');
+
 ?>
 
   <main class="main-form-container">
     <div class="form-login-container">
 
-      <form class="login-form" action="?action=1" method="post">
+      <form id="login-form" class="login-form" action="?action=1" method="post">
         <label for="username">Usuario</label>
-        <input type="username" name="username" placeholder="Ingresar usuario" id="username" required>
+        <input type="text" name="username" placeholder="Correo electrónico" id="username" required>
         <label for="password">Contraseña</label>
         <input type="password" placeholder="Contraseña" name="passwd" id="password" required>
-     
-        <button name="submit" type="submit">Iniciar sesión</button>
-
+      <section id="login-message" class="container-mssg-login">
+        <p></p>
+        <svg onclick="this.parentElement.style.display=`none`";
+            width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor" 
+            x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6"/><circle cx="12" cy="12" r="10"/></g></g>
+            </svg>
+    </section>
+        <button name="submit" type="button" onclick="loginForm()">Iniciar sesión</button>
+   
         <div class="form-helpers">
           <a href="">
-            <span>Olvidè mi contraseña</span>
+            <span>Olvidé mi contraseña</span>
           </a>
           <a href="/registro">
             <span>Registrarse</span>
@@ -30,5 +47,5 @@ include('header.php');
   </main>
 <?php
 
-include('footer.php')
-?>
+include('footer.php');
+

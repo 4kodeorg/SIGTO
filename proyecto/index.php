@@ -1,7 +1,7 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $request = trim($_SERVER['REQUEST_URI'], '/');
 $request = strtok($request, '?');
@@ -17,11 +17,18 @@ function renderPage($page)
         echo "404 - Page not found";
     }
 }
-function renderBackOffice($page)
+function renderBackOffice($page, $data = [])
 {
+    extract($data);
     $file = __DIR__ . "/vista/administracion/{$page}.php";
     if (file_exists($file)) {
+        // if (isset($_SESSION['username'])) {
         include($file);
+        // }
+        // else {
+        // header('Location: /cuenta');
+        // exit();
+        // }
     } else {
         http_response_code(404);
         echo "404 - Page not found";
@@ -29,16 +36,18 @@ function renderBackOffice($page)
 }
 
 switch ($request) {
-    case 'info':
-        renderPage('info');
-        break;
     case 'registro':
+
         if ($action === 'registrarse' & $_SERVER['REQUEST_METHOD'] == 'POST') {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Usuario.php';
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+            $response = ['success' => false, 'id' => 0, 'message' => '', 'username' => ''];
 
             if (isset($_POST['submit'])) {
                 $errors = array();
+                
+                $mailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+                if (preg_match($mailPattern, $_POST['email'])) {
                 $data = [
                     'name' => $_POST['name'],
                     'lastname' => $_POST['apellido'],
@@ -51,87 +60,108 @@ switch ($request) {
                     'fecha_nac' => $_POST['fecha_nac'],
                     'terminos' => isset($_POST['terminos']) ? $_POST['terminos'] : 0
                 ];
+            
                 $emptyFields = false;
                 foreach ($data as $clave => $valor) {
                     if (empty(trim($valor))) {
                         $emptyFields = true;
-                        array_push($errors, "El campo $clave es requerido");
+                        $response['message'] = 'El campo' . $clave . 'es requerido';
                     }
                 }
-
                 if (!$emptyFields) {
-                    if ($data['confirm_passwd'] === $data['password']) {
-                        $data['confirm_passwd'] = password_hash($data['confirm_passwd'], PASSWORD_BCRYPT);
-                        if (count($errors) === 0) {
-                            $userController = new UsuarioController();
-                            $newUser = $userController->create($data);
-                            // echo "<div class='modal-redirect'>
-                            // <div>
-                            // <a class='close-modal' href=#close> </a>
-                            // <p>Cuenta creada con éxito, redirigiendo al inicio..</p> 
-                            // </div>
-                            // </div>";
-                            if ($newUser) {
-                                session_start();
-                                $_SESSION['username'] = $newUser['username'];
-                                $_SESSION['id'] = $newUser['id'];
-                                header('Location: /?id=' . $newUser['id']);
-                                exit();
-                            } else {
-                                echo "Error al crear el usuario" . $userId . "\n" . $data;
-                            }
-                        } else {
-                            foreach ($errors as $error) {
-                                echo "<p>$error</p>";
-                            }
-                        }
+                    if (strlen($data['password']) < 5) {
+                        array_push($errors, "La contraseña debe tener al menos 5 caracteres");
+                        $response['message'] = "La contraseña debe tener al menos 5 caracteres";
                     } else {
-                        array_push($errors, "Las contraseñas no coinciden");
+                        if ($data['confirm_passwd'] === $data['password']) {
+                            $data['confirm_passwd'] = password_hash($data['confirm_passwd'], PASSWORD_BCRYPT);
+                            if (count($errors) === 0) {
+                                $userController = new UsuarioController();
+                                $newUser = $userController->create($data);
+
+                                if ($newUser) {
+                                    $response['success'] = true;
+                                    session_start();
+                                    $response['id'] = $newUser['id'];
+                                    $response['username'] = $newUser['username'];
+                                    $response['message'] = "Registro exitoso, redireccionando..";
+
+                                    $_SESSION['username'] = $newUser['username'];
+                                    $_SESSION['id'] = $newUser['id'];
+                                } else {
+                                    $response['message'] = "Error al crear el usuario, intente nuevamente";
+                                }
+                            } else {
+                                $response['message'] = "Error al crear el usuario, intente nuevamente";
+                            }
+                            
+                        } else {
+                            $response['message'] = "Las contraseñas no coinciden";
+                        }
                     }
                 } else {
-                    array_push($errors, "Todos los campos son requeridos");
-                }
-                var_dump($errors);
+                    $response['message'] = "Todos los campos son requeridos";
+                } 
             }
-        } else {
-            renderPage('register');
+                else {
+                    array_push($errors, "El email es inválido");
+                    $response['message'] = "El email es inválido";
+                }
+            }
+            header('Content-Type: application/json');
+            echo (json_encode($response));
+            exit();
         }
+        renderPage('register');
         break;
     case 'product':
         renderPage('product');
         break;
     case 'cuenta':
+        
         if ($action === '1' & $_SERVER['REQUEST_METHOD'] == 'POST') {
 
             require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Usuario.php';
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
-
+            $res = ['success' => false, 'mssg' => '', 'id' => 0];
             $errors = array();
             if (isset($_POST['submit'])) {
-                if (empty(trim($_POST['username'])) || empty(trim($_POST['passwd']))) {
+                $username = htmlspecialchars(trim($_POST['username']));
+                $password = trim($_POST['passwd']);
+
+                if (empty($username) || empty($password)) {
                     array_push($errors, "Credenciales inválidas");
                 }
-                $username = htmlspecialchars($_POST['username']);
-                $password = $_POST['passwd'];
                 if (count($errors) == 0) {
                     $userController = new UsuarioController();
                     $usuario = $userController->validateUser($username, $password);
-                    session_start();
-                    $_SESSION['id'] = $usuario['id'];
-                    $_SESSION['username'] = $usuario['username'];
-                    header('Location: /?id=' . $usuario['id']);
+
+                    if ($usuario) {
+                        $res['success'] = true;
+                        session_start();
+                        $_SESSION['id'] = $usuario['id'];
+                        $_SESSION['username'] = $usuario['username'];
+                        $res['id'] = $_SESSION['id'];
+                    } else {
+                        $res['mssg'] = 'Credenciales inválidas.';
+                    }
+                } else {
+                    $res['mssg'] = 'Credenciales inválidas.';
                 }
             }
-        } else {
-            renderPage('account');
+            header('Content-Type: application/json');
+            echo (json_encode($res));
+            exit();
         }
+        renderPage('account');
+        break;
+    case 'perfil':
+        renderPage('perfil');
         break;
     case 'carrito':
         renderPage('cart');
         break;
     case 'admin':
-        header('Location: /admin/main');
-        break;
     case 'admin/main':
         renderBackOffice('general');
         break;
@@ -147,6 +177,7 @@ switch ($request) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Producto.php';
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
 
+            $resp = ['success' => false, 'mssg' => ''];
             if (isset($_POST['submit'])) {
                 $errors = array();
                 $data = [
@@ -168,28 +199,39 @@ switch ($request) {
                     $productController = new ProductController();
                     $productId = $productController->create($data);
                     if ($productId) {
-                        header('refresh: 1; url=/admin/productos');
+                        $resp['success'] = true;
+                        $resp['mssg'] = 'Producto agregado exitosamente';
+                    } else {
+                        $resp['mssg'] = 'Ocurrió un error, no se pudo agregar el producto';
                     }
                 } else {
-                    foreach ($errors as $error) {
-                        echo "<p>$error</p>";
-                    }
+                    $resp['mssg'] = 'Ocurrió un error, no se pudo agregar el producto';
                 }
             }
-        } else {
-            renderBackOffice('productos');
-            break;
+
+            header('Content-Type: application/json');
+            echo (json_encode($resp));
+            exit();
         }
+        renderBackOffice('productos');
+        break;
     case 'admin/perfil':
         renderBackOffice('profile');
         break;
     case 'logout':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         session_unset();
         session_destroy();
-        session_write_close();
-        setcookie(session_name(), '', 0, '/');
-        session_regenerate_id(true);
+
+        if (ini_get("session.use_cookies")) {
+            setcookie(session_name(), '', time() - 42000, '/');
+        }
+        // session_regenerate_id(true);
+
         header('Location: /');
+        exit();
         break;
     case '':
     case 'home':

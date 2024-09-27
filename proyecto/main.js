@@ -10,6 +10,9 @@ const leftArrow = document.querySelector('.arrow-left');
 const rightArrow = document.querySelector('.arrow-right');
 const totalSections = sections.length;
 
+const cartItem = document.getElementById('cart-item');
+
+
 let currentIndex = 0;
 
 function updateSlider() {
@@ -85,10 +88,15 @@ async function displayProds() {
                  <div class='div-buy-product'>
                  <span class='span-old-price'>\$${Math.round(product.price * 1.20)}</span>
                  <span class='span-price'>\$${product.price}</span>
-                 <a id='add-btn' onclick='addToCart()' class='button-action'>Agregar al carrito</a>
+                 <a id='add-btn' onclick='addToCart()' class='add-item-cart'>Agregar al carrito</a>
                  </div>
                  </section>
                `
     } elementsHolder.innerHTML = data
 }
 displayProds()
+
+async function addCart () {
+    const carritoData = new FormData(cartItem);
+    cartItem.append('submit', 'submit');
+}
