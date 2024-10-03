@@ -25,5 +25,4 @@ if(isset($_SESSION['username'])) {
 }
 ?>
 <?php
-include('footer.php')
-?>
+include('footer.php');

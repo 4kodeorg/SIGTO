@@ -1,8 +1,9 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/modelo/Producto.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/config/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Producto.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config/Database.php';
 
-class ProductController extends Database {
+class ProductController extends Database
+{
     public function create($data)
     {
         $producto = new Producto();
@@ -21,15 +22,20 @@ class ProductController extends Database {
     {
         $query = 'INSERT INTO productos (titulo, descripcion, origen, cantidad, precio) VALUES (?, ?, ?, ?, ?);';
         $stmt = $this->conn->prepare($query);
-      
+
         $titulo = $producto->getTitulo();
         $descripcion = $producto->getDescripcion();
         $origen = $producto->getOrigen();
         $cantidad = $producto->getCantidad();
         $precio = $producto->getPrecio();
-    
+
         $stmt->bind_param(
-            'sssss', $titulo, $descripcion, $origen, $cantidad, $precio     
+            'sssss',
+            $titulo,
+            $descripcion,
+            $origen,
+            $cantidad,
+            $precio
         );
         error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {
@@ -38,15 +44,41 @@ class ProductController extends Database {
             throw new Exception("Error al crear producto");
         }
     }
-    public function getProductsByLimit() {
+    public function getProductsByLimit()
+    {
         $query = 'SELECT * FROM productos LIMIT 15;';
         $stmt = $this->conn->prepare($query);
         try {
-            return $stmt->execute();
+            if ($stmt->execute()) {
+                return $stmt->get_result();
+            }
         } catch (Exception $err) {
-            echo "Error en la base de datos" .$err->getMessage();
+            echo "Error en la base de datos" . $err->getMessage();
         }
     }
 
-}
+    public function searchProductsByTitleOrDescripcion($searchTerm)
+    {
+        $query = 'SELECT * FROM productos WHERE titulo LIKE ? OR descripcion LIKE ?;';
+        $stmt = $this->conn->prepare($query);
+        $searchParamComodines = '%' . $searchTerm . '%';
+        $stmt->bind_param('ss', $searchParamComodines, $searchParamComodines);
+        $stmt->execute();
 
+        $result = $stmt->get_result();
+        $productos = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $productos ?: [];
+    }
+    public function getProductById($productId)
+    {
+        $query = "SELECT * FROM productos WHERE id = ?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $productId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $producto = $result->fetch_assoc();
+        $stmt->close();
+        return $producto;
+    }
+}

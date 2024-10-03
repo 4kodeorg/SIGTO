@@ -1,15 +1,8 @@
 <?php
-   ini_set('display_errors', 1);
-   ini_set('display_startup_errors', 1);
-   error_reporting(E_ALL);
-  //  if (isset($_SESSION['username']) || isset($_SESSION['id']))
-  //       {
-  //           if (session_status() === PHP_SESSION_NONE) {
-  //               session_start();
-  //           }
-  //           header('Location: /');
-  //           exit();
-  //       }
+  //  ini_set('display_errors', 1);
+  //  ini_set('display_startup_errors', 1);
+  //  error_reporting(E_ALL);
+
 include('header.php');
 
 ?>

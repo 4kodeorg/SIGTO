@@ -12,8 +12,30 @@ const totalSections = sections.length;
 
 const cartItem = document.getElementById('cart-item');
 
+const mainSearchForm = document.getElementById('search-form');
+const actDirecciones = document.getElementById('form-direcciones');
+const containerDirecciones = document.getElementById('actualizar-direcciones-container');
+
+const containerInfo = document.getElementById('actualizar-info');
+const formPersonalInfo = document.getElementById('form-personal-info');
+
+//
 
 let currentIndex = 0;
+
+function goLeft() { document.querySelector('.profile-section-page').style.marginLeft = '140px'; };
+
+function getBack() { document.querySelector('.profile-section-page').style.marginLeft = 0; };
+
+updateSlider();
+
+spinRight();
+function showNow() { containerInfo.style.display = 'flex'; }
+function hideNow() { containerInfo.style.display = 'none'; }
+
+function showFormDir() { containerDirecciones.style.display = 'flex'; }
+function hideForm() { containerDirecciones.style.display = 'none'; }
+
 
 function updateSlider() {
     sections.forEach((section, index) => {
@@ -23,23 +45,21 @@ function updateSlider() {
     });
 }
 
-rightArrow.addEventListener('click', () => {
+function toRight() {
         currentIndex = (currentIndex + 1) % totalSections;
         updateSlider();
-});
+};
 
-leftArrow.addEventListener('click', () => { 
+function toLeft() { 
         currentIndex = (currentIndex - 1 + totalSections) % totalSections;
         updateSlider();
-});
-updateSlider();
+};
 
 function spinRight() {
     currentIndex = (currentIndex + 1) % totalSections;
     updateSlider();
     setTimeout(spinRight, 3500);
 }
-spinRight();
 
 function menuResponsive() {
     menu.classList.add('screen');
@@ -50,13 +70,6 @@ function isMenuVisible() {
     optionsResponsive.classList.toggle('visible')
 }
 
-var n = 0
-
-function addToCart() {
-    n++
-    cartItems.innerText = n
-}
-
 menuItems.forEach(link => {
     link.addEventListener('click', () => {
         menuItems.forEach(prevActive => prevActive.classList.remove('active'))
@@ -64,39 +77,84 @@ menuItems.forEach(link => {
     })
 })
 
-async function displayProds() { 
-    const response = await fetch('https://dummyjson.com/products')
-    if (!response.ok) {
-        throw new Error("Ocurrió un error inesperado");
-    }
-    const prodS = await response.json();
-    
-    const productList = prodS.products   
-    let elementsHolder = document.getElementById('product-container');
-    let data = ''
-    for (let product of productList) {
-        data += `
-               <section class='div-for-product'>
-               <figure>
-               <img src=${product.images[0]}
-               class='img-product'
-               alt=${product.category}>
-               </figure>
-               <figcaption><h2>${product.title}</h2></figcaption>
-               <hr/>
-                 <p class='product-descr'>${product.description}</p>
-                 <div class='div-buy-product'>
-                 <span class='span-old-price'>\$${Math.round(product.price * 1.20)}</span>
-                 <span class='span-price'>\$${product.price}</span>
-                 <a id='add-btn' onclick='addToCart()' class='add-item-cart'>Agregar al carrito</a>
-                 </div>
-                 </section>
-               `
-    } elementsHolder.innerHTML = data
+const inputSearch = document.getElementById('busqueda');
+async function liveSearchRes(e) {
+
 }
-displayProds()
+
+async function updateInfo() {
+    const messageInfo = document.getElementById('message-resp-info');
+    const userInformation = new FormData(formPersonalInfo);
+    const userId = userInformation.get('idusername');
+    const APIinfouser = `http://localhost/perfil/${userId}?action=actualizar_info`;
+
+    userInformation.append('submit', 'submit');
+
+    try {
+        const respuesta = await fetch(APIinfouser, {
+            method: 'POST',
+            body: userInformation
+        });
+        const data = await respuesta.json();
+        if (data.success) {
+            messageInfo.style.display = 'flex';
+            messageInfo.querySelector('p').innerHTML = data.message;
+        } else {
+
+            messageInfo.style.display = 'flex';
+            messageInfo.querySelector('p').innerHTML = data.message;
+        }
+
+    } catch(error) {
+        console.log(`Error: ${error}}`)
+    }
+}
+
+async function updateDirecciones() {
+    const messageResponse = document.getElementById('message-resp-direcciones');
+    const userDirecciones = new FormData(actDirecciones);
+
+    userDirecciones.append('submit', 'submit');
+    const userId = userDirecciones.get('idusername');
+    const APIdireccion = `http://localhost/perfil/${userId}?action=actualizar_direccion`;
+
+    try {
+        const respuesta = await fetch(APIdireccion, {
+            method: 'POST',
+            body: userDirecciones
+        }
+        );
+        const dataRespuesta = await respuesta.json();
+        if (dataRespuesta.success) {
+            messageResponse.style.display= 'flex';
+            messageResponse.querySelector('p').innerHTML = dataRespuesta.message
+        }
+        else {
+            messageResponse.style.display= 'flex';
+            messageResponse.querySelector('p').innerHTML = dataRespuesta.message
+        }
+
+    }
+    catch(error) {
+        console.log(`Error: ${error}`);
+    }
+
+}
 
 async function addCart () {
     const carritoData = new FormData(cartItem);
-    cartItem.append('submit', 'submit');
+    carritoData.append('submit', 'submit');
+    if (carritoData.get('id_user')) {
+        try {
+            const response = await fetch("", {
+                method: 'POST',
+                body: carritoData
+            })
+        } catch (error) {
+    
+        }
+    } else {
+
+    }
+    
 }

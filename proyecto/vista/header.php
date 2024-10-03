@@ -1,3 +1,10 @@
+<?php
+if (isset($_SESSION['username'])) {
+    header('Location: /');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

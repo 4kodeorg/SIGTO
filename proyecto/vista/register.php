@@ -1,9 +1,9 @@
-    <?php
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-    include('header.php')
-    ?>
+<?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL); 
+include('header.php');
+?>
     <div>
         <div class="bg-shopp"></div>
         <form id="registration-form" class="registration-form" action="?action=registrarse" method="POST">
@@ -51,7 +51,7 @@
             </div>
             <section id="register-message" class="registration-message">
                 <p></p>
-                <svg onclick="this.parentElement.style.display=`none`" ;
+                <svg onclick="this.parentElement.style.display=`none`;" 
                     width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor"
                     x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                     <g fill="currentColor">
@@ -78,4 +78,6 @@
     <?php
 
     include('footer.php');
+
+
  

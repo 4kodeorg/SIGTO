@@ -136,7 +136,6 @@ a {
    position: relative;
    width: 100vw;
    min-height: 380px;
-   height: 100%;
    overflow: hidden;
 }
 .navbar-brand {
@@ -295,6 +294,7 @@ span>.arrow-left ,span>.arrow-right{
 .container-fluid.navigation {
 position: relative;
 height: 200px;
+padding: 0;
 }
 .navbar {
     margin: auto;
@@ -326,6 +326,11 @@ height: 200px;
 .nav-item >.dropdown-menu li {
     padding: 0 4px;
     margin: 2px;
+}
+.product-quant {
+    width: 36px;
+    height: 26px;
+    margin: 6px;
 }
 .main-products {
     display: flex;
@@ -418,6 +423,29 @@ height: 200px;
     height: 50px;
     animation: scroll 10s linear alternate-reverse infinite;
 }
+.figure-profile-icon {
+    max-width: 150px;
+    border-bottom: .5px solid #020202;
+    padding: 1rem;
+    border-radius: 30%;
+}
+.container-response {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
+.container-response svg {
+    cursor: pointer;
+}
+.container-response-mssg {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
 
 /* Pagina de error */
 
@@ -426,7 +454,7 @@ height: 200px;
 }
 .image-container {
     position: relative;
-    max-height: 600px;
+    max-height: 500px;
     display: inline-block;
 }
 .error-page {
@@ -436,11 +464,13 @@ height: 200px;
 }
 .image-container img {
     width: 100%;
-    max-height: 600px;
+    margin-bottom: 2rem;
+    padding: 2rem 0;
+    max-height: 350px;
 }
 .image-container>.error {
     position: absolute;
-    bottom: 30%;
+    bottom: 0;
     left: 50%;
     text-transform: uppercase;
     transform: translate(-50%, -50%);
@@ -448,10 +478,27 @@ height: 200px;
     font-size: 2rem; 
     font-weight: bolder;
 }
-a >.error-link {
+.error-link {
+    border: 1px solid #020202;
+    border-radius: 8px;
     background-color: var(--main-brand-color);
-    padding: 8px;
+    padding: 10px;
+    color: #fff;
+    margin: 8px;
 }
+.error-link:hover {
+    background-color: var(--main-hover-color);
+}
+.figure-chat-support {
+    max-width: 80px;
+    background-color: var(--main-brand-color);
+    border-radius: 30px;
+    position: relative;
+}
+/*  */
+
+/*  */
+
 @keyframes scroll {
     to {
         transform: translateX(-150%);
@@ -469,6 +516,7 @@ ul {
 }
 .footer-commerce {
     text-align: center;
+    height: 350px;
     padding: 1rem auto;
     background-color: transparent;
     box-shadow:0 .3rem .7rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15); 
@@ -589,6 +637,112 @@ ul {
 .visible {
     display: none;
 }
+.add-to-cart-btn {
+    border: .5px solid #020202;
+    background-color: var(--secondary-color);
+    border-radius: 3px;
+    padding: 3px;
+}
+.add-to-cart-btn:hover {
+    background-color: var(--cart-counter);
+}
+/* PERFIL */
+.container-profile-page {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    transition: grid-template-columns 0.3s ease;
+        
+}
+.user-profile {
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.fixed-left {
+    padding: 2rem 1rem;
+    border-right: 1px solid #ddd;
+}
+
+.container-sidenav-profile {
+    display: flex;
+    background-color: #f2f2f2;
+    width: 60px;
+    height: 100%;
+}
+
+.nav-sidenav {
+    width: 60px; 
+    transition: width 0.3s ease;
+    overflow: hidden;
+    background-color: #f2f2f2; 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    height: 85%;
+    bottom: 0;
+    left: 0;
+}
+#actualizar-info {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    padding: 1.5em;
+    transition: display 0.3s ease;
+}
+
+#actualizar-direcciones-container {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    padding: 1.5em;
+    transition: display 0.3s ease;
+}
+
+.nav-sidenav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    color: #171717;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-sidenav a:hover {
+    background-color: #495057;
+}
+
+.nav-sidenav a svg {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.nav-sidenav a span {
+    display: none;
+    margin-left: 10px;
+}
+
+.nav-sidenav:hover {
+    width: 200px;
+    transition: width 0.3s ease; 
+}
+
+.nav-sidenav:hover a span {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.profile-section-page {
+    transition: width 0.3s ease;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
 @media (width > 1024px) {
     .end-page-ul {
         display: flex;

@@ -63,7 +63,7 @@
     <img src="../assets/imgs/phoneup.png" alt="">
 </section>
 <div class="container-controlls">
-    <span>
+    <span onclick="toLeft()">
     <svg
     class="arrow-left"
     width="36px" height="36px" viewBox="0 0 24 24" 
@@ -73,7 +73,7 @@
     fill="currentColor"/></g>
     </svg>
     </span>
-    <span>
+    <span onclick="toRight()">
     <svg
     class="arrow-right" 
     width="36px" height="36px" viewBox="0 0 24 24" 

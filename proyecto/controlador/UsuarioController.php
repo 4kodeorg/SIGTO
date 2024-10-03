@@ -24,7 +24,7 @@ class UsuarioController extends Database
     }
     public function createUser($usuario)
     {
-        $query = 'INSERT INTO usuarios (name, lastname, email, username, passw, telefono, fecha_nac, direccion) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
+        $query = "INSERT INTO usuarios (name, lastname, email, username, passw, telefono, fecha_nac, direccion) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         $stmt = $this->conn->prepare($query);
 
         $name = $usuario->getNombre();
@@ -41,7 +41,7 @@ class UsuarioController extends Database
         );
         error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {
-            $query = 'SELECT * FROM usuarios WHERE id='.$this->conn->insert_id.';';
+            $query = "SELECT * FROM usuarios WHERE id='.$this->conn->insert_id.';";
             $stmtn = $this->conn->prepare($query);
             if($stmtn->execute()) {
                 $res = $stmtn->get_result();
@@ -86,5 +86,36 @@ class UsuarioController extends Database
             throw new Exception("Error en el servidor");
         }
         
+    }
+    public function updateUserDireccion($idUser, $direccionEnvio, $segDireccionEnvio) {
+        $query = "UPDATE usuarios SET direccion =?, seg_direccion= ? WHERE id=? ;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('ssi',$direccionEnvio,$segDireccionEnvio, $idUser);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function updateUserData($idUser, $newEmail, $newPhone, $newUser) {
+        $query = "UPDATE usuarios SET email=?, username=?, telefono=? WHERE id=?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('ssii', $newEmail, $newUser, $newPhone, $idUser);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getUserbyId($idUser) {
+        $query = "SELECT * FROM usuarios WHERE id = ?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $idUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $usuario = $result->fetch_assoc();
+        $stmt->close();
+        return $usuario;
     }
 }

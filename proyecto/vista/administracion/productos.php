@@ -124,6 +124,17 @@ require('headerback.php')
 
                 <label for="origen">Origen</label>
                 <input type="text" placeholder="Origen del producto" name="origen" id="origen" required>
+                
+                <label for="category">Categoría</label>
+                <select name="acategory" id="category">
+                    <option value="">Selecciona una categoría</option>
+                    <option value="Electrodomésticos">Electrodomésticos</option>
+                    <option value="Vehículos">Vehículos</option>
+                    <option value="Ropa">Ropa</option>
+                    <option value="Calzado">Calzado</option>
+                    <option value="Bebés">Bebés</option>
+                    <option value="Herramientas">Herramientas</option>
+                </select>
 
                 <label for="cantidad">Cantidad de unidades</label>
                 <input type="text" placeholder="Stock del producto" name="cantidad" id="cantidad" required>
@@ -131,7 +142,7 @@ require('headerback.php')
                 <label for="precio">Precio</label>
                 <input id="precio" placeholder="Precio del producto en pesos" type="text" name="precio" required>
 
-                <button class="send-product" name="submit" type="button" onclick="productsForm()">Agregar producto</button>
+                <button class="send-product" name="submit" onclick="productsForm()" type="button">Agregar producto</button>
             </form>
         </div>
     </div>
