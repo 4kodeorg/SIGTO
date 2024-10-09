@@ -2,15 +2,19 @@
 include('header-index.php');
 
 if(isset($_SESSION['username'])) {
-    
+    if (isset($_SESSION['carrito'])) {
+        $carrito = $_SESSION['carrito'];
+        print_r($carrito);
 ?>
 
 <div>
-<h2>Carrito</h2><b><?php ?></b>
+<h2>Carrito</h2><b><?php foreach ($carrito as $prod) {
+    echo '<p>'. $prod .'</p>';
+} ?></b>
 
 </div>
 <?php
-
+    }
 } else {
 ?>
 <div class="heading-carrito">

@@ -20,28 +20,32 @@ class Router
             'cuenta' => 'formAccount',
             'perfil' => 'renderProfile',
             'carrito' => 'renderPage',
-            'admin' => 'renderBackOffice',
+            'admin' => 'redirectMain',
             'admin/main' => 'renderBackOffice',
             'admin/estadisticas' => 'renderBackOffice',
             'admin/empresa' => 'renderBackOffice',
-            'admin/productos' => 'formProductAdmin',
+            'admin/productos' => 'pageProductsAdmin',
+            'admin/productos/(\d+)' => 'renderProductData',
             'admin/perfil' => 'renderBackOffice',
             'logout' => 'logout',
             'home' => 'searchForm',
             '/' => 'redirectHome'
         ];
-
-        if (preg_match('/^product\/(\d+)$/', $this->request, $matches)) {
+        if (preg_match('/^admin\/productos\/(\d+)$/', $this->request, $matches)) {
+            $productId = intval($matches[1]);
+            $this->renderProductData($productId);
+            return;
+        }
+        elseif (preg_match('/^product\/(\d+)$/', $this->request, $matches)) {
             $productId = $matches[1];
             $this->renderProduct($productId);
         } elseif (preg_match('/^perfil\/(\d+)$/', $this->request, $matches)) {
             $userId = intval($matches[1]);
-           
+
             if ($this->checkUserMiddleware($userId)) {
-                if (isset($_GET['action']) && $_GET['action'] === 'actualizar_info') {
+                if (isset($this->action) && $this->action === 'actualizar_info') {
                     $this->updateInfo($userId);
-                }
-                elseif (isset($_GET['action']) && $_GET['action'] === 'actualizar_direccion') {
+                } elseif (isset($this->action) && $this->action === 'actualizar_direccion') {
                     $this->updateDirecciones($userId);
                 } else {
                     $this->renderProfile($userId);
@@ -50,32 +54,68 @@ class Router
                 $message = "Acceso no autorizado";
                 $this->renderPage('error', ['message' => $message]);
             }
+        } elseif ($this->request === 'home') {
+            $this->homeActions();
+            return;
+        } elseif ($this->request === 'admin/productos') {
+            $this->adminActions();
+            return;
         } elseif (isset($routes[$this->request])) {
             $this->assignPage($routes[$this->request], $this->request);
         } else {
-            $this->renderPage('error');
+            $message = "Acceso no autorizado";
+            $this->renderPage('error', ['message' => $message]);
         }
     }
+    private function redirectMain()
+    {
+        header('Location: /admin/main');
+        exit();
+    }
+
     private function redirectHome()
     {
         header('Location: /home');
         exit();
     }
-    private function checkUserMiddleware($userId)
+    private function homeActions()
     {
-        if (isset($_SESSION["id_username"])) {
-            $loggedUser = $_SESSION["id_username"];
 
-            if ($loggedUser == $userId) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            throw new Exception("Iniciar sesion");
+        switch ($this->action) {
+            case 'add_to_fav':
+                $this->addToFavoritos();
+                break;
+            case 'remove_fav':
+                $this->removeFromFavoritos();
+                break;
+            case 'add_to_cart':
+                $this->formCarrito();
+                break;
+            default:
+                $this->searchForm();
+                break;
         }
     }
-
+    private function adminActions()
+    {
+        switch ($this->action) {
+            case 'agregar_producto':
+                $this->formProductAdmin();
+                break;
+            case 'dis_producto':
+                $this->disableProductAdmin();
+                break;
+            case 'edit_producto':
+                $this->editProductAdmin();
+                break;
+            case 'get_productos':
+                $this->getMoreProducts();
+                break;
+            default:
+                $this->pageProductsAdmin();
+                break;
+        }
+    }
     private function assignPage($method, $route)
     {
         $backOfficeRoutes = ['admin', 'admin/main', 'admin/estadisticas', 'admin/empresa', 'admin/perfil'];
@@ -87,7 +127,7 @@ class Router
             call_user_func([$this, $method]);
         }
     }
-
+  
     private function renderPage($page, $data = [])
     {
 
@@ -114,6 +154,129 @@ class Router
             echo "404 - Page not found";
         }
     }
+    private function disableProductAdmin() {
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT' && $this->action === 'dis_producto') {
+            require_once $_SERVER['DOCUMENT_ROOT']. '/controlador/ProductController.php';
+            $productController = new ProductController();
+            parse_str(file_get_contents("php://input"), $disableProduct);
+            $res = ['status' => '' ,'message' => ''];
+            $idProduct = $disableProduct['id_product'] ?? null;
+
+            if ($idProduct) {
+                try {
+                    $result = $productController->disableProductById($idProduct);
+                    if ($result) {
+                        $res['status'] = "success";
+                        $res['message'] = "El producto ha sido desactivado";
+                        echo json_encode($res);
+                    } else {
+                        $res['status'] = "error";
+                        $res['message'] = "No se pudo desactivar el producto";
+                        echo json_encode($res);
+                    }
+                } catch (Exception $er) {
+                    $res['message'] = $er->getMessage();
+                    $res['status'] = "error";
+                    echo json_encode($res);
+                }
+            }
+            else {
+                $res['message'] = "No se pudo procesar la solicitud";
+                $res['status'] = "error";
+                echo json_encode($res);
+            }
+        }
+    }
+
+    // BORRADO FÍSICO DE PRODUCTOS
+    // private function deleteProductAdmin() {
+    //  if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && $this->action === 'elim_producto') {
+    //     require_once $_SERVER['DOCUMENT_ROOT']. '/controlador/ProductController.php';
+    //     $productController = new ProductController();
+    //     parse_str(file_get_contents("php://input"), $deleteId);
+
+    //     $idProduct = $deleteId['id_product'] ?? null;
+    //     if ($idProduct) {
+    //         try {
+    //             $result = $productController->deleteProductById($idProduct);
+    //             if ($result) {
+    //                 echo json_encode(['status' => 'success', 'message' => 'Producto eliminado']);
+    //             } else {
+    //                 echo json_encode(['status' => 'error', 'message' => 'No se pudo eliminar el producto']);
+    //             }
+    //         } catch (Exception $er) {
+    //             echo json_encode(['status' => 'error' ,'message' => $er->getMessage()]);
+    //         }
+    //     } else {
+    //         echo json_encode(['status' => 'error', 'message' => 'No se pudo procesar la solicitud']);
+    //     }
+    //  }   
+    // }
+
+    private function removeFromFavoritos()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && $this->action === 'remove_fav') {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+            $usuarioController = new UsuarioController();
+            parse_str(file_get_contents("php://input"), $favData);
+
+            $idUser = $favData['id_user'] ?? null;
+            $idProduct = $favData['id_product'] ?? null;
+            if ($idUser && $idProduct) {
+                try {
+                    $res = $usuarioController->deleteFromFavorites($idUser, $idProduct);
+                    if ($res) {
+                        echo json_encode(['status' => 'success']);
+                    } else {
+                        echo json_encode(['status' => 'error', 'message' => 'No se pudo eliminar de favoritos']);
+                    }
+                } catch (Exception $e) {
+                    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Parametros invalidos']);
+            }
+        }
+    }
+
+    private function addToFavoritos()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $idUser = $_POST['id_user'];
+            $idProduct = $_POST['id_product'];
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+
+            $userController = new UsuarioController();
+
+            $result = $userController->addToFav($idUser, $idProduct);
+
+            if ($result) {
+                echo json_encode(['status' => 'success', 'message' => 'Producto añadido a favoritos']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No se pudo añadir a favoritos']);
+            }
+            exit();
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Solicitud inválida']);
+            exit();
+        }
+    }
+
+    private function checkUserMiddleware($userId)
+    {
+        if (isset($_SESSION["id_username"])) {
+            $loggedUser = $_SESSION["id_username"];
+
+            if ($loggedUser == $userId) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            throw new Exception("Iniciar sesion");
+        }
+    }
+
     private function updateDirecciones($userId)
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
@@ -134,8 +297,47 @@ class Router
         echo (json_encode($response));
         exit();
     }
-    private function updateInfo($userId) {
-        require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/UsuarioController.php';
+
+    private function editProductAdmin() {
+        require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/ProductController.php';
+
+        $response = ['success' => false, 'message' => ''];
+        $data = [
+            'product_id' => htmlspecialchars($_POST['id_producto']),
+            'new_titulo' => htmlspecialchars($_POST['new_titulo']),
+            'new_descripcion' => htmlspecialchars($_POST['new_descripcion']),
+            'new_origen' => htmlspecialchars($_POST['new_origen']),
+            'new_cantidad' =>  htmlspecialchars($_POST['new_cantidad']),
+            'new_precio' => htmlspecialchars($_POST['new_precio'])
+
+        ];
+        $emptyFields = false;
+        foreach ($data as $clave => $valor) {
+            if (empty(trim($valor))) {
+                $emptyFields = true;
+                $response['message'] = 'El campo' . $clave . 'es requerido';
+            }
+        }
+        if (!$emptyFields) {
+            $productController = new ProductController();
+            $result = $productController->updateProductData($data);
+            if ($result) {
+                $response['success'] = true;
+                $response['message'] = "Producto actualizado con exito";
+            } else {
+                $response['message'] = "No se pudo actualizar el producto";
+            }
+        } else {
+            $response['message'] = "Todos los campos son requeridos";
+        }
+        header('Content-type: application/json');
+        echo(json_encode($response));
+        exit();
+    }
+
+    private function updateInfo($userId)
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
 
         $response = ['success' => false, 'message' => ''];
         $username = htmlspecialchars($_POST['new_user']) ?? '';
@@ -145,6 +347,7 @@ class Router
             $userController = new UsuarioController();
             $userInfoUpdatedOk = $userController->updateUserData($userId, $email, $phone, $username);
             if ($userInfoUpdatedOk) {
+                $_SESSION['username'] = $username;
                 $response['success'] = true;
                 $response['message'] = "Información actualizada con éxito";
             }
@@ -159,7 +362,6 @@ class Router
     private function formRegistration()
     {
         if ($this->action === 'registrarse' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Usuario.php';
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
             $response = ['success' => false, 'id' => 0, 'message' => '', 'username' => '', 'url' => ''];
 
@@ -206,6 +408,7 @@ class Router
                                         $response['username'] = $newUser['username'];
                                         $response['message'] = "Registro exitoso, redireccionando..";
                                         $response['url'] = "/home";
+                                        $_SESSION['carrito'] = [];
                                         $_SESSION['uri_fragment'] = $sessIdfragment;
                                         $_SESSION['username'] = $newUser['username'];
                                         $_SESSION['id_username'] = $newUser['id'];
@@ -237,10 +440,10 @@ class Router
     private function formAccount()
     {
         if ($this->action === '1' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Usuario.php';
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
 
-            $res = ['success' => false, 'mssg' => '', 'id' => 0, 'url' => ''];
+            $res = ['success' => false, 'mssg' => '', 'id' => 0, 'url' => '', 'carrito' => []];
             $errors = array();
             if (isset($_POST['submit'])) {
                 $username = htmlspecialchars(trim($_POST['username']));
@@ -251,14 +454,19 @@ class Router
                 }
                 if (count($errors) == 0) {
                     $userController = new UsuarioController();
+                    $cartController = new CartController();
                     $usuario = $userController->validateUser($username, $password);
+
 
                     if ($usuario) {
                         $res['success'] = true;
                         $sessIdfragment = date('Ymd_His') . "-" . $usuario['id'];
+                        $carrito = $cartController->getUserCarrito($usuario['id']);
+                        $_SESSION['carrito'] = $carrito;
                         $_SESSION['id_username'] = $usuario['id'];
                         $_SESSION['uri_fragment'] = $sessIdfragment;
                         $_SESSION['username'] = $usuario['username'];
+                        $res['carrito'] = $carrito;
                         $res['url'] = '/home';
                     } else {
                         $res['mssg'] = 'Credenciales inválidas.';
@@ -277,9 +485,10 @@ class Router
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         $userController = new UsuarioController();
+        $favoritos = $userController->getUserProductFavs($userId) ?? '';
         $usuario = $userController->getUserbyId($userId);
         if ($usuario) {
-            $this->renderPage('perfil', ['usuario' => $usuario]);
+            $this->renderPage('perfil', ['usuario' => $usuario ,'favoritos' => $favoritos]);
         } else {
             http_response_code(404);
             $this->renderPage('error');
@@ -287,14 +496,36 @@ class Router
     }
     private function searchForm()
     {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+
+        $product = new ProductController();
+        $userController = new UsuarioController();
+
+        if (isset($_SESSION['id_username'])) {
+            $userId = $_SESSION['id_username'];
+            $favoritos = $userController->getUserFavorites($userId);
+        } else {
+            $favoritos = [];
+        }
+        if (isset($_GET['limit']) && isset($_GET['offset'])) {
+            $limit = $_GET['limit'];
+            $offset = $_GET['offset'];
+            $moreProducts = $product->getProductsByLimit($offset, $limit);
+            header('Content-type: application/json');
+            echo json_encode([
+                'productos' => $moreProducts,
+                'favoritos' => $favoritos
+            ]);
+            return;
+        }
+
         if (isset($_GET['buscar'])) {
             $searchParam = htmlspecialchars($_GET['buscar']);
             if (!empty(trim($searchParam))) {
-                require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
-                $productos = new ProductController();
-                $resultados = $productos->searchProductsByTitleOrDescripcion($searchParam);
-                if ($resultados) {
-                    $this->renderPage('home', ['data' => $resultados]);
+                $resultados = $product->searchProductsByTitleOrDescripcion($searchParam);
+                if (count($resultados) > 0) {
+                    $this->renderPage('home', ['resultados' => $resultados, 'favoritos' => $favoritos]);
                     return;
                 } else {
                     $message = "No se encontraron resultados";
@@ -303,48 +534,88 @@ class Router
                 }
             } else {
                 $message = "Ingresa algún producto para buscar";
-                $this->renderPage('home', ['message' => $message]);
+                $this->renderPage('home', ['message' => $message, 'favoritos' => $favoritos]);
                 return;
             }
         }
-        $this->renderPage('home');
+        $dataProductos = $product->getProductsByLimit(0, 15);
+        $this->renderPage('home', ['productos' => $dataProductos, 'favoritos' => $favoritos]);
+    }
+    private function getMoreProducts() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
+
+        if (isset($_SESSION['username']) && !empty(trim($_SESSION['username']))) {
+            $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
+            $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 15;
+    
+            $productController = new ProductController();
+            $productos = $productController->getProductsByLimit($offset, $limit);
+    
+            if (!empty($productos)) {
+                echo json_encode($productos);
+            } else {
+                echo json_encode([]);
+            }
+        } else {
+            echo json_encode(["message" => "Debes iniciar sesión"]);
+        }
+    }
+
+    private function pageProductsAdmin()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
+
+        if (isset($_SESSION['username']) && !empty(trim($_SESSION['username']))) {
+          
+            $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 15;
+            $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
+          
+            $productController = new ProductController();
+            $productos = $productController->getProductsByLimit($offset, $limit);
+            if (count($productos) > 0) {
+                $this->renderBackOffice('productos', ['productos' => $productos]);
+            } else {
+                $this->renderBackOffice('productos', ['message' => "No hay productos para mostrar"]);
+            }
+        
+        } else {
+            $message = "Debes iniciar sesion";
+            $this->renderPage('error', ['message' => $message]);
+        }
     }
 
     private function formProductAdmin()
     {
-        if ($this->action === 'agregar_producto' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Producto.php';
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
-            $resp = ['success' => false, 'mssg' => ''];
-            if (isset($_POST['submit'])) {
-                $errors = array();
-                $data = [
-                    'titulo' => $_POST['titulo'],
-                    'descripcion' => $_POST['descripcion'],
-                    'origen' => $_POST['origen'],
-                    'cantidad' => $_POST['cantidad'],
-                    'precio' => $_POST['precio']
-                ];
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
+        $resp = ['success' => false, 'mssg' => ''];
+        if (isset($_POST['submit'])) {
+            $errors = array();
+            $data = [
+                'titulo' => $_POST['titulo'],
+                'descripcion' => $_POST['descripcion'],
+                'origen' => $_POST['origen'],
+                'cantidad' => $_POST['cantidad'],
+                'precio' => $_POST['precio']
+            ];
 
-                $emptyFields = false;
-                foreach ($data as $clave => $valor) {
-                    if (empty(trim($valor))) {
-                        $emptyFields = true;
-                        array_push($errors, "El campo $clave es requerido");
-                    }
+            $emptyFields = false;
+            foreach ($data as $clave => $valor) {
+                if (empty(trim($valor))) {
+                    $emptyFields = true;
+                    array_push($errors, "El campo $clave es requerido");
                 }
-                if (!$emptyFields && count($errors) === 0) {
-                    $productController = new ProductController();
-                    $productId = $productController->create($data);
-                    if ($productId) {
-                        $resp['success'] = true;
-                        $resp['mssg'] = 'Producto agregado exitosamente';
-                    } else {
-                        $resp['mssg'] = 'Ocurrió un error, no se pudo agregar el producto';
-                    }
+            }
+            if (!$emptyFields && count($errors) === 0) {
+                $productController = new ProductController();
+                $productId = $productController->create($data);
+                if ($productId) {
+                    $resp['success'] = true;
+                    $resp['mssg'] = 'Producto agregado exitosamente';
                 } else {
-                    $resp['mssg'] = 'No se pudo agregar el producto, todos los campos son requeridos';
+                    $resp['mssg'] = 'Ocurrió un error, no se pudo agregar el producto';
                 }
+            } else {
+                $resp['mssg'] = 'No se pudo agregar el producto, todos los campos son requeridos';
             }
 
             header('Content-Type: application/json');
@@ -353,12 +624,30 @@ class Router
         }
         $this->renderBackOffice('productos');
     }
+    private function renderProductData($productId) {
+        header('Content-type: application/json');
+        $res = ['success' => false, 'message' => '', 'product' => []];
+        require_once $_SERVER['DOCUMENT_ROOT']. '/controlador/ProductController.php';
+        $productController = new ProductController();
+        $product = $productController->getProductById($productId);
+        if ($product) {
+            $res['product'] = $product;
+            $res['success'] = true;
+            
+        }
+        else {
+            $res['message'] = "No se encontró el producto";
+        }
+        echo json_encode($res);
+        exit();
+    }
+
     private function renderProduct($productId)
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
         $productController = new ProductController();
         $product = $productController->getProductById($productId);
-
+       
         if ($product) {
             $this->renderPage('product', ['product' => $product]);
         } else {
@@ -369,11 +658,38 @@ class Router
 
     private function formCarrito()
     {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
         if ($this->action === 'add_to_cart' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-            $response = ['success' => false, 'message' => ''];
-            if (!isset($_SESSION['id'])) {
+            $response = ['success' => false, 'message' => '', 'carrito' => []];
+            if (!isset($_SESSION['username'])) {
+                $response['message'] = "Tienes que iniciar sesion";
             } else {
+                $cartController = new CartController();
+
+                $productId = htmlspecialchars($_POST['id_product']);
+                $userId = htmlspecialchars($_POST['id_user']);
+                $quantity = htmlspecialchars($_POST['quantity']);
+                $priceProduct = htmlspecialchars($_POST['price']);
+                $total = $quantity * $priceProduct;
+                $carrito = [
+                    'id_product' => $productId,
+                    'id_user' => $userId,
+                    'quantity' => $quantity,
+                    'total' => $total
+                ];
+                $cartCreated = $cartController->create($carrito);
+                if ($cartCreated) {
+                    $_SESSION['carrito'] = $carrito;
+                    $response['success'] = true;
+                    $response['message'] = 'Carrito creado';
+                    $response['carrito'] = $carrito;
+                } else {
+                    $response['message'] = 'Ocurrió un error inesperado';
+                }
             }
+            header('Content-type: application/json');
+            echo (json_encode($response));
+            exit();
         }
         $this->renderPage('home');
     }

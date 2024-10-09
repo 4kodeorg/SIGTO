@@ -41,7 +41,7 @@ class UsuarioController extends Database
         );
         error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {
-            $query = "SELECT * FROM usuarios WHERE id='.$this->conn->insert_id.';";
+            $query = "SELECT * FROM usuarios WHERE id=".$this->conn->insert_id.";";
             $stmtn = $this->conn->prepare($query);
             if($stmtn->execute()) {
                 $res = $stmtn->get_result();
@@ -97,6 +97,23 @@ class UsuarioController extends Database
             return false;
         }
     }
+    public function getUserProductFavs($userId) {
+        $query = "
+            SELECT productos.* 
+            FROM productos
+            INNER JOIN favoritos ON productos.id = favoritos.id_prod
+            WHERE favoritos.id_user = ?;
+        ";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $userId); 
+    
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
     public function updateUserData($idUser, $newEmail, $newPhone, $newUser) {
         $query = "UPDATE usuarios SET email=?, username=?, telefono=? WHERE id=?;";
         $stmt = $this->conn->prepare($query);
@@ -112,10 +129,60 @@ class UsuarioController extends Database
         $query = "SELECT * FROM usuarios WHERE id = ?;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $idUser);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $usuario = $result->fetch_assoc();
-        $stmt->close();
-        return $usuario;
+         if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            $usuario = $result->fetch_assoc();
+            $stmt->close();
+            return $usuario;
+         }
+        else {
+            throw new Exception("Error en la base datos");
+            }
+        }
+
+    public function addToFav($idUser, $idProd) {
+        $query = "INSERT into favoritos (id_user, id_prod) VALUES (?, ?);";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('ii', $idUser, $idProd);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
+
+    public function getUserFavorites ($idUser) {
+        $query = "SELECT * FROM favoritos WHERE id_user=?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $idUser);
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+            $favoritos = $result->fetch_all(MYSQLI_ASSOC); 
+            }
+            else {
+                $favoritos = [];
+            }
+            $stmt->close();
+            return $favoritos;
+        }
+        else {
+            throw new Exception("Error en la base de datos");
+        }
+    }
+    public function deleteFromFavorites ($idUser, $idProd) {
+        $query = "DELETE FROM favoritos WHERE id_user=? AND id_prod=?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('ii', $idUser, $idProd);
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true;
+        }
+        else {
+            $stmt->close();
+            return false;
+        }
+    }
+
 }

@@ -1,7 +1,14 @@
 <?php
+$usId = 0;
+$username = '';
 if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
+  // if (isset($_SESSION['carrito'])) {
+    // $carrito = $_SESSION['carrito'];
+    // print_r($carrito);
+  // }
   $usId = $_SESSION['id_username'] ?? 0;
-  $username = $_SESSION['username'] ?? 0;
+  $username = $_SESSION['username'] ?? '';
+  $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
 }
 ?>
 <!DOCTYPE html>
@@ -15,17 +22,15 @@ if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <!-- 
-  <script
-  src="https://code.jquery.com/jquery-3.7.1.slim.js"
-  integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc="
-  crossorigin="anonymous"></script> -->
+
   <link rel="stylesheet" href="../assets/index.css">
 
   <script src="../main.js" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mercado Ya!</title>
 </head>
+
+<div id="userId" data-user-id="<?php $usId; ?>"></div>
 
 <body>
   <div class="container-fluid navigation">
@@ -63,7 +68,7 @@ if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
 
         <ul class="ul-for-nav">
           <?php
-          if (isset($username)) {
+          if (isset($username) && !empty(trim($username)) && $usId != 0) {
             echo '<li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" 
         aria-expanded="false">Hola ' . ucfirst($username) . ' </a>
@@ -94,22 +99,6 @@ if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
           <li class="nav-item">
             <a href="" class="nav-link">Ayuda</a>
           </li>
-          <li class="nav-item">
-
-            <a href="/carrito" class="nav-link message">
-              <?php
-              $items = 0;
-              if (isset($_SESSION['carrito'])) {
-
-                $items = count($_SESSION['carrito']);
-                echo '<div class="circle"><small>' . $items . ' </small></div>';
-              } else {
-                echo '<div class="circle"><small>' . $items . '</small></div>';
-              }
-              ?>
-              <img src="../assets/imgs/cart-outline.svg" alt="">
-            </a>
-          </li>
 
         </ul>
 
@@ -125,20 +114,18 @@ if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
             </g>
           </svg>
         </a>
+        <?php
+        // if (count($carrito) > 0) {
 
-        <a href="/carrito" id="cart-responsive" class="nav-link message">
-          <?php
-          $items = 0;
-          if (isset($_SESSION['carrito'])) {
-
-            $items = count($_SESSION['carrito']);
-            echo '<div class="circle"><small>' . $items . ' </small></div>';
-          } else {
-            echo '<div class="circle"><small>' . $items . '</small></div>';
-          }
-          ?>
-          <img src="../assets/imgs/cart-outline.svg" alt="">
-        </a>
+        // }
+        ?>
+        <a href="/carrito" id="cart" class="nav-link message">
+            <div id="items-cart" class="circle"><small> </small></div>
+             
+              <img src="../assets/imgs/cart-outline.svg" alt="">
+              <span>$</span><b></b>
+            </a>
+       
       </div>
 
     </nav>
@@ -168,7 +155,7 @@ if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
         </div>
         <div class="menu-normal">
           <?php
-          if (isset($username)) {
+          if (isset($username) && !empty(trim($username)) && $usId != 0) {
             echo '<p class="logo">Hola ' . ucfirst($username) . '</p>';
 
           ?>

@@ -1312,3 +1312,845 @@ Stack trace:
 [03-Oct-2024 19:56:13 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
 [03-Oct-2024 21:00:41 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
 [03-Oct-2024 21:01:12 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 02:08:37 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 02:42:01 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 03:26:22 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 03:27:05 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 03:27:07 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 03:29:10 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 03:29:47 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 03:31:26 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 03:32:08 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 03:32:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 03:32:11 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 03:34:13 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 03:35:03 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 03:35:04 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 03:36:20 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 03:36:21 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 14:22:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:22:11 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 14:23:15 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:23:16 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 14:25:25 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:25:26 UTC] PHP Fatal error:  Uncaught Error: Class "UsuarioController" not found in /var/www/html/core/Router.php:82
+Stack trace:
+#0 /var/www/html/core/Router.php(60): Router->addToFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 82
+[04-Oct-2024 14:27:45 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:45:08 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:45:32 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:45:58 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:46:17 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:49:33 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:49:47 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:51:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:54:23 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:55:00 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:55:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:56:34 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 14:57:05 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 15:00:28 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 15:38:02 UTC] PHP Fatal error:  Uncaught Error: Cannot use object of type mysqli_result as array in /var/www/html/vista/home.php:34
+Stack trace:
+#0 /var/www/html/core/Router.php(131): include()
+#1 /var/www/html/core/Router.php(356): Router->renderPage('home', Array)
+#2 /var/www/html/core/Router.php(63): Router->searchForm()
+#3 /var/www/html/index.php(15): Router->route()
+#4 {main}
+  thrown in /var/www/html/vista/home.php on line 34
+[04-Oct-2024 15:38:03 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 15:48:40 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 15:48:44 UTC] PHP Fatal error:  Uncaught Error: Cannot use object of type mysqli_result as array in /var/www/html/vista/home.php:34
+Stack trace:
+#0 /var/www/html/core/Router.php(131): include()
+#1 /var/www/html/core/Router.php(356): Router->renderPage('home', Array)
+#2 /var/www/html/core/Router.php(63): Router->searchForm()
+#3 /var/www/html/index.php(15): Router->route()
+#4 {main}
+  thrown in /var/www/html/vista/home.php on line 34
+[04-Oct-2024 15:48:45 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 34
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 34
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 35
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 36
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 40
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 34
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 34
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 35
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 36
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:20:50 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 40
+[04-Oct-2024 16:20:51 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:22:07 UTC] PHP Warning:  Undefined variable $dataProductos in /var/www/html/vista/home.php on line 31
+[04-Oct-2024 16:22:07 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /var/www/html/vista/home.php on line 31
+[04-Oct-2024 16:22:08 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 35
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 35
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 36
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 38
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 41
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 35
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 35
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 36
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 38
+[04-Oct-2024 16:23:05 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 41
+[04-Oct-2024 16:23:06 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 36
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 36
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 38
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 39
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 42
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 36
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 36
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 38
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 39
+[04-Oct-2024 16:29:03 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 42
+[04-Oct-2024 16:29:04 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 38
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 39
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 40
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 43
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 37
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 38
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 39
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 40
+[04-Oct-2024 16:29:33 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 43
+[04-Oct-2024 16:29:34 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:30:50 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:31:36 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:31:41 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 74
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 75
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 76
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 77
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 88
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 74
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/home.php on line 75
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "descripcion" in /var/www/html/vista/home.php on line 76
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/home.php on line 77
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 16:33:42 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/home.php on line 88
+[04-Oct-2024 16:33:43 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:34:03 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:34:12 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:36:30 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 16:52:55 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:26:13 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:28:28 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:28:30 UTC] PHP Warning:  require_once(DELETEcontrolador/UsuarioController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 87
+[04-Oct-2024 17:28:30 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'DELETEcontrolador/UsuarioController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:87
+Stack trace:
+#0 /var/www/html/core/Router.php(67): Router->removeFromFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 87
+[04-Oct-2024 17:29:23 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:29:24 UTC] PHP Warning:  require_once(DELETEcontrolador/UsuarioController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 87
+[04-Oct-2024 17:29:24 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'DELETEcontrolador/UsuarioController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:87
+Stack trace:
+#0 /var/www/html/core/Router.php(67): Router->removeFromFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 87
+[04-Oct-2024 17:29:27 UTC] PHP Warning:  require_once(DELETEcontrolador/UsuarioController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 87
+[04-Oct-2024 17:29:27 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'DELETEcontrolador/UsuarioController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:87
+Stack trace:
+#0 /var/www/html/core/Router.php(67): Router->removeFromFavoritos()
+#1 /var/www/html/index.php(15): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 87
+[04-Oct-2024 17:30:25 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:31:49 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:31:54 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:32:02 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:32:08 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:32:26 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:32:50 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:34:39 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:48:19 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 17:48:20 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:48:29 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 17:48:30 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:48:31 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 17:48:32 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:48:33 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 17:48:34 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:48:35 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 17:48:35 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:48:36 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 17:48:36 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:48:37 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 17:48:38 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:55:16 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 17:55:17 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 17:55:37 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 17:55:38 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 18:04:00 UTC] PHP Deprecated:  Required parameter $prod follows optional parameter $fav in /var/www/html/vista/home.php on line 4
+[04-Oct-2024 18:04:01 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 18:05:47 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 18:05:54 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 18:08:04 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:04:15 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:05:08 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:05:30 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:11:32 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:11:33 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 80
+[04-Oct-2024 22:12:20 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:29 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 81
+[04-Oct-2024 22:13:30 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/vista/home.php on line 84
+[04-Oct-2024 22:14:33 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:21:32 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:23:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:23:35 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:23:59 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:24:01 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:24:08 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:24:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:24:39 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:25:24 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:39:49 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:40:34 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:56:29 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 22:59:58 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:00:08 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:03:14 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:06:41 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:07:09 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:07:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:07:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:07:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:07:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:07:49 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:08:48 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:08:48 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:08:49 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:08:56 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:10:00 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:10:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:11:29 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[04-Oct-2024 23:58:57 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 00:00:46 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 00:00:48 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 00:00:56 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 00:01:00 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 00:01:30 UTC] Error: 
+[05-Oct-2024 00:22:16 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:18:48 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:18:50 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:18:54 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:19:21 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:19:23 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:19:26 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:19:29 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:19:32 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:20:37 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:20:38 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:20:42 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:21:13 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:21:14 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:21:17 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:21:37 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:21:39 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:21:44 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:23:02 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:23:19 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:23:43 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:24:08 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:28:53 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:29:57 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:33:29 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:36:13 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:36:39 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:38:43 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:39:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:39:35 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:39:58 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:40:26 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:41:00 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[05-Oct-2024 23:41:46 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 00:24:59 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 00:25:18 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 00:25:29 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 00:26:04 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 00:28:01 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 00:29:24 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 00:29:25 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 00:29:26 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 00:29:27 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 02:48:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 02:49:08 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 02:49:49 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 14:47:14 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 14:50:01 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 14:50:22 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 23:15:18 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[06-Oct-2024 23:15:43 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:09:31 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:10:14 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:17:21 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:22:57 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:23:56 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:24:56 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:34:55 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:39:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:39:38 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:40:48 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:42:31 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 00:43:23 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 01:29:28 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 01:31:30 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 01:32:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 01:33:21 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 01:42:13 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 01:45:45 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 01:48:32 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:19:23 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:20:52 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:20:58 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:23:48 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:23:56 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:24:02 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:24:06 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:24:16 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:47:13 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:54:05 UTC] PHP Warning:  Undefined array key "resultados" in /var/www/html/vista/home.php on line 49
+[07-Oct-2024 13:54:06 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:54:45 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:55:01 UTC] PHP Warning:  Undefined array key "resultados" in /var/www/html/vista/home.php on line 49
+[07-Oct-2024 13:55:02 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 13:55:19 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:05:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:05:22 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:17:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:17:10 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:23:42 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:24:36 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:25:09 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:26:26 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:26:56 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:27:14 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:29:52 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:32:54 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:33:44 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:37:00 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:39:30 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:47:27 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 14:47:46 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:33:29 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:35:27 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:37:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:37:13 UTC] PHP Warning:  Undefined array key "id_usuario" in /var/www/html/core/Router.php on line 467
+[07-Oct-2024 16:37:13 UTC] PHP Fatal error:  Uncaught TypeError: Cannot assign string to property Carrito::$id_producto of type int in /var/www/html/modelo/Carrito.php:15
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(10): Carrito->setIdUsuario('')
+#1 /var/www/html/core/Router.php(477): CartController->create(Array)
+#2 /var/www/html/core/Router.php(79): Router->formCarrito()
+#3 /var/www/html/core/Router.php(53): Router->homeActions()
+#4 /var/www/html/index.php(15): Router->route()
+#5 {main}
+  thrown in /var/www/html/modelo/Carrito.php on line 15
+[07-Oct-2024 16:38:20 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:38:21 UTC] PHP Fatal error:  Uncaught Error: Typed property Carrito::$id_usuario must not be accessed before initialization in /var/www/html/modelo/Carrito.php:28
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(28): Carrito->getIdUsuario()
+#1 /var/www/html/controlador/CartController.php(15): CartController->createCart(Object(Carrito))
+#2 /var/www/html/core/Router.php(477): CartController->create(Array)
+#3 /var/www/html/core/Router.php(79): Router->formCarrito()
+#4 /var/www/html/core/Router.php(53): Router->homeActions()
+#5 /var/www/html/index.php(15): Router->route()
+#6 {main}
+  thrown in /var/www/html/modelo/Carrito.php on line 28
+[07-Oct-2024 16:38:56 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:38:57 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/CartController.php:32
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(15): CartController->createCart(Object(Carrito))
+#1 /var/www/html/core/Router.php(477): CartController->create(Array)
+#2 /var/www/html/core/Router.php(79): Router->formCarrito()
+#3 /var/www/html/core/Router.php(53): Router->homeActions()
+#4 /var/www/html/index.php(15): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/CartController.php on line 32
+[07-Oct-2024 16:43:54 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:43:56 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/CartController.php:29
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(15): CartController->createCart(Object(Carrito))
+#1 /var/www/html/core/Router.php(477): CartController->create(Array)
+#2 /var/www/html/core/Router.php(79): Router->formCarrito()
+#3 /var/www/html/core/Router.php(53): Router->homeActions()
+#4 /var/www/html/index.php(15): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/CartController.php on line 29
+[07-Oct-2024 16:46:47 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:46:48 UTC] PHP Warning:  Undefined array key "id_user" in /var/www/html/controlador/CartController.php on line 10
+[07-Oct-2024 16:46:48 UTC] PHP Fatal error:  Uncaught TypeError: Cannot assign null to property Carrito::$id_usuario of type int in /var/www/html/modelo/Carrito.php:15
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(10): Carrito->setIdUsuario(NULL)
+#1 /var/www/html/core/Router.php(477): CartController->create(Array)
+#2 /var/www/html/core/Router.php(79): Router->formCarrito()
+#3 /var/www/html/core/Router.php(53): Router->homeActions()
+#4 /var/www/html/index.php(15): Router->route()
+#5 {main}
+  thrown in /var/www/html/modelo/Carrito.php on line 15
+[07-Oct-2024 16:47:29 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:47:31 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/CartController.php:29
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(15): CartController->createCart(Object(Carrito))
+#1 /var/www/html/core/Router.php(477): CartController->create(Array)
+#2 /var/www/html/core/Router.php(79): Router->formCarrito()
+#3 /var/www/html/core/Router.php(53): Router->homeActions()
+#4 /var/www/html/index.php(15): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/CartController.php on line 29
+[07-Oct-2024 16:53:49 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:54:09 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:54:11 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/controlador/CartController.php:25) in /var/www/html/core/Router.php on line 487
+[07-Oct-2024 16:57:48 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/controlador/CartController.php:25) in /var/www/html/core/Router.php on line 487
+[07-Oct-2024 16:57:51 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/controlador/CartController.php:25) in /var/www/html/core/Router.php on line 487
+[07-Oct-2024 16:58:01 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/controlador/CartController.php:25) in /var/www/html/core/Router.php on line 487
+[07-Oct-2024 16:59:21 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/controlador/CartController.php:25) in /var/www/html/core/Router.php on line 487
+[07-Oct-2024 16:59:25 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/controlador/CartController.php:25) in /var/www/html/core/Router.php on line 487
+[07-Oct-2024 16:59:27 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/controlador/CartController.php:25) in /var/www/html/core/Router.php on line 487
+[07-Oct-2024 16:59:54 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 16:59:55 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/controlador/CartController.php:25) in /var/www/html/core/Router.php on line 487
+[07-Oct-2024 17:00:44 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:01:09 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:03:57 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:05:23 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:06:38 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:16:23 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:16:44 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:17:42 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:19:41 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:20:01 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:21:28 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:21:44 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:22:28 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:23:59 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:24:19 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:25:36 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:29:12 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:30:55 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:31:32 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:35:19 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:36:33 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:40:51 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:41:18 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:41:45 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:42:54 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:44:09 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:45:11 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:45:48 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:46:36 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:47:15 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 17:47:51 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:06:09 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:07:16 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:07:50 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:08:24 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:09:07 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:16:13 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:17:08 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:17:46 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:23:18 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:23:48 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:24:25 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:26:19 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/carrito.php on line 11
+[07-Oct-2024 18:26:19 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:27:53 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:55 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:56:56 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 18:58:30 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined variable $usId in /var/www/html/vista/home.php on line 73
+[07-Oct-2024 19:01:48 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:04:24 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:06:25 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:06:47 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:06:53 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/CartController.php:65
+Stack trace:
+#0 /var/www/html/core/Router.php(335): CartController->getUserCarrito(23)
+#1 /var/www/html/core/Router.php(158): Router->formAccount()
+#2 /var/www/html/core/Router.php(56): Router->assignPage('formAccount', 'cuenta')
+#3 /var/www/html/index.php(15): Router->route()
+#4 {main}
+  thrown in /var/www/html/controlador/CartController.php on line 65
+[07-Oct-2024 19:07:05 UTC] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in /var/www/html/controlador/CartController.php:65
+Stack trace:
+#0 /var/www/html/core/Router.php(335): CartController->getUserCarrito(23)
+#1 /var/www/html/core/Router.php(158): Router->formAccount()
+#2 /var/www/html/core/Router.php(56): Router->assignPage('formAccount', 'cuenta')
+#3 /var/www/html/index.php(15): Router->route()
+#4 {main}
+  thrown in /var/www/html/controlador/CartController.php on line 65
+[07-Oct-2024 19:37:15 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:37:23 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:37:27 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:37:33 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:37:40 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[07-Oct-2024 19:46:32 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[08-Oct-2024 03:19:29 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[08-Oct-2024 03:20:01 UTC] PHP Warning:  Undefined variable $productos in /var/www/html/vista/administracion/productos.php on line 88
+[08-Oct-2024 03:20:02 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[08-Oct-2024 03:20:22 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[08-Oct-2024 03:21:52 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[08-Oct-2024 03:21:57 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[08-Oct-2024 03:22:56 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[08-Oct-2024 03:23:40 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[08-Oct-2024 03:23:51 UTC] PHP Warning:  Undefined array key "message" in /var/www/html/vista/error.php on line 10
+[08-Oct-2024 03:24:53 UTC] PHP Parse error:  syntax error, unexpected token "=>", expecting "]" in /var/www/html/core/Router.php on line 64
+[08-Oct-2024 03:24:53 UTC] PHP Parse error:  syntax error, unexpected token "=>", expecting "]" in /var/www/html/core/Router.php on line 64
+[08-Oct-2024 04:02:05 UTC] PHP Parse error:  syntax error, unexpected token "}", expecting "endswitch" or "case" or "default" in /var/www/html/core/Router.php on line 108
+[08-Oct-2024 04:02:05 UTC] PHP Parse error:  syntax error, unexpected token "}", expecting "endswitch" or "case" or "default" in /var/www/html/core/Router.php on line 108
+[08-Oct-2024 04:03:24 UTC] PHP Warning:  Undefined variable $carrito in /var/www/html/vista/header-index.php on line 115
+[08-Oct-2024 04:03:24 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/header-index.php:115
+Stack trace:
+#0 /var/www/html/vista/home.php(3): include()
+#1 /var/www/html/core/Router.php(128): include('/var/www/html/v...')
+#2 /var/www/html/core/Router.php(428): Router->renderPage('home', Array)
+#3 /var/www/html/core/Router.php(92): Router->searchForm()
+#4 /var/www/html/core/Router.php(53): Router->homeActions()
+#5 /var/www/html/index.php(15): Router->route()
+#6 {main}
+  thrown in /var/www/html/vista/header-index.php on line 115
+[08-Oct-2024 04:03:25 UTC] PHP Warning:  Undefined variable $carrito in /var/www/html/vista/header-index.php on line 115
+[08-Oct-2024 04:03:25 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/header-index.php:115
+Stack trace:
+#0 /var/www/html/vista/error.php(2): include()
+#1 /var/www/html/core/Router.php(128): include('/var/www/html/v...')
+#2 /var/www/html/core/Router.php(64): Router->renderPage('error', Array)
+#3 /var/www/html/index.php(15): Router->route()
+#4 {main}
+  thrown in /var/www/html/vista/header-index.php on line 115
+[08-Oct-2024 04:04:14 UTC] PHP Warning:  Undefined variable $carrito in /var/www/html/vista/header-index.php on line 115
+[08-Oct-2024 04:04:14 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/header-index.php:115
+Stack trace:
+#0 /var/www/html/vista/home.php(3): include()
+#1 /var/www/html/core/Router.php(128): include('/var/www/html/v...')
+#2 /var/www/html/core/Router.php(428): Router->renderPage('home', Array)
+#3 /var/www/html/core/Router.php(92): Router->searchForm()
+#4 /var/www/html/core/Router.php(53): Router->homeActions()
+#5 /var/www/html/index.php(15): Router->route()
+#6 {main}
+  thrown in /var/www/html/vista/header-index.php on line 115
+[08-Oct-2024 04:04:15 UTC] PHP Warning:  Undefined variable $carrito in /var/www/html/vista/header-index.php on line 115
+[08-Oct-2024 04:04:15 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/vista/header-index.php:115
+Stack trace:
+#0 /var/www/html/vista/error.php(2): include()
+#1 /var/www/html/core/Router.php(128): include('/var/www/html/v...')
+#2 /var/www/html/core/Router.php(64): Router->renderPage('error', Array)
+#3 /var/www/html/index.php(15): Router->route()
+#4 {main}
+  thrown in /var/www/html/vista/header-index.php on line 115
+[08-Oct-2024 04:06:34 UTC] PHP Warning:  Undefined variable $productos in /var/www/html/vista/administracion/productos.php on line 88
+[08-Oct-2024 04:08:26 UTC] PHP Warning:  Undefined variable $productos in /var/www/html/vista/administracion/productos.php on line 88
+[08-Oct-2024 04:13:49 UTC] PHP Warning:  Undefined array key "productos" in /var/www/html/vista/administracion/productos.php on line 87
+[08-Oct-2024 04:23:52 UTC] PHP Warning:  Undefined array key "productos" in /var/www/html/vista/administracion/productos.php on line 89
+[08-Oct-2024 04:23:52 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /var/www/html/vista/administracion/productos.php on line 89
+[08-Oct-2024 16:00:17 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in /var/www/html/vista/administracion/headerback.php on line 2
+[08-Oct-2024 16:07:53 UTC] Error: 
+[08-Oct-2024 16:07:53 UTC] PHP Fatal error:  Uncaught Error: Object of class mysqli could not be converted to string in /var/www/html/controlador/UsuarioController.php:44
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(20): UsuarioController->createUser(Object(Usuario))
+#1 /var/www/html/core/Router.php(322): UsuarioController->create(Array)
+#2 /var/www/html/core/Router.php(117): Router->formRegistration()
+#3 /var/www/html/core/Router.php(59): Router->assignPage('formRegistratio...', 'registro')
+#4 /var/www/html/index.php(15): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 44
+[08-Oct-2024 16:10:18 UTC] Error: 
+[08-Oct-2024 16:10:18 UTC] PHP Fatal error:  Uncaught Error: Object of class mysqli could not be converted to string in /var/www/html/controlador/UsuarioController.php:44
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(20): UsuarioController->createUser(Object(Usuario))
+#1 /var/www/html/core/Router.php(321): UsuarioController->create(Array)
+#2 /var/www/html/core/Router.php(117): Router->formRegistration()
+#3 /var/www/html/core/Router.php(59): Router->assignPage('formRegistratio...', 'registro')
+#4 /var/www/html/index.php(15): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 44
+[08-Oct-2024 16:17:16 UTC] Error: 
+[08-Oct-2024 16:17:16 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, null given in /var/www/html/core/Router.php:322
+Stack trace:
+#0 /var/www/html/core/Router.php(117): Router->formRegistration()
+#1 /var/www/html/core/Router.php(59): Router->assignPage('formRegistratio...', 'registro')
+#2 /var/www/html/index.php(15): Router->route()
+#3 {main}
+  thrown in /var/www/html/core/Router.php on line 322
+[08-Oct-2024 16:18:15 UTC] Error: 
+[08-Oct-2024 18:16:16 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/product.php on line 14
+[08-Oct-2024 18:23:43 UTC] PHP Warning:  preg_match(): Unknown modifier '^' in /var/www/html/core/Router.php on line 56
+[08-Oct-2024 18:24:52 UTC] PHP Warning:  preg_match(): Unknown modifier 'p' in /var/www/html/core/Router.php on line 56
+[08-Oct-2024 19:14:13 UTC] PHP Warning:  require_once(/var/www/htmlcontrolador/ProductController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:14:13 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/htmlcontrolador/ProductController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:265
+Stack trace:
+#0 /var/www/html/core/Router.php(109): Router->editProductAdmin()
+#1 /var/www/html/core/Router.php(61): Router->adminActions()
+#2 /var/www/html/index.php(15): Router->route()
+#3 {main}
+  thrown in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:17:41 UTC] PHP Warning:  require_once(/var/www/htmlcontrolador/ProductController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:17:41 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/htmlcontrolador/ProductController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:265
+Stack trace:
+#0 /var/www/html/core/Router.php(109): Router->editProductAdmin()
+#1 /var/www/html/core/Router.php(61): Router->adminActions()
+#2 /var/www/html/index.php(15): Router->route()
+#3 {main}
+  thrown in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:18:30 UTC] PHP Warning:  require_once(/var/www/htmlcontrolador/ProductController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:18:30 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/htmlcontrolador/ProductController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:265
+Stack trace:
+#0 /var/www/html/core/Router.php(109): Router->editProductAdmin()
+#1 /var/www/html/core/Router.php(61): Router->adminActions()
+#2 /var/www/html/index.php(15): Router->route()
+#3 {main}
+  thrown in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:18:45 UTC] PHP Warning:  require_once(/var/www/htmlcontrolador/ProductController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:18:45 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/htmlcontrolador/ProductController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:265
+Stack trace:
+#0 /var/www/html/core/Router.php(109): Router->editProductAdmin()
+#1 /var/www/html/core/Router.php(61): Router->adminActions()
+#2 /var/www/html/index.php(15): Router->route()
+#3 {main}
+  thrown in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:20:35 UTC] PHP Warning:  require_once(/var/www/htmlcontrolador/ProductController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:20:35 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/htmlcontrolador/ProductController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:265
+Stack trace:
+#0 /var/www/html/core/Router.php(109): Router->editProductAdmin()
+#1 /var/www/html/core/Router.php(61): Router->adminActions()
+#2 /var/www/html/index.php(15): Router->route()
+#3 {main}
+  thrown in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:21:44 UTC] PHP Warning:  require_once(/var/www/htmlcontrolador/ProductController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:21:44 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/htmlcontrolador/ProductController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:265
+Stack trace:
+#0 /var/www/html/core/Router.php(109): Router->editProductAdmin()
+#1 /var/www/html/core/Router.php(61): Router->adminActions()
+#2 /var/www/html/index.php(15): Router->route()
+#3 {main}
+  thrown in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:22:30 UTC] PHP Warning:  require_once(/var/www/htmlcontrolador/ProductController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:22:30 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/htmlcontrolador/ProductController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:265
+Stack trace:
+#0 /var/www/html/core/Router.php(109): Router->editProductAdmin()
+#1 /var/www/html/core/Router.php(61): Router->adminActions()
+#2 /var/www/html/index.php(15): Router->route()
+#3 {main}
+  thrown in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:23:10 UTC] PHP Warning:  require_once(/var/www/htmlcontrolador/ProductController.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 265
+[08-Oct-2024 19:23:10 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/htmlcontrolador/ProductController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:265
+Stack trace:
+#0 /var/www/html/core/Router.php(109): Router->editProductAdmin()
+#1 /var/www/html/core/Router.php(61): Router->adminActions()
+#2 /var/www/html/index.php(15): Router->route()
+#3 {main}
+  thrown in /var/www/html/core/Router.php on line 265
+[09-Oct-2024 02:27:31 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function ProductController::getProductsByLimit(), 0 passed in /var/www/html/core/Router.php on line 502 and exactly 1 expected in /var/www/html/controlador/ProductController.php:47
+Stack trace:
+#0 /var/www/html/core/Router.php(502): ProductController->getProductsByLimit()
+#1 /var/www/html/core/Router.php(112): Router->pageProductsAdmin()
+#2 /var/www/html/core/Router.php(61): Router->adminActions()
+#3 /var/www/html/index.php(15): Router->route()
+#4 {main}
+  thrown in /var/www/html/controlador/ProductController.php on line 47
+[09-Oct-2024 02:31:10 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function ProductController::getProductsByLimit(), 0 passed in /var/www/html/core/Router.php on line 505 and exactly 1 expected in /var/www/html/controlador/ProductController.php:58
+Stack trace:
+#0 /var/www/html/core/Router.php(505): ProductController->getProductsByLimit()
+#1 /var/www/html/core/Router.php(112): Router->pageProductsAdmin()
+#2 /var/www/html/core/Router.php(61): Router->adminActions()
+#3 /var/www/html/index.php(15): Router->route()
+#4 {main}
+  thrown in /var/www/html/controlador/ProductController.php on line 58
+[09-Oct-2024 16:57:42 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/product.php on line 14
+[09-Oct-2024 19:08:47 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 36
+[09-Oct-2024 19:08:55 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 36
+[09-Oct-2024 19:11:18 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:11:18 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 36
+[09-Oct-2024 19:12:30 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:12:30 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:12:30 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:13:11 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:13:11 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:13:11 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:14:51 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:14:51 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:14:51 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:15:50 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:15:50 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:17:09 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:17:09 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:18:00 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:18:00 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:18:42 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:18:42 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:28:54 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:28:54 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:36:10 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:36:10 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:38:59 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 89
+[09-Oct-2024 19:39:00 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:42:46 UTC] PHP Warning:  Array to string conversion in /var/www/html/vista/home.php on line 90
+[09-Oct-2024 19:42:46 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:44:19 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[09-Oct-2024 19:46:41 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34

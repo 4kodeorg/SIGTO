@@ -73,3 +73,6 @@ require('headerback.php');
 </div>
 </div>
 </div>
+<?php 
+include('footeradm.php');
+?>

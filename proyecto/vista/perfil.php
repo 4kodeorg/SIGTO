@@ -7,6 +7,15 @@ include('header-index.php');
         <nav class="nav-sidenav fixed-left" onmouseover="goLeft()" onmouseout="getBack()">
             <div class="settings-place"></div>
             <div class="scroll-place" id="scroll-container">
+            <a href="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <path d="M3 9.4c0-2.24 0-3.36.436-4.216a4 4 0 0 1 1.748-1.748C6.04 3 7.16 3 9.4 3h5.2c2.24 0 3.36 0 4.216.436a4 4 0 0 1 1.748 1.748C21 6.04 21 7.16 21 9.4v5.2c0 2.24 0 3.36-.436 4.216a4 4 0 0 1-1.748 1.748C17.96 21 16.84 21 14.6 21H9.4c-2.24 0-3.36 0-4.216-.436a4 4 0 0 1-1.748-1.748C3 17.96 3 16.84 3 14.6z" />
+                            <path d="M14.5 9.25a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0M7 20.5v-1.3c.317-6.187 9.683-6.187 10 0v1.3" />
+                        </g>
+                    </svg>
+                    <span class="span-sidenav-text">Mi perfil</span>
+                </a>
                 <a href="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
@@ -28,15 +37,7 @@ include('header-index.php');
                     </svg>
                     <span class="span-sidenav-text">Favoritos</span>
                 </a>
-                <a href="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
-                            <path d="M3 9.4c0-2.24 0-3.36.436-4.216a4 4 0 0 1 1.748-1.748C6.04 3 7.16 3 9.4 3h5.2c2.24 0 3.36 0 4.216.436a4 4 0 0 1 1.748 1.748C21 6.04 21 7.16 21 9.4v5.2c0 2.24 0 3.36-.436 4.216a4 4 0 0 1-1.748 1.748C17.96 21 16.84 21 14.6 21H9.4c-2.24 0-3.36 0-4.216-.436a4 4 0 0 1-1.748-1.748C3 17.96 3 16.84 3 14.6z" />
-                            <path d="M14.5 9.25a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0M7 20.5v-1.3c.317-6.187 9.683-6.187 10 0v1.3" />
-                        </g>
-                    </svg>
-                    <span class="span-sidenav-text">Mi perfil</span>
-                </a>
+               
                 <a href="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
@@ -57,15 +58,15 @@ include('header-index.php');
                     <figcaption> <?php echo htmlspecialchars($usuario['name']) ?> <?php echo htmlspecialchars($usuario['lastname']) ?></figcaption>
                 </figure>
             </a>
-
-
         </div>
 
         <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                        Información personal <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
+                    <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <span>
+                        Información personal
+                        </span> <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
                             <circle cx="9" cy="10" r="2" fill="currentColor" opacity="0.3" />
                             <path fill="currentColor" d="M14.48 18.34C13.29 17.73 11.37 17 9 17s-4.29.73-5.48 1.34C2.9 18.66 3 19.28 3 20h12c0-.71.11-1.34-.52-1.66" opacity="0.3" />
                             <path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v8h2V5h18v16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2" />
@@ -116,8 +117,10 @@ include('header-index.php');
             </div>
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                        Mis direcciones <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
+                    <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                       <span>
+                       Mis direcciones
+                       </span> <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M12 4C9.24 4 7 6.24 7 9c0 2.85 2.92 7.21 5 9.88c2.11-2.69 5-7 5-9.88c0-2.76-2.24-5-5-5m0 7.5a2.5 2.5 0 0 1 0-5a2.5 2.5 0 0 1 0 5" opacity="0.3" />
                             <path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7M7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9" />
                             <circle cx="12" cy="9" r="2.5" fill="currentColor" />
@@ -126,20 +129,24 @@ include('header-index.php');
                 </h2>
                 <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <?php if (isset($usuario['direccion']) && isset($usuario['seg_direccion'])) {
+                        <?php if (isset($usuario['direccion']) || isset($usuario['seg_direccion'])) {
                             echo '
             <p>Dirección de envío: ' . $usuario['direccion'] . '</p>
 
             <p>Direccion de envío alternativa: ' . $usuario['seg_direccion'] . ' </p>
             ';  ?>
-            <button onclick="showFormDir()">Actualizar mis direcciones</button>
             
+            <?php 
+                        } else {
+                        echo '
+                        <p>Debes agregar al menos una dirección para continuar comprando </p>
+                        
             <div id="actualizar-direcciones-container">
             <form
             id="form-direcciones"
             action="/perfil/' . $usuario['id'] . '?action=actualizar_direccion"
             method="POST">
-            <input type="hidden" name="idusername" value="<?php echo htmlspecialchars($usuario['id']) ?>">
+            <input type="hidden" name="idusername" value="'. htmlspecialchars($usuario['id']).'">
             <label for="direccion_envio">Dirección de envío</label>
             <input type="text" name="direccion" placeholder="Dirección de envío">
             <label for="">Dirección de envío alternativa</label>
@@ -163,19 +170,18 @@ include('header-index.php');
                     </g>
                 </g>
             </svg>
-        </div> <?php
-               } else {
-                        echo '
-                            <p>Debes agregar al menos una dirección para continuar comprando </p>
-                            ';
-                        } ?>
+        </div> 
+                ';} ?>
+                <button onclick="showFormDir()">Actualizar mis direcciones</button>
                     </div>
                 </div>
             </div>
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                        Medios de pago <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
+                    <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        <span>
+                        Medios de pago
+                        </span> <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h10v-2H4v-6h18V6c0-1.11-.89-2-2-2m0 4H4V6h16zm4 9v2h-3v3h-2v-3h-3v-2h3v-3h2v3z" />
                         </svg>
                     </button>

@@ -104,3 +104,7 @@ require('headerback.php')
 
 </div>
 </div>
+
+<?php 
+include('footeradm.php');
+?>

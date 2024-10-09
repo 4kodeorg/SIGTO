@@ -12,7 +12,7 @@ class Carrito {
         $this->id_producto = $id_producto;
     }
     public function setIdUsuario($id_usuario) {
-        $this->id_producto = $id_usuario;
+        $this->id_usuario = $id_usuario;
     }
     public function setCantidad($cantidad) {
         $this->cantidad = $cantidad;
