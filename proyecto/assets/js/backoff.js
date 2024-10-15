@@ -2,13 +2,70 @@ const linksBackoff = document.querySelectorAll('.nav-option');
 const formProducts = document.getElementById('add_product_form');
 const msgContainer = document.getElementById('sub-product');
 
+async function showDisabledProds(ev, el) {
+
+    const trProducts = document.getElementById('products-display');
+    const loadProdsBtn = document.querySelector('.load-products-btn');
+    const headingText = document.querySelector('.heading-report');
+
+    const trHeader = document.getElementById('theader');
+    const messgContainer = document.getElementById('message-products');
+
+    try {
+        const response = await fetch('http://localhost/admin/productos?action=get_disabled_products');
+        const data = await response.json();
+        if (data.success) {
+            headingText.textContent = 'Productos desactivados';
+            loadProdsBtn.style.display = 'none';
+            el.innerHTML = ''; 
+            el.innerHTML = `<button class='button-product-actions' onclick='backToProds(event, this)'> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11H6.83l3.58-3.59L9 6l-6 6l6 6l1.41-1.41L6.83 13H21z"/></svg>
+                Volver a mis productos
+                </button>`
+            trHeader.innerHTML = '';
+                trHeader.innerHTML = `
+                    <th scope="col">ID</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Origen</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Activar</th>
+                `;
+                trProducts.innerHTML = '';
+                data.disabledprods.forEach(producto => {
+                trProducts.insertAdjacentHTML('beforeend', renderDisabledProds(producto));
+            })
+          
+        } else {
+            messgContainer.style.display = 'flex';
+            messgContainer.querySelector('p').innerHTML = data.message;
+        }
+
+    } catch(error) {
+        console.log(`Error: ${error}`);
+    }
+}
+function renderDisabledProds(prod) {
+    return `
+    <th>${prod.id}</th>
+    <td>${prod.titulo}</td>
+    <td>${prod.origen}</td>
+    <td>${prod.precio}</td>
+    <td>
+    <button class='button-product-actions delete' data-product-id="${prod.id}" onclick='activateProduct(event, this)'> 
+    <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5m0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3"/>
+    </svg>
+    </button> </td>
+`;
+}
+
 async function showEditForm(buttonElement) {
     const productId = buttonElement.dataset.productId;
+    console.log(productId);
 
     try {
         const response = await fetch(`http://localhost/admin/productos/${productId}`);
-        
-        const data = await response.json();
+        const responseText = await response.text();
+        const data = JSON.parse(responseText);
         if (data.success) {
             const product = data.product;
             document.getElementById("edit_product_id").value = productId;
@@ -47,7 +104,7 @@ async function submitEditForm(e) {
         if (data.success) {
             alert(data.message);
             closeEditForm();
-            location.reload(); 
+            location.reload();
         } else {
             alert(data.message);
         }
@@ -113,6 +170,38 @@ async function loadMoreProducts(el) {
     }
 }
 
+async function activateProduct(ev, el) {
+    const productId = el.getAttribute('data-product-id');
+    try {
+        const resp = await fetch('http://localhost/admin/productos?action=activate_product', {
+                method: 'PUT',
+                headers: { 'Content-type' : 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'id_product' : productId
+                })
+            });
+
+        const response = await resp.json()
+        if (response.status) {
+            const row = el.closest('tr');
+            const colNum = row.children.length
+            row.innerHTML = '';
+            row.innerHTML = `<td colspan="${colNum}" style='text-align: center;'> ${response.message} </td>`
+            
+            await new Promise(resolve => setTimeout(resolve, 1500))
+            row.remove();
+        }
+        else {
+            alert(response.message);
+        }
+    } catch (error) {
+        console.log(`Error: ${error}`)
+    }
+
+}
+function backToProds( ev, el ) {
+    location.reload();
+}
 
 async function disableProduct(ev, el) {
     const productId = el.getAttribute('data-product-id');

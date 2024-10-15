@@ -380,6 +380,12 @@ padding: 0;
     padding: 7px;
     margin-right: 10px; 
 }
+#cart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 .add-item-cart {
     width: 100%;
     padding: 7px;
@@ -769,13 +775,13 @@ ul {
     transition: all 0.3s ease;
 }
 
-/* LOAD MORE PRODUCTS */
+/* LOAD MORE PRODUCTS ANIMATION */
 .loading-container {
     position: relative;
     width: 100px;
     display: none;
-    margin: auto;
-    height: 100px;
+    margin: 1.5rem auto;
+    height: 130px;
   }
 .show-loader {
     display: block;

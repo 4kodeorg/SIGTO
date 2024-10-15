@@ -214,6 +214,7 @@ a {
 .report-header {
   height: 80px;
   width: 100%;
+  margin: 1rem 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -318,7 +319,19 @@ a {
 #edit_product_modal {
   display: none;
 }
-
+.heading-report {
+  margin: 0;
+}
+.btn-disabled {
+  padding: 5px;
+  background-color: transparent;
+}
+.dis-productos {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: .5rem;
+}
 /* LOADING ANIM */
 .wrapper {
   width: 200px;

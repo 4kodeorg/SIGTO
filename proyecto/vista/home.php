@@ -58,7 +58,6 @@ function renderProductRow($product, $usId, $isFavorite)
             </thead><tbody>";
 
         foreach ($data['resultados'] as $product) {
-            var_dump($data['favoritos']);
             $isInFavorites = isFavorite($product['id'], $data['favoritos']);
             echo renderProductRow($product, $usId, $isInFavorites);
         }
@@ -67,8 +66,12 @@ function renderProductRow($product, $usId, $isFavorite)
         echo "<table class='table px-4 my-5'>
             <thead>
                 <tr><th colspan='5'><h2 class='mx-auto pt-5'>Articulos publicados</h2><hr></th></tr>
-                <tr><th scope='col'>Titulo</th><th scope='col'>Descripcion</th><th scope='col'>Precio</th><th scope='col'>Cantidad</th></tr>
-            </thead><tbody>";
+                <tr><th scope='col'>Titulo</th>
+                <th scope='col'>Descripcion</th>
+                <th scope='col'>Precio</th>
+                <th scope='col'>Cantidad</th>
+                </tr>
+            </thead><tbody id='products-data'>";
 
         foreach ($data['productos'] as $product) {
             $isFavorite = isFavorite($product['id'], $data['favoritos']);

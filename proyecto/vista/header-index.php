@@ -1,15 +1,8 @@
 <?php
-$usId = 0;
-$username = '';
-if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
-  // if (isset($_SESSION['carrito'])) {
-    // $carrito = $_SESSION['carrito'];
-    // print_r($carrito);
-  // }
-  $usId = $_SESSION['id_username'] ?? 0;
-  $username = $_SESSION['username'] ?? '';
-  $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
-}
+$usId = $_SESSION['id_username'] ?? 0;
+$username = $_SESSION['username'] ?? '';
+echo '<pre></pre><pre></pre><pre></pre><pre></pre><pre></pre><pre></pre><pre></pre><pre></pre><pre></pre><pre></pre><pre></pre><pre></pre>';
+var_dump($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +23,7 @@ if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
   <title>Mercado Ya!</title>
 </head>
 
-<div id="userId" data-user-id="<?php $usId; ?>"></div>
+<div id="userId" data-user-id="<?php echo $usId ?>"></div>
 
 <body>
   <div class="container-fluid navigation">
@@ -41,7 +34,7 @@ if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
             <h1 class="logo">Mercado Ya</h1>
           </a>
           <div class="search-form-container">
-            <form class="searchbar2" role="search" action="/home?action=search" method="get" id="search-form">
+            <form class="searchbar2" role="search" action="" method="get" id="search-form">
               <select name="acategory" id="">
                 <option value="0">Todas las categorías</option>
               </select>
@@ -57,10 +50,6 @@ if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
                   </g>
                 </svg>
               </button>
-              <!-- PARA IMPLEMENTAR, BUSQUEDA EN VIVO, PUEDE QUE NO.. -->
-              <div id="autocomplete-search">
-                <a href=""></a>
-              </div>
             </form>
 
           </div>
@@ -123,7 +112,9 @@ if (isset($_SESSION['id_username']) && isset($_SESSION['username'])) {
             <div id="items-cart" class="circle"><small> </small></div>
              
               <img src="../assets/imgs/cart-outline.svg" alt="">
+              <section>
               <span>$</span><b></b>
+              </section>
             </a>
        
       </div>

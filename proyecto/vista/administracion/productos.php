@@ -71,12 +71,28 @@ require('headerback.php')
         </div>
 
         <table class="table px-4 mt-5">
-            <thead>
+            <thead id="theader">
                 <div class="report-header">
-                    <h2 class="mx-auto pt-5">Articulos publicados</h2>
+                    <h2 class="heading-report mx-auto">Articulos publicados</h2>
+                    <button onclick="showDisabledProds(event, this)" class="btn-disabled"> Ver productos desactivados </button>
+                </div>
+                <div id="message-products" class="dis-productos">
+                <p></p>
+                <svg onclick="this.parentElement.style.display=`none`" ;
+                    width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor"
+                    x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="currentColor">
+                        <g fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6" />
+                            <circle cx="12" cy="12" r="10" />
+                        </g>
+                    </g>
+                </svg>
+
                 </div>
                 <hr>
                 <tr>
+                    
                     <th scope="col">ID</th>
                     <th scope="col">Titulo</th>
                     <th scope="col">Origen</th>
@@ -86,7 +102,7 @@ require('headerback.php')
                     <th scope="col">Desactivar</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id='products-display'>
                 <?php
                 if (isset($productos) && !empty($productos)) {
                     foreach ($data['productos'] as $prod) {
@@ -135,7 +151,7 @@ require('headerback.php')
             <div id="edit_product_modal" class="modal">
                 <div class="modal-content">
                     <h4>Editar Producto</h4>
-                    <form class="form_edit_product" id="edit_product_form" method="post">
+                    <form class="form_edit_product" id="edit_product_form" method="POST">
                         <input type="hidden" id="edit_product_id" name="id_producto">
 
                         <label for="new_titulo">Título:</label>

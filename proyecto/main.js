@@ -95,6 +95,7 @@ async function updateFavorites(ev, el) {
     
     const prodId = el.getAttribute('data-product-id');
     const userId = el.getAttribute('data-user-id');
+    // console.log(prodId, "User id: " +userId);
     
     const isFavorite = el.classList.contains('favoritos');
     
@@ -112,7 +113,6 @@ async function updateFavorites(ev, el) {
         });
 
         const resultText = await response.text();
-        console.log(resultText);
         const result = JSON.parse(resultText);
 
         if (result.status === 'success') {
@@ -132,11 +132,11 @@ async function updateFavorites(ev, el) {
                                 d="M7.75 3.5C5.127 3.5 3 5.76 3 8.547C3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79c-.78-1.654-2.39-2.79-4.25-2.79"/></svg>`;
             }
         } else {
-            console.log(result.message);
+            alert(result.message);
         }
 
     } catch (error) {
-        console.log(`Error: ${error}`);
+        console.log("No se pudo añadir a favoritos");
     }
 }
 
@@ -179,6 +179,28 @@ async function goToCart(button) {
     }
 }
 
+async function searchResults(ev, el) {
+    ev.preventDefault();
+    const queryString = window.location.search;
+    console.log(queryString);
+    const searchURL = new URLSearchParams(queryString);
+    const searchParam = searchURL.get('buscar');
+    
+    const currLimit = searchURL.get('limit');
+    const currOffs = searchURL.get('offset');
+    console.log(currLimit, currOffs, searchParam);
+   
+        
+    try {
+        const response = await fetch(`http://localhost/home?acategory=0&buscar=${searchParam}`);
+        const resp = await response.json();
+        console.log(resp);
+    } catch (error ) {
+        console.log(`Error: ${error}`);
+    }
+}
+
+
 async function updateInfo() {
     const messageInfo = document.getElementById('message-resp-info');
     const userInformation = new FormData(formPersonalInfo);
@@ -215,6 +237,9 @@ const limit = 5;
 
 async function fetchMoreProducts(usId) {
     
+    const queryString = window.location.search;
+    const querySearch = new URLSearchParams(queryString);
+    const search = querySearch.get('buscar');
     const spinnerLoad = document.querySelector('.loading-container');
     const sectionBelow = document.querySelector('.container-next-sect');
     const footer = document.querySelector('.footer-commerce');
@@ -222,7 +247,15 @@ async function fetchMoreProducts(usId) {
     spinnerLoad.classList.add('show-loader');
     footer.classList.add('hide-some');
     sectionBelow.classList.add('hide-some');
+    
+    
     try {
+        if (search) {
+            spinnerLoad.classList.remove('show-loader');
+            footer.classList.remove('hide-some');
+            sectionBelow.classList.remove('hide-some');
+            return;
+        }
         const response = await fetch(`http://localhost/home?offset=${currentOffset}&limit=${limit}`);
         const productsData = await response.json();
         await new Promise(resolve => setTimeout(resolve, 1800));
@@ -231,12 +264,12 @@ async function fetchMoreProducts(usId) {
         sectionBelow.classList.remove('hide-some');
         if (productsData.productos.length > 0) {
             const tbody = document.querySelector(".container-prods table tbody");
-
+            
             productsData.productos.forEach(product => {
+                
                 const isFavorite = productsData.favoritos.some(fav => fav.id_prod === product.id);
-                if (!document.querySelector(`#product-row-${product.id}`)) {
-                    tbody.insertAdjacentHTML('beforeend', renderProductRow(product, usId, isFavorite));
-                }
+                tbody.insertAdjacentHTML('beforeend', renderProductRow(product, usId, isFavorite));
+                
             });
             currentOffset += limit;
             observeLastRow(usId);
@@ -277,7 +310,7 @@ function renderProductRow(product, usId, isFavorite) {
 }
 
 
-function observeLastRow(usId) {
+function observeLastRow(usId ) {
     const rows = document.querySelectorAll(".container-prods table tbody tr");
     const lastRow = rows[rows.length - 1];
 
@@ -298,12 +331,17 @@ function observeLastRow(usId) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const usId = parseInt(document.getElementById("userId").dataset.userId)
-    
+    const searchForm = document.getElementById("search-form");
+    const searchInput = document.getElementById("busqueda");
+    const usId = parseInt(document.getElementById("userId").dataset.userId);
+
     observeLastRow(usId);
 });
 
-
+function fetchAllProds() {
+    const usId = parseInt(document.getElementById('userId').dataset.userId);
+    observeLastRow(usId);
+}
 async function updateDirecciones() {
     const messageResponse = document.getElementById('message-resp-direcciones');
     const userDirecciones = new FormData(actDirecciones);

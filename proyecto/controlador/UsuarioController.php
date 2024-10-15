@@ -53,6 +53,42 @@ class UsuarioController extends Database
         }
     }
     }
+    public function checkGoogleUser ($email) {
+        $query = "SELECT email FROM google_cuentas WHERE email= ?;";
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Error al crear la cuenta");
+        }
+        $stmt->bind_param('s', $email);
+        try {
+            if ($stmt->execute()) {
+                $result = $stmt->get_result();
+                if ($result->num_rows == 1) {
+                    $googleUser = $result->fetch_assoc();
+                    
+                    return $googleUser;
+                }
+                else {
+                    return false;
+                }
+            }
+        } catch (Exception $er) {
+            throw new Exception("Error: " .$er->getMessage());
+        }
+    }
+    public function createGoogleUser($email, $name) {
+        $query = "INSERT INTO google_cuentas (email, fullname) VALUES ( ?, ?);";
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Error al crear la cuenta");
+        }
+        $stmt->bind_param('ss', $email, $name);
+        try {
+            return $stmt->execute();
+        } catch (Exception $err) {
+            throw new Exception("Error: ".$err->getMessage());
+        }
+    }
     public function validateUser($username, $password) {
         
         $query = 'SELECT * FROM usuarios WHERE username=?';

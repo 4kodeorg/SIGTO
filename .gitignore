@@ -1,5 +1,12 @@
+
 node_modules
 .DS_Store
+
 .php_logs
+debug.log
+
 db
 doc.ini
+
+#KEYS
+cfg.php
