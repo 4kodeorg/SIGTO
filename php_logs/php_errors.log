@@ -2154,3 +2154,12 @@ Stack trace:
 [09-Oct-2024 19:42:46 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
 [09-Oct-2024 19:44:19 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
 [09-Oct-2024 19:46:41 UTC] PHP Warning:  Undefined array key "favoritos" in /var/www/html/vista/header-index.php on line 34
+[15-Oct-2024 19:02:12 UTC] PHP Fatal error:  Uncaught TypeError: Cannot assign string to property Carrito::$id_usuario of type int in /var/www/html/modelo/Carrito.php:15
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(10): Carrito->setIdUsuario('d54279dc418013c...')
+#1 /var/www/html/core/Router.php(758): CartController->create(Array)
+#2 /var/www/html/core/Router.php(91): Router->formCarrito()
+#3 /var/www/html/core/Router.php(57): Router->homeActions()
+#4 /var/www/html/index.php(15): Router->route()
+#5 {main}
+  thrown in /var/www/html/modelo/Carrito.php on line 15

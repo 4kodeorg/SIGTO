@@ -115,19 +115,19 @@
 }
 .login-form button, .form-helpers a {
     border-radius: 6px;
-    background: rgb(255,183,0);
-background: linear-gradient(145deg, rgba(255,183,0,0.5382746848739496) 4%, rgba(247,253,65,0.8688068977591037) 49%, rgba(255,183,0,0.5774903711484594) 93%);
     box-shadow:  6px 6px 12px #c1c1c1,
              -6px -6px 12px #ffffff;
     padding: 1rem .6rem;
     cursor: pointer;
+    background-color: transparent;
     font-size: 1.123rem;
+    font-weight: bolder;
     margin: .5rem auto;
     color: #000;
 }
 .login-form button:hover, .form-helpers a:hover {
-    background: rgb(255,248,0);
-    background: linear-gradient(145deg, rgba(255,248,0,0.7007396708683473) 4%, rgba(255,183,0,1) 49%, rgba(255,248,0,0.8267900910364145) 93%);
+    color: rgb(249, 251, 248);
+    background-color: #02020244;
 }
 /*  */
 
@@ -190,14 +190,13 @@ input[type="checkbox"] {
     color: #000;
     cursor: pointer;
     border-radius: 4px;
-    background: rgb(255,183,0);
-    background: linear-gradient(145deg, rgba(255,183,0,0.5382746848739496) 4%, rgba(247,253,65,0.8688068977591037) 49%, rgba(255,183,0,0.5774903711484594) 93%);
+    background-color: transparent;
     box-shadow:  6px 6px 12px #c1c1c1,
              -6px -6px 12px #ffffff;
 }
 .button-registro:hover {
-    background: rgb(255,248,0);
-    background: linear-gradient(145deg, rgba(255,248,0,0.7007396708683473) 4%, rgba(255,183,0,1) 49%, rgba(255,248,0,0.8267900910364145) 93%);
+    color: rgb(249, 251, 248);
+    background-color: #6f6e6e9f;
 }
 .footer-commerce { 
     background-color: var(--background-color3);
@@ -235,6 +234,21 @@ ul a {
     color: #020202;
     margin: 0 12px;
     align-self: center;
+}
+
+.button-action-google {
+    width: 70%;
+    border: .5px solid #020202;
+    padding: 8px;
+    display: flex;
+    border-radius: 6px;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+.button-action-google:hover {
+    background-color: #ededed;
 }
 
 .errorsp {
