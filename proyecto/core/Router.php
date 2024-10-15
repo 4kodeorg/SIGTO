@@ -528,7 +528,7 @@ class Router
             $google_account_info = $google_oauth->userinfo->get();
             $email =  $google_account_info->email;
             $name =  $google_account_info->name;
-            // TO DO - CREAR TABLE CUENTAS_GOOGLE PARA REGISTRAR LOS INICIOS CON GOOGLE API
+            // CREAR TABLE CUENTAS_GOOGLE PARA REGISTRAR LOS INICIOS CON GOOGLE API
             // if ($googleAccountExists = $userController->checkGoogleUser($email)) {
             //     $_SESSION['email_google'] = $googleAccountExists['email'];
             //     $_SESSION['username'] = $googleAccountExists['fullname'];

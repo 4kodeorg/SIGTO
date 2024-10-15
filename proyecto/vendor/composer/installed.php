@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.376.0',
-            'version' => '0.376.0.0',
-            'reference' => '013c4fcdda03c804e96c6aad332456e05916c665',
+            'pretty_version' => 'v0.377.0',
+            'version' => '0.377.0.0',
+            'reference' => '912727289dd617a97da7d2700debbe81a59cea19',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
