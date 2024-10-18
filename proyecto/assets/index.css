@@ -10,6 +10,7 @@
     --background-color4: #939393c3;
     --primary-color: #ffd000;
     --secondary-color: #ffc300;
+    --secondary-hover: #f7d153;
     --Border-color: #ffb700;
     --stats-use-color: #ff8800;
     --two-use-color: #ffea00;   
@@ -123,17 +124,27 @@ a {
     font-family: titleFont, serif;
     color: var(--main-brand-color);
   }
-  .circle {
-    position: absolute;
-    left: 28px;
+  #items-cart .circle {
     font-weight: 600;
-    top: 2px;
+    padding: 6px;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    background-color: var(--secondary-color);
   }
-  .circle small {
+  #items-cart small {
     background-color: var(--cart-counter);
-    border-radius: 80%;
+    color: #ee3919;
+    font-weight: bolder;
   }
-
+.section-price-cart {
+    color: #020202;
+    font-size: 8px;
+}
 .container-gallery {
    position: relative;
    width: 100vw;
@@ -307,11 +318,11 @@ padding: 0;
     padding: 1.5rem 1rem;
 }
 .btn-primary {
-   background: none !important;
    border: none !important;
+   padding: 0 4.5px;
 }
 .btn-primary:hover {
-    background-color: #b6e2be !important;
+    background-color: var(--secondary-hover) !important;
 }
 .ul-for-nav {
     display: flex;
@@ -638,6 +649,17 @@ ul {
 }
 .visible {
     display: none;
+}
+#cart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--secondary-color);
+    flex-direction: column;
+}
+#cart img {
+    width: 30px;
+    height: 30px;
 }
 .add-to-cart-btn {
     border: .5px solid #020202;

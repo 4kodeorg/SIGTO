@@ -29,6 +29,90 @@ async function showEditForm(buttonElement) {
 function closeEditForm() {
     document.getElementById("edit_product_modal").style.display = "none";
 }
+const productsContainer = document.getElementById('row-of-products');
+const headerContainer = document.querySelector('.report-header');
+const tableHeader = document.querySelector('.table-headers');
+const btnLoadProds = document.getElementById('btn-load-prods');
+
+function reloadPage() {
+    location.reload();
+}
+async function getDisabledProds() {
+    
+    try {
+        const response = await fetch('http://localhost/admin/productos?action=get_disabled_products');
+        btnLoadProds.remove();
+        const productos = await response.json();
+        
+        console.log(productos.disabledprods);
+        if (productos.success) {
+
+            headerContainer.innerHTML = '';
+            headerContainer.innerHTML = `<h4>Artículos desactivados</h4><button onclick="reloadPage()" class="products-btn"> Volver a mis productos
+            <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24"><path fill="currentColor" d="M11.92 19.92L4 12l7.92-7.92l1.41 1.42l-5.5 5.5H22v2H7.83l5.51 5.5zM4 12V2H2v20h2z"/></svg>                            
+            </button>`
+            tableHeader.innerHTML = '';
+            tableHeader.innerHTML = `<th scope="col">ID</th>
+                                    <th scope="col">Titulo</th>
+                                    <th scope="col">Origen</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Activar</th> `;
+            productsContainer.innerHTML = '';
+            productos.disabledprods.forEach(prod => {
+                productsContainer.insertAdjacentHTML('beforeend', renderProducts(prod));
+            });
+        } else {
+
+        }
+    }
+    catch (error) {
+        console.log(`Error ${error}`)
+    }
+
+}
+function renderProducts (product) {
+   return `<tr>
+        <th>${product.id}</th>
+        <td>${product.titulo}</td>
+        <td>${product.origen}</td>
+        <td>${product.precio}</td>
+        <td>Desactivado</td>
+        <td>
+        <button class="button-product-actions" data-product-id="${product.id}" onclick="activateProduct(event, this)"> 
+        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/>
+        </svg>
+        </button>
+        </td>
+        </tr>`;
+    
+}
+async function activateProduct(ev, el) {
+    const productId = el.getAttribute('data-product-id');
+    try {
+        const response = await fetch("http://localhost/admin/productos?action=activate_product", {
+            method: 'PUT',
+            headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                'id_product': productId
+            })
+
+        })
+        const data = await response.json();
+        if (data.status) {
+            const currRow = el.closest('tr');
+            currRow.innerHTML = '';
+            currRow.innerHTML = `<th class="success-msg" colspan="6">${data.message}</th>`;
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            currRow.remove();
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.log(`Error: ${error}`)
+    }
+}
 
 async function submitEditForm(e) {
     e.preventDefault(); 
@@ -133,7 +217,10 @@ async function disableProduct(ev, el) {
             
             el.innerHTML = '';
             el.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5m0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3"/></svg';
+            row.style.cursor = 'not-allowed'
             row.classList.add('table-row-disabled');
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            row.remove();
         } else {
             alert(result.message);
         }
@@ -143,11 +230,21 @@ async function disableProduct(ev, el) {
 
 }
 
-
 async function productsForm() {
-    
-    productsData = new FormData(formProducts);
+    const imageInput = document.getElementById('images');
+
+    if (imageInput.files.length > 6) {
+        msgContainer.style.display = 'flex';
+        msgContainer.style.margin = '1rem 0';
+        const msgParrafo = msgContainer.querySelector('p');
+        if (msgParrafo) {
+            msgParrafo.innerHTML = "Superaste el máximo permitido de imagenes";
+        }
+        return;
+    }
+    const productsData = new FormData(formProducts);
     productsData.append('submit', 'submit');
+    const msgParrafo = msgContainer.querySelector('p')
     try {
     const response = await fetch("http://localhost/admin/productos?action=agregar_producto",
          {
@@ -156,19 +253,22 @@ async function productsForm() {
     })
     const data = await response.json() 
     msgContainer.style.display = 'flex';
-    const msgParrafo = msgContainer.querySelector('p')
+    
     if (msgParrafo) {
+        msgContainer.classList.add('error-prod');
+        msgContainer.style.margin = '1rem 0';
         msgParrafo.innerHTML = data.mssg; 
     }
     if (data.success) {
+        msgContainer.classList.add('success-prod');
         formProducts.reset();
     }
-    
 }
     catch(err) {
         msgContainer.style.display = 'flex';
-        const msgParrafo = msgContainer.querySelector('p')
+        msgContainer.style.margin = '1rem 0';
     if (msgParrafo) {
+        msgContainer.style.margin = '1rem 0';
         msgParrafo.innerHTML = `Error: ${err}`;
     }
 }

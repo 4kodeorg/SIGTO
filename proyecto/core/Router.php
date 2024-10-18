@@ -90,6 +90,12 @@ class Router
             case 'add_to_cart':
                 $this->formCarrito();
                 break;
+            case 'open_cart':
+                $this->openCarrito();
+                break;
+            case 'get_cart':
+                $this->getCurrentCart();
+                break;
             default:
                 $this->searchForm();
                 break;
@@ -133,6 +139,31 @@ class Router
         }
     }
 
+    private function getCurrentCart() {
+
+        require_once $_SERVER['DOCUMENT_ROOT']. '/controlador/CartController.php';
+
+        $response = ['success' => false, 'message' => '', 'carrito' => []];
+        if (isset($_GET['id']) && $_GET['id'] != 0) {
+            $userId = $_GET['id'];
+            $cartController = new CartController();
+            $userCart = $cartController->getUserCarrito($userId);
+            if (count($userCart) === 0) {
+                $response['success'] = true;
+                $response['message'] = "Tu carrito está vacio";
+            } else {
+                $response['success'] = true;
+                $response['carrito'] = $userCart;
+            }
+
+
+        } else {
+            $response['message'] = "Solicitud inválida";
+        }
+        echo json_encode($response);
+        exit();
+    }
+
     private function renderPage($page, $data = [])
     {
 
@@ -159,6 +190,24 @@ class Router
             echo "404 - Page not found";
         }
     }
+    private function openCarrito()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
+        $response = ['success' => false, 'message' => '', 'carrito' => [], 'total' => 0];
+        header('Content-type: application/json');
+        $cartController = new CartController();
+        $idUser = $_GET['id_user'] ?? 0;
+        $userCarrito = $cartController->getUserCarrito($idUser);
+        if (!empty($userCarrito['carrito'])) {
+            $response['success'] = true;
+            $response['carrito'] = $userCarrito['carrito'];
+            $response['total'] = $userCarrito['total'];
+        } else {
+            $response['message'] = "Tu carrito está vacío";
+        }
+        echo json_encode($response);
+        exit();
+    }
     private function getDisabledProds()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
@@ -174,6 +223,7 @@ class Router
             $response['message'] = "No tienes productos desactivados";
         }
         echo json_encode($response);
+        exit();
         return;
     }
 
@@ -241,9 +291,48 @@ class Router
         }
     }
 
+    private function editProductAdmin()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
+
+        $response = ['success' => false, 'message' => ''];
+        $data = [
+            'product_id' => htmlspecialchars($_POST['id_producto']),
+            'new_titulo' => htmlspecialchars($_POST['new_titulo']),
+            'new_descripcion' => htmlspecialchars($_POST['new_descripcion']),
+            'new_origen' => htmlspecialchars($_POST['new_origen']),
+            'new_cantidad' =>  htmlspecialchars($_POST['new_cantidad']),
+            'new_precio' => htmlspecialchars($_POST['new_precio'])
+
+        ];
+        $emptyFields = false;
+        foreach ($data as $clave => $valor) {
+            if (empty(trim($valor))) {
+                $emptyFields = true;
+                $response['message'] = 'El campo' . $clave . 'es requerido';
+            }
+        }
+        if (!$emptyFields) {
+            $productController = new ProductController();
+            $result = $productController->updateProductData($data);
+            if ($result) {
+                $response['success'] = true;
+                $response['message'] = "Producto actualizado con exito";
+            } else {
+                $response['message'] = "No se pudo actualizar el producto";
+            }
+        } else {
+            $response['message'] = "Todos los campos son requeridos";
+        }
+        header('Content-type: application/json');
+        echo (json_encode($response));
+        exit();
+    }
+    // USUARIO
+
     private function removeFromFavoritos()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && $this->action === 'remove_fav') {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
             $usuarioController = new UsuarioController();
             parse_str(file_get_contents("php://input"), $favData);
@@ -325,45 +414,6 @@ class Router
         echo (json_encode($response));
         exit();
     }
-
-    private function editProductAdmin()
-    {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
-
-        $response = ['success' => false, 'message' => ''];
-        $data = [
-            'product_id' => htmlspecialchars($_POST['id_producto']),
-            'new_titulo' => htmlspecialchars($_POST['new_titulo']),
-            'new_descripcion' => htmlspecialchars($_POST['new_descripcion']),
-            'new_origen' => htmlspecialchars($_POST['new_origen']),
-            'new_cantidad' =>  htmlspecialchars($_POST['new_cantidad']),
-            'new_precio' => htmlspecialchars($_POST['new_precio'])
-
-        ];
-        $emptyFields = false;
-        foreach ($data as $clave => $valor) {
-            if (empty(trim($valor))) {
-                $emptyFields = true;
-                $response['message'] = 'El campo' . $clave . 'es requerido';
-            }
-        }
-        if (!$emptyFields) {
-            $productController = new ProductController();
-            $result = $productController->updateProductData($data);
-            if ($result) {
-                $response['success'] = true;
-                $response['message'] = "Producto actualizado con exito";
-            } else {
-                $response['message'] = "No se pudo actualizar el producto";
-            }
-        } else {
-            $response['message'] = "Todos los campos son requeridos";
-        }
-        header('Content-type: application/json');
-        echo (json_encode($response));
-        exit();
-    }
-
     private function updateInfo($userId)
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
@@ -492,6 +542,7 @@ class Router
                         $sessIdfragment = date('Ymd_His') . "-" . $usuario['id'];
                         $carrito = $cartController->getUserCarrito($usuario['id']);
                         $_SESSION['carrito'] = $carrito;
+
                         $_SESSION['id_username'] = $usuario['id'];
                         $_SESSION['uri_fragment'] = $sessIdfragment;
                         $_SESSION['username'] = $usuario['username'];
@@ -567,9 +618,11 @@ class Router
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
 
         $product = new ProductController();
         $userController = new UsuarioController();
+        $cartController = new CartController();
 
         $response = ['success' => false, 'message' => '', 'results' => []];
 
@@ -652,8 +705,9 @@ class Router
 
             $productController = new ProductController();
             $productos = $productController->getProductsByLimit($offset, $limit);
+            $categorias = $productController->getCategories();
             if (count($productos) > 0) {
-                $this->renderBackOffice('productos', ['productos' => $productos]);
+                $this->renderBackOffice('productos', ['productos' => $productos, 'categorias' => $categorias]);
             } else {
                 $this->renderBackOffice('productos', ['message' => "No hay productos para mostrar"]);
             }
@@ -667,13 +721,20 @@ class Router
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
         $resp = ['success' => false, 'mssg' => ''];
+        $productController = new ProductController();
+
         if (isset($_POST['submit'])) {
+            $imagesPaths = [];
             $errors = array();
+
+            if (!empty($_FILES['images'])) {
+            }
             $data = [
                 'titulo' => $_POST['titulo'],
                 'descripcion' => $_POST['descripcion'],
                 'origen' => $_POST['origen'],
                 'cantidad' => $_POST['cantidad'],
+                'categoria' => $_POST['acategory'],
                 'precio' => $_POST['precio']
             ];
 
@@ -685,7 +746,7 @@ class Router
                 }
             }
             if (!$emptyFields && count($errors) === 0) {
-                $productController = new ProductController();
+
                 $productId = $productController->create($data);
                 if ($productId) {
                     $resp['success'] = true;
@@ -737,7 +798,8 @@ class Router
     private function formCarrito()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
-        if ($this->action === 'add_to_cart' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Carrito.php';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $response = ['success' => false, 'message' => '', 'carrito' => []];
             if (!isset($_SESSION['username'])) {
                 $response['message'] = "Tienes que iniciar sesion";
@@ -746,22 +808,48 @@ class Router
 
                 $productId = htmlspecialchars($_POST['id_product']);
                 $userId = htmlspecialchars($_POST['id_user']);
+                $productTitulo = htmlspecialchars($_POST['titulo']);
                 $quantity = htmlspecialchars($_POST['quantity']);
                 $priceProduct = htmlspecialchars($_POST['price']);
-                $total = $quantity * $priceProduct;
-                $carrito = [
+                
+
+                $itemData = [
                     'id_product' => $productId,
                     'id_user' => $userId,
-                    'quantity' => $quantity,
-                    'total' => $total
+                    'titulo' => $productTitulo,
+                    'cantidad' => (int) $quantity,
+                    'price_product' => (int) $priceProduct
                 ];
-                $cartCreated = $cartController->create($carrito);
+                if ($itemData['cantidad'] < 1) {
+                    $response['message'] = "Tu solicitud no pudo ser procesada";
+                    return;
+                } 
+                $cartCreated = $cartController->updateCart($itemData);
+
                 if ($cartCreated) {
-                    $_SESSION['carrito'] = $carrito;
+                    $itemExistsInSession = false;
+
+                    if (!isset($_SESSION['carrito'])) {
+                        $_SESSION['carrito'] = [];
+                    } else {
+                        foreach ($_SESSION['carrito'] as &$sessionItem) {
+                            if ($sessionItem['id_product'] == $productId && $sessionItem['id_user'] == $userId) {
+                                $sessionItem['cantidad'] += $quantity;
+                                $itemExistsInSession = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!$itemExistsInSession) {
+                        $_SESSION['carrito'][] = $itemData;
+                        $response['message'] = 'Producto añadido al carrito';
+                    } else {
+                        $response['message'] = 'Cantidad del producto actualizada';
+                    }
                     $response['success'] = true;
-                    $response['message'] = 'Carrito creado';
-                    $response['carrito'] = $carrito;
-                } else {
+                    $response['carrito'] = $_SESSION['carrito'];
+                }
+                 else {
                     $response['message'] = 'Ocurrió un error inesperado';
                 }
             }

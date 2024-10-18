@@ -8,6 +8,7 @@ class Producto{
     private string $precio;
     private string $origen;
     private string $cantidad;
+    private int $id_category;
 
     public function getId() {
         return $this->id;
@@ -27,6 +28,9 @@ class Producto{
     public function setOrigen($origen) {
         $this->origen = $origen;
     } 
+    public function setIdCategory($id_category) {
+        $this->id_category = $id_category;
+    }
     public function setCantidad($cantidad) {
         $this->cantidad = $cantidad;
     }
@@ -38,6 +42,9 @@ class Producto{
     }
     public function getPrecio() {
         return $this->precio;
+    }
+    public function getIdCategory() {
+        return $this->id_category;
     }
     public function getOrigen() {
         return $this->origen;

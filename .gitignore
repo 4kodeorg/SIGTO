@@ -1,5 +1,6 @@
 node_modules
 .DS_Store
-.php_logs
+php_logs
 db
 doc.ini
+debug.log

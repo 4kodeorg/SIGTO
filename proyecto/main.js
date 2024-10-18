@@ -139,37 +139,82 @@ async function updateFavorites(ev, el) {
         console.log(`Error: ${error}`);
     }
 }
+async function openCart() {
+    const userId = document.getElementById('userId');
+    const actualId = userId.getAttribute('data-user-id');
+    const carritoContainer = document.getElementById('offcanvas-carrito');
+
+    try {
+        const response = await fetch(`http://localhost/home?action=open_cart&userId=${actualId}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        const data = await response.json();
+        if (data.success) {
+            data.carrito.forEach(item => {
+                carritoContainer.insertAdjacentElement('beforeend', `<p>${item.titulo}</p>`);
+            });
+            
+        } else {
+
+        }
+    } catch (error) {
+        console.log(`Error: ${error}`);
+    }
+}
 
 const itemsCart = document.getElementById('items-cart');
 const cart = document.getElementById('cart');
 const cartCounter = itemsCart.querySelector('small');
 const priceContainer = cart.querySelector('b');
-cartCounter.innerHTML = 0;
-priceContainer.innerHTML = 0;
 
-async function goToCart(button) {
+async function getCarritoItems(userId) {
+    try {
+        const response = await fetch (`http://localhost/home?action=get_cart&id=${userId}`)
+        const data = await response.json();
+
+        if (data.success) {
+            
+        } else {
+
+        }
+    } catch (error) {
+        
+    }
+}
+
+async function updateCart(button) {
     const itemId = button.getAttribute('data-id')
+    
     const formElement = document.getElementById(`form-cart-item-${itemId}`)
     const cartItem = new FormData(formElement);
+    const cart = document.getElementById('cart');
+    const imgCart = cart.querySelector('img');
+    console.log(`User: ${cartItem.get('id_user')}`);
+    console.log(`Item ${itemId}`);
     let itemsQuantity = Number.parseInt(cartItem.get('quantity'));
     let itemPrice = Number.parseInt(cartItem.get('price'));
+    
+    console.log(`Cantidad: ${itemsQuantity}, \n
+                Precio: ${itemPrice}\n
+                Id: ${itemId}`);
     try {
         const response = await fetch('http://localhost/home?action=add_to_cart' ,{
             method: 'POST',
             body: cartItem
         })
         const dataText = await response.text();
-        console.log(dataText);
+       
         const data = JSON.parse(dataText);
         if (data.success) {
+            imgCart.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACTElEQVR4nO2ZzUuUQRyAn62gCDtn4F6CcjMlRLz0FxTRsdUOhqEhhkgIgbf+gg5B4MFLh8g+1JAlvRQR3b14kKBTKumSWOFBcLdi4Lfwsrwfu+v8Zt4XemAu78yPmWdm3vlg4D/p4wawCfyNSXvAJ+AOkCOlbCRI1KdnaZXZCDTyW0SZs8AIsC/lzMikjusiYySuJZQdFZFVMs5J4IfIXG4ytgi8BwoR+beA5Zh86zwXkYkmYgaAQ4nbAbpDJOPyVahNr/kGyw8BlboFYxvokvw24HtMvhoXpbJyA6vXYKCn61Ow5wshMjsuRmZLKovrtdshIxEm05Mg06Mp8kIquh+RfxeoNrgvlRNkypoyY1LJqyNKeJcpBIY+lbt8K/+Js3Vfi5dNTh+N9NGGyHgKRL7aEOlKgcgjGyI52YF9SfwBzmOJNx5FPmCRCY8iQzZFuj1J/AJO2xTJyaboWmQWBRY8iFzVEJl0LPFF61h0xbHINErkAvd47VQF8ijy1pHICso8cCRS1BbpdSCxC5zSFjkmFWmKPMURS8oifa5EphQl1nBIn6LIlEuR4/KOYlviEGjHMSWFy9MTPPBQGjBDxukXkXUyzgm59JgpcY6MU5JRGSbj3BMR8wqcac4EjvWPgUsuzkha3AQOLC7Dn33L2BKpAB2+RGqPpu+kER3yamu+zUXEzLUQo07tsSbYk3n5Zo78YezGxJhl3Qu/Yxr102KMOovSgGVpTF7u3HFP24stxKjTGXFrNN8uWIzBBWaKvJb5bZLp1aQGtRLDP753M+G6dfn9AAAAAElFTkSuQmCC";
             let currentQuant = Number.parseInt(cartCounter.innerHTML);
             cartCounter.innerHTML = itemsQuantity + currentQuant;
             let currTotal = Number.parseInt(priceContainer.innerHTML);
-            console.log(typeof currTotal)
-            console.log(typeof itemPrice)
-            let totalNow = itemPrice + currTotal;
+            let totalNow = (itemPrice * itemsQuantity) + currTotal;
             priceContainer.innerHTML = totalNow;
-
         } 
             else {
             alert(data.message);
@@ -218,7 +263,14 @@ async function fetchMoreProducts(usId) {
     const spinnerLoad = document.querySelector('.loading-container');
     const sectionBelow = document.querySelector('.container-next-sect');
     const footer = document.querySelector('.footer-commerce');
+    const queryString = window.location.search;
 
+    const urlParams = new URLSearchParams(queryString);
+    
+    let search = urlParams.get('buscar');
+    if (search) {
+        return;
+    }
     spinnerLoad.classList.add('show-loader');
     footer.classList.add('hide-some');
     sectionBelow.classList.add('hide-some');
@@ -250,15 +302,18 @@ function renderProductRow(product, usId, isFavorite) {
     return `
     <tr>
         <th><a href='/product/${product.id}'>${product.titulo}</a></th>
+        <td>${product.id}</td>
         <td>${product.descripcion}</td>
         <td>${product.precio}</td>
+        
         <td>
             <form id='form-cart-item-${product.id}' method='POST' action='?action=add_to_cart'>
                 <input class='product-quant' type='number' name='quantity' value='1'>
                 <input type='hidden' name='id_product' value='${product.id}'>
                 <input type='hidden' name='id_user' value='${usId}'>
+                <input type='hidden' name='titulo' value='${product.titulo}'>
                 <input type='hidden' name='price' value='${product.precio}'>
-                <button type='button' data-id='${product.id}' onclick='goToCart(this)'>
+                <button type='button' data-id='${product.id}' onclick='updateCart(this)'>
                     <svg xmlns='http://www.w3.org/2000/svg' width='28px' height='28px' viewBox='0 0 24 24'>
                         <path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M10.5 10h4m-2-2v4m4 9a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3m-8 0a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3M3.71 5.4h15.214c1.378 0 2.373 1.27 1.995 2.548l-1.654 5.6C19.01 14.408 18.196 15 17.27 15H8.112c-.927 0-1.742-.593-1.996-1.452zm0 0L3 3'/>
                     </svg> 
@@ -296,10 +351,9 @@ function observeLastRow(usId) {
 
     observer.observe(lastRow);
 }
+const usId = document.getElementById("userId").getAttribute('data-user-id');
 
 document.addEventListener("DOMContentLoaded", () => {
-    const usId = parseInt(document.getElementById("userId").dataset.userId)
-    
     observeLastRow(usId);
 });
 

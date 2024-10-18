@@ -1,55 +1,77 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Item.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Carrito.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/config/Database.php';
 
 class CartController extends Database
 {
-    public function create ($data) {
-        $carrito = new Carrito();
-        $carrito->setIdProducto($data['id_product']);
-        $carrito->setIdUsuario($data['id_user']);
-        $carrito->setCantidad($data['quantity']);
-        $carrito->setTotal($data['total']);
+    public function updateCart($data) {
+        $idUser = $data['id_user'];
+        $idProducto = $data['id_product'];
+        $existingCart = $this->getUserCarrito($idUser);
         
-        try {
-            return $this->createCart($carrito);  
+        $productIdUpdate = 0;
+        $currentQuant = 0;
+        foreach ($existingCart as $itemCart) {
+            if ($itemCart['id_prod'] == $idProducto) {
+                $productIdUpdate = $itemCart['id_prod'];
+                $currentQuant = $itemCart['cantidad'];
+            }
         }
-        catch (Exception $e) {
-            echo 'Error: ' .$e->getMessage();
-        }
-    }
-    public function createCart ($carrito) {
-        $query = "INSERT INTO carrito (id_prod, id_usuario, cantidad, total) VALUES ( ?, ?, ?, ?);";
-        $stmt = $this->conn->prepare($query);
-        if (!$stmt) {
-            echo "Error: (" . $this->conn->errno . ") " . $this->conn->error;
-            return false;
-        }
-        $idProducto = $carrito->getIdProducto();
-        $idUsuario = $carrito->getIdUsuario();
-        $quantity = $carrito->getCantidad();
-        $total = $carrito->getTotal();
-        
-        $stmt->bind_param('iiii', 
-                $idProducto, 
-                $idUsuario, 
-                $quantity, 
-                $total);
-        if ($stmt->execute()) {
+        if ($productIdUpdate != 0) {
+            $query = "UPDATE carrito SET cantidad = ? WHERE id_prod =? AND id_usuario=?;";
+            $stmt = $this->conn->prepare($query);
+            $newQuantity = $currentQuant + $data['cantidad'];
+            $stmt->bind_param('iii', $newQuantity, $productIdUpdate, $idUser);
+            
+            if ($stmt->execute()) {
+                return true;
+            }
+            else { return false; }
+            
             $stmt->close();
-            return true;
+            
         } else {
+            $item = new Item();
+            $item->setTitulo($data['titulo']);
+            $item->setIdProduct($data['id_product']);
+            $item->setIdUser($data['id_user']);
+            $item->setQuantity($data['cantidad']);
+            $item->setPriceProduct($data['price_product']);
+           
+            
+            $idProducto = $item->getIdProduct();
+            $idUsuario = $item->getIdUser();
+            $titulo = $item->getTitulo();
+            $quantity = $item->getQuantity();
+            $priceProduct = $item->getPriceProduct();
+
+            $query = "INSERT INTO carrito (id_prod, id_usuario, titulo, cantidad, price_product) 
+                                VALUES (?, ?, ?, ?, ?);";
+            $stmt = $this->conn->prepare($query);
+            if (!$stmt) {
+                throw new Exception("Error :". $this->conn->error);
+            }
+            $stmt->bind_param('iisid', $idProducto, $idUsuario, $titulo, $quantity, $priceProduct);
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
             $stmt->close();
-            return false;
-        }
     }
-
-
-    public function removeProductFromCart($productId, $idUsuario) {
+        
+    }
+    
+    public function removeProductFromCart($productId, $idUsuario)
+    {
         $query = "DELETE FROM carrito WHERE id_prod= ? AND id_usuario=? ;";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('ii'
-                ,$productId, $idUsuario);
+        $stmt->bind_param(
+            'ii',
+            $productId,
+            $idUsuario
+        );
         if ($stmt->execute()) {
             $stmt->close();
             return true;
@@ -59,22 +81,26 @@ class CartController extends Database
         }
     }
 
-    public function getUserCarrito ($userId) {
+    public function getUserCarrito($userId)
+    {
         $query = "SELECT * FROM carrito WHERE id_usuario = ?;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $userId);
 
         if ($stmt->execute()) {
             $result = $stmt->get_result();
-            if ($result->num_rows > 0) {
-                $userCart = $result->fetch_all(MYSQLI_ASSOC); 
-            }
-            else {
-                $userCart = [];
-            }
-            $stmt->close();
-            return $userCart;
-        }
+            $userCart = [];
 
+            while ($row = $result->fetch_assoc()) {
+                $userCart[] = $row;
+            }
+
+            $carrito = $userCart;
+            $stmt->close();
+            return $carrito;
+        } else {
+            $stmt->close();
+            return [];
+        }
     }
 }

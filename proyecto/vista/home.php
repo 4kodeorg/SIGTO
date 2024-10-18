@@ -1,5 +1,4 @@
 <?php
-
 include('header-index.php');
 include('hero.php');
 
@@ -18,6 +17,7 @@ function renderProductRow($product, $usId, $isFavorite)
     return "
     <tr>
         <th><a href='/product/{$product['id']}'>{$product['titulo']}</a></th>
+        <td>{$product['id']}</td>
         <td>{$product['descripcion']}</td>
         <td>{$product['precio']}</td>
         <td>
@@ -25,8 +25,10 @@ function renderProductRow($product, $usId, $isFavorite)
                 <input class='product-quant' type='number' name='quantity' value='1'>
                 <input type='hidden' name='id_product' value='{$product['id']}'>
                 <input type='hidden' name='id_user' value='{$usId}'>
+                <input type='hidden' name='titulo' value='{$product['titulo']}'>
                 <input type='hidden' name='price' value='{$product['precio']}'>
-                <button type='button' data-id='{$product['id']}' onclick='goToCart(this)'>
+                
+                <button type='button' data-id='{$product['id']}' onclick='updateCart(this)'>
                     <svg xmlns='http://www.w3.org/2000/svg'
                                             width='28px' height='28px' viewBox='0 0 24 24'>
                                             <path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M10.5 10h4m-2-2v4m4 9a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3m-8 0a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3M3.71 5.4h15.214c1.378 0 2.373 1.27 1.995 2.548l-1.654 5.6C19.01 14.408 18.196 15 17.27 15H8.112c-.927 0-1.742-.593-1.996-1.452zm0 0L3 3'/>

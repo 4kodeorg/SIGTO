@@ -84,26 +84,6 @@ require('headerback.php')
             <th scope="col">Estado</th>
             </tr>
         </thead>
-        <?php 
-        require_once('items.php');
-        foreach ($productos as $prod) {
-                echo "
-        <tbody>
-            <tr>
-            <th>". $prod["id"] ."</th>
-            <td>". $prod["titulo"] ." </td>
-            <td>".$prod["visitas"] ."</td>
-            <td>". $prod["comentarios"] ."</td>
-            <td>Publicado</td>
-            </tr>
-            "
-            ;}
-            ?>
-            </tbody>
-            </table>
-
-</div>
-</div>
 
 <?php 
 include('footeradm.php');

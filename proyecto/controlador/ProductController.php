@@ -11,6 +11,7 @@ class ProductController extends Database
         $producto->setDescripcion($data['descripcion']);
         $producto->setOrigen($data['origen']);
         $producto->setCantidad($data['cantidad']);
+        $producto->setIdCategory($data['acategory']);
         $producto->setPrecio($data['precio']);
         try {
             return $this->createProduct($producto);
@@ -20,22 +21,24 @@ class ProductController extends Database
     }
     public function createProduct($producto)
     {
-        $query = 'INSERT INTO productos (titulo, descripcion, origen, cantidad, precio) VALUES (?, ?, ?, ?, ?);';
+        $query = 'INSERT INTO productos (titulo, descripcion, origen, cantidad, precio, id_category) VALUES (?, ?, ?, ?, ?, ?);';
         $stmt = $this->conn->prepare($query);
 
         $titulo = $producto->getTitulo();
         $descripcion = $producto->getDescripcion();
         $origen = $producto->getOrigen();
         $cantidad = $producto->getCantidad();
+        $idCategory = $producto->getIdCategory();
         $precio = $producto->getPrecio();
 
         $stmt->bind_param(
-            'sssss',
+            'sssssi',
             $titulo,
             $descripcion,
             $origen,
             $cantidad,
-            $precio
+            $precio,
+            $idCategory
         );
         error_log("Error: " . $stmt->error);
         if ($stmt->execute()) {
@@ -43,6 +46,24 @@ class ProductController extends Database
         } else {
             throw new Exception("Error al crear producto");
         }
+    }
+    public function getCategories()
+    {
+        $query = 'SELECT id_categorias, Nombre FROM categorias';
+        $stmt = $this->conn->prepare($query);
+
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+
+            $categories = [];
+            while ($row = $result->fetch_assoc()) {
+                $categories[] = $row;
+            }
+            return $categories ?? [];
+        } else {
+            throw new Exception("Error al cargar categorias");
+        }
+        
     }
 
     public function getProductsByLimit($offset = 0, $limit = 15)
@@ -97,10 +118,9 @@ class ProductController extends Database
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $productos = $result->fetch_all(MYSQLI_ASSOC);
-        } 
+        }
         $stmt->close();
         return $productos ?? [];
-
     }
 
     public function updateProductData($data)
@@ -160,7 +180,8 @@ class ProductController extends Database
             $stmtProductos->close();
         }
     }
-    public function activateProduct($productId) {
+    public function activateProduct($productId)
+    {
         $query = "UPDATE productos set estado=1 where id=?;";
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
@@ -172,7 +193,7 @@ class ProductController extends Database
                 return true;
             }
         } catch (Exception $err) {
-            throw new Exception("Error" .$err->getMessage());
+            throw new Exception("Error" . $err->getMessage());
         }
     }
 
