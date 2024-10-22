@@ -6,8 +6,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/config/Database.php';
 class CartController extends Database
 {
     public function updateCart($data) {
-        $idUser = $data['id_user'];
-        $idProducto = $data['id_product'];
+        $idUser = $data['id_usuario'];
+        $idProducto = $data['id_prod'];
         $existingCart = $this->getUserCarrito($idUser);
         
         $productIdUpdate = 0;
@@ -34,8 +34,8 @@ class CartController extends Database
         } else {
             $item = new Item();
             $item->setTitulo($data['titulo']);
-            $item->setIdProduct($data['id_product']);
-            $item->setIdUser($data['id_user']);
+            $item->setIdProduct($data['id_prod']);
+            $item->setIdUser($data['id_usuario']);
             $item->setQuantity($data['cantidad']);
             $item->setPriceProduct($data['price_product']);
            
@@ -80,7 +80,25 @@ class CartController extends Database
             return false;
         }
     }
+    public function getUserCartById($cartId) {
+        $query = "SELECT * FROM carrito where id= ?;";
+        $stmt = $this->conn->prepare($query);
 
+        $stmt->bind_param('i',$cartId);
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            $carrito = [];
+            while ($row = $result->fetch_assoc()) {
+                $carrito[] = $row;
+            }
+            $stmt->close();
+            return $carrito;
+        } else {
+            $stmt->close();
+            return [];
+        }
+
+    }
     public function getUserCarrito($userId)
     {
         $query = "SELECT * FROM carrito WHERE id_usuario = ?;";

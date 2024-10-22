@@ -20,6 +20,7 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
   <link rel="stylesheet" href="../assets/index.css">
 
   <script src="../main.js" defer></script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mercado Ya!</title>
 </head>
@@ -109,29 +110,12 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
           </svg>
         </a>
         <button id="cart"
-
           class="btn btn-primary"
           data-bs-toggle="offcanvas"
           href="#offcanvasCarrito"
           role="button"
           aria-controls="offcanvasCarrito">
-          <?php
-          $totalPrice = 0;
-          $counter = 0;
-          if (count($carrito) >= 1) {
-            foreach ($carrito as $item) {
-              $totalPrice += (int) $item['price_product'] * $item['cantidad'];
-
-              $counter += $item['cantidad'];
-            }
-            echo '
-          <section id="items-cart" class="circle"> <small>' . $counter . ' </small> </section>
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACTElEQVR4nO2ZzUuUQRyAn62gCDtn4F6CcjMlRLz0FxTRsdUOhqEhhkgIgbf+gg5B4MFLh8g+1JAlvRQR3b14kKBTKumSWOFBcLdi4Lfwsrwfu+v8Zt4XemAu78yPmWdm3vlg4D/p4wawCfyNSXvAJ+AOkCOlbCRI1KdnaZXZCDTyW0SZs8AIsC/lzMikjusiYySuJZQdFZFVMs5J4IfIXG4ytgi8BwoR+beA5Zh86zwXkYkmYgaAQ4nbAbpDJOPyVahNr/kGyw8BlboFYxvokvw24HtMvhoXpbJyA6vXYKCn61Ow5wshMjsuRmZLKovrtdshIxEm05Mg06Mp8kIquh+RfxeoNrgvlRNkypoyY1LJqyNKeJcpBIY+lbt8K/+Js3Vfi5dNTh+N9NGGyHgKRL7aEOlKgcgjGyI52YF9SfwBzmOJNx5FPmCRCY8iQzZFuj1J/AJO2xTJyaboWmQWBRY8iFzVEJl0LPFF61h0xbHINErkAvd47VQF8ijy1pHICso8cCRS1BbpdSCxC5zSFjkmFWmKPMURS8oifa5EphQl1nBIn6LIlEuR4/KOYlviEGjHMSWFy9MTPPBQGjBDxukXkXUyzgm59JgpcY6MU5JRGSbj3BMR8wqcac4EjvWPgUsuzkha3AQOLC7Dn33L2BKpAB2+RGqPpu+kER3yamu+zUXEzLUQo07tsSbYk3n5Zo78YezGxJhl3Qu/Yxr102KMOovSgGVpTF7u3HFP24stxKjTGXFrNN8uWIzBBWaKvJb5bZLp1aQGtRLDP753M+G6dfn9AAAAAElFTkSuQmCC">
-          <section class="section-price-cart">
-          <span>$</span><b>' . $totalPrice . '</b>
-          </section>
-          ';
-          } else { ?>
+        
             <section id="items-cart" class="circle"><small>0 </small>
             </section>
 
@@ -141,12 +125,6 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
               <span>$</span><b>0</b>
             </section>
         </button>
-
-      <?php
-
-          }
-      ?>
-
       </div>
 
     </nav>
@@ -157,36 +135,8 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div id="offcanvas-carrito" class="offcanvas-body">
-      <?php
-      if (!empty($username) && empty($carrito)) {
-        echo '<p>Tu carrito está vacio</p>';
-      } elseif (!empty($carrito)) {
-        echo '<p>Elementos</p>';
-        foreach ($carrito as $item) {
-          echo '<div>
-          <p>Articulo: ' . $item['titulo'] . '</p>
-          <p>Cantidad: ' . $item['cantidad'] . '</p>
-          <p>Precio: ' . $item['price_product'] . '</p>
-          </div>';
-        }
-      } else {
-        echo '<p>Inicia sesión para continuar con tu compra</p>';
-      }
-      // foreach ($carrito as $item) {
-      // foreach ($item as $prod) {
-      // echo '<p>'. $prod['titulo'] .'</p><b>'.$prod['price_product'] .'</b>';
-      // }
-      // }
-      ?>
-      <a href="">Finalizar compra
-        <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24">
-          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-            <path d="M21 15h-2.5a1.503 1.503 0 0 0-1.5 1.5a1.503 1.503 0 0 0 1.5 1.5h1a1.503 1.503 0 0 1 1.5 1.5a1.503 1.503 0 0 1-1.5 1.5H17m2 0v1m0-8v1m-6 6H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2m12 3.12V9a2 2 0 0 0-2-2h-2" />
-            <path d="M16 10V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v6m8 0H8m8 0h1m-9 0H7m1 4v.01M8 17v.01m4-3.02V14m0 3v.01" />
-          </g>
-        </svg>
-      </a>
-      <button>Vaciar carrito</button>
+      
+        
     </div>
   </div>
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar-menu" aria-labelledby="offcanvasExampleLabel">

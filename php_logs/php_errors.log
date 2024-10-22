@@ -4986,3 +4986,51 @@ Stack trace:
 #3 /var/www/html/index.php(15): Router->route()
 #4 {main}
   thrown in /var/www/html/vista/administracion/general.php on line 88
+[19-Oct-2024 15:36:04 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 835
+[19-Oct-2024 15:36:04 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 835
+[19-Oct-2024 15:36:04 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 835
+[19-Oct-2024 15:36:04 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 835
+[19-Oct-2024 15:36:04 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:835) in /var/www/html/core/Router.php on line 855
+[20-Oct-2024 02:49:20 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/core/Router.php on line 835
+[20-Oct-2024 02:49:20 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:835) in /var/www/html/core/Router.php on line 855
+[20-Oct-2024 02:52:18 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/core/Router.php on line 835
+[20-Oct-2024 02:52:18 UTC] PHP Warning:  Undefined array key "id_prod" in /var/www/html/core/Router.php on line 835
+[20-Oct-2024 02:52:18 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:835) in /var/www/html/core/Router.php on line 855
+[20-Oct-2024 03:26:27 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 835
+[20-Oct-2024 03:26:27 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:835) in /var/www/html/core/Router.php on line 855
+[20-Oct-2024 03:48:02 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 835
+[20-Oct-2024 03:48:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:835) in /var/www/html/core/Router.php on line 855
+[20-Oct-2024 04:05:13 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 836
+[20-Oct-2024 04:05:13 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:836) in /var/www/html/core/Router.php on line 853
+[20-Oct-2024 04:05:18 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 836
+[20-Oct-2024 04:05:18 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:836) in /var/www/html/core/Router.php on line 853
+[20-Oct-2024 04:05:59 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 836
+[20-Oct-2024 04:05:59 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 836
+[20-Oct-2024 04:05:59 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 836
+[20-Oct-2024 04:05:59 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:836) in /var/www/html/core/Router.php on line 853
+[20-Oct-2024 04:07:02 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 836
+[20-Oct-2024 04:07:02 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 836
+[20-Oct-2024 04:07:02 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/core/Router.php on line 836
+[20-Oct-2024 04:07:02 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:836) in /var/www/html/core/Router.php on line 854
+[20-Oct-2024 04:08:53 UTC] PHP Warning:  Undefined array key "carrito" in /var/www/html/vista/home.php on line 53
+[20-Oct-2024 04:09:05 UTC] PHP Warning:  Undefined array key "carrito" in /var/www/html/vista/home.php on line 53
+[20-Oct-2024 04:09:17 UTC] PHP Warning:  Undefined array key "id_user" in /var/www/html/controlador/CartController.php on line 9
+[20-Oct-2024 04:09:17 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/controlador/CartController.php on line 10
+[20-Oct-2024 04:09:17 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/controlador/CartController.php on line 37
+[20-Oct-2024 04:09:17 UTC] PHP Fatal error:  Uncaught TypeError: Cannot assign null to property Item::$id_product of type int in /var/www/html/modelo/Item.php:13
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(37): Item->setIdProduct(NULL)
+#1 /var/www/html/core/Router.php(826): CartController->updateCart(Array)
+#2 /var/www/html/core/Router.php(91): Router->formCarrito()
+#3 /var/www/html/core/Router.php(57): Router->homeActions()
+#4 /var/www/html/index.php(15): Router->route()
+#5 {main}
+  thrown in /var/www/html/modelo/Item.php on line 13
+[20-Oct-2024 04:10:27 UTC] PHP Warning:  Undefined array key "id_user" in /var/www/html/controlador/CartController.php on line 9
+[20-Oct-2024 04:10:27 UTC] PHP Warning:  Undefined array key "id_product" in /var/www/html/controlador/CartController.php on line 10
+[20-Oct-2024 04:10:27 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/controlador/CartController.php:9) in /var/www/html/core/Router.php on line 854
+[21-Oct-2024 16:12:52 UTC] PHP Warning:  Undefined array key "carrito" in /var/www/html/vista/home.php on line 52
+[22-Oct-2024 16:08:00 UTC] PHP Warning:  Undefined array key "email" in /var/www/html/vista/checkout.php on line 10
+[22-Oct-2024 16:49:49 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/checkout.php on line 17
+[22-Oct-2024 16:49:49 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/checkout.php on line 17
+[22-Oct-2024 16:49:49 UTC] PHP Warning:  Undefined array key "precio" in /var/www/html/vista/checkout.php on line 17

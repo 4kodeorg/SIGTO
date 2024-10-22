@@ -53,8 +53,9 @@
         </div>
     </section>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+<script src="https://sandbox.paypal.com/sdk/js?client-id=AVHu0XxozW7xeydO9XfgFO_9MB4-rvH9gfPsADnXDYnU9xq8z8Bo16JvhB00OYBRyYQjITrn7adi5nJi&components=buttons"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="../assets/js/account.js"></script>
 </body>
 </html>

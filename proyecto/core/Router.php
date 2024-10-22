@@ -25,7 +25,6 @@ class Router
             'admin/estadisticas' => 'renderBackOffice',
             'admin/empresa' => 'renderBackOffice',
             'admin/productos' => 'pageProductsAdmin',
-            'admin/productos/(\d+)' => 'renderProductData',
             'admin/perfil' => 'renderBackOffice',
             'logout' => 'logout',
             'home' => 'searchForm',
@@ -38,7 +37,11 @@ class Router
         } elseif (preg_match('/^product\/(\d+)$/', $this->request, $matches)) {
             $productId = $matches[1];
             $this->renderProduct($productId);
-        } elseif (preg_match('/^perfil\/(\d+)$/', $this->request, $matches)) {
+        } elseif (preg_match('/^finalizar_compra\/(\d+)$/', $this->request, $matches)) {
+            $idUserCarrito = $matches[1];
+            $this->renderCheckoutPage($idUserCarrito);
+        }
+        elseif (preg_match('/^perfil\/(\d+)$/', $this->request, $matches)) {
             $userId = intval($matches[1]);
 
             if ($this->checkUserMiddleware($userId)) {
@@ -79,7 +82,6 @@ class Router
     }
     private function homeActions()
     {
-
         switch ($this->action) {
             case 'add_to_fav':
                 $this->addToFavoritos();
@@ -90,8 +92,8 @@ class Router
             case 'add_to_cart':
                 $this->formCarrito();
                 break;
-            case 'open_cart':
-                $this->openCarrito();
+            case 'remove_product_cart':
+                $this->removeProductFromCartById();
                 break;
             case 'get_cart':
                 $this->getCurrentCart();
@@ -127,6 +129,7 @@ class Router
                 break;
         }
     }
+
     private function assignPage($method, $route)
     {
         $backOfficeRoutes = ['admin', 'admin/main', 'admin/estadisticas', 'admin/empresa', 'admin/perfil'];
@@ -137,31 +140,6 @@ class Router
         } else {
             call_user_func([$this, $method]);
         }
-    }
-
-    private function getCurrentCart() {
-
-        require_once $_SERVER['DOCUMENT_ROOT']. '/controlador/CartController.php';
-
-        $response = ['success' => false, 'message' => '', 'carrito' => []];
-        if (isset($_GET['id']) && $_GET['id'] != 0) {
-            $userId = $_GET['id'];
-            $cartController = new CartController();
-            $userCart = $cartController->getUserCarrito($userId);
-            if (count($userCart) === 0) {
-                $response['success'] = true;
-                $response['message'] = "Tu carrito está vacio";
-            } else {
-                $response['success'] = true;
-                $response['carrito'] = $userCart;
-            }
-
-
-        } else {
-            $response['message'] = "Solicitud inválida";
-        }
-        echo json_encode($response);
-        exit();
     }
 
     private function renderPage($page, $data = [])
@@ -189,24 +167,6 @@ class Router
             http_response_code(404);
             echo "404 - Page not found";
         }
-    }
-    private function openCarrito()
-    {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
-        $response = ['success' => false, 'message' => '', 'carrito' => [], 'total' => 0];
-        header('Content-type: application/json');
-        $cartController = new CartController();
-        $idUser = $_GET['id_user'] ?? 0;
-        $userCarrito = $cartController->getUserCarrito($idUser);
-        if (!empty($userCarrito['carrito'])) {
-            $response['success'] = true;
-            $response['carrito'] = $userCarrito['carrito'];
-            $response['total'] = $userCarrito['total'];
-        } else {
-            $response['message'] = "Tu carrito está vacío";
-        }
-        echo json_encode($response);
-        exit();
     }
     private function getDisabledProds()
     {
@@ -614,15 +574,14 @@ class Router
             $this->renderPage('error');
         }
     }
+
     private function searchForm()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
 
         $product = new ProductController();
         $userController = new UsuarioController();
-        $cartController = new CartController();
 
         $response = ['success' => false, 'message' => '', 'results' => []];
 
@@ -794,7 +753,82 @@ class Router
             $this->renderPage('error');
         }
     }
+    ### CARRITO ###
 
+    private function renderCheckoutPage($userId) {
+        require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/CartController.php';
+        require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/UsuarioController.php';
+
+        if ($this->checkUserMiddleware($userId)) {
+            $cartController = new CartController();
+            $userController = new UsuarioController();
+            $userCarrito = $cartController->getUserCarrito($userId);
+            $usuario = $userController->getUserbyId($userId);
+            if (!empty($userCarrito) && !empty($usuario)) {
+                $this->renderPage('checkout', ['carrito' => $userCarrito , 'usuario' => $usuario]);
+            } else {
+                $this->renderPage('error' ,['message' => "No has añadido nada a tu carrito"]);
+            }
+        } else {
+            $this->renderPage('error',[ 'message' => "Acceso no autorizado" ]);
+        }
+    }
+
+    private function getCurrentCart()
+    {
+
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
+
+        $response = ['success' => false, 'message' => '', 'carrito' => [], 'prevCarrito' => []];
+        if (isset($_GET['id']) && $_GET['id'] != 0) {
+            $userId = $_GET['id'];
+            $cartController = new CartController();
+            $userCart = $cartController->getUserCarrito($userId);
+            if (count($userCart) === 0) {
+                $response['success'] = true;
+                $response['message'] = "Tu carrito está vacio";
+            } else {
+                $response['prevCarrito'] = $_SESSION['carrito'];
+                $_SESSION['carrito'] = [];
+                $_SESSION['carrito'] = $userCart;
+                $response['success'] = true;
+                $response['carrito'] = $userCart;
+            }
+        } else {
+            $response['message'] = "Solicitud inválida";
+        }
+        echo json_encode($response);
+        exit();
+    }
+
+    private function removeProductFromCartById()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
+        $response = ['success' => false, 'message' => ''];
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['idUs'])) {
+            parse_str(file_get_contents("php://input"), $itemData);
+
+            $idProduct = htmlspecialchars($itemData['id_prod']) ?? null;
+            $idUser = htmlspecialchars($itemData['id_usuario']) ?? null;
+            if ($idProduct && $idUser) {
+                $cartController = new CartController();
+                $removedProd = $cartController->removeProductFromCart($idProduct, $idUser);
+                if ($removedProd) {
+                    $response['success'] = true;
+                    $response['message'] = 'Producto eliminado';
+
+                    $_SESSION['carrito'] = [];
+                    $_SESSION['carrito'] = $cartController->getUserCarrito($idUser);
+                } else {
+                    $response['message'] = 'Error en la solicitud';
+                }
+            } else {
+                $response['message'] = 'Solicitud invalida';
+            }
+        }
+        echo json_encode($response);
+        exit();
+    }
     private function formCarrito()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
@@ -811,11 +845,11 @@ class Router
                 $productTitulo = htmlspecialchars($_POST['titulo']);
                 $quantity = htmlspecialchars($_POST['quantity']);
                 $priceProduct = htmlspecialchars($_POST['price']);
-                
+
 
                 $itemData = [
-                    'id_product' => $productId,
-                    'id_user' => $userId,
+                    'id_prod' => $productId,
+                    'id_usuario' => $userId,
                     'titulo' => $productTitulo,
                     'cantidad' => (int) $quantity,
                     'price_product' => (int) $priceProduct
@@ -823,33 +857,38 @@ class Router
                 if ($itemData['cantidad'] < 1) {
                     $response['message'] = "Tu solicitud no pudo ser procesada";
                     return;
-                } 
+                }
+
                 $cartCreated = $cartController->updateCart($itemData);
+
+                $lateCart = $cartController->getUserCarrito($userId);
 
                 if ($cartCreated) {
                     $itemExistsInSession = false;
-
-                    if (!isset($_SESSION['carrito'])) {
-                        $_SESSION['carrito'] = [];
-                    } else {
-                        foreach ($_SESSION['carrito'] as &$sessionItem) {
-                            if ($sessionItem['id_product'] == $productId && $sessionItem['id_user'] == $userId) {
-                                $sessionItem['cantidad'] += $quantity;
-                                $itemExistsInSession = true;
-                                break;
+                    
+                        if (!empty($_SESSION['carrito'])) {
+                            foreach ($_SESSION['carrito'] as &$sessionItem) {
+                                if (
+                                    $sessionItem['id_prod'] == $productId
+                                    && $sessionItem['id_usuario'] == $userId
+                                ) {
+                                    $itemExistsInSession = true;
+                                    $sessionItem['cantidad'] += $itemData['cantidad'];
+                                    $response['message'] = 'Cantidad del producto actualizada';
+                                }
+                            }
+                            if (!$itemExistsInSession) {
+                                $_SESSION['carrito'] = $lateCart;
+                                $response['message'] = 'Producto añadido al carrito';
                             }
                         }
-                    }
-                    if (!$itemExistsInSession) {
-                        $_SESSION['carrito'][] = $itemData;
+                     else {
+                        $_SESSION['carrito'] = $itemData;
                         $response['message'] = 'Producto añadido al carrito';
-                    } else {
-                        $response['message'] = 'Cantidad del producto actualizada';
                     }
                     $response['success'] = true;
-                    $response['carrito'] = $_SESSION['carrito'];
-                }
-                 else {
+                    $response['carrito'] = $lateCart;
+                } else {
                     $response['message'] = 'Ocurrió un error inesperado';
                 }
             }
