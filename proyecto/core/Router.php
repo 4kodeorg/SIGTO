@@ -1,4 +1,17 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+
+use PaypalServerSDKLib\Authentication\ClientCredentialsAuthCredentialsBuilder;
+use PaypalServerSDKLib\Environment;
+use PaypalServerSDKLib\PaypalServerSDKClientBuilder;
+use PaypalServerSDKLib\Models\Builders\MoneyBuilder;
+use PaypalServerSDKLib\Models\Builders\OrderRequestBuilder;
+use PaypalServerSDKLib\Models\Builders\PurchaseUnitRequestBuilder;
+use PaypalServerSDKLib\Models\Builders\AmountWithBreakdownBuilder;
+use PaypalServerSDKLib\Models\Builders\ShippingDetailsBuilder;
+use PaypalServerSDKLib\Models\Builders\ShippingOptionBuilder;
+use PaypalServerSDKLib\Models\ShippingType;
+
 
 class Router
 {
@@ -30,28 +43,28 @@ class Router
             'home' => 'searchForm',
             '/' => 'redirectHome'
         ];
-        if (preg_match('/^admin\/productos\/(\d+)$/', $this->request, $matches)) {
+        if (preg_match('/^admin\/productos\/(\w+)$/', $this->request, $matches)) {
             $productId = intval($matches[1]);
             $this->renderProductData($productId);
             return;
-        } elseif (preg_match('/^product\/(\d+)$/', $this->request, $matches)) {
+        } elseif (preg_match('/^product\/(\w+)$/', $this->request, $matches)) {
             $productId = $matches[1];
             $this->renderProduct($productId);
-        } elseif (preg_match('/^finalizar_compra\/(\d+)$/', $this->request, $matches)) {
+        } elseif (preg_match('/^finalizar_compra\/(\w+)$/', $this->request, $matches)) {
             $idUserCarrito = $matches[1];
             $this->renderCheckoutPage($idUserCarrito);
-        }
-        elseif (preg_match('/^perfil\/(\d+)$/', $this->request, $matches)) {
-            $userId = intval($matches[1]);
+        } elseif (preg_match('/^finalizar_compra\/paypal\/(\w+)$/', $this->request, $matches)) {
+            $userId = $matches[1];
+            if ($this->checkUserMiddleware(($userId))) {
+                $this->processPaymentPayPal($userId);
+            } else {
+                $this->renderPage('error', ['message' => 'Ocurrió un error inesperado']);
+            }
+        } elseif (preg_match('/^perfil\/(\w+)$/', $this->request, $matches)) {
+            $userId = $matches[1];
 
             if ($this->checkUserMiddleware($userId)) {
-                if (isset($this->action) && $this->action === 'actualizar_info') {
-                    $this->updateInfo($userId);
-                } elseif (isset($this->action) && $this->action === 'actualizar_direccion') {
-                    $this->updateDirecciones($userId);
-                } else {
-                    $this->renderProfile($userId);
-                }
+                $this->profileActions($userId);
             } else {
                 $message = "Acceso no autorizado";
                 $this->renderPage('error', ['message' => $message]);
@@ -80,6 +93,25 @@ class Router
         header('Location: /home');
         exit();
     }
+    private function profileActions($userId) {
+        switch ($this->action) {
+            case 'actualizar_info':
+                $this->updateInfo($userId);
+                break;
+            case 'agregar_direccion':
+                $this->addDirecciones($userId);
+                break;
+            case 'agregar_tel':
+                $this->updateTelefono();
+                break;
+            case 'agregar_card':
+                $this->updatePayment($userId);
+                break;
+            default:
+                $this->renderProfile($userId);
+            break;
+        }
+    }
     private function homeActions()
     {
         switch ($this->action) {
@@ -88,6 +120,9 @@ class Router
                 break;
             case 'remove_fav':
                 $this->removeFromFavoritos();
+                break;
+            case 'init_sess':
+                $this->initSessionHome();
                 break;
             case 'add_to_cart':
                 $this->formCarrito();
@@ -186,7 +221,27 @@ class Router
         exit();
         return;
     }
+    private function updateTelefono() {
 
+        $response = ['success' => false, 'message' => ''];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+            $userController = new UsuarioController();
+            $userEmail = htmlspecialchars($_POST['email']) ?? '';
+            $userPhone = htmlspecialchars($_POST['phone']) ?? '';
+            if ($userController->addUserPhone($userEmail, $userPhone)) {
+                $response['success'] = true;
+                $response['message'] = 'Información actualizada con exito';
+            } else {
+                $response['message'] = "No se pudieron actualizar los datos, intente nuevamente";
+            }
+        } else {
+            $response['message'] = "Solicitud invalida";
+        }
+    }
+    private function updatePayment($userId) {
+
+    }
     private function activateProductAdmin()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
@@ -214,6 +269,35 @@ class Router
                 $res['status'] = "error";
             }
             echo json_encode($res);
+            exit();
+        }
+    }
+    private function initSessionHome()
+    {
+        if ($this->action === 'init_sess' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+            $res = ['success' => false, 'mssg' => '', 'url' => '', 'carrito' => []];
+
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
+            $cartController = new CartController();
+            $userController = new UsuarioController();
+            $username = htmlspecialchars(trim($_POST['username']));
+            $password = trim($_POST['passwd']);
+
+            $usuario = $userController->validateUser($username, $password);
+            if ($usuario) {
+                $res['success'] = true;
+                $sessIdfragment = date('Ymd_His') . "-" . md5($usuario['email']);
+                $carrito = $cartController->getUserCarrito($usuario['email']);
+                $_SESSION['carrito'] = $carrito;
+                $_SESSION['id_username'] = md5($usuario['email']);
+                $_SESSION['uri_fragment'] = $sessIdfragment;
+                $_SESSION['username'] = $usuario['username'];
+            } else {
+                $res['mssg'] = 'Credenciales inválidas.';
+            }
+            header('Content-type: application/json');
+            echo (json_encode($res));
             exit();
         }
     }
@@ -350,26 +434,40 @@ class Router
                 return false;
             }
         } else {
-            throw new Exception("Iniciar sesion");
+            $this->renderPage('error', ['message' => 'Debes iniciar sesión']);
         }
     }
 
-    private function updateDirecciones($userId)
+    private function addDirecciones()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         $response = ['success' => false, 'message' => ''];
-        $direccionEnvio = htmlspecialchars($_POST['direccion']) ?? '';
-        $segDireccion = htmlspecialchars($_POST['seg_direccion']) ?? '';
-        if (!empty(trim($direccionEnvio)) && !empty(trim($segDireccion))) {
+        $data = [
+        'email' => htmlspecialchars($_POST['email']) ?? '',
+        'calle_prim' => htmlspecialchars($_POST['calle_prim']) ?? '',
+        'calle_seg' => htmlspecialchars($_POST['calle_seg']) ?? '',
+        'num_puerta' => htmlspecialchars($_POST['num_puerta']) ?? '',
+        'num_apartamento' => htmlspecialchars($_POST['num_apartamento']) ?? '',
+        'ciudad' => htmlspecialchars($_POST['ciudad']) ?? '',
+        'pais' => htmlspecialchars($_POST['pais']) ?? '',
+        'tipo_dir' =>  htmlspecialchars($_POST['tipo_dir']) ?? ''
+        ];
+        $emptyFields = false;
+        foreach ($data as $key => $val) {
+            if (empty(trim($val)) || $val == 0) {
+                $emptyFields = true;
+                $response['message'] = 'El campo' . $key . 'es requerido';
+
+            }
+                    }
+        if (!$emptyFields) {
             $userController = new UsuarioController();
-            $userUpdatedOk = $userController->updateUserDireccion($userId, $direccionEnvio, $segDireccion);
+            $userUpdatedOk = $userController->addUserDirecciones($data);
             if ($userUpdatedOk) {
                 $response['success'] = true;
-                $response['message'] = "Direcciones actualizadas con éxito.";
+                $response['message'] = "Información actualizada con éxito.";
             }
-        } else {
-            $response['message'] = "Ambos campos son requeridos";
-        }
+        } 
         header('Content-type: application/json');
         echo (json_encode($response));
         exit();
@@ -402,6 +500,7 @@ class Router
     {
         if ($this->action === 'registrarse' && $_SERVER['REQUEST_METHOD'] == 'POST') {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/SessionController.php';
             $response = ['success' => false, 'id' => 0, 'message' => '', 'username' => '', 'url' => ''];
 
             if (isset($_POST['submit'])) {
@@ -410,21 +509,18 @@ class Router
                 $mailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
                 if (preg_match($mailPattern, $_POST['email'])) {
                     $data = [
-                        'name' => $_POST['name'],
-                        'lastname' => $_POST['apellido'],
                         'username' => $_POST['username'],
                         'email' => $_POST['email'],
-                        'password' => $_POST['psw'],
+                        'password' => $_POST['password'],
                         'confirm_passwd' => $_POST['confirm_passwd'],
-                        'direccion' => $_POST['direccion'],
-                        'phone' => $_POST['phone'],
                         'fecha_nac' => $_POST['fecha_nac'],
+                        'pais' => $_POST['pais'],
                         'terminos' => isset($_POST['terminos']) ? $_POST['terminos'] : 0
                     ];
 
                     $emptyFields = false;
                     foreach ($data as $clave => $valor) {
-                        if (empty(trim($valor))) {
+                        if (empty(trim($valor)) || $valor == 0) {
                             $emptyFields = true;
                             $response['message'] = 'El campo' . $clave . 'es requerido';
                         }
@@ -438,19 +534,27 @@ class Router
                                 $data['confirm_passwd'] = password_hash($data['confirm_passwd'], PASSWORD_BCRYPT);
                                 if (count($errors) === 0) {
                                     $userController = new UsuarioController();
+                                    $sessionController = new SessionController();
                                     $newUser = $userController->create($data);
 
                                     if ($newUser) {
-                                        $sessIdfragment = date('Ymd_His') . "-" . $newUser['id'];
-                                        $response['success'] = true;
-                                        $response['id'] = $newUser['id'];
-                                        $response['username'] = $newUser['username'];
-                                        $response['message'] = "Registro exitoso, redireccionando..";
-                                        $response['url'] = "/home";
-                                        $_SESSION['carrito'] = [];
-                                        $_SESSION['uri_fragment'] = $sessIdfragment;
-                                        $_SESSION['username'] = $newUser['username'];
-                                        $_SESSION['id_username'] = $newUser['id'];
+                                        if ($sessionController->createSesion($newUser['email'])) {
+                                            $sessIdfragment = date('Y:m:d_H:i:s') . "-" . md5($newUser['email']);
+                                            $response['success'] = true;
+                                            $response['id'] = md5($newUser['email']);
+                                            $response['username'] = $newUser['username'];
+                                            $response['message'] = "Registro exitoso, redireccionando..";
+                                            $response['url'] = "/perfil/" . md5($newUser['email']);
+                                            $_SESSION['carrito'] = [];
+                                            $_SESSION['uri_fragment'] = $sessIdfragment;
+                                            $_SESSION['username'] = $newUser['username'];
+                                            $_SESSION['id_username'] = md5($newUser['email']);
+                                        }
+                                        else {
+                                            $response['message'] = "Ocurrió un error al iniciar la sesión";
+                                            $response['success'] = true;
+                                            $response['url'] = '/cuenta';
+                                        }
                                     } else {
                                         $response['message'] = "Error al crear el usuario, intente nuevamente";
                                     }
@@ -477,11 +581,13 @@ class Router
     }
     private function formAccount()
     {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/SessionController.php';
+
         $userController = new UsuarioController();
         $cartController = new CartController();
+        $sessionController = new SessionController();
         if ($this->action === '1' && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
@@ -489,7 +595,7 @@ class Router
             $errors = array();
             if (isset($_POST['submit'])) {
                 $username = htmlspecialchars(trim($_POST['username']));
-                $password = trim($_POST['passwd']);
+                $password = trim($_POST['password']);
 
                 if (empty($username) || empty($password)) {
                     array_push($errors, "Credenciales inválidas");
@@ -498,16 +604,19 @@ class Router
 
                     $usuario = $userController->validateUser($username, $password);
                     if ($usuario) {
-                        $res['success'] = true;
-                        $sessIdfragment = date('Ymd_His') . "-" . $usuario['id'];
-                        $carrito = $cartController->getUserCarrito($usuario['id']);
-                        $_SESSION['carrito'] = $carrito;
-
-                        $_SESSION['id_username'] = $usuario['id'];
-                        $_SESSION['uri_fragment'] = $sessIdfragment;
-                        $_SESSION['username'] = $usuario['username'];
-                        $res['carrito'] = $carrito;
-                        $res['url'] = '/home';
+                        if ($sessionController->createSesion($username)) {
+                            $res['success'] = true;
+                            $sessIdfragment = date('Ymd_His') . "-" . md5($usuario['email']);
+                            $carrito = $cartController->getUserCarrito($usuario['email']);
+                            $_SESSION['carrito'] = $carrito;
+                            $_SESSION['id_username'] = md5($usuario['email']);
+                            $_SESSION['uri_fragment'] = $sessIdfragment;
+                            $_SESSION['username'] = $usuario['username'];
+                            $res['carrito'] = $carrito;
+                            $res['url'] = '/home';
+                        } else {
+                            $res['mssg'] = 'Ocurrió un error al iniciar la sesión';
+                        }
                     } else {
                         $res['mssg'] = 'Credenciales inválidas.';
                     }
@@ -755,9 +864,108 @@ class Router
     }
     ### CARRITO ###
 
-    private function renderCheckoutPage($userId) {
-        require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/CartController.php';
-        require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/UsuarioController.php';
+    private function processPaymentPayPal($userId)
+    {
+
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/cfg.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
+        $cartController = new CartController();
+        $userCart = $cartController->getUserCarrito($userId);
+        $cartTotal = 0;
+        foreach ($userCart as $item) {
+            $cartTotal += $item['cantidad'] * $item['price_product'];
+        }
+
+        $paypal_client_id = PAYPAL_CLIENT_ID;
+        $paypal_client_secret = PAYPAL_CLIENT_SECRET;
+        global $client;
+        $client = PaypalServerSDKClientBuilder::init()
+            ->clientCredentialsAuthCredentials(
+                ClientCredentialsAuthCredentialsBuilder::init(
+                    $paypal_client_id,
+                    $paypal_client_secret
+                )
+            )
+            ->environment(Environment::SANDBOX)
+            ->build();
+        function handleResponse($response)
+        {
+            $jsonResponse = json_decode($response->getBody(), true);
+            return [
+                "jsonResponse" => $jsonResponse,
+                "httpStatusCode" => $response->getStatusCode(),
+            ];
+        }
+        /**
+         * Create an order to start the transaction.
+         * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
+         */
+        function createOrder($cart)
+        {
+            $cartTotal = 0;
+            if (!is_array($cart)) {
+                throw new Exception("Error en el formato de dato.");
+            }
+            foreach ($cart as $item) {
+                $cartTotal += $item['cantidad'] * $item['price_product'];
+            }
+            $cartTotal = $cartTotal / 40;
+            global $client;
+            $orderBody = [
+                "body" => OrderRequestBuilder::init("CAPTURE", [
+                    PurchaseUnitRequestBuilder::init(
+                        AmountWithBreakdownBuilder::init("USD", $cartTotal)->build()
+                    )->build(),
+                ])->build(),
+            ];
+            $apiResponse = $client->getOrdersController()->ordersCreate($orderBody);
+            return handleResponse($apiResponse);
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $cart = $data['cart'];
+            try {
+                $orderResponse = createOrder($cart);
+                if (!$orderResponse) {
+                    throw new Exception("Failed to create PayPal order.");
+                }
+                echo json_encode($orderResponse["jsonResponse"]);
+            } catch (Exception $e) {
+                echo json_encode(["error" => $e->getMessage()]);
+                http_response_code(500);
+            }
+        }
+        /**
+         * Capture payment for the created order to complete the transaction.
+         * @see https://developer.paypal.com/docs/api/orders/v2/#orders_capture
+         */
+        function captureOrder($orderID)
+        {
+            global $client;
+
+            $captureBody = [
+                "id" => $orderID,
+            ];
+            $apiResponse = $client->getOrdersController()->ordersCapture($captureBody);
+            return handleResponse($apiResponse);
+        }
+        if (isset($this->action) && $this->action === 'capture') {
+            $orderID = $_GET['pyid'];
+
+            try {
+                $captureResponse = captureOrder($orderID);
+                echo json_encode($captureResponse["jsonResponse"]);
+            } catch (Exception $e) {
+                echo json_encode(["error" => $e->getMessage()]);
+                http_response_code(500);
+            }
+        }
+    }
+
+    private function renderCheckoutPage($userId)
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
 
         if ($this->checkUserMiddleware($userId)) {
             $cartController = new CartController();
@@ -765,12 +973,12 @@ class Router
             $userCarrito = $cartController->getUserCarrito($userId);
             $usuario = $userController->getUserbyId($userId);
             if (!empty($userCarrito) && !empty($usuario)) {
-                $this->renderPage('checkout', ['carrito' => $userCarrito , 'usuario' => $usuario]);
+                $this->renderPage('checkout', ['carrito' => $userCarrito, 'usuario' => $usuario]);
             } else {
-                $this->renderPage('error' ,['message' => "No has añadido nada a tu carrito"]);
+                $this->renderPage('error', ['message' => "No has añadido nada a tu carrito"]);
             }
         } else {
-            $this->renderPage('error',[ 'message' => "Acceso no autorizado" ]);
+            $this->renderPage('error', ['message' => "Acceso no autorizado"]);
         }
     }
 
@@ -865,24 +1073,23 @@ class Router
 
                 if ($cartCreated) {
                     $itemExistsInSession = false;
-                    
-                        if (!empty($_SESSION['carrito'])) {
-                            foreach ($_SESSION['carrito'] as &$sessionItem) {
-                                if (
-                                    $sessionItem['id_prod'] == $productId
-                                    && $sessionItem['id_usuario'] == $userId
-                                ) {
-                                    $itemExistsInSession = true;
-                                    $sessionItem['cantidad'] += $itemData['cantidad'];
-                                    $response['message'] = 'Cantidad del producto actualizada';
-                                }
-                            }
-                            if (!$itemExistsInSession) {
-                                $_SESSION['carrito'] = $lateCart;
-                                $response['message'] = 'Producto añadido al carrito';
+
+                    if (!empty($_SESSION['carrito'])) {
+                        foreach ($_SESSION['carrito'] as &$sessionItem) {
+                            if (
+                                $sessionItem['id_prod'] == $productId
+                                && $sessionItem['id_usuario'] == $userId
+                            ) {
+                                $itemExistsInSession = true;
+                                $sessionItem['cantidad'] += $itemData['cantidad'];
+                                $response['message'] = 'Cantidad del producto actualizada';
                             }
                         }
-                     else {
+                        if (!$itemExistsInSession) {
+                            $_SESSION['carrito'] = $lateCart;
+                            $response['message'] = 'Producto añadido al carrito';
+                        }
+                    } else {
                         $_SESSION['carrito'] = $itemData;
                         $response['message'] = 'Producto añadido al carrito';
                     }

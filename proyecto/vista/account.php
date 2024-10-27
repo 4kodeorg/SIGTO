@@ -14,7 +14,7 @@ include('header.php');
       <label for="username">Usuario</label>
       <input type="text" name="username" placeholder="Correo electrónico" id="username" required>
       <label for="password">Contraseña</label>
-      <input type="password" placeholder="Contraseña" name="passwd" id="password" required>
+      <input type="password" placeholder="Contraseña" name="password" id="password" required>
       <section id="login-message" class="container-mssg-login">
         <p></p>
         <svg onclick="this.parentElement.style.display=`none`" ;

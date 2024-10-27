@@ -1,4 +1,5 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/cfg.php';
 $usId = isset($_SESSION['id_username']) ? $_SESSION['id_username'] : 0;
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
@@ -20,6 +21,8 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
   <link rel="stylesheet" href="../assets/index.css">
 
   <script src="../main.js" defer></script>
+  <script src="https://sandbox.paypal.com/sdk/js?client-id=<?php echo PAYPAL_CLIENT_ID ?>&components=buttons">
+  </script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mercado Ya!</title>
@@ -115,15 +118,15 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
           href="#offcanvasCarrito"
           role="button"
           aria-controls="offcanvasCarrito">
-        
-            <section id="items-cart" class="circle"><small>0 </small>
-            </section>
 
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB6ElEQVR4nO2ZO0tcQRSAv1VBCVhrwG0Eo65CCGLjL1DE1s4gGBFlEVkQ7PILUgQCFjYW4qrrAxG1CiL2NilEsPKBibj4wELwFQZOsYTsLi5zZu4sfnCaYQ57vnvnzs5h4I3o0QucAi8F4grYBT4DMSLKSRGJf2M2qjInOUUe55lTBwwBdzLPvJnI0SMyRqK7yNwvIrJP4FQDlyLTRuDMiUiSwBkWkQyB80FELqK6e72GM5FJEDjzIjJG4IyIyCKB0yIif8rpO2khcBZeeUbTiB0bIqMREDmyIZKIgMhXGyLmI//tUeIZaMQSGY8iP7FI0qPIgE2Rdk8SN8A7myIx+VN0LTKDAiseRLo0RMYdSxxqHYs+OhaZQolYTh+vHU9AHEXWHIlso8yEI5F+bZFPDiSyQI22SIX8kKbIDxyxrizS4UokpSjxC4d0KIqkXIpUyj2KbYkHoB7HbCg0T9/xwKQUME3gdIrIAYFTJU2PWRLvCZwNeSuDlMn9yS6BU5tzrP8GtLo4I2nRB9xb3Ib3fMvYEnkEGnxfmm5KESa2ZCydJyddQo4651JA7pOMy5g58v+PbIEcs6174bZAUdcWc9RZlQK2pJi49NxmbNlijjrNebpGM9ZkMQcXmCWyJOvbhHmqxQoqJYe/S/viCgHGEU4AAAAASUVORK5CYII=">
+          <section id="items-cart" class="circle"><small>0 </small>
+          </section>
 
-            <section class="section-price-cart">
-              <span>$</span><b>0</b>
-            </section>
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB6ElEQVR4nO2ZO0tcQRSAv1VBCVhrwG0Eo65CCGLjL1DE1s4gGBFlEVkQ7PILUgQCFjYW4qrrAxG1CiL2NilEsPKBibj4wELwFQZOsYTsLi5zZu4sfnCaYQ57vnvnzs5h4I3o0QucAi8F4grYBT4DMSLKSRGJf2M2qjInOUUe55lTBwwBdzLPvJnI0SMyRqK7yNwvIrJP4FQDlyLTRuDMiUiSwBkWkQyB80FELqK6e72GM5FJEDjzIjJG4IyIyCKB0yIif8rpO2khcBZeeUbTiB0bIqMREDmyIZKIgMhXGyLmI//tUeIZaMQSGY8iP7FI0qPIgE2Rdk8SN8A7myIx+VN0LTKDAiseRLo0RMYdSxxqHYs+OhaZQolYTh+vHU9AHEXWHIlso8yEI5F+bZFPDiSyQI22SIX8kKbIDxyxrizS4UokpSjxC4d0KIqkXIpUyj2KbYkHoB7HbCg0T9/xwKQUME3gdIrIAYFTJU2PWRLvCZwNeSuDlMn9yS6BU5tzrP8GtLo4I2nRB9xb3Ib3fMvYEnkEGnxfmm5KESa2ZCydJyddQo4651JA7pOMy5g58v+PbIEcs6174bZAUdcWc9RZlQK2pJi49NxmbNlijjrNebpGM9ZkMQcXmCWyJOvbhHmqxQoqJYe/S/viCgHGEU4AAAAASUVORK5CYII=">
+
+          <section class="section-price-cart">
+            <span>$</span><b>0</b>
+          </section>
         </button>
       </div>
 
@@ -135,8 +138,7 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div id="offcanvas-carrito" class="offcanvas-body">
-      
-        
+
     </div>
   </div>
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar-menu" aria-labelledby="offcanvasExampleLabel">

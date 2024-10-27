@@ -7,6 +7,7 @@ class ProductController extends Database
     public function create($data)
     {
         $producto = new Producto();
+        $producto->setSku($data['sku_codigo']);
         $producto->setTitulo($data['titulo']);
         $producto->setDescripcion($data['descripcion']);
         $producto->setOrigen($data['origen']);
@@ -21,9 +22,10 @@ class ProductController extends Database
     }
     public function createProduct($producto)
     {
-        $query = 'INSERT INTO productos (titulo, descripcion, origen, cantidad, precio, id_category) VALUES (?, ?, ?, ?, ?, ?);';
+        $query = 'INSERT INTO productos (sku, titulo, descripcion, origen, cantidad, precio, id_category) VALUES (? ,?, ?, ?, ?, ?, ?);';
         $stmt = $this->conn->prepare($query);
 
+        $sku = $producto->getSku();
         $titulo = $producto->getTitulo();
         $descripcion = $producto->getDescripcion();
         $origen = $producto->getOrigen();
@@ -32,7 +34,8 @@ class ProductController extends Database
         $precio = $producto->getPrecio();
 
         $stmt->bind_param(
-            'sssssi',
+            'ssssssi',
+            $sku,
             $titulo,
             $descripcion,
             $origen,

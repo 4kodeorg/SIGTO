@@ -1,5 +1,7 @@
 {
     "require": {
-        "google/apiclient": "^2.15.0"
+        "google/apiclient": "^2.15.0",
+        "paypal/paypal-server-sdk": "0.5.1",
+        "mercadopago/dx-php": "3.0.8"
     }
 }

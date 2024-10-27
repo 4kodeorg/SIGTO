@@ -20,17 +20,27 @@ class ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9
         array (
             'phpseclib3\\' => 11,
         ),
+        'a' => 
+        array (
+            'apimatic\\jsonmapper\\' => 20,
+        ),
+        'U' => 
+        array (
+            'Unirest\\' => 8,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Cache\\' => 10,
+            'PaypalServerSDKLib\\' => 19,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
         'M' => 
         array (
             'Monolog\\' => 8,
+            'MercadoPago\\' => 12,
         ),
         'G' => 
         array (
@@ -45,6 +55,11 @@ class ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9
         array (
             'Firebase\\JWT\\' => 13,
         ),
+        'C' => 
+        array (
+            'Core\\' => 5,
+            'CoreInterfaces\\' => 15,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -52,14 +67,22 @@ class ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
+        'apimatic\\jsonmapper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/apimatic/jsonmapper/src',
+        ),
+        'Unirest\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/apimatic/unirest-php/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -69,6 +92,10 @@ class ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+        'PaypalServerSDKLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paypal/paypal-server-sdk/src',
+        ),
         'ParagonIE\\ConstantTime\\' => 
         array (
             0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
@@ -76,6 +103,10 @@ class ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'MercadoPago\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -104,6 +135,24 @@ class ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Core\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/apimatic/core/src',
+        ),
+        'CoreInterfaces\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/apimatic/core-interfaces/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'R' => 
+        array (
+            'Rs\\Json' => 
+            array (
+                0 => __DIR__ . '/..' . '/php-jsonpointer/php-jsonpointer/src',
+            ),
         ),
     );
 
@@ -136,6 +185,7 @@ class ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit19964d6cde04a3e6a8a99fc6c06f99e9::$classMap;
 
         }, null, ClassLoader::class);

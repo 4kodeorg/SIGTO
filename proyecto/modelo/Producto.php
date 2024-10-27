@@ -2,7 +2,7 @@
 
 class Producto{
 
-    private int $id;
+    private string $sku;
     private string $titulo;
     private string $descripcion;
     private string $precio;
@@ -10,11 +10,11 @@ class Producto{
     private string $cantidad;
     private int $id_category;
 
-    public function getId() {
-        return $this->id;
+    public function getSku() {
+        return $this->sku;
     }
-    public function setId($id) {
-        $this->id = $id;
+    public function setSku($sku) {
+        $this->sku = $sku;
     }
     public function setTitulo($titulo) {
         $this->titulo = $titulo;

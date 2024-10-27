@@ -46,6 +46,7 @@ function renderProductRow($product, $usId, $isFavorite)
 }
 
 ?>
+
 <div id='container-modal-login' class='modal-home-login'> </div>
 <div class='container-prods' id='result-container'>
     <?php

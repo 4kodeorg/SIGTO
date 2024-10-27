@@ -2,7 +2,7 @@
 include 'header-index.php';
 
 ?>
-
+<div class="container-checkout-grid">
 <div class="container-checkout-page px-2">
 
 <table class="table">
@@ -34,11 +34,16 @@ include 'header-index.php';
     $totalCart = 0;
         foreach ($data['carrito'] as $item) {
             $totalCart += $item['price_product'] * $item['cantidad'];
-            echo '<div class="container-fluid mt-2">
-                <h5>'. $item['titulo'].'</h5>
-                <h5>Cantidad: '. $item['cantidad'].'</h5>
-                <b>P/U: '. $item['price_product'] .' </b> 
-                </div>
+            echo '
+            <div id="container-id" data-product-id="'.$item['id'].'"> </div>
+            <form id="form-product-checkout'.$item['id'].'" class="container-fluid mt-2">
+                <label>'. $item['titulo'].'</label>
+                <input type="hidden" name="titulo" value="'. $item['titulo'].'">
+                <label>Cantidad: '. $item['cantidad'].'</label>
+                <input type="hidden" name="cantidad" value="'.$item['cantidad'].'">
+                <label>P/U: '. $item['price_product'] .' </label>
+                <input type="hidden" name="price_product" value="'. $item['price_product'] .'"> 
+                </form>
                 <hr>';
         }
 
@@ -47,14 +52,16 @@ include 'header-index.php';
 </section>
 
 </div>
-
 <section>
-
 <div id="paypal-button-container"></div>
     <p id="result-message"></p>
 
 </section>
-
+<script>
+    const userId = <?= $data['usuario']['id'];?>;
+    const totalAmmount = <?= $totalCart; ?>;
+</script>
+    </div>
 <?php 
 include 'footer.php';
 ?>
