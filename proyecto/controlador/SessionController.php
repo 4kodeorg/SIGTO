@@ -15,7 +15,7 @@ class SessionController extends Database {
         }
     }
     public function createClienteSession($cliente) {
-        $logginQuery = "INSERT INTO sesionCliente (email, fecha_ini_sess) VALUES ( ?, ?);";
+        $logginQuery = "INSERT INTO sesionCliente (email, fecha_ini_ses) VALUES ( ?, ?);";
         $stmntLoggin = $this->conn->prepare($logginQuery);
         
         $emailSession = $cliente->getEmail();

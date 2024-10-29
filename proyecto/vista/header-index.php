@@ -20,7 +20,6 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
 
   <link rel="stylesheet" href="../assets/index.css">
 
-  <script src="../main.js" defer></script>
   <script src="https://sandbox.paypal.com/sdk/js?client-id=<?php echo PAYPAL_CLIENT_ID ?>&components=buttons">
   </script>
 

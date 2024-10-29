@@ -724,9 +724,46 @@ ul {
     display: none;
     align-items: center;
     flex-direction: column;
+    width: 100%;
     padding: 1.5em;
     transition: display 0.3s ease;
 }
+.buttons-actions {
+    display: grid;
+    gap: .5rem;
+    justify-content: center;
+    margin: 1rem 0;
+}
+.form-phone {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5em;
+    transition: display 0.3s ease;
+}
+.form-phone input , .form-phone label{
+    width: 80%;
+    text-align: left;
+}
+
+button>.button-profile {
+    font-size: 1.5rem;
+    color: #fafafa;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 2px solid #fafafa;
+    background: #252525;
+    box-shadow: 3px 3px #fafafa;
+    cursor: pointer;
+    margin: 35px 0;
+  }
+  
+button>.button-profile:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+  }
 
 #actualizar-direcciones-container {
     display: none;
@@ -840,6 +877,15 @@ ul {
 .error-login p {
     color: #f10000;
 }
+
+.form_information {
+    display: flex;
+    flex-direction: column;
+}
+.form_information label, .form_information input {
+    width: 100%;
+}
+
 .login-home-modalform input, .login-home-modalform button {
     padding: 4px;
     margin: .8rem 0;

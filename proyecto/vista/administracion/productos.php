@@ -173,8 +173,9 @@ require('headerback.php')
                 method="POST"
                 enctype="multipart/form-data"
                 class="form-product">
+                <input type="hidden" name="id_usu_ven" value="">
                 <label for="titulo">Nombre del producto</label>
-                <input id="titulo" placeholder="Título del producto" type="text" name="titulo" required>
+                <input id="titulo" placeholder="Título del producto" type="text" name="nombre" required>
 
                 <label for="descr">Descripción</label>
                 <input id="descr" placeholder="Descripción del producto" type="text" name="descripcion" required>
@@ -194,8 +195,8 @@ require('headerback.php')
                     ?>
                 </select>
 
-                <label for="cantidad">Cantidad de unidades</label>
-                <input type="text" placeholder="Stock del producto" name="cantidad" id="cantidad" required>
+                <label for="stock">Cantidad de unidades</label>
+                <input type="text" placeholder="Stock del producto" name="stock" id="stock" required>
 
                 <label for="precio">Precio</label>
                 <input id="precio" placeholder="Precio del producto en pesos" type="text" name="precio" required>

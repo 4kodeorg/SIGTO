@@ -50,6 +50,7 @@ function renderProductRow($product, $usId, $isFavorite)
 <div id='container-modal-login' class='modal-home-login'> </div>
 <div class='container-prods' id='result-container'>
     <?php
+
     if (isset($data['message']) && !empty($data['message'])) {
         echo "<h2>{$data['message']}</h2>";
     } elseif (!empty($data['resultados'])) {

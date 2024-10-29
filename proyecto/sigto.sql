@@ -3,57 +3,39 @@ USE SIGTO;
 
 -- CREAR TABLAS
 
-CREATE TABLE administrador (
-    email VARCHAR(50) PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    fecha_registro DATE NOT NULL,
-    fecha_ini_ses DATETIME,
-    fecha_fin_ses DATETIME,
-    CONSTRAINT chk_admin_email_format CHECK (email LIKE '%_@__%.__%')
-);
+-- CREATE TABLE administrador (
+--     email VARCHAR(50) PRIMARY KEY,
+--     nombre VARCHAR(30) NOT NULL,
+--     password VARCHAR(255) NOT NULL,
+--     fecha_registro DATE NOT NULL,
+--     fecha_ini_ses DATETIME,
+--     fecha_fin_ses DATETIME,
+--     CONSTRAINT chk_admin_email_format CHECK (email LIKE '%_@__%.__%')
+-- );
 
-CREATE TABLE usuario_admin (
-	id_usu_admin INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50),
-    FOREIGN KEY (email) REFERENCES administrador(email)
-);
+-- CREATE TABLE usuario_admin (
+-- 	id_usu_admin INT AUTO_INCREMENT PRIMARY KEY,
+--     email VARCHAR(50),
+--     FOREIGN KEY (email) REFERENCES administrador(email)
+-- );
 
 CREATE TABLE cliente (
     email VARCHAR(50) PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL,
+    username VARCHAR(30) NOT NULL,
     password VARCHAR(255) NOT NULL,
     fecha_registro DATE NOT NULL,
+    fecha_nac DATE NOT NULL,
     pais VARCHAR(30),
     CONSTRAINT chk_cliente_email_format CHECK (email LIKE '%_@__%.__%')
 );
 
 CREATE TABLE comprador (
     email VARCHAR(50) PRIMARY KEY,
-    nombre1 VARCHAR(30) NOT NULL,
+    nombre1 VARCHAR(30),
     nombre2 VARCHAR(30),
-    apellido1 VARCHAR(30) NOT NULL,
+    apellido1 VARCHAR(30),
     apellido2 VARCHAR(30),
-    fecha_nac DATE NOT NULL,
     FOREIGN KEY (email) REFERENCES cliente(email)
-);
-
-CREATE TABLE comprador_telefono (
-    email VARCHAR(30) NOT NULL,
-    telefono VARCHAR(18) NOT NULL,
-    PRIMARY KEY (email,telefono),
-    FOREIGN KEY (email) REFERENCES comprador(email),
-    CONSTRAINT chk_comprador_telefono_format CHECK (telefono REGEXP '^[0-9]{7,15}$')
-);
-
-CREATE TABLE comprador_mis_metodos_pago (
-    id_tarjeta INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50) NOT NULL,   
-    nom_titular VARCHAR(50) NOT NULL,
-    numero VARCHAR(20) NOT NULL,
-    fecha_ven DATE NOT NULL,
-    nom_tarjeta VARCHAR(50) NOT NULL,
-    FOREIGN KEY (email) REFERENCES comprador(email)
 );
 
 CREATE TABLE comprador_direccion (
@@ -70,19 +52,41 @@ CREATE TABLE comprador_direccion (
     FOREIGN KEY (email) REFERENCES comprador(email)
 );
 
+
+CREATE TABLE comprador_telefono (
+    email VARCHAR(50) PRIMARY KEY,
+    telefono VARCHAR(18) NOT NULL,
+    FOREIGN KEY (email) REFERENCES comprador(email),
+    CONSTRAINT chk_comprador_telefono_format CHECK (telefono REGEXP '^[0-9]{7,15}$')
+);
+
+-- DONE HASTA ACÁ
+
+CREATE TABLE comprador_mis_metodos_pago (
+    id_tarjeta INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,   
+    nom_titular VARCHAR(50) NOT NULL,
+    numero VARCHAR(20) NOT NULL,
+    fecha_ven DATE NOT NULL,
+    nom_tarjeta VARCHAR(50) NOT NULL,
+    FOREIGN KEY (email) REFERENCES comprador(email)
+);
+
 CREATE TABLE vendedor (
     email VARCHAR(50) PRIMARY KEY,
     razon_social VARCHAR(50) NOT NULL,
     password VARCHAR (255) NOT NULL,
-    fecha_registro DATETIME NOT NULL,
+    fecha_registro DATETIME NOT NULL, 
+    nombre VARCHAR(30),
+    apellido VARCHAR(30),
+    fecha_nac DATE NOT NULL, 
     CONSTRAINT chk_vendedor_email_format CHECK (email LIKE '%_@__%.__%')
 );
 
-
 CREATE TABLE sesionCliente (
+    id_session INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(50),
     fecha_ini_ses DATETIME NOT NULL,
-    PRIMARY KEY (email),
     FOREIGN KEY (email) REFERENCES cliente(email)
 );
 
@@ -105,25 +109,50 @@ CREATE TABLE vendedor_direccion (
     FOREIGN KEY (email) REFERENCES vendedor(email)
 );
 
-CREATE TABLE producto (
-    sku VARCHAR(50) PRIMARY KEY,
-    id_usu_ven INT,
-	imagen VARCHAR(1000) NOT NULL,
+CREATE TABLE productos (
+    sku INT AUTO_INCREMENT PRIMARY KEY,
+    id_usu_ven VARCHAR(50),
     nombre VARCHAR(100) NOT NULL,
     precio DECIMAL(10, 2) CHECK (precio > 0),
     origen ENUM('Nacional', 'Internacional'),
     oferta ENUM('SI','NO'),
+    stock int not null check (stock > 0),
     descripcion TEXT,
     estado ENUM('Nuevo', 'Usado'),
-    FOREIGN KEY (id_usu_ven) REFERENCES usuario_ven(id_usu_ven)
+    activo TINYINT(1) DEFAULT 1 CHECK (activo IN (0, 1)),
+    id_cat INT,
+    id_subcat INT,
+    FOREIGN KEY (id_cat) REFERENCES categorias(id_categoria) ON DELETE SET NULL,
+    FOREIGN KEY (id_subcat) REFERENCES subcategorias(id) ON DELETE SET NULL,
+    FOREIGN KEY (id_usu_ven) REFERENCES vendedor(email)
+) AUTO_INCREMENT=4500;
+
+CREATE TABLE categorias (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50),
+    descripcion TEXT
+);
+
+CREATE TABLE subcategorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    id_categoria INT,
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria) ON DELETE CASCADE
+);
+
+CREATE TABLE producto_imagenes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    producto_sku INT,
+    imagen_url VARCHAR(1000) NOT NULL,
+    FOREIGN KEY (producto_sku) REFERENCES productos(sku) ON DELETE CASCADE
 );
 
 CREATE TABLE favoritos (
-    sku VARCHAR(50),
-    id_usuario INT, 
+    sku int,
+    id_usuario VARCHAR(50), 
     PRIMARY KEY (sku, id_usuario),
-    FOREIGN KEY (sku) REFERENCES producto(sku),
-    FOREIGN KEY (id_usuario) REFERENCES usuario_comprador(id_usu_com)
+    FOREIGN KEY (sku) REFERENCES productos(sku),
+    FOREIGN KEY (id_usuario) REFERENCES cliente(email)
 );
 
 CREATE TABLE medio_pago (
@@ -136,31 +165,15 @@ CREATE TABLE medio_pago (
 
 CREATE TABLE carrito (
     id_carrito INT AUTO_INCREMENT PRIMARY KEY,
-    fecha_genero DATETIME NOT NULL,
-    sku VARCHAR(50),
-    id_usu_com INT,
+    fecha_gen DATETIME NOT NULL,
+    sku_prod int,
+    id_usu_com VARCHAR(50),
     cantidad INT NOT NULL CHECK (cantidad > 0),
     titulo VARCHAR (100),
-    precio_prod DECIMAL(10, 2) CHECK (total > 0),
-    FOREIGN KEY (sku) REFERENCES producto(sku),
-    FOREIGN KEY (id_usu_com) REFERENCES usuario_comprador(id_usu_com)
-)AUTO_INCREMENT = 70000;
-
-CREATE TABLE genera (
-    id_usu_com INT,
-    sku VARCHAR(50),
-    id_carrito INT,
-    PRIMARY KEY (id_usu_com,sku,id_carrito),
-    FOREIGN KEY (id_carrito) REFERENCES carrito(id_carrito),
-    FOREIGN KEY (sku) REFERENCES producto(sku),
-    FOREIGN KEY (id_usu_com) REFERENCES usuario_comprador(id_usu_com)
-);
-
-CREATE TABLE categoria (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50),
-    descripcion TEXT
-);
+    precio_prod DECIMAL(10, 2) CHECK (precio_prod > 0),
+    FOREIGN KEY (sku_prod) REFERENCES productos(sku),
+    FOREIGN KEY (id_usu_com) REFERENCES cliente(email)
+)AUTO_INCREMENT = 7000;
 
 
 CREATE TABLE pertenece (
@@ -171,13 +184,6 @@ CREATE TABLE pertenece (
     FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
 );
 
-
-CREATE TABLE sub_categoria (
-    id_categoria INT PRIMARY KEY,
-    nombre VARCHAR(50),
-    descripcion TEXT,
-    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
-);
 
 CREATE TABLE asigna_item_stock (
     id_pago INT,
@@ -341,5 +347,15 @@ CREATE TABLE usuario_comprador (
     email VARCHAR(50),
     FOREIGN KEY (email) REFERENCES comprador(email)
 ) AUTO_INCREMENT=1000;
+
+CREATE TABLE genera (
+    id_usu_com INT,
+    sku VARCHAR(50),
+    id_carrito INT,
+    PRIMARY KEY (id_usu_com,sku,id_carrito),
+    FOREIGN KEY (id_carrito) REFERENCES carrito(id_carrito),
+    FOREIGN KEY (sku) REFERENCES producto(sku),
+    FOREIGN KEY (id_usu_com) REFERENCES usuario_comprador(id_usu_com)
+);
 
 -- 

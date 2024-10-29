@@ -15,7 +15,7 @@ const containerDirecciones = document.getElementById('actualizar-direcciones-con
 
 const containerInfo = document.getElementById('actualizar-info');
 const formPersonalInfo = document.getElementById('form-personal-info');
-
+const phoneForm = document.querySelector('.form-phone');
 //
 
 let currentIndex = 0;
@@ -27,8 +27,18 @@ function getBack() { document.querySelector('.profile-section-page').style.margi
 updateSlider();
 
 spinRight();
-function showNow() { containerInfo.style.display = 'flex'; }
-function hideNow() { containerInfo.style.display = 'none'; }
+function showNow() { 
+    containerInfo.style.display = 'flex';
+}
+function hideNow() {
+    containerInfo.style.display = 'none'; 
+}
+function showPhoneForm() {
+    phoneForm.style.display = 'flex';
+}
+function hidePhoneForm() {
+    phoneForm.style.display = 'none';
+}
 
 function showFormDir() { containerDirecciones.style.display = 'flex'; }
 function hideForm() { containerDirecciones.style.display = 'none'; }
@@ -402,10 +412,46 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCartContainer(usId);
 });
 
+
+async function updateUserPhone(e) {
+    e.preventDefault();
+
+    const messageInfo = document.getElementById('message-resp-info');
+    const formPhone = document.getElementById('form-phone-user');
+    const action = formPhone.action
+    const formData = new FormData(formPhone);
+    const arrAction = action.split('?')
+    const userId = formData.get('id_username');
+    formData.append('submit', 'submit');
+
+    try {
+        const response = await fetch(`http://localhost/perfil/${userId}?${arrAction[1]}`,{
+            method : 'POST',
+            body: formData
+        })
+        const data = await response.json();
+
+        if (data.success) {
+            messageInfo.style.display = 'flex';
+            messageInfo.querySelector('p').innerHTML = data.message;
+            await new Promise(resolve => setTimeout(resolve, 1800));
+            messageInfo.style.display = 'none';
+            location.reload();
+        } else {
+            messageInfo.style.display = 'flex';
+            messageInfo.querySelector('p').innerHTML = data.message;
+        }
+
+        
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
+}
+
 async function updateInfo() {
     const messageInfo = document.getElementById('message-resp-info');
     const userInformation = new FormData(formPersonalInfo);
-    const userId = userInformation.get('idusername');
+    const userId = userInformation.get('id_username');
     const APIinfouser = `http://localhost/perfil/${userId}?action=actualizar_info`;
 
     userInformation.append('submit', 'submit');

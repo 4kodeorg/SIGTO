@@ -11,7 +11,7 @@ include('header.php');
   <div class="form-login-container">
 
     <form id="login-form" class="login-form" action="?action=1" method="post">
-      <label for="username">Usuario</label>
+      <label for="username">Correo</label>
       <input type="text" name="username" placeholder="Correo electrónico" id="username" required>
       <label for="password">Contraseña</label>
       <input type="password" placeholder="Contraseña" name="password" id="password" required>

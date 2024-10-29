@@ -33,12 +33,13 @@ class Router
             'cuenta' => 'formAccount',
             'perfil' => 'renderProfile',
             'carrito' => 'renderPage',
+            'empresa' => 'formRegistroEmpresa',
             'admin' => 'redirectMain',
             'admin/main' => 'renderBackOffice',
             'admin/estadisticas' => 'renderBackOffice',
             'admin/empresa' => 'renderBackOffice',
             'admin/productos' => 'pageProductsAdmin',
-            'admin/perfil' => 'renderBackOffice',
+            'admin/perfil' => 'renderAdminPerfil',
             'logout' => 'logout',
             'home' => 'searchForm',
             '/' => 'redirectHome'
@@ -47,6 +48,13 @@ class Router
             $productId = intval($matches[1]);
             $this->renderProductData($productId);
             return;
+        }
+        elseif (preg_match('/^admin\/perfil\/([a-fA-F0-9]+)$/', $this->request, $matches)) {
+            $vendedorId = $matches[1];
+            if ($this->checkVendedorMiddleware($vendedorId)) {
+                $vendedorEmail = pack("H*", $vendedorId);
+                $this->vendedorActions($vendedorEmail);
+            }
         } elseif (preg_match('/^product\/(\w+)$/', $this->request, $matches)) {
             $productId = $matches[1];
             $this->renderProduct($productId);
@@ -60,11 +68,11 @@ class Router
             } else {
                 $this->renderPage('error', ['message' => 'Ocurrió un error inesperado']);
             }
-        } elseif (preg_match('/^perfil\/(\w+)$/', $this->request, $matches)) {
+        } elseif (preg_match('/^perfil\/([a-fA-F0-9]+)$/', $this->request, $matches)) {
             $userId = $matches[1];
-
             if ($this->checkUserMiddleware($userId)) {
-                $this->profileActions($userId);
+                $userEmail = pack("H*", $userId);
+                $this->profileActions($userEmail);
             } else {
                 $message = "Acceso no autorizado";
                 $this->renderPage('error', ['message' => $message]);
@@ -82,6 +90,60 @@ class Router
             $this->renderPage('error', ['message' => $message]);
         }
     }
+    private function vendedorActions($vendedorEmail) {
+        switch ($this->action) {
+            case 'add_phone':
+                break;
+            case 'add_direccion':
+                break;
+            case 'update_info':
+                break;
+            case 'update_direccion':
+                break;
+            default:
+            break;
+        }
+
+    }
+    private function assignPage($method, $route)
+    {
+        $backOfficeRoutes = ['admin', 'admin/main', 'admin/estadisticas', 'admin/empresa', 'admin/perfil'];
+        if (in_array($route, $backOfficeRoutes)) {
+            call_user_func([$this, $method], 'general');
+        } elseif ($method === 'renderPage') {
+            call_user_func([$this, $method], $route);
+        } else {
+            call_user_func([$this, $method]);
+        }
+    }
+
+    private function renderPage($page, $data = [])
+    {
+
+        $file = $_SERVER['DOCUMENT_ROOT'] . "/vista/{$page}.php";
+        if (file_exists($file)) {
+            extract($data);
+            include($file);
+        } else {
+            http_response_code(404);
+            print_r($_SERVER['DOCUMENT_ROOT'] . "/vista/{$page}.php");
+            echo "404 - Page not found";
+        }
+    }
+
+    private function renderBackOffice($page, $data = [])
+    {
+
+        $file = $_SERVER['DOCUMENT_ROOT'] . "/vista/administracion/{$page}.php";
+        if (file_exists($file)) {
+            extract($data);
+            include($file);
+        } else {
+            http_response_code(404);
+            echo "404 - Page not found";
+        }
+    }
+
     private function redirectMain()
     {
         header('Location: /admin/main');
@@ -93,23 +155,30 @@ class Router
         header('Location: /home');
         exit();
     }
-    private function profileActions($userId) {
+    private function profileActions($userId)
+    {
         switch ($this->action) {
             case 'actualizar_info':
-                $this->updateInfo($userId);
+                $this->updateInfo();
                 break;
             case 'agregar_direccion':
-                $this->addDirecciones($userId);
+                $this->addDirecciones();
                 break;
-            case 'agregar_tel':
+            case 'actualizar_direccion':
+                $this->updateDirecciones();
+                break;
+            case 'add_phone':
+                $this->addUserPhone();
+                break;
+            case 'update_phone':
                 $this->updateTelefono();
                 break;
             case 'agregar_card':
-                $this->updatePayment($userId);
+                $this->updatePayment();
                 break;
             default:
                 $this->renderProfile($userId);
-            break;
+                break;
         }
     }
     private function homeActions()
@@ -164,45 +233,6 @@ class Router
                 break;
         }
     }
-
-    private function assignPage($method, $route)
-    {
-        $backOfficeRoutes = ['admin', 'admin/main', 'admin/estadisticas', 'admin/empresa', 'admin/perfil'];
-        if (in_array($route, $backOfficeRoutes)) {
-            call_user_func([$this, $method], 'general');
-        } elseif ($method === 'renderPage') {
-            call_user_func([$this, $method], $route);
-        } else {
-            call_user_func([$this, $method]);
-        }
-    }
-
-    private function renderPage($page, $data = [])
-    {
-
-        $file = $_SERVER['DOCUMENT_ROOT'] . "/vista/{$page}.php";
-        if (file_exists($file)) {
-            extract($data);
-            include($file);
-        } else {
-            http_response_code(404);
-            print_r(__DIR__);
-            echo "404 - Page not found";
-        }
-    }
-
-    private function renderBackOffice($page, $data = [])
-    {
-
-        $file = $_SERVER['DOCUMENT_ROOT'] . "/vista/administracion/{$page}.php";
-        if (file_exists($file)) {
-            extract($data);
-            include($file);
-        } else {
-            http_response_code(404);
-            echo "404 - Page not found";
-        }
-    }
     private function getDisabledProds()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
@@ -221,15 +251,15 @@ class Router
         exit();
         return;
     }
-    private function updateTelefono() {
-
+    private function updateTelefono()
+    {
         $response = ['success' => false, 'message' => ''];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
             $userController = new UsuarioController();
-            $userEmail = htmlspecialchars($_POST['email']) ?? '';
+            $userEmail = htmlspecialchars($_POST['id_username']) ?? '';
             $userPhone = htmlspecialchars($_POST['phone']) ?? '';
-            if ($userController->addUserPhone($userEmail, $userPhone)) {
+            if ($userController->updateUserPhone(pack("H*", $userEmail), $userPhone)) {
                 $response['success'] = true;
                 $response['message'] = 'Información actualizada con exito';
             } else {
@@ -238,10 +268,31 @@ class Router
         } else {
             $response['message'] = "Solicitud invalida";
         }
+        header('Content-type: application/json');
+        echo(json_encode($response));
+        exit();
     }
-    private function updatePayment($userId) {
-
+    private function addUserPhone() {
+        $response = ['success' => false, 'message' => ''];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+            $userController = new UsuarioController();
+            $userEmail = htmlspecialchars($_POST['id_username']) ?? '';
+            $userPhone = htmlspecialchars($_POST['phone']) ?? '';
+            if ($userController->createUserPhones(pack("H*", $userEmail), $userPhone)) {
+                $response['success'] = true;
+                $response['message'] = 'Número vinculado a tu cuenta con exito';
+            } else {
+                $response['message'] = "No se pudieron actualizar los datos, intente nuevamente";
+            }
+        } else {
+            $response['message'] = "Solicitud invalida";
+        }
+        header('Content-type: application/json');
+        echo(json_encode($response));
+        exit();
     }
+    private function updatePayment() {}
     private function activateProductAdmin()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
@@ -422,7 +473,18 @@ class Router
             exit();
         }
     }
-
+    private function checkVendedorMiddleware($vendedorId) {
+        if (isset($_SESSION['vendedor_id'])) {
+            $loggedVendedor = $_SESSION['vendedor_id'];
+            if ($loggedVendedor == $vendedorId) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            $this->renderPage('error', ['message' => "Acceso no autorizado"]);
+        }
+    }
     private function checkUserMiddleware($userId)
     {
         if (isset($_SESSION["id_username"])) {
@@ -438,28 +500,67 @@ class Router
         }
     }
 
+    private function updateDirecciones()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+        if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+            parse_str(file_get_contents('php://input'), $data);
+            $response = ['success' => false, 'message' => ''];
+            $userData = [
+                'id_direccion' => $data['id_direccion'],
+                'calle_pri' => $data['calle_pri'],
+                'calle_seg' => $data['calle_seg'],
+                'num_puerta' => $data['num_puerta'],
+                'num_apartamento' => $data['num_apartamento'],
+                'ciudad' => $data['ciudad'],
+                'pais' => $data['pais'],
+                'tipo_dir' => $data['tipo_dir']
+            ];
+
+            $emptyFields = false;
+            foreach ($data as $key => $val) {
+                if (empty(trim($val)) || $val == 0) {
+                    $emptyFields = true;
+                    $response['message'] = "El campo " . $key . "es requerido";
+                }
+            }
+            if (!$emptyFields) {
+                $userController = new UsuarioController();
+                if ($userController->updateUserDirecciones($userData)) {
+                    $response['success'] = true;
+                    $response['message'] = 'Direcciones actualizadas con exito';
+                } else {
+                    $response['message'] = "Ocurrió un error inesperado";
+                }
+            }
+            echo json_encode($response);
+            exit();
+        }
+    }
+
     private function addDirecciones()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        }
         $response = ['success' => false, 'message' => ''];
         $data = [
-        'email' => htmlspecialchars($_POST['email']) ?? '',
-        'calle_prim' => htmlspecialchars($_POST['calle_prim']) ?? '',
-        'calle_seg' => htmlspecialchars($_POST['calle_seg']) ?? '',
-        'num_puerta' => htmlspecialchars($_POST['num_puerta']) ?? '',
-        'num_apartamento' => htmlspecialchars($_POST['num_apartamento']) ?? '',
-        'ciudad' => htmlspecialchars($_POST['ciudad']) ?? '',
-        'pais' => htmlspecialchars($_POST['pais']) ?? '',
-        'tipo_dir' =>  htmlspecialchars($_POST['tipo_dir']) ?? ''
+            'email' => htmlspecialchars($_POST['email']) ?? '',
+            'calle_prim' => htmlspecialchars($_POST['calle_prim']) ?? '',
+            'calle_seg' => htmlspecialchars($_POST['calle_seg']) ?? '',
+            'num_puerta' => htmlspecialchars($_POST['num_puerta']) ?? '',
+            'num_apartamento' => htmlspecialchars($_POST['num_apartamento']) ?? '',
+            'ciudad' => htmlspecialchars($_POST['ciudad']) ?? '',
+            'pais' => htmlspecialchars($_POST['pais']) ?? '',
+            'tipo_dir' =>  htmlspecialchars($_POST['tipo_dir']) ?? ''
         ];
         $emptyFields = false;
         foreach ($data as $key => $val) {
             if (empty(trim($val)) || $val == 0) {
                 $emptyFields = true;
                 $response['message'] = 'El campo' . $key . 'es requerido';
-
             }
-                    }
+        }
         if (!$emptyFields) {
             $userController = new UsuarioController();
             $userUpdatedOk = $userController->addUserDirecciones($data);
@@ -467,24 +568,29 @@ class Router
                 $response['success'] = true;
                 $response['message'] = "Información actualizada con éxito.";
             }
-        } 
+        }
         header('Content-type: application/json');
         echo (json_encode($response));
         exit();
     }
-    private function updateInfo($userId)
+
+    private function updateInfo()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
 
         $response = ['success' => false, 'message' => ''];
-        $username = htmlspecialchars($_POST['new_user']) ?? '';
-        $email = htmlspecialchars($_POST['new_correo']) ?? '';
-        $phone = htmlspecialchars($_POST['new_telefono']) ?? '';
-        if (!empty(trim($username)) && !empty(trim($email)) && !empty(trim($phone))) {
+        $email = htmlspecialchars($_POST['id_username']) ?? '';
+        $nombre1 = htmlspecialchars($_POST['nombre1']) ?? '';
+        $nombre2 = htmlspecialchars($_POST['nombre2']) ?? '';
+        $apellido1 = htmlspecialchars($_POST['apellido1']) ?? '';
+        $apellido2 = htmlspecialchars($_POST['apellido2']) ?? '';
+        if (!empty(trim($nombre1)) && !empty(trim($nombre2))
+            && !empty(trim($apellido1)) && !empty(trim($apellido2))
+        ) {
             $userController = new UsuarioController();
-            $userInfoUpdatedOk = $userController->updateUserData($userId, $email, $phone, $username);
+            $userInfoUpdatedOk = $userController->updateUserData($nombre1, $nombre2, $apellido1, $apellido2, pack("H*", $email));
+           
             if ($userInfoUpdatedOk) {
-                $_SESSION['username'] = $username;
                 $response['success'] = true;
                 $response['message'] = "Información actualizada con éxito";
             }
@@ -495,7 +601,71 @@ class Router
         echo (json_encode($response));
         exit();
     }
+    private function formRegistroEmpresa()
+    {
+        if ($this->action === 'registrar_emp' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+            require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/VendController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/SessionController.php';
 
+            $response = ['success' => false, 'id' => 0, 'message' => '', 'username' => '', 'url' => ''];
+            if (isset($_POST['submit'])) {
+                $mailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+                if (preg_match($mailPattern, $_POST['email'])) {
+                    $data = [
+                        'email' => $_POST['email'],
+                        'razon_social' => $_POST['razon_social'],
+                        'password' => $_POST['password'],
+                        'confirm_pwd' => $_POST['confirm_pwd'],
+                        'nombre' => $_POST['nombre'],
+                        'apellido' => $_POST['apellido'],
+                        'fecha_nac' => $_POST['fecha_nac'],
+                        'terminos' => isset($_POST['terminos']) ? $_POST['terminos'] : 0
+                    ];
+
+                    $emptyFields = false;
+                    foreach ($data as $clave => $valor) {
+                        if (empty(trim($valor)) || $valor == 0) {
+                            $emptyFields = true;
+                            $response['message'] = 'El campo' . $clave . 'es requerido';
+                        }
+                    }
+                    if (!$emptyFields) {
+                        if (strlen($data['password']) < 5) {
+                            array_push($errors, "La contraseña debe tener al menos 5 caracteres");
+                            $response['message'] = "La contraseña debe tener al menos 5 caracteres";
+                        } else {
+
+                            if ($data['confirm_pwd'] === $data['password']) {
+                                $data['confirm_pwd'] = password_hash($data['confirm_pwd'], PASSWORD_BCRYPT);
+                                $vendedor = new VendController();
+                                $sessionController = new SessionController();
+                                $vendedorData = $vendedor->create($data);
+                                if ($vendedorData) {
+                                    if($sessionController->createClienteSession($vendedorData['email'])) {
+                                        $response['success'] = true;
+                                        $response['id'] = bin2hex($vendedorData['email']);
+                                        $_SESSION['vendedor_id'] = bin2hex($vendedorData['email']);
+                                        $_SESSION['vendedor_username'] = $vendedorData['nombre'];
+                                        $response['url'] = 'admin/perfil/'.bin2hex($vendedorData['email']);
+                                    } else {
+                                        $response['success'] = true;
+                                        $response['message'] = "Error al iniciar sesión";
+                                    }
+                                } else {
+                                    $response['message'] = 'Error al crear usuario';
+                                }
+                            } else {
+                                $response['message'] = 'Las contraseñas no coinciden';
+                            }
+                        }
+                    }
+                } else {
+                    $response['message'] = 'El email no es válido';
+                }
+            }
+        }
+        $this->renderPage('sellerregister');
+    }
     private function formRegistration()
     {
         if ($this->action === 'registrarse' && $_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -512,7 +682,7 @@ class Router
                         'username' => $_POST['username'],
                         'email' => $_POST['email'],
                         'password' => $_POST['password'],
-                        'confirm_passwd' => $_POST['confirm_passwd'],
+                        'confirm_pwd' => $_POST['confirm_pwd'],
                         'fecha_nac' => $_POST['fecha_nac'],
                         'pais' => $_POST['pais'],
                         'terminos' => isset($_POST['terminos']) ? $_POST['terminos'] : 0
@@ -530,8 +700,8 @@ class Router
                             array_push($errors, "La contraseña debe tener al menos 5 caracteres");
                             $response['message'] = "La contraseña debe tener al menos 5 caracteres";
                         } else {
-                            if ($data['confirm_passwd'] === $data['password']) {
-                                $data['confirm_passwd'] = password_hash($data['confirm_passwd'], PASSWORD_BCRYPT);
+                            if ($data['confirm_pwd'] === $data['password']) {
+                                $data['confirm_pwd'] = password_hash($data['confirm_pwd'], PASSWORD_BCRYPT);
                                 if (count($errors) === 0) {
                                     $userController = new UsuarioController();
                                     $sessionController = new SessionController();
@@ -539,18 +709,17 @@ class Router
 
                                     if ($newUser) {
                                         if ($sessionController->createSesion($newUser['email'])) {
-                                            $sessIdfragment = date('Y:m:d_H:i:s') . "-" . md5($newUser['email']);
+                                            $sessIdfragment = date('Y:m:d_H:i:s') . "-" . bin2hex($newUser['email']);
                                             $response['success'] = true;
-                                            $response['id'] = md5($newUser['email']);
+                                            $response['id'] = bin2hex($newUser['email']);
                                             $response['username'] = $newUser['username'];
                                             $response['message'] = "Registro exitoso, redireccionando..";
-                                            $response['url'] = "/perfil/" . md5($newUser['email']);
+                                            $response['url'] = "/perfil/" . bin2hex($newUser['email']);
                                             $_SESSION['carrito'] = [];
                                             $_SESSION['uri_fragment'] = $sessIdfragment;
                                             $_SESSION['username'] = $newUser['username'];
-                                            $_SESSION['id_username'] = md5($newUser['email']);
-                                        }
-                                        else {
+                                            $_SESSION['id_username'] = bin2hex($newUser['email']);
+                                        } else {
                                             $response['message'] = "Ocurrió un error al iniciar la sesión";
                                             $response['success'] = true;
                                             $response['url'] = '/cuenta';
@@ -606,13 +775,13 @@ class Router
                     if ($usuario) {
                         if ($sessionController->createSesion($username)) {
                             $res['success'] = true;
-                            $sessIdfragment = date('Ymd_His') . "-" . md5($usuario['email']);
-                            $carrito = $cartController->getUserCarrito($usuario['email']);
-                            $_SESSION['carrito'] = $carrito;
-                            $_SESSION['id_username'] = md5($usuario['email']);
+                            $sessIdfragment = date('Ymd_His') . "-" . bin2hex($usuario['email']);
+                            // $carrito = $cartController->getUserCarrito($usuario['email']);
+                            // $_SESSION['carrito'] = $carrito;
+                            $_SESSION['id_username'] = bin2hex($usuario['email']);
                             $_SESSION['uri_fragment'] = $sessIdfragment;
                             $_SESSION['username'] = $usuario['username'];
-                            $res['carrito'] = $carrito;
+                            // $res['carrito'] = $carrito;
                             $res['url'] = '/home';
                         } else {
                             $res['mssg'] = 'Ocurrió un error al iniciar la sesión';
@@ -661,7 +830,7 @@ class Router
             // if ($googleUser) {
             $_SESSION['username'] = $name;
             $_SESSION['email_google'] = $email;
-            $_SESSION['id_username'] = md5($email);
+            $_SESSION['id_username'] = bin2hex($email);
             $_SESSION['info'] = $google_account_info;
             header('Location: /');
             exit();
@@ -670,17 +839,35 @@ class Router
         }
         $this->renderPage('account', ['client' => $client]);
     }
+    private function renderAdminPerfil($vendedorId) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/VendController.php';
+        $vendedorController = new VendController();
+        $vendedor = $vendedorController->getUserById($vendedorId);
+        if ($vendedor) {
+            $this->renderBackOffice('profile', ['vendedor' => $vendedor]);
+        }
+        else {
+            $this->renderPage('error', ['message' => 'No autorizado']);
+        }
+    }
     private function renderProfile($userId)
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         $userController = new UsuarioController();
         $favoritos = $userController->getUserProductFavs($userId) ?? '';
         $usuario = $userController->getUserbyId($userId);
+        $datosComprador = $userController->getUserComprador($userId);
+        $telComprador = $userController->getUserPhones($userId);
+        $direccionesComprador = $userController->getCompradorDirecciones($userId);
         if ($usuario) {
-            $this->renderPage('perfil', ['usuario' => $usuario, 'favoritos' => $favoritos]);
+            $this->renderPage('perfil', ['usuario' => $usuario, 
+                                        'userphone' => $telComprador, 
+                                        'favoritos' => $favoritos, 
+                                        'comprador' => $datosComprador,
+                                        'direcciones' => $direccionesComprador]);
         } else {
             http_response_code(404);
-            $this->renderPage('error');
+            $this->renderPage('error', ['message' => 'No autorizado']);
         }
     }
 
@@ -798,11 +985,11 @@ class Router
             if (!empty($_FILES['images'])) {
             }
             $data = [
-                'titulo' => $_POST['titulo'],
+                'id_usu_ven' => $_POST['id_usu_ven'],
                 'descripcion' => $_POST['descripcion'],
                 'origen' => $_POST['origen'],
-                'cantidad' => $_POST['cantidad'],
-                'categoria' => $_POST['acategory'],
+                'nombre' => $_POST['nombre'],
+                'stock' => $_POST['stock'],
                 'precio' => $_POST['precio']
             ];
 
@@ -815,8 +1002,8 @@ class Router
             }
             if (!$emptyFields && count($errors) === 0) {
 
-                $productId = $productController->create($data);
-                if ($productId) {
+                $productCreated = $productController->create($data);
+                if ($productCreated) {
                     $resp['success'] = true;
                     $resp['mssg'] = 'Producto agregado exitosamente';
                 } else {

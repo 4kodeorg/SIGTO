@@ -165,14 +165,14 @@ input[type="checkbox"] {
     height: 20px;
     width: 20px;
 }
-.registration-form label, .registration-form input {
+.registration-form label, .registration-form input, .registration-form select {
     align-self: center;
     width: 50%;
     margin: .5rem 0;
     max-width: 500px;
     padding: .3rem .5rem;
 }
-.registration-form input {
+.registration-form input, .registration-form select {
     padding: .5rem 0;
 }
 .buttons-registro {

@@ -14,7 +14,7 @@ class UsuarioController extends Database
         $cliente->setFechaNac($data['fecha_nac']);
         $cliente->setFechaRegistro(date('Y-m-j H:i:s'));
         $cliente->setPais($data['pais']);
-        $cliente->setPassword($data['confirm_passwd']);
+        $cliente->setPassword($data['confirm_pwd']);
         try {
             return $this->createUserComprador($cliente);
         } catch (Exception $e) {
@@ -23,7 +23,6 @@ class UsuarioController extends Database
     }
     public function createUserComprador($cliente)
     {
-        $this->conn->begin_transaction();
         try {
             $queryCliente = "INSERT INTO cliente (email, username, password, fecha_registro, fecha_nac, pais) VALUES (?, ?, ?, ?, ?, ?);";
             $stmtCliente = $this->conn->prepare($queryCliente);
@@ -45,40 +44,21 @@ class UsuarioController extends Database
                 $pais
             );
 
-            if (!$stmtCliente->execute()) {
-                throw new Exception("Error en la consulta" . $stmtCliente->error);
-            }
+            if ($stmtCliente->execute()) {
+                $stmtCliente->close();
+                $compradorQuery = "INSERT INTO comprador (email) VALUES (?);";
+                $stmtComprador = $this->conn->prepare($compradorQuery);
 
-            $compradorQuery = "INSERT INTO comprador (email) VALUES (?);";
-            $stmtComprador = $this->conn->prepare($compradorQuery);
-
-            $stmtComprador->bind_param("s", $cliente->getEmail());
-
-            if (!$stmtComprador->execute()) {
-                throw new Exception("Error en cliente comprador" . $stmtComprador->error);
-            }
-
-            $dataQuery = "SELECT * FROM cliente WHERE email=?;";
-            $stmtnData = $this->conn->prepare($dataQuery);
-            $stmtnData->bind_param('s', $cliente->getEmail());
-            if ($stmtnData->execute()) {
-                $res = $stmtnData->get_result();
-                if ($res->num_rows == 1) {
-                    $this->conn->commit();
-                    return $res->fetch_assoc();
+                $stmtComprador->bind_param("s", $cliente->getEmail());
+                if ($stmtComprador->execute()) {
+                    $stmtComprador->close();
+                    return $this->getUserbyId($cliente->getEmail());
                 }
-            } else {
-                throw new Exception("Error al buscar cliente");
             }
         } catch (Exception $err) {
-            $this->conn->rollback();
             error_log("Error: " . $err->getMessage());
             return false;
-        } finally {
-            $stmtCliente->close();
-            $stmtComprador->close();
-            $stmtnData->close();
-        }
+        } 
     }
     public function updateUserPersonalData($emailUser, $name1, $name2, $lastname1, $lastname2)
     {
@@ -127,10 +107,18 @@ class UsuarioController extends Database
             throw new Exception("Error en el servidor");
         }
     }
-    public function addUserDirecciones($email, $callePrimaria, $calleSecundaria, $numPuerta, $numApartamento, $ciudad, $pais, $tipoDireccion)
+    public function addUserDirecciones($data)
     {
-        $query = "INSERT INTO comprador_direccion (email, calle_primaria, calle_secundaria, num_puerta, num_apartamento, ciudad, pais, tipo_direccion) VALUES (?, ?, ?, ?, ?, ?, ?) ;";
+        $query = "INSERT INTO comprador_direccion (email, calle_pri, calle_sec, num_puerta, num_apartamento, ciudad, tipo_direccion) VALUES (?, ?, ?, ?, ?, ?) ;";
         $stmt = $this->conn->prepare($query);
+        $email = $data['email'];
+        $callePrimaria = $data['calle_pri'];
+        $calleSecundaria = $data['calle_seg'];
+        $numPuerta = $data['num_puerta'];
+        $numApartamento = $data['num_apartamento'];
+        $ciudad = $data['ciudad'];
+        $tipoDireccion = $data['tipo_dir'];
+
         $stmt->bind_param(
             'sssiisss',
             $email,
@@ -149,12 +137,40 @@ class UsuarioController extends Database
             return false;
         }
     }
-    public function addUserPhone($email, $telefono) {
-        $query = "INSERT INTO comprador_telefono (email, telefono) VALUES ( ? , ?);";
+
+    public function getCompradorDirecciones ($email) {
+        $query = "SELECT * FROM comprador_direccion where email=?;";
         $stmt = $this->conn->prepare($query);
 
+        $stmt->bind_param('s', $email);
 
-        $stmt->bind_param('si', $email, $telefono);
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            if ($res->num_rows > 0) {
+                $stmt->close();
+                return $res->fetch_assoc();
+            }
+            else {
+                return [];
+            }
+        } else {
+            $stmt->close();
+            return false;
+        }
+    }
+    public function updateUserDirecciones($userData)
+    {
+        $query = "UPDATE comprador_direccion SET calle_pri= ?, calle_sec= ?, num_puerta= ?, num_apartamento= ?, ciudad= ?, tipo_dir=? WHERE id_direccion= ?;";
+        $stmt = $this->conn->prepare($query);
+
+        $callePrimaria = $userData['calle_pri'];
+        $calleSecundaria = $userData['calle_seg'];
+        $numPuerta = $userData['num_puerta'];
+        $numApartamento = $userData['num_apartamento'];
+        $ciudad = $userData['ciudad'];
+        $tipoDireccion = $userData['tipo_dir'];
+        $idDireccion = $userData['id_direccion'];
+        $stmt->bind_param('ssiisssi', $callePrimaria, $calleSecundaria, $numPuerta, $numApartamento, $ciudad, $tipoDireccion, $idDireccion);
 
         if ($stmt->execute()) {
             return true;
@@ -167,24 +183,89 @@ class UsuarioController extends Database
         $query = "
             SELECT productos.* 
             FROM productos
-            INNER JOIN favoritos ON productos.id = favoritos.id_prod
-            WHERE favoritos.id_user = ?;
+            INNER JOIN favoritos ON productos.sku = favoritos.sku
+            WHERE favoritos.id_usuario = ?;
         ";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $userId);
 
-        $stmt->execute();
-        $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            return [];
+        }
+    }
+    public function createUserPhones($email, $phone)
+    {
+        $query = "INSERT INTO comprador_telefono (email, telefono) VALUES ( ?, ? );";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param('si', $email, $phone);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getUserComprador($email) {
+        $query = "SELECT * FROM comprador where email=?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('s', $email);
+        $comprador = [];
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            if ($res->num_rows == 1) {
+                $comprador = $res->fetch_assoc();
+                $stmt->close();
+                return $comprador;
+            } else {
+                $stmt->close();
+                return $comprador;
+            }
+        }
+
+    }
+    public function getUserPhones($email) {
+        $query = "SELECT * FROM comprador_telefono where email=?;";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param('s', $email);
+        $userPhones = [];
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            if ($res->num_rows == 1) {
+                $userPhones = $res->fetch_assoc();
+                $stmt->close();
+                return $userPhones;
+            }
+            else {
+                $stmt->close();
+                return $userPhones;
+            }
+        }
+    }
+    public function updateUserPhone($email, $phone)
+    {
+        $query = "UPDATE comprador_telefono SET telefono =? WHERE email =?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('is', $phone, $email);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public function updateUserData($idUser, $newEmail, $newPhone, $newUser)
+    public function updateUserData($nombre1, $nombre2, $apellido1, $apellido2, $email)
     {
-        $query = "UPDATE usuarios SET email=?, username=?, telefono=? WHERE id=?;";
+        $query = "UPDATE comprador SET nombre1=?, nombre2=?, apellido1=?, apellido2=? WHERE email=?;";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('ssii', $newEmail, $newUser, $newPhone, $idUser);
+        $stmt->bind_param('sssss', $nombre1, $nombre2, $apellido1, $apellido2, $email);
         if ($stmt->execute()) {
             return true;
         } else {
@@ -194,9 +275,9 @@ class UsuarioController extends Database
 
     public function getUserbyId($idUser)
     {
-        $query = "SELECT * FROM usuarios WHERE id = ?;";
+        $query = "SELECT * FROM cliente WHERE email = ?;";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('i', $idUser);
+        $stmt->bind_param('s', $idUser);
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $usuario = $result->fetch_assoc();
@@ -209,7 +290,7 @@ class UsuarioController extends Database
 
     public function addToFav($idUser, $idProd)
     {
-        $query = "INSERT into favoritos (id_user, id_prod) VALUES (?, ?);";
+        $query = "INSERT into favoritos (sku, id_usuario) VALUES (?, ?);";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('ii', $idUser, $idProd);
         if ($stmt->execute()) {
@@ -221,7 +302,7 @@ class UsuarioController extends Database
 
     public function getUserFavorites($idUser)
     {
-        $query = "SELECT * FROM favoritos WHERE id_user=?;";
+        $query = "SELECT * FROM favoritos WHERE id_usuario=?;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $idUser);
         if ($stmt->execute()) {
@@ -239,7 +320,7 @@ class UsuarioController extends Database
     }
     public function deleteFromFavorites($idUser, $idProd)
     {
-        $query = "DELETE FROM favoritos WHERE id_user=? AND id_prod=?;";
+        $query = "DELETE FROM favoritos WHERE id_usuario=? AND id_sku=?;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('ii', $idUser, $idProd);
         if ($stmt->execute()) {

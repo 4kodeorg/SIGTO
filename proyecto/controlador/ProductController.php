@@ -7,52 +7,74 @@ class ProductController extends Database
     public function create($data)
     {
         $producto = new Producto();
-        $producto->setSku($data['sku_codigo']);
-        $producto->setTitulo($data['titulo']);
+        $producto->setIdUsuVen($data['id_usu_ven']);
+        $producto->setNombre($data['nombre']);
         $producto->setDescripcion($data['descripcion']);
         $producto->setOrigen($data['origen']);
-        $producto->setCantidad($data['cantidad']);
-        $producto->setIdCategory($data['acategory']);
+        $producto->setStock($data['stock']);
         $producto->setPrecio($data['precio']);
+
+        $images = $data['images'] ?? [];
+
         try {
-            return $this->createProduct($producto);
+            return $this->createProduct($producto, $images);
         } catch (Exception $e) {
-            $e->getMessage();
+            error_log("Error: " . $e->getMessage());
+            return false;
         }
     }
-    public function createProduct($producto)
+
+    public function createProduct($producto, $images)
     {
-        $query = 'INSERT INTO productos (sku, titulo, descripcion, origen, cantidad, precio, id_category) VALUES (? ,?, ?, ?, ?, ?, ?);';
+        $query = 'INSERT INTO productos (id_usu_ven, nombre, precio, origen, stock, descripcion, estado) 
+              VALUES (?, ?, ?, ?, ?, ?, ?);';
         $stmt = $this->conn->prepare($query);
 
-        $sku = $producto->getSku();
+        $idUsuVen = $producto->getIdUsuVen();
         $titulo = $producto->getTitulo();
-        $descripcion = $producto->getDescripcion();
-        $origen = $producto->getOrigen();
-        $cantidad = $producto->getCantidad();
-        $idCategory = $producto->getIdCategory();
         $precio = $producto->getPrecio();
+        $origen = $producto->getOrigen();
+        $stock = $producto->getStock();
+        $descripcion = $producto->getDescripcion();
+        $estado = $producto->getEstado();
 
         $stmt->bind_param(
-            'ssssssi',
-            $sku,
+            'ssdssss',
+            $idUsuVen,
             $titulo,
-            $descripcion,
-            $origen,
-            $cantidad,
             $precio,
-            $idCategory
+            $origen,
+            $stock,
+            $descripcion,
+            $estado
         );
-        error_log("Error: " . $stmt->error);
+
         if ($stmt->execute()) {
-            return $this->conn->insert_id;
+            $productId = $this->conn->insert_id;
+
+            foreach ($images as $image) {
+                $this->insertProductImage($productId, $image);
+            }
+
+            return true;
         } else {
-            throw new Exception("Error al crear producto");
+            throw new Exception("Error al crear producto: " . $stmt->error);
         }
     }
+    private function insertProductImage($productId, $image)
+    {
+        $query = 'INSERT INTO producto_imagenes (producto_sku, imagen_url) VALUES (?, ?);';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('is', $productId, $image);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error al insertar imagen: " . $stmt->error);
+        }
+    }
+
     public function getCategories()
     {
-        $query = 'SELECT id_categorias, Nombre FROM categorias';
+        $query = 'SELECT id_categoria, nombre FROM categorias';
         $stmt = $this->conn->prepare($query);
 
         if ($stmt->execute()) {
@@ -66,12 +88,11 @@ class ProductController extends Database
         } else {
             throw new Exception("Error al cargar categorias");
         }
-        
     }
 
     public function getProductsByLimit($offset = 0, $limit = 15)
     {
-        $query = 'SELECT * FROM productos WHERE estado=1 LIMIT ?, ?;';
+        $query = 'SELECT * FROM productos WHERE activo=1 LIMIT ?, ?;';
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('ii', $offset, $limit);
         try {
@@ -86,7 +107,7 @@ class ProductController extends Database
 
     public function searchProductsByTitleOrDescripcion($searchTerm)
     {
-        $query = 'SELECT * FROM productos WHERE estado=1 AND (titulo LIKE ? OR descripcion LIKE ?);';
+        $query = 'SELECT * FROM productos WHERE activo=1 AND (titulo LIKE ? OR descripcion LIKE ?);';
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Error al buscar");
@@ -102,7 +123,7 @@ class ProductController extends Database
     }
     public function getProductById($productId)
     {
-        $query = "SELECT * FROM productos WHERE estado=1 AND id= ?;";
+        $query = "SELECT * FROM productos WHERE activo=1 AND sku= ?;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $productId);
         $stmt->execute();
@@ -113,7 +134,7 @@ class ProductController extends Database
     }
     public function getDisabledProducts()
     {
-        $query = "SELECT * FROM productos WHERE estado=0;";
+        $query = "SELECT * FROM productos WHERE activo=0;";
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Error al traer los productos desactivados");
@@ -128,17 +149,17 @@ class ProductController extends Database
 
     public function updateProductData($data)
     {
-        $query = "UPDATE productos SET titulo=?, descripcion=?, origen=?, cantidad=?, precio=? WHERE id=?;";
+        $query = "UPDATE productos SET nombre=?, precio=?, origen=?, stock=?, descripcion=? WHERE sku=?;";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bind_param(
             'sssssi',
-            $data['new_titulo'],
-            $data['new_descripcion'],
-            $data['new_origen'],
-            $data['new_cantidad'],
-            $data['new_precio'],
-            $data['product_id']
+            $data['nombre'],
+            $data['precio'],
+            $data['origen'],
+            $data['stock'],
+            $data['descripcion'],
+            $data['product_sku']
         );
         try {
             if ($stmt->execute()) {
@@ -164,16 +185,13 @@ class ProductController extends Database
                 throw new Exception("Error en carrito: " . $stmtCarrito->error);
             }
 
-            $queryProductos = "DELETE FROM productos WHERE id = ?";
+            $queryProductos = "DELETE FROM productos WHERE sku = ?";
             $stmtProductos = $this->conn->prepare($queryProductos);
             $stmtProductos->bind_param('i', $productId);
 
             if (!$stmtProductos->execute()) {
                 throw new Exception("Error en productos: " . $stmtProductos->error);
             }
-            $this->conn->commit();
-
-            return true;
         } catch (Exception $e) {
             $this->conn->rollback();
             error_log("Error: " . $e->getMessage());

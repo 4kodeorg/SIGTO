@@ -7,7 +7,7 @@ include('header-index.php');
         <nav class="nav-sidenav fixed-left" onmouseover="goLeft()" onmouseout="getBack()">
             <div class="settings-place"></div>
             <div class="scroll-place" id="scroll-container">
-            <a href="">
+                <a href="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                             <path d="M3 9.4c0-2.24 0-3.36.436-4.216a4 4 0 0 1 1.748-1.748C6.04 3 7.16 3 9.4 3h5.2c2.24 0 3.36 0 4.216.436a4 4 0 0 1 1.748 1.748C21 6.04 21 7.16 21 9.4v5.2c0 2.24 0 3.36-.436 4.216a4 4 0 0 1-1.748 1.748C17.96 21 16.84 21 14.6 21H9.4c-2.24 0-3.36 0-4.216-.436a4 4 0 0 1-1.748-1.748C3 17.96 3 16.84 3 14.6z" />
@@ -37,7 +37,7 @@ include('header-index.php');
                     </svg>
                     <span class="span-sidenav-text">Favoritos</span>
                 </a>
-               
+
                 <a href="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
@@ -55,7 +55,8 @@ include('header-index.php');
             <a href="">
                 <figure class="figure-profile-icon">
                     <img src="../assets/imgs/profile.svg" alt="">
-                    <figcaption> <?php echo htmlspecialchars($usuario['name']) ?> <?php echo htmlspecialchars($usuario['lastname']) ?></figcaption>
+                    <figcaption> <?php echo htmlspecialchars($usuario['email']) ?>
+                        <?php echo htmlspecialchars($usuario['username']) ?></figcaption>
                 </figure>
             </a>
         </div>
@@ -65,7 +66,7 @@ include('header-index.php');
                 <h2 class="accordion-header">
                     <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                         <span>
-                        Información personal
+                            Información personal
                         </span> <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
                             <circle cx="9" cy="10" r="2" fill="currentColor" opacity="0.3" />
                             <path fill="currentColor" d="M14.48 18.34C13.29 17.73 11.37 17 9 17s-4.29.73-5.48 1.34C2.9 18.66 3 19.28 3 20h12c0-.71.11-1.34-.52-1.66" opacity="0.3" />
@@ -76,51 +77,105 @@ include('header-index.php');
                 </h2>
                 <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <p>Usuario: <?php echo htmlspecialchars($usuario['username']) ?></p>
-                        <p>Correo: <?php echo htmlspecialchars($usuario['email']) ?></p>
-                        <p>Número de teléfono: <?php echo htmlspecialchars($usuario['telefono']) ?></p>
+                        <table class="user-info-table">
+                            <tr>
+                                <th>Usuario</th>
+                                <td><?php echo htmlspecialchars($usuario['username']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Correo</th>
+                                <td><?php echo htmlspecialchars($usuario['email']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>País</th>
+                                <td><?php echo htmlspecialchars($usuario['pais']); ?></td>
+                            </tr>
+                            <?php if (isset($data['comprador']['nombre1'])){ ?>
+                                <tr>
+                                    <th>Nombre completo</th>
+                                    <td><?php echo htmlspecialchars($data['comprador']['nombre1'] . ' ' . $data['comprador']['nombre2']); ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Apellidos</th>
+                                    <td><?php echo htmlspecialchars($data['comprador']['apellido1'] . ' ' . $data['comprador']['apellido2']); ?></td>
+                                </tr>
+                                <?php if (isset($data['userphone']['telefono'])){ ?>
+                                    <tr>
+                                        <th>Número de teléfono</th>
+                                        <td><?php echo htmlspecialchars($data['userphone']['telefono']); ?></td>
+                                    </tr>
+                                <?php } 
+                                }
+                                else { ?>
+                                <tr>
+                                    <td colspan="2"><b>Falta poco para completar tu perfil</b></td>
+                                </tr>
+                            <?php } ?>
 
-                        <button onclick="showNow()"> Actualizar información </button>
+                            <?php if (isset($data['comprador']['nombre1']) && !isset($data['userphone']['telefono'])){ ?>
+                                <tr>
+                                    <td colspan="2">Solo un paso más para completar tu perfil</td>
+                                </tr>
+                            <?php } elseif (isset($data['comprador']['nombre1']) && isset($data['userphone']['telefono'])){ ?>
+                                <tr>
+                                    <td colspan="2">Tu perfil está completo, ya podés empezar a comprar.</td>
+                                </tr>
+                            <?php } ?>
+                        </table>
+
+                        <div class="buttons-actions">
+                            <button onclick="showNow()">Actualizar información personal</button>
+                            <button onclick="showPhoneForm()">Actualizar número de teléfono</button>
+                        </div>
 
                         <div id="actualizar-info">
-                        <form 
-                        id="form-personal-info"
-                        action="?action=actualizar_info" 
-                        method="POST">
-                            <input type="hidden" name="idusername" value="<?php echo htmlspecialchars($usuario['id']) ?>">
-                            <label for="newuser">Usuario</label>
-                            <input type="text" id='newuser' name='new_user' placeholder="Nombre de usuario">
-                            <label for="newcorreo">Correo</label>
-                            <input type="text" id='newcorreo' name='new_correo' placeholder="Dirección de correo">
-                            <label for="newphone">Telefono</label>
-                            <input type="text" id='newphone' name='new_telefono' placeholder="Número de telefono">
-                            <button type="button" name="submit" onclick="updateInfo()">Actualizar</button>
-                    </form>       
-                    <button onclick="hideNow()">Ocultar</button> 
+                            <form class="form_information" id="form-personal-info" action="?action=actualizar_info" method="POST">
+                                <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
+                                <label for="nombre1">Primer nombre</label>
+                                <input type="text" id="nombre1" name="nombre1" placeholder="Primer nombre">
+                                <label for="nombre2">Segundo nombre</label>
+                                <input type="text" id="nombre2" name="nombre2" placeholder="Segundo nombre">
+                                <label for="apellido1">Primer apellido</label>
+                                <input type="text" id="apellido1" name="apellido1" placeholder="Primer apellido">
+                                <label for="apellido2">Segundo apellido</label>
+                                <input type="text" id="apellido2" name="apellido2" placeholder="Segundo apellido">
+                                <button class="button-profile" type="button" name="submit" onclick="updateInfo(event)">Actualizar</button>
+                            </form>
+                            <button class="button-profile" onclick="hideNow()">Ocultar</button>
+                        </div>
+
+                        <?php $action = !isset($data['userphone']['telefono']) ? 'add_phone' : 'update_phone'; ?>
+                        <div class="form-phone">
+                            <form action="?action=<?php echo $action ?>" method="POST" id="form-phone-user">
+                                <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
+                                <label for="phone">Número de teléfono</label>
+                                <input type="text" id="phone" name="phone" placeholder="Número de teléfono">
+                                <button class="button-profile" type="submit" name="submit" onclick="updateUserPhone(event)">Actualizar número</button>
+                            </form>
+                            <button class="button-profile" onclick="hidePhoneForm()">Ocultar</button>
+                        </div>
+
+                        <div class="container-response-mssg" id="message-resp-info">
+                            <p></p>
+                            <svg onclick="this.parentElement.style.display='none';" width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <g fill="currentColor">
+                                    <g fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6" />
+                                        <circle cx="12" cy="12" r="10" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
                     </div>
 
-                    <div class="container-response-mssg" id="message-resp-info">
-            <p></p>
-            <svg onclick="this.parentElement.style.display=`none`;"
-                width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor"
-                x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
-                <g fill="currentColor">
-                    <g fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6" />
-                        <circle cx="12" cy="12" r="10" />
-                    </g>
-                </g>
-            </svg>
-        </div> 
-                    </div>
                 </div>
             </div>
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                       <span>
-                       Mis direcciones
-                       </span> <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
+                        <span>
+                            Mis direcciones
+                        </span> <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M12 4C9.24 4 7 6.24 7 9c0 2.85 2.92 7.21 5 9.88c2.11-2.69 5-7 5-9.88c0-2.76-2.24-5-5-5m0 7.5a2.5 2.5 0 0 1 0-5a2.5 2.5 0 0 1 0 5" opacity="0.3" />
                             <path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7M7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9" />
                             <circle cx="12" cy="9" r="2.5" fill="currentColor" />
@@ -129,16 +184,227 @@ include('header-index.php');
                 </h2>
                 <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <?php if (isset($usuario['direccion']) || isset($usuario['seg_direccion'])) {
-                            echo '
-            <p>Dirección de envío: ' . $usuario['direccion'] . '</p>
 
-            <p>Direccion de envío alternativa: ' . $usuario['seg_direccion'] . ' </p>
+                        <?php if (isset($data['direcciones'])) {
+                            echo '
+            <p>Datos de envío: ' . $usuario['direccion'] . '</p>
+            <button>Actualizar información de envío</button>
+
+
+            <form 
+            id="form-direcciones"
+            action="/perfil/' . $usuario['id'] . '?action=actualizar_direccion"
+            method="PUT">
+                        <label for="">Calle Primaria</label>
+                        <input type="text">
+                        <label for="">Calle Secundaria</label>
+                        <input type="text">
+                        <label for="">Número de puerta</label>
+                        <input type="text">
+                        <label for="">Número de apartamento</label>
+                        <input type="text">
+                        <label for="">Ciudad</label>
+                        <input type="text">
+                        <label for="">País</label>
+                        <label for="country">País</label>
+        <select id="country" name="pais" class="form-control">
+                <option value="Albania">Albania</option>
+                <option value="Algeria">Algeria</option>
+                <option value="Andorra">Andorra</option>
+                <option value="Angola">Angola</option>
+                <option value="Anguilla">Anguilla</option>
+                <option value="Antarctica">Antarctica</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Armenia">Armenia</option>
+                <option value="Aruba">Aruba</option>
+                <option value="Australia">Australia</option>
+                <option value="Austria">Austria</option>
+                <option value="Azerbaijan">Azerbaijan</option>
+                <option value="Bahamas">Bahamas</option>
+                <option value="Bahrain">Bahrain</option>
+                <option value="Bangladesh">Bangladesh</option>
+                <option value="Barbados">Barbados</option>
+                <option value="Belarus">Belarus</option>
+                <option value="Belgium">Belgium</option>
+                <option value="Belize">Belize</option>
+                <option value="Benin">Benin</option>
+                <option value="Bermuda">Bermuda</option>
+                <option value="Bhutan">Bhutan</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Bulgaria">Bulgaria</option>
+                <option value="Burkina Faso">Burkina Faso</option>
+                <option value="Burundi">Burundi</option>
+                <option value="Cambodia">Cambodia</option>
+                <option value="Cameroon">Cameroon</option>
+                <option value="Canada">Canada</option>
+                <option value="Cape Verde">Cape Verde</option>
+                <option value="Cayman Islands">Cayman Islands</option>
+                <option value="Chad">Chad</option>
+                <option value="Chile">Chile</option>
+                <option value="China">China</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Comoros">Comoros</option>
+                <option value="Congo">Congo</option>
+                <option value="Cook Islands">Cook Islands</option>
+                <option value="Costa Rica">Costa Rica</option>
+                <option value="Croatia">Croatia</option>
+                <option value="Cuba">Cuba</option>
+                <option value="Cyprus">Cyprus</option>
+                <option value="Czech Republic">Czech Republic</option>
+                <option value="Denmark">Denmark</option>
+                <option value="Djibouti">Djibouti</option>
+                <option value="Dominica">Dominica</option>
+                <option value="Dominican Republic">Dominican Republic</option>
+                <option value="Ecuador">Ecuador</option>
+                <option value="Egypt">Egypt</option>
+                <option value="El Salvador">El Salvador</option>
+                <option value="Equatorial Guinea">Equatorial Guinea</option>
+                <option value="Fiji">Fiji</option>
+                <option value="Finland">Finland</option>
+                <option value="France">France</option>
+                <option value="Gabon">Gabon</option>
+                <option value="Gambia">Gambia</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Germany">Germany</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Gibraltar">Gibraltar</option>
+                <option value="Greece">Greece</option>
+                <option value="Greenland">Greenland</option>
+                <option value="Grenada">Grenada</option>
+                <option value="Guadeloupe">Guadeloupe</option>
+                <option value="Guam">Guam</option>
+                <option value="Guatemala">Guatemala</option>
+                <option value="Guernsey">Guernsey</option>
+                <option value="Guinea">Guinea</option>
+                <option value="Guinea-bissau">Guinea-bissau</option>
+                <option value="Guyana">Guyana</option>
+                <option value="Haiti">Haiti</option>
+                <option value="Honduras">Honduras</option>
+                <option value="Hong Kong">Hong Kong</option>
+                <option value="Hungary">Hungary</option>
+                <option value="Iceland">Iceland</option>
+                <option value="India">India</option>
+                <option value="Indonesia">Indonesia</option>
+                <option value="Iraq">Iraq</option>
+                <option value="Ireland">Ireland</option>
+                <option value="Isle of Man">Isle of Man</option>
+                <option value="Israel">Israel</option>
+                <option value="Italy">Italy</option>
+                <option value="Jamaica">Jamaica</option>
+                <option value="Japan">Japan</option>
+                <option value="Jersey">Jersey</option>
+                <option value="Jordan">Jordan</option>
+                <option value="Kenya">Kenya</option>
+                <option value="Kiribati">Kiribati</option>
+                <option value="Kuwait">Kuwait</option>
+                <option value="Latvia">Latvia</option>
+                <option value="Lebanon">Lebanon</option>
+                <option value="Lesotho">Lesotho</option>
+                <option value="Liberia">Liberia</option>
+                <option value="Lithuania">Lithuania</option>
+                <option value="Luxembourg">Luxembourg</option>
+                <option value="Macao">Macao</option>
+                <option value="Madagascar">Madagascar</option>
+                <option value="Malawi">Malawi</option>
+                <option value="Malaysia">Malaysia</option>
+                <option value="Maldives">Maldives</option>
+                <option value="Mali">Mali</option>
+                <option value="Malta">Malta</option>
+                <option value="Martinique">Martinique</option>
+                <option value="Mauritania">Mauritania</option>
+                <option value="Mexico">Mexico</option>
+                <option value="Monaco">Monaco</option>
+                <option value="Mongolia">Mongolia</option>
+                <option value="Montenegro">Montenegro</option>
+                <option value="Montserrat">Montserrat</option>
+                <option value="Morocco">Morocco</option>
+                <option value="Mozambique">Mozambique</option>
+                <option value="Namibia">Namibia</option>
+                <option value="Nauru">Nauru</option>
+                <option value="Nepal">Nepal</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="New Caledonia">New Caledonia</option>
+                <option value="New Zealand">New Zealand</option>
+                <option value="Nicaragua">Nicaragua</option>
+                <option value="Niger">Niger</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Niue">Niue</option>
+                <option value="Norfolk Island">Norfolk Island</option>
+                <option value="Norway">Norway</option>
+                <option value="Oman">Oman</option>
+                <option value="Pakistan">Pakistan</option>
+                <option value="Palau">Palau</option>
+                <option value="Panama">Panama</option>
+                <option value="Papua New Guinea">Papua New Guinea</option>
+                <option value="Paraguay">Paraguay</option>
+                <option value="Peru">Peru</option>
+                <option value="Philippines">Philippines</option>
+                <option value="Pitcairn">Pitcairn</option>
+                <option value="Poland">Poland</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Puerto Rico">Puerto Rico</option>
+                <option value="Qatar">Qatar</option>
+                <option value="Reunion">Reunion</option>
+                <option value="Romania">Romania</option>
+                <option value="Russian Federation">Russian Federation</option>
+                <option value="Rwanda">Rwanda</option>
+                <option value="Saint Helena">Saint Helena</option>
+                <option value="Saint Lucia">Saint Lucia</option>
+                <option value="Samoa">Samoa</option>
+                <option value="San Marino">San Marino</option>
+                <option value="Saudi Arabia">Saudi Arabia</option>
+                <option value="Senegal">Senegal</option>
+                <option value="Serbia">Serbia</option>
+                <option value="Seychelles">Seychelles</option>
+                <option value="Sierra Leone">Sierra Leone</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Slovakia">Slovakia</option>
+                <option value="Slovenia">Slovenia</option>
+                <option value="Solomon Islands">Solomon Islands</option>
+                <option value="Somalia">Somalia</option>
+                <option value="South Africa">South Africa</option>
+                <option value="Spain">Spain</option>
+                <option value="Sri Lanka">Sri Lanka</option>
+                <option value="Sudan">Sudan</option>
+                <option value="Suriname">Suriname</option>
+                <option value="Swaziland">Swaziland</option>
+                <option value="Sweden">Sweden</option>
+                <option value="Switzerland">Switzerland</option>
+                <option value="Taiwan">Taiwan</option>
+                <option value="Tajikistan">Tajikistan</option>
+                <option value="Thailand">Thailand</option>
+                <option value="Timor-leste">Timor-leste</option>
+                <option value="Togo">Togo</option>
+                <option value="Tokelau">Tokelau</option>
+                <option value="Tonga">Tonga</option>
+                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                <option value="Tunisia">Tunisia</option>
+                <option value="Turkey">Turkey</option>
+                <option value="Turkmenistan">Turkmenistan</option>
+                <option value="Tuvalu">Tuvalu</option>
+                <option value="Uganda">Uganda</option>
+                <option value="Ukraine">Ukraine</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="United States">United States</option>
+                <option value="Uruguay">Uruguay</option>
+                <option value="Uzbekistan">Uzbekistan</option>
+                <option value="Vanuatu">Vanuatu</option>
+                <option value="Venezuela">Venezuela</option>
+                <option value="Viet Nam">Viet Nam</option>
+                <option value="Yemen">Yemen</option>
+                <option value="Zambia">Zambia</option>
+                <option value="Zimbabwe">Zimbabwe</option>
+            </select>
+                        <label for="">Tipo de direccíon</label>
+                        <input type="text">
+            <button type="button" name="submit" onclick="updateDirecciones()">Actualizar</button>
+                        </form>
             ';  ?>
-            
-            <?php 
+
+                        <?php
                         } else {
-                        echo '
+                            echo '
                         <p>Debes agregar al menos una dirección para continuar comprando </p>
                         
             <div id="actualizar-direcciones-container">
@@ -146,13 +412,210 @@ include('header-index.php');
             id="form-direcciones"
             action="/perfil/' . $usuario['id'] . '?action=actualizar_direccion"
             method="POST">
-            <input type="hidden" name="idusername" value="'. htmlspecialchars($usuario['id']).'">
-            <label for="direccion_envio">Dirección de envío</label>
-            <input type="text" name="direccion" placeholder="Dirección de envío">
-            <label for="">Dirección de envío alternativa</label>
-            <input type="text" name="seg_direccion" placeholder="Dirección alternativa (opcional)">
-
-            <button type="button" name="submit" onclick="updateDirecciones()">Actualizar</button>
+            <input type="hidden" name="id_direcciones" value="' . htmlspecialchars($direcciones['id_direcciones']) . '">
+            <label for="direccion_envio">Calle primaria</label>
+            <input type="text" name="calle_pri" placeholder="Calle primaria">
+            <label for="">Calle segundaria</label>
+            <input type="text" name="calle_seg" placeholder="Calle secundaria">
+            <label>Número de puerta </label>
+            <input type="number" name="num_puerta" placeholder="Número de puerta"> 
+            <label>Número de apartamento </label>
+            <input type="number" name="num_apartamento" placeholder="Número de apartamento">
+            <label>Ciudad</label>
+            <input type="text" name="ciudad" placeholder="Ciudad"> 
+            <label>País </label>
+             <select id="country" name="pais" class="form-control">
+                <option value="Albania">Albania</option>
+                <option value="Algeria">Algeria</option>
+                <option value="Andorra">Andorra</option>
+                <option value="Angola">Angola</option>
+                <option value="Anguilla">Anguilla</option>
+                <option value="Antarctica">Antarctica</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Armenia">Armenia</option>
+                <option value="Aruba">Aruba</option>
+                <option value="Australia">Australia</option>
+                <option value="Austria">Austria</option>
+                <option value="Azerbaijan">Azerbaijan</option>
+                <option value="Bahamas">Bahamas</option>
+                <option value="Bahrain">Bahrain</option>
+                <option value="Bangladesh">Bangladesh</option>
+                <option value="Barbados">Barbados</option>
+                <option value="Belarus">Belarus</option>
+                <option value="Belgium">Belgium</option>
+                <option value="Belize">Belize</option>
+                <option value="Benin">Benin</option>
+                <option value="Bermuda">Bermuda</option>
+                <option value="Bhutan">Bhutan</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Bulgaria">Bulgaria</option>
+                <option value="Burkina Faso">Burkina Faso</option>
+                <option value="Burundi">Burundi</option>
+                <option value="Cambodia">Cambodia</option>
+                <option value="Cameroon">Cameroon</option>
+                <option value="Canada">Canada</option>
+                <option value="Cape Verde">Cape Verde</option>
+                <option value="Cayman Islands">Cayman Islands</option>
+                <option value="Chad">Chad</option>
+                <option value="Chile">Chile</option>
+                <option value="China">China</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Comoros">Comoros</option>
+                <option value="Congo">Congo</option>
+                <option value="Cook Islands">Cook Islands</option>
+                <option value="Costa Rica">Costa Rica</option>
+                <option value="Croatia">Croatia</option>
+                <option value="Cuba">Cuba</option>
+                <option value="Cyprus">Cyprus</option>
+                <option value="Czech Republic">Czech Republic</option>
+                <option value="Denmark">Denmark</option>
+                <option value="Djibouti">Djibouti</option>
+                <option value="Dominica">Dominica</option>
+                <option value="Dominican Republic">Dominican Republic</option>
+                <option value="Ecuador">Ecuador</option>
+                <option value="Egypt">Egypt</option>
+                <option value="El Salvador">El Salvador</option>
+                <option value="Equatorial Guinea">Equatorial Guinea</option>
+                <option value="Fiji">Fiji</option>
+                <option value="Finland">Finland</option>
+                <option value="France">France</option>
+                <option value="Gabon">Gabon</option>
+                <option value="Gambia">Gambia</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Germany">Germany</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Gibraltar">Gibraltar</option>
+                <option value="Greece">Greece</option>
+                <option value="Greenland">Greenland</option>
+                <option value="Grenada">Grenada</option>
+                <option value="Guadeloupe">Guadeloupe</option>
+                <option value="Guam">Guam</option>
+                <option value="Guatemala">Guatemala</option>
+                <option value="Guernsey">Guernsey</option>
+                <option value="Guinea">Guinea</option>
+                <option value="Guinea-bissau">Guinea-bissau</option>
+                <option value="Guyana">Guyana</option>
+                <option value="Haiti">Haiti</option>
+                <option value="Honduras">Honduras</option>
+                <option value="Hong Kong">Hong Kong</option>
+                <option value="Hungary">Hungary</option>
+                <option value="Iceland">Iceland</option>
+                <option value="India">India</option>
+                <option value="Indonesia">Indonesia</option>
+                <option value="Iraq">Iraq</option>
+                <option value="Ireland">Ireland</option>
+                <option value="Isle of Man">Isle of Man</option>
+                <option value="Israel">Israel</option>
+                <option value="Italy">Italy</option>
+                <option value="Jamaica">Jamaica</option>
+                <option value="Japan">Japan</option>
+                <option value="Jersey">Jersey</option>
+                <option value="Jordan">Jordan</option>
+                <option value="Kenya">Kenya</option>
+                <option value="Kiribati">Kiribati</option>
+                <option value="Kuwait">Kuwait</option>
+                <option value="Latvia">Latvia</option>
+                <option value="Lebanon">Lebanon</option>
+                <option value="Lesotho">Lesotho</option>
+                <option value="Liberia">Liberia</option>
+                <option value="Lithuania">Lithuania</option>
+                <option value="Luxembourg">Luxembourg</option>
+                <option value="Macao">Macao</option>
+                <option value="Madagascar">Madagascar</option>
+                <option value="Malawi">Malawi</option>
+                <option value="Malaysia">Malaysia</option>
+                <option value="Maldives">Maldives</option>
+                <option value="Mali">Mali</option>
+                <option value="Malta">Malta</option>
+                <option value="Martinique">Martinique</option>
+                <option value="Mauritania">Mauritania</option>
+                <option value="Mexico">Mexico</option>
+                <option value="Monaco">Monaco</option>
+                <option value="Mongolia">Mongolia</option>
+                <option value="Montenegro">Montenegro</option>
+                <option value="Montserrat">Montserrat</option>
+                <option value="Morocco">Morocco</option>
+                <option value="Mozambique">Mozambique</option>
+                <option value="Namibia">Namibia</option>
+                <option value="Nauru">Nauru</option>
+                <option value="Nepal">Nepal</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="New Caledonia">New Caledonia</option>
+                <option value="New Zealand">New Zealand</option>
+                <option value="Nicaragua">Nicaragua</option>
+                <option value="Niger">Niger</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Niue">Niue</option>
+                <option value="Norfolk Island">Norfolk Island</option>
+                <option value="Norway">Norway</option>
+                <option value="Oman">Oman</option>
+                <option value="Pakistan">Pakistan</option>
+                <option value="Palau">Palau</option>
+                <option value="Panama">Panama</option>
+                <option value="Papua New Guinea">Papua New Guinea</option>
+                <option value="Paraguay">Paraguay</option>
+                <option value="Peru">Peru</option>
+                <option value="Philippines">Philippines</option>
+                <option value="Pitcairn">Pitcairn</option>
+                <option value="Poland">Poland</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Puerto Rico">Puerto Rico</option>
+                <option value="Qatar">Qatar</option>
+                <option value="Reunion">Reunion</option>
+                <option value="Romania">Romania</option>
+                <option value="Russian Federation">Russian Federation</option>
+                <option value="Rwanda">Rwanda</option>
+                <option value="Saint Helena">Saint Helena</option>
+                <option value="Saint Lucia">Saint Lucia</option>
+                <option value="Samoa">Samoa</option>
+                <option value="San Marino">San Marino</option>
+                <option value="Saudi Arabia">Saudi Arabia</option>
+                <option value="Senegal">Senegal</option>
+                <option value="Serbia">Serbia</option>
+                <option value="Seychelles">Seychelles</option>
+                <option value="Sierra Leone">Sierra Leone</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Slovakia">Slovakia</option>
+                <option value="Slovenia">Slovenia</option>
+                <option value="Solomon Islands">Solomon Islands</option>
+                <option value="Somalia">Somalia</option>
+                <option value="South Africa">South Africa</option>
+                <option value="Spain">Spain</option>
+                <option value="Sri Lanka">Sri Lanka</option>
+                <option value="Sudan">Sudan</option>
+                <option value="Suriname">Suriname</option>
+                <option value="Swaziland">Swaziland</option>
+                <option value="Sweden">Sweden</option>
+                <option value="Switzerland">Switzerland</option>
+                <option value="Taiwan">Taiwan</option>
+                <option value="Tajikistan">Tajikistan</option>
+                <option value="Thailand">Thailand</option>
+                <option value="Timor-leste">Timor-leste</option>
+                <option value="Togo">Togo</option>
+                <option value="Tokelau">Tokelau</option>
+                <option value="Tonga">Tonga</option>
+                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                <option value="Tunisia">Tunisia</option>
+                <option value="Turkey">Turkey</option>
+                <option value="Turkmenistan">Turkmenistan</option>
+                <option value="Tuvalu">Tuvalu</option>
+                <option value="Uganda">Uganda</option>
+                <option value="Ukraine">Ukraine</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="United States">United States</option>
+                <option value="Uruguay">Uruguay</option>
+                <option value="Uzbekistan">Uzbekistan</option>
+                <option value="Vanuatu">Vanuatu</option>
+                <option value="Venezuela">Venezuela</option>
+                <option value="Viet Nam">Viet Nam</option>
+                <option value="Yemen">Yemen</option>
+                <option value="Zambia">Zambia</option>
+                <option value="Zimbabwe">Zimbabwe</option>
+            </select>
+            <label>Tipo de dirección </label>
+            <select> </select>
+            <button type="button" name="submit" onclick="addDireccion()">Actualizar</button>
             </form> 
             <button onclick="hideForm()"> Ocultar </button>
             </div>
@@ -171,8 +634,9 @@ include('header-index.php');
                 </g>
             </svg>
         </div> 
-                ';} ?>
-                <button onclick="showFormDir()">Actualizar mis direcciones</button>
+                ';
+                        } ?>
+                        <button onclick="showFormDir()">Actualizar mis direcciones</button>
                     </div>
                 </div>
             </div>
@@ -180,7 +644,7 @@ include('header-index.php');
                 <h2 class="accordion-header">
                     <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
                         <span>
-                        Medios de pago
+                            Medios de pago
                         </span> <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h10v-2H4v-6h18V6c0-1.11-.89-2-2-2m0 4H4V6h16zm4 9v2h-3v3h-2v-3h-3v-2h3v-3h2v3z" />
                         </svg>
@@ -191,26 +655,6 @@ include('header-index.php');
                 </div>
             </div>
         </div>
-        <?php
-        if (!isset($usuario['direccion'])) {
-            echo '<form
-            id="form-direcciones"
-            action="/perfil/' . $usuario['id'] . '?action=actualizar_direccion"
-            method="POST">
-            <label for="direccion_envio">Dirección de envío</label>
-            <input type="text" name="direccion" placeholder="Dirección de envío">
-            <label for="">Dirección de envío alternativa</label>
-            <input type="text" name="seg_direccion" placeholder="Dirección alternativa (opcional)">
-
-            <button type="button" name="submit" onclick="updateDirecciones()">Actualizar</button>
-        </form>';
-        } else {
-            echo '<div>
-            <h5>Estás al dia con tu perfil!</h5>
-            </div>';
-        }
-
-        ?>
         <div class="container-response" id="message-resp-direcciones">
             <p></p>
             <svg onclick="this.parentElement.style.display=`none`;"
