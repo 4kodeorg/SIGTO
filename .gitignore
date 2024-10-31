@@ -4,4 +4,3 @@ php_logs
 db
 doc.ini
 debug.log
-.env
