@@ -439,10 +439,14 @@ p {
     animation: scroll 10s linear alternate-reverse infinite;
 }
 .figure-profile-icon {
-    max-width: 150px;
+    max-width: 240px;
     border-bottom: .5px solid #020202;
     padding: 1rem;
-    border-radius: 30%;
+    margin: auto;
+}
+.figure-profile-icon figcaption {
+    padding: 8px 0;
+    font-size: 1.287rem;
 }
 .container-response {
     display: none;
@@ -690,11 +694,6 @@ ul {
     transition: grid-template-columns 0.3s ease;
         
 }
-.user-profile {
-    padding: 20px;
-    align-items: center;
-    justify-content: center;
-}
 .fixed-left {
     padding: 2rem 1rem;
     border-right: 1px solid #ddd;
@@ -729,13 +728,13 @@ ul {
     transition: display 0.3s ease;
 }
 .buttons-actions {
-    display: grid;
+    display: flex;
     gap: .5rem;
     justify-content: center;
     margin: 1rem 0;
 }
 .form-phone {
-    display: none;
+    display: flex;
     align-items: center;
     flex-direction: column;
     width: 100%;
@@ -747,26 +746,29 @@ ul {
     text-align: left;
 }
 
-button>.button-profile {
-    font-size: 1.5rem;
+.button-profile {
+    font-size: .87rem;
     color: #fafafa;
     text-transform: uppercase;
-    padding: 10px 20px;
+    padding: 6px 12px;
     border-radius: 10px;
-    border: 2px solid #fafafa;
+    border: 2px solid #bfbdbd;
     background: #252525;
-    box-shadow: 3px 3px #fafafa;
+    box-shadow: 3px 3px #5f5e5e;
     cursor: pointer;
-    margin: 35px 0;
+    margin: 20px 0;
   }
   
-button>.button-profile:active {
+.button-profile:active {
     box-shadow: none;
     transform: translate(3px, 3px);
   }
 
+.hide-form-action {
+    display: none !important;
+  }
 #actualizar-direcciones-container {
-    display: none;
+    display: flex;
     align-items: center;
     flex-direction: column;
     padding: 1.5em;
@@ -876,14 +878,6 @@ button>.button-profile:active {
 }
 .error-login p {
     color: #f10000;
-}
-
-.form_information {
-    display: flex;
-    flex-direction: column;
-}
-.form_information label, .form_information input {
-    width: 100%;
 }
 
 .login-home-modalform input, .login-home-modalform button {

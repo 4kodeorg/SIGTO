@@ -48,8 +48,8 @@ class UsuarioController extends Database
                 $stmtCliente->close();
                 $compradorQuery = "INSERT INTO comprador (email) VALUES (?);";
                 $stmtComprador = $this->conn->prepare($compradorQuery);
-
-                $stmtComprador->bind_param("s", $cliente->getEmail());
+                $userEmail = $cliente->getEmail();
+                $stmtComprador->bind_param("s", $userEmail);
                 if ($stmtComprador->execute()) {
                     $stmtComprador->close();
                     return $this->getUserbyId($cliente->getEmail());
@@ -58,7 +58,7 @@ class UsuarioController extends Database
         } catch (Exception $err) {
             error_log("Error: " . $err->getMessage());
             return false;
-        } 
+        }
     }
     public function updateUserPersonalData($emailUser, $name1, $name2, $lastname1, $lastname2)
     {
@@ -121,7 +121,7 @@ class UsuarioController extends Database
 
         $stmt->bind_param(
             'sssiisss',
-            $email,
+            pack("H*", $email),
             $callePrimaria,
             $calleSecundaria,
             $numPuerta,
@@ -137,8 +137,27 @@ class UsuarioController extends Database
             return false;
         }
     }
+    public function getUserCards($email) {
+        $query = "SELECT * FROM comprador_metodos_pago where email=?;";
+        $stmt = $this->conn->prepare($query);
 
-    public function getCompradorDirecciones ($email) {
+        $stmt->bind_param('s',$email);
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            if ($res->num_rows > 0) {
+                $stmt->close();
+                return $res->fetch_assoc();
+            } else {
+                return [];
+            }
+        } else {
+            $stmt->close();
+            return false;
+        }
+
+    }
+    public function getCompradorDirecciones($email)
+    {
         $query = "SELECT * FROM comprador_direccion where email=?;";
         $stmt = $this->conn->prepare($query);
 
@@ -149,8 +168,7 @@ class UsuarioController extends Database
             if ($res->num_rows > 0) {
                 $stmt->close();
                 return $res->fetch_assoc();
-            }
-            else {
+            } else {
                 return [];
             }
         } else {
@@ -163,7 +181,7 @@ class UsuarioController extends Database
         $query = "UPDATE comprador_direccion SET calle_pri= ?, calle_sec= ?, num_puerta= ?, num_apartamento= ?, ciudad= ?, tipo_dir=? WHERE id_direccion= ?;";
         $stmt = $this->conn->prepare($query);
 
-        $callePrimaria = $userData['calle_pri'];
+        $callePrimaria = $userData['calle_prim'];
         $calleSecundaria = $userData['calle_seg'];
         $numPuerta = $userData['num_puerta'];
         $numApartamento = $userData['num_apartamento'];
@@ -211,7 +229,8 @@ class UsuarioController extends Database
             return false;
         }
     }
-    public function getUserComprador($email) {
+    public function getUserComprador($email)
+    {
         $query = "SELECT * FROM comprador where email=?;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('s', $email);
@@ -227,9 +246,9 @@ class UsuarioController extends Database
                 return $comprador;
             }
         }
-
     }
-    public function getUserPhones($email) {
+    public function getUserPhones($email)
+    {
         $query = "SELECT * FROM comprador_telefono where email=?;";
         $stmt = $this->conn->prepare($query);
 
@@ -241,8 +260,7 @@ class UsuarioController extends Database
                 $userPhones = $res->fetch_assoc();
                 $stmt->close();
                 return $userPhones;
-            }
-            else {
+            } else {
                 $stmt->close();
                 return $userPhones;
             }

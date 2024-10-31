@@ -34,6 +34,7 @@ class Router
             'perfil' => 'renderProfile',
             'carrito' => 'renderPage',
             'empresa' => 'formRegistroEmpresa',
+            'admin_cuenta' => 'formAccountEmpresa',
             'admin' => 'redirectMain',
             'admin/main' => 'renderBackOffice',
             'admin/estadisticas' => 'renderBackOffice',
@@ -101,6 +102,7 @@ class Router
             case 'update_direccion':
                 break;
             default:
+                $this->renderAdminPerfil($vendedorEmail);
             break;
         }
 
@@ -499,7 +501,14 @@ class Router
             $this->renderPage('error', ['message' => 'Debes iniciar sesión']);
         }
     }
+    private function getUserDirecciones() {
+        require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/UsuarioController.php';
+        header('Content-type: application/json');
+        $response = ['success' => false, 'message' => '', 'userdirecciones' => []];
 
+        $usuarioController = new UsuarioController();
+        $direcciones = $usuarioController->getCompradorDirecciones($email);
+    }
     private function updateDirecciones()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
@@ -508,7 +517,8 @@ class Router
             $response = ['success' => false, 'message' => ''];
             $userData = [
                 'id_direccion' => $data['id_direccion'],
-                'calle_pri' => $data['calle_pri'],
+                'email' => $data['id_username'],
+                'calle_prim' => $data['calle_prim'],
                 'calle_seg' => $data['calle_seg'],
                 'num_puerta' => $data['num_puerta'],
                 'num_apartamento' => $data['num_apartamento'],
@@ -545,13 +555,12 @@ class Router
         }
         $response = ['success' => false, 'message' => ''];
         $data = [
-            'email' => htmlspecialchars($_POST['email']) ?? '',
+            'email' => htmlspecialchars($_POST['id_username']) ?? '',
             'calle_prim' => htmlspecialchars($_POST['calle_prim']) ?? '',
             'calle_seg' => htmlspecialchars($_POST['calle_seg']) ?? '',
             'num_puerta' => htmlspecialchars($_POST['num_puerta']) ?? '',
             'num_apartamento' => htmlspecialchars($_POST['num_apartamento']) ?? '',
             'ciudad' => htmlspecialchars($_POST['ciudad']) ?? '',
-            'pais' => htmlspecialchars($_POST['pais']) ?? '',
             'tipo_dir' =>  htmlspecialchars($_POST['tipo_dir']) ?? ''
         ];
         $emptyFields = false;
@@ -563,10 +572,10 @@ class Router
         }
         if (!$emptyFields) {
             $userController = new UsuarioController();
-            $userUpdatedOk = $userController->addUserDirecciones($data);
-            if ($userUpdatedOk) {
+            $userAddDirections = $userController->addUserDirecciones($data);
+            if ($userAddDirections) {
                 $response['success'] = true;
-                $response['message'] = "Información actualizada con éxito.";
+                $response['message'] = "Información agregada con éxito.";
             }
         }
         header('Content-type: application/json');
@@ -601,6 +610,42 @@ class Router
         echo (json_encode($response));
         exit();
     }
+    private function formAccountEmpresa() {
+        if ($this->action === 'login_adm' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+            require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/VendController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/SessionController.php';
+
+            $response = ['success' => false, 'id' => 0, 'message' => '' ,'username' => '','url' => ''];
+            if (isset($_POST['submit'])) {
+                $errors = array();
+                $username = htmlspecialchars(trim($_POST['username']));
+                $password = trim($_POST['password']);
+
+                if (empty($username) || empty($password)) {
+                    array_push($errors, "Credenciales inválidas");
+                }
+                if (count($errors) == 0) {
+                    $vendController = new VendController();
+                    $sessionController = new SessionController();
+                    $vendedor = $vendController->validateUser($username, $password);
+                    if ($vendedor) {
+                        if ($sessionController->createSesionVend($username)) {
+                            $response['success'] = true;
+                            $response['url'] = '/admin';
+                            $response['id'] = bin2hex($username);
+                            $_SESSION['vendedor_id'] = bin2hex($username);
+                            $_SESSION['backoffice_username'] = $username;                         
+                        }
+                    }
+                } else {
+                    $response['message'] = 'Credenciales inválidas';
+                }
+            }
+            echo(json_encode($response));
+            exit();
+        }
+        $this->renderPage('account_admin');
+    }
     private function formRegistroEmpresa()
     {
         if ($this->action === 'registrar_emp' && $_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -609,6 +654,7 @@ class Router
 
             $response = ['success' => false, 'id' => 0, 'message' => '', 'username' => '', 'url' => ''];
             if (isset($_POST['submit'])) {
+                $errors = array();
                 $mailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
                 if (preg_match($mailPattern, $_POST['email'])) {
                     $data = [
@@ -641,11 +687,11 @@ class Router
                                 $sessionController = new SessionController();
                                 $vendedorData = $vendedor->create($data);
                                 if ($vendedorData) {
-                                    if($sessionController->createClienteSession($vendedorData['email'])) {
+                                    if($sessionController->createSesionVend($vendedorData['email'])) {
                                         $response['success'] = true;
                                         $response['id'] = bin2hex($vendedorData['email']);
                                         $_SESSION['vendedor_id'] = bin2hex($vendedorData['email']);
-                                        $_SESSION['vendedor_username'] = $vendedorData['nombre'];
+                                        $_SESSION['backoffice_username'] = $vendedorData['email'];
                                         $response['url'] = 'admin/perfil/'.bin2hex($vendedorData['email']);
                                     } else {
                                         $response['success'] = true;
@@ -663,6 +709,9 @@ class Router
                     $response['message'] = 'El email no es válido';
                 }
             }
+            
+            echo(json_encode($response));
+            exit();
         }
         $this->renderPage('sellerregister');
     }
@@ -692,6 +741,7 @@ class Router
                     foreach ($data as $clave => $valor) {
                         if (empty(trim($valor)) || $valor == 0) {
                             $emptyFields = true;
+                            array_push($errors, "Campo faltante: ".$valor);
                             $response['message'] = 'El campo' . $clave . 'es requerido';
                         }
                     }
@@ -843,8 +893,9 @@ class Router
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/VendController.php';
         $vendedorController = new VendController();
         $vendedor = $vendedorController->getUserById($vendedorId);
+        $productosVendedor = $vendedorController->getUserProducts($vendedorId);
         if ($vendedor) {
-            $this->renderBackOffice('profile', ['vendedor' => $vendedor]);
+            $this->renderBackOffice('profile', ['vendedor' => $vendedor, 'productos' => $productosVendedor]);
         }
         else {
             $this->renderPage('error', ['message' => 'No autorizado']);
@@ -857,6 +908,7 @@ class Router
         $favoritos = $userController->getUserProductFavs($userId) ?? '';
         $usuario = $userController->getUserbyId($userId);
         $datosComprador = $userController->getUserComprador($userId);
+        $metodosPago = $userController->getUserCards($userId);
         $telComprador = $userController->getUserPhones($userId);
         $direccionesComprador = $userController->getCompradorDirecciones($userId);
         if ($usuario) {
@@ -864,6 +916,7 @@ class Router
                                         'userphone' => $telComprador, 
                                         'favoritos' => $favoritos, 
                                         'comprador' => $datosComprador,
+                                        'tarjetas' => $metodosPago,
                                         'direcciones' => $direccionesComprador]);
         } else {
             http_response_code(404);
@@ -953,7 +1006,22 @@ class Router
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
 
-        if (isset($_SESSION['username']) && !empty(trim($_SESSION['username']))) {
+        if (isset($_SESSION['backoffice_username']) && !empty(trim($_SESSION['backoffice_username']))) {
+
+            if ($this->action === 'get_subcategories' && $_SERVER['REQUEST_METHOD'] == 'GET') {
+                
+                $idCategory = $_GET['id_cat'] ?? '';
+                if (!empty($idCategory)) {
+                    $productController = new ProductController();
+                    header('Content-type: application/json');
+                    $response = ['success' => false, 'subcategories' => []];
+                    $response['success'] = true;
+                    $response['subcategories'] = $productController->getSubCategories($idCategory);
+                    echo json_encode($response);
+                    exit();
+
+                }
+            }
 
             $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 15;
             $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
@@ -961,7 +1029,7 @@ class Router
             $productController = new ProductController();
             $productos = $productController->getProductsByLimit($offset, $limit);
             $categorias = $productController->getCategories();
-            if (count($productos) > 0) {
+            if (count($productos) > 0 || count($categorias) > 0) {
                 $this->renderBackOffice('productos', ['productos' => $productos, 'categorias' => $categorias]);
             } else {
                 $this->renderBackOffice('productos', ['message' => "No hay productos para mostrar"]);
@@ -975,22 +1043,50 @@ class Router
     private function formProductAdmin()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
-        $resp = ['success' => false, 'mssg' => ''];
+        $resp = ['success' => false, 'mssg' => '' ,'message_descuento' => ''];
         $productController = new ProductController();
 
         if (isset($_POST['submit'])) {
             $imagesPaths = [];
             $errors = array();
 
-            if (!empty($_FILES['images'])) {
+            if (!empty($_FILES['images']['name'][0])) {
+                $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/imagenes/productos/';
+
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+                foreach ($_FILES['images']['name'] as $key => $imageName) {
+                    $imageTmpPath = $_FILES['images']['tmp_name'][$key];
+                    $imageType = $_FILES['images']['type'][$key];
+                    
+                    if (in_array($imageType, ['image/jpeg', 'image/png', 'image/gif']) && $_FILES['images']['size'][$key] <= 5000000) {
+                        $newImageName = uniqid() . '_' . basename($imageName);
+                        $imagePath = $uploadDir . $newImageName;
+                        
+                        if (move_uploaded_file($imageTmpPath, $imagePath)) {
+                            $imagesPaths[] = '/imagenes/productos/' . $newImageName;
+                        } else {
+                            array_push($errors, "Error al subir la imagen: $imageName");
+                        }
+                    } else {
+                        array_push($errors, "Tipo o tamaño de archivo no válido para la imagen: $imageName");
+                    }
+                }
             }
+           
+
+            $email = pack("H*", $_POST['id_usu_ven']);
             $data = [
-                'id_usu_ven' => $_POST['id_usu_ven'],
+                'id_usu_ven' => $email,
                 'descripcion' => $_POST['descripcion'],
                 'origen' => $_POST['origen'],
                 'nombre' => $_POST['nombre'],
                 'stock' => $_POST['stock'],
-                'precio' => $_POST['precio']
+                'estado' => $_POST['estado'],
+                'precio' => $_POST['precio'],
+                'id_cat' => $_POST['category'],
+                'id_subcat' => $_POST['subcategory']
             ];
 
             $emptyFields = false;
@@ -1004,6 +1100,25 @@ class Router
 
                 $productCreated = $productController->create($data);
                 if ($productCreated) {
+                    $productSku = $productController->getLastInsertedSku();
+
+                    foreach ($imagesPaths as $path) {
+                        $productController->insertProductImage($productSku, $path);
+                    }
+                    if ($_POST['has_discount'] == 'si') {
+                        $descuentoData = [
+                            'sku' => $productSku,
+                            'tipo' => $_POST['tipo_descuento'],
+                            'valor' => $_POST['valor_descuento'],
+                            'fecha_inicio' => $_POST['fecha_inicio_descuento'],
+                            'fecha_fin' => $_POST['fecha_fin_descuento'],
+                            'activo' => 1
+                        ];
+                        if ($productController->createDiscount($descuentoData)) {
+                            $resp['success'] = true;
+                            $resp['message_descuento'] = 'Descuento creado con exito';
+                        }
+                    }
                     $resp['success'] = true;
                     $resp['mssg'] = 'Producto agregado exitosamente';
                 } else {

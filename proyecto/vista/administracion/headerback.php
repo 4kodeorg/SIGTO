@@ -1,3 +1,10 @@
+<?php
+if (isset($_SESSION['backoffice_username'])) {
+    $username = $_SESSION['backoffice_username'];
+    $id = $_SESSION['vendedor_id'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -145,7 +152,7 @@
                             <h3> Empresa</h3>
                         </a>
 
-                        <a href="/admin/perfil" class="nav-option option5">
+                        <a href="/admin/perfil/<?php echo $id ?>" class="nav-option option5">
                             <svg width="36px" height="36px" viewBox="0 0 16 16" fill="currentColor" x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
                                 <g fill="currentColor">
                                     <path fill="currentColor" d="M16 7.992C16 3.58 12.416 0 8 0S0 3.58 0 7.992c0 

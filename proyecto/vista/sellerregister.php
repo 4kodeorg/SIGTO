@@ -2,27 +2,11 @@
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL); 
-include('header.php');
+include('header-login-admin.php');
 ?>
-<!-- <div class="container-inputs">
-    <label for="nombre">Nombre</label>
-    <input type="text" placeholder="Nombre" name="name" id="nombre" required>
-</div>
-<div class="container-inputs">
-    <label for="apellido">Apellido</label>
-    <input type="text" placeholder="Apellido" name="apellido" id="apellido" required>
-</div> 
- <div class="container-inputs">
-            <label for="telefono">Número de celular</label>
-            <input type="tel" name="phone" id="telefono">
-        </div>
-  <div class="container-inputs">
-            <label for="direccion">Dirección</label>
-            <input type="text" id="direccion" placeholder="Ingrese su dirección" name="direccion" required>
-        </div> -->
 <div>
     <div class="bg-shopp"></div>
-    <form id="registration-form" class="registration-form" action="?action=registrar_emp" method="POST">
+    <form id="registration-form-admin" class="registration-form" action="?action=registrar_emp" method="POST">
         <div class="container-inputs">
             <label for="nombre">Nombre</label>
             <input type="text" name="nombre" id="nombre" placeholder="Nombre" requireds>
@@ -47,7 +31,7 @@ include('header.php');
         </div>
         <div class="container-inputs">
             <label for="passwd">Repetir contraseña</label>
-            <input type="password" placeholder="Confirmar contraseña" name="confirm_passwd" id="passwd">
+            <input type="password" placeholder="Confirmar contraseña" name="confirm_pwd" id="passwd">
         </div>
 
         <div class="container-inputs">
@@ -75,8 +59,8 @@ include('header.php');
             </svg>
         </section>
         <div class="buttons-registro">
-            <a class="button-registro" href="/cuenta">Ya tienes cuenta?</a>
-            <button class="button-registro" type="button" name="submit" onclick="registrationForm()">Crear usuario</button>
+            <a class="button-registro" href="/admin_cuenta">Ya tienes cuenta?</a>
+            <button class="button-registro" type="button" name="submit" onclick="adminRegistrationForm()">Crear usuario</button>
 
         </div>
     </form>

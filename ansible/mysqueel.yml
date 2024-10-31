@@ -1,9 +1,0 @@
----
-- hosts: all
-  become: true
-  tasks:
-  
-  - name: install mysql package
-    yum:
-      name: mysql
-      state: latest

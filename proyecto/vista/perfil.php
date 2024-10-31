@@ -7,7 +7,7 @@ include('header-index.php');
         <nav class="nav-sidenav fixed-left" onmouseover="goLeft()" onmouseout="getBack()">
             <div class="settings-place"></div>
             <div class="scroll-place" id="scroll-container">
-                <a href="">
+                <a href="/perfil/<?php echo bin2hex($usuario['email'])?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                             <path d="M3 9.4c0-2.24 0-3.36.436-4.216a4 4 0 0 1 1.748-1.748C6.04 3 7.16 3 9.4 3h5.2c2.24 0 3.36 0 4.216.436a4 4 0 0 1 1.748 1.748C21 6.04 21 7.16 21 9.4v5.2c0 2.24 0 3.36-.436 4.216a4 4 0 0 1-1.748 1.748C17.96 21 16.84 21 14.6 21H9.4c-2.24 0-3.36 0-4.216-.436a4 4 0 0 1-1.748-1.748C3 17.96 3 16.84 3 14.6z" />
@@ -16,7 +16,7 @@ include('header-index.php');
                     </svg>
                     <span class="span-sidenav-text">Mi perfil</span>
                 </a>
-                <a href="">
+                <a href="/home">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                             <path d="M6.133 21C4.955 21 4 20.02 4 18.81v-8.802c0-.665.295-1.295.8-1.71l5.867-4.818a2.09 2.09 0 0 1 2.666 0l5.866 4.818c.506.415.801 1.045.801 1.71v8.802c0 1.21-.955 2.19-2.133 2.19z" />
@@ -25,13 +25,13 @@ include('header-index.php');
                     </svg>
                     <span class="span-sidenav-text">Inicio</span>
                 </a>
-                <a href="">
+                <a href="/perfil/<?php echo bin2hex($usuario['email'])?>/compras">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.935 7H7.773c-1.072 0-1.962.81-2.038 1.858l-.73 10C4.921 20.015 5.858 21 7.043 21h9.914c1.185 0 2.122-.985 2.038-2.142l-.73-10C18.189 7.81 17.299 7 16.227 7h-1.162m-6.13 0V5c0-1.105.915-2 2.043-2h2.044c1.128 0 2.043.895 2.043 2v2m-6.13 0h6.13" />
                     </svg>
                     <span class="span-sidenav-text">Compras</span>
                 </a>
-                <a href="">
+                <a href="/perfil/<?php echo bin2hex($usuario['email'])?>/favoritos">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.75 3.5C5.127 3.5 3 5.76 3 8.547C3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79c-.78-1.654-2.39-2.79-4.25-2.79" />
                     </svg>
@@ -54,7 +54,7 @@ include('header-index.php');
         <div class="user-profile">
             <a href="">
                 <figure class="figure-profile-icon">
-                    <img src="../assets/imgs/profile.svg" alt="">
+                    <img src="../assets/imgs/ilustrationsd/profile.svg" alt="">
                     <figcaption> <?php echo htmlspecialchars($usuario['email']) ?>
                         <?php echo htmlspecialchars($usuario['username']) ?></figcaption>
                 </figure>
@@ -90,7 +90,7 @@ include('header-index.php');
                                 <th>País</th>
                                 <td><?php echo htmlspecialchars($usuario['pais']); ?></td>
                             </tr>
-                            <?php if (isset($data['comprador']['nombre1'])){ ?>
+                            <?php if (isset($data['comprador']['nombre1'])) { ?>
                                 <tr>
                                     <th>Nombre completo</th>
                                     <td><?php echo htmlspecialchars($data['comprador']['nombre1'] . ' ' . $data['comprador']['nombre2']); ?></td>
@@ -99,24 +99,23 @@ include('header-index.php');
                                     <th>Apellidos</th>
                                     <td><?php echo htmlspecialchars($data['comprador']['apellido1'] . ' ' . $data['comprador']['apellido2']); ?></td>
                                 </tr>
-                                <?php if (isset($data['userphone']['telefono'])){ ?>
+                                <?php if (isset($data['userphone']['telefono'])) { ?>
                                     <tr>
                                         <th>Número de teléfono</th>
                                         <td><?php echo htmlspecialchars($data['userphone']['telefono']); ?></td>
                                     </tr>
-                                <?php } 
-                                }
-                                else { ?>
+                                <?php }
+                            } else { ?>
                                 <tr>
                                     <td colspan="2"><b>Falta poco para completar tu perfil</b></td>
                                 </tr>
                             <?php } ?>
 
-                            <?php if (isset($data['comprador']['nombre1']) && !isset($data['userphone']['telefono'])){ ?>
+                            <?php if (isset($data['comprador']['nombre1']) && !isset($data['userphone']['telefono'])) { ?>
                                 <tr>
                                     <td colspan="2">Solo un paso más para completar tu perfil</td>
                                 </tr>
-                            <?php } elseif (isset($data['comprador']['nombre1']) && isset($data['userphone']['telefono'])){ ?>
+                            <?php } elseif (isset($data['comprador']['nombre1']) && isset($data['userphone']['telefono'])) { ?>
                                 <tr>
                                     <td colspan="2">Tu perfil está completo, ya podés empezar a comprar.</td>
                                 </tr>
@@ -124,36 +123,55 @@ include('header-index.php');
                         </table>
 
                         <div class="buttons-actions">
-                            <button onclick="showNow()">Actualizar información personal</button>
-                            <button onclick="showPhoneForm()">Actualizar número de teléfono</button>
+                            <button class="button-profile" onclick="showNow(this)">Actualizar información personal</button>
+                            <button class="button-profile" onclick="showPhoneForm(this)">Actualizar número de teléfono</button>
                         </div>
 
-                        <div id="actualizar-info">
-                            <form class="form_information" id="form-personal-info" action="?action=actualizar_info" method="POST">
+                       
+                            <form class="hide-form-action row g-3" id="form-personal-info" action="?action=actualizar_info" method="POST">
                                 <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
-                                <label for="nombre1">Primer nombre</label>
-                                <input type="text" id="nombre1" name="nombre1" placeholder="Primer nombre">
-                                <label for="nombre2">Segundo nombre</label>
-                                <input type="text" id="nombre2" name="nombre2" placeholder="Segundo nombre">
-                                <label for="apellido1">Primer apellido</label>
-                                <input type="text" id="apellido1" name="apellido1" placeholder="Primer apellido">
-                                <label for="apellido2">Segundo apellido</label>
-                                <input type="text" id="apellido2" name="apellido2" placeholder="Segundo apellido">
-                                <button class="button-profile" type="button" name="submit" onclick="updateInfo(event)">Actualizar</button>
+                          <div class="col-12">
+                          <label for="nombre1">Primer nombre</label>
+                          <input class="form-control" type="text" id="nombre1" name="nombre1" placeholder="Primer nombre">
+                          </div>
+                              <div class="col-12">
+                              <label for="nombre2">Segundo nombre</label>
+                              <input class="form-control" type="text" id="nombre2" name="nombre2" placeholder="Segundo nombre">
+                              </div>
+                              <div class="col-12">
+
+                              <label for="apellido1">Primer apellido</label>
+                                <input class="form-control" type="text" id="apellido1" name="apellido1" placeholder="Primer apellido">
+                              </div>
+                              <div class="col-12">
+
+                              <label for="apellido2">Segundo apellido</label>
+                                <input class="form-control" type="text" id="apellido2" name="apellido2" placeholder="Segundo apellido">
+                              </div>
+                              <div class="col-12">
+                                  <button class="button-profile" type="button" name="submit" onclick="updateInfo(event)">Actualizar</button>
+
+                              </div>
                             </form>
-                            <button class="button-profile" onclick="hideNow()">Ocultar</button>
-                        </div>
 
                         <?php $action = !isset($data['userphone']['telefono']) ? 'add_phone' : 'update_phone'; ?>
-                        <div class="form-phone">
-                            <form action="?action=<?php echo $action ?>" method="POST" id="form-phone-user">
+                        
+                            <form
+                                class="hide-form-action row g-3"
+                                action="?action=<?php echo $action ?>"
+                                method="POST"
+                                id="form-phone-user">
                                 <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
-                                <label for="phone">Número de teléfono</label>
-                                <input type="text" id="phone" name="phone" placeholder="Número de teléfono">
-                                <button class="button-profile" type="submit" name="submit" onclick="updateUserPhone(event)">Actualizar número</button>
+                                <div class="col-12">
+                                    <label class="form-label" for="phone">Número de teléfono</label>
+                                    <input class="form-control" type="text" id="phone" name="phone" placeholder="Número de teléfono">
+                                </div>
+                                <div class="col-12">
+
+                                    <button class="button-profile" type="submit" name="submit" onclick="updateUserPhone(event)">Actualizar número</button>
+                                </div>
                             </form>
-                            <button class="button-profile" onclick="hidePhoneForm()">Ocultar</button>
-                        </div>
+                        
 
                         <div class="container-response-mssg" id="message-resp-info">
                             <p></p>
@@ -175,483 +193,203 @@ include('header-index.php');
                     <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                         <span>
                             Mis direcciones
-                        </span> <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M12 4C9.24 4 7 6.24 7 9c0 2.85 2.92 7.21 5 9.88c2.11-2.69 5-7 5-9.88c0-2.76-2.24-5-5-5m0 7.5a2.5 2.5 0 0 1 0-5a2.5 2.5 0 0 1 0 5" opacity="0.3" />
-                            <path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7M7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9" />
-                            <circle cx="12" cy="9" r="2.5" fill="currentColor" />
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 72 72">
+                            <circle cx="36.446" cy="28.864" r="7.225" fill="#fff" />
+                            <path fill="#d22f27" d="M52.573 29.11c0-9.315-7.133-16.892-15.903-16.892s-15.903 7.577-15.903 16.896c.002.465.223 11.609 12.96 31.245a3.46 3.46 0 0 0 2.818 1.934c1.84 0 3.094-2.026 3.216-2.232C52.58 40.414 52.58 29.553 52.573 29.11M36.67 35.914a7.083 7.083 0 1 1 7.083-7.083a7.09 7.09 0 0 1-7.083 7.083" />
+                            <path fill="#ea5a47" d="M52.573 29.11c0-9.315-7.133-16.892-15.903-16.892a15 15 0 0 0-3.865.525c8.395.45 15.1 7.823 15.1 16.85c.006.443.006 11.303-12.813 30.95a6 6 0 0 1-.586.797c.52.584 1.257.928 2.04.954c1.839 0 3.093-2.027 3.215-2.233C52.58 40.414 52.58 29.553 52.573 29.11" />
+                            <g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                <path d="M36.545 62.294a3.46 3.46 0 0 1-2.817-1.935C20.99 40.723 20.769 29.58 20.766 29.114c0-9.32 7.134-16.896 15.904-16.896s15.903 7.577 15.903 16.892c.007.444.007 11.304-12.812 30.95c-.122.207-1.377 2.234-3.216 2.234" />
+                                <path d="M36.67 35.914a7.083 7.083 0 1 1 7.083-7.083a7.09 7.09 0 0 1-7.083 7.083" />
+                            </g>
                         </svg>
                     </button>
                 </h2>
                 <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
+                        <p>Datos de envío:</p>
+                        <?php if (count($data['direcciones']) > 0) {
+                            $direcciones = $data['direcciones'];
+                            foreach ($direcciones as $dir) {
+                        ?>
+                                <table>
+                                    <tr>
+                                        <th>Calle: </th>
+                                        <td><?php echo $dir['calle_pri'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Esquina: </th>
+                                        <td><?php echo $dir['calle_sec'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Número de puerta: </th>
+                                        <td><?php echo $dir['num_puerta'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Número de apartamento: </th>
+                                        <td><?php echo $dir['num_apartamento'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tipo de dirección: </th>
+                                        <td><?php echo $dir['tipo_dir'] ?></td>
+                                    </tr>
+                                </table>
 
-                        <?php if (isset($data['direcciones'])) {
-                            echo '
-            <p>Datos de envío: ' . $usuario['direccion'] . '</p>
-            <button>Actualizar información de envío</button>
+                                <form class="row g-3"
+                                    id="form-direcciones_actualizar"
+                                    action="?action=actualizar_direccion"
+                                    method="PUT">
+                                    <input type="hidden" name="id_direccion" value="<?php echo $dir['id_direccion'] ?>">
+                                    <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
+                                    <div class="col-md-6">
+                                        <label for="calle_pri" class="form-label">Calle: </label>
+                                        <input type="text" name="calle_pri" class="form-control" placeholder="Nombre de la calle" id="calle_prim">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="calle_sec" class="form-label">Esquina: </label>
+                                        <input type="text" name="calle_sec" class="form-control" placeholder="Esquina" id="calle_seg">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="tipo_dir" class="form-label">Tipo de dirección: </label>
+                                        <select id="tipo_dir" class="form-select">
+                                            <option selected value="envio">Envío</option>
+                                            <option value="facturacion">Facturación</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="num_puerta" class="form-label">Número de puerta: </label>
+                                        <input class="form-control" id="num_puerta" name="num_puerta" type="text" placeholder="Número de puerta">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="num_apartamento" class="form-label">Número de apartamento: </label>
+                                        <input type="text" class="form-control" name="num_apartamento" id="num_apartamento" placeholder="Número de apartamento">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="ciudad" class="form-label">Ciudad: </label>
+                                        <input type="text" name="ciudad" class="form-control" id="ciudad" placeholder="Ciudad">
+                                    </div>
 
+                                    <div class="col-12">
+                                        <button type="button" onclick="updateDirecciones()" class="button-profile">Actualizar mis direcciones</button>
+                                    </div>
+                                </form>
+                                <button onclick="hideFormDir()"> Ocultar </button>
+                            <?php }
+                        } else { ?>
+                            <b>No tienes una dirección asociada a tu cuenta aún</b>
+                            <p>Debes agregar al menos una dirección</p>
+                            <button class="button-profile" id="add-dir-btn" onclick="showFormAddDir(this)">Agregar dirección</button>
+                        <?php } ?>
 
-            <form 
-            id="form-direcciones"
-            action="/perfil/' . $usuario['id'] . '?action=actualizar_direccion"
-            method="PUT">
-                        <label for="">Calle Primaria</label>
-                        <input type="text">
-                        <label for="">Calle Secundaria</label>
-                        <input type="text">
-                        <label for="">Número de puerta</label>
-                        <input type="text">
-                        <label for="">Número de apartamento</label>
-                        <input type="text">
-                        <label for="">Ciudad</label>
-                        <input type="text">
-                        <label for="">País</label>
-                        <label for="country">País</label>
-        <select id="country" name="pais" class="form-control">
-                <option value="Albania">Albania</option>
-                <option value="Algeria">Algeria</option>
-                <option value="Andorra">Andorra</option>
-                <option value="Angola">Angola</option>
-                <option value="Anguilla">Anguilla</option>
-                <option value="Antarctica">Antarctica</option>
-                <option value="Argentina">Argentina</option>
-                <option value="Armenia">Armenia</option>
-                <option value="Aruba">Aruba</option>
-                <option value="Australia">Australia</option>
-                <option value="Austria">Austria</option>
-                <option value="Azerbaijan">Azerbaijan</option>
-                <option value="Bahamas">Bahamas</option>
-                <option value="Bahrain">Bahrain</option>
-                <option value="Bangladesh">Bangladesh</option>
-                <option value="Barbados">Barbados</option>
-                <option value="Belarus">Belarus</option>
-                <option value="Belgium">Belgium</option>
-                <option value="Belize">Belize</option>
-                <option value="Benin">Benin</option>
-                <option value="Bermuda">Bermuda</option>
-                <option value="Bhutan">Bhutan</option>
-                <option value="Bolivia">Bolivia</option>
-                <option value="Brazil">Brazil</option>
-                <option value="Bulgaria">Bulgaria</option>
-                <option value="Burkina Faso">Burkina Faso</option>
-                <option value="Burundi">Burundi</option>
-                <option value="Cambodia">Cambodia</option>
-                <option value="Cameroon">Cameroon</option>
-                <option value="Canada">Canada</option>
-                <option value="Cape Verde">Cape Verde</option>
-                <option value="Cayman Islands">Cayman Islands</option>
-                <option value="Chad">Chad</option>
-                <option value="Chile">Chile</option>
-                <option value="China">China</option>
-                <option value="Colombia">Colombia</option>
-                <option value="Comoros">Comoros</option>
-                <option value="Congo">Congo</option>
-                <option value="Cook Islands">Cook Islands</option>
-                <option value="Costa Rica">Costa Rica</option>
-                <option value="Croatia">Croatia</option>
-                <option value="Cuba">Cuba</option>
-                <option value="Cyprus">Cyprus</option>
-                <option value="Czech Republic">Czech Republic</option>
-                <option value="Denmark">Denmark</option>
-                <option value="Djibouti">Djibouti</option>
-                <option value="Dominica">Dominica</option>
-                <option value="Dominican Republic">Dominican Republic</option>
-                <option value="Ecuador">Ecuador</option>
-                <option value="Egypt">Egypt</option>
-                <option value="El Salvador">El Salvador</option>
-                <option value="Equatorial Guinea">Equatorial Guinea</option>
-                <option value="Fiji">Fiji</option>
-                <option value="Finland">Finland</option>
-                <option value="France">France</option>
-                <option value="Gabon">Gabon</option>
-                <option value="Gambia">Gambia</option>
-                <option value="Georgia">Georgia</option>
-                <option value="Germany">Germany</option>
-                <option value="Ghana">Ghana</option>
-                <option value="Gibraltar">Gibraltar</option>
-                <option value="Greece">Greece</option>
-                <option value="Greenland">Greenland</option>
-                <option value="Grenada">Grenada</option>
-                <option value="Guadeloupe">Guadeloupe</option>
-                <option value="Guam">Guam</option>
-                <option value="Guatemala">Guatemala</option>
-                <option value="Guernsey">Guernsey</option>
-                <option value="Guinea">Guinea</option>
-                <option value="Guinea-bissau">Guinea-bissau</option>
-                <option value="Guyana">Guyana</option>
-                <option value="Haiti">Haiti</option>
-                <option value="Honduras">Honduras</option>
-                <option value="Hong Kong">Hong Kong</option>
-                <option value="Hungary">Hungary</option>
-                <option value="Iceland">Iceland</option>
-                <option value="India">India</option>
-                <option value="Indonesia">Indonesia</option>
-                <option value="Iraq">Iraq</option>
-                <option value="Ireland">Ireland</option>
-                <option value="Isle of Man">Isle of Man</option>
-                <option value="Israel">Israel</option>
-                <option value="Italy">Italy</option>
-                <option value="Jamaica">Jamaica</option>
-                <option value="Japan">Japan</option>
-                <option value="Jersey">Jersey</option>
-                <option value="Jordan">Jordan</option>
-                <option value="Kenya">Kenya</option>
-                <option value="Kiribati">Kiribati</option>
-                <option value="Kuwait">Kuwait</option>
-                <option value="Latvia">Latvia</option>
-                <option value="Lebanon">Lebanon</option>
-                <option value="Lesotho">Lesotho</option>
-                <option value="Liberia">Liberia</option>
-                <option value="Lithuania">Lithuania</option>
-                <option value="Luxembourg">Luxembourg</option>
-                <option value="Macao">Macao</option>
-                <option value="Madagascar">Madagascar</option>
-                <option value="Malawi">Malawi</option>
-                <option value="Malaysia">Malaysia</option>
-                <option value="Maldives">Maldives</option>
-                <option value="Mali">Mali</option>
-                <option value="Malta">Malta</option>
-                <option value="Martinique">Martinique</option>
-                <option value="Mauritania">Mauritania</option>
-                <option value="Mexico">Mexico</option>
-                <option value="Monaco">Monaco</option>
-                <option value="Mongolia">Mongolia</option>
-                <option value="Montenegro">Montenegro</option>
-                <option value="Montserrat">Montserrat</option>
-                <option value="Morocco">Morocco</option>
-                <option value="Mozambique">Mozambique</option>
-                <option value="Namibia">Namibia</option>
-                <option value="Nauru">Nauru</option>
-                <option value="Nepal">Nepal</option>
-                <option value="Netherlands">Netherlands</option>
-                <option value="New Caledonia">New Caledonia</option>
-                <option value="New Zealand">New Zealand</option>
-                <option value="Nicaragua">Nicaragua</option>
-                <option value="Niger">Niger</option>
-                <option value="Nigeria">Nigeria</option>
-                <option value="Niue">Niue</option>
-                <option value="Norfolk Island">Norfolk Island</option>
-                <option value="Norway">Norway</option>
-                <option value="Oman">Oman</option>
-                <option value="Pakistan">Pakistan</option>
-                <option value="Palau">Palau</option>
-                <option value="Panama">Panama</option>
-                <option value="Papua New Guinea">Papua New Guinea</option>
-                <option value="Paraguay">Paraguay</option>
-                <option value="Peru">Peru</option>
-                <option value="Philippines">Philippines</option>
-                <option value="Pitcairn">Pitcairn</option>
-                <option value="Poland">Poland</option>
-                <option value="Portugal">Portugal</option>
-                <option value="Puerto Rico">Puerto Rico</option>
-                <option value="Qatar">Qatar</option>
-                <option value="Reunion">Reunion</option>
-                <option value="Romania">Romania</option>
-                <option value="Russian Federation">Russian Federation</option>
-                <option value="Rwanda">Rwanda</option>
-                <option value="Saint Helena">Saint Helena</option>
-                <option value="Saint Lucia">Saint Lucia</option>
-                <option value="Samoa">Samoa</option>
-                <option value="San Marino">San Marino</option>
-                <option value="Saudi Arabia">Saudi Arabia</option>
-                <option value="Senegal">Senegal</option>
-                <option value="Serbia">Serbia</option>
-                <option value="Seychelles">Seychelles</option>
-                <option value="Sierra Leone">Sierra Leone</option>
-                <option value="Singapore">Singapore</option>
-                <option value="Slovakia">Slovakia</option>
-                <option value="Slovenia">Slovenia</option>
-                <option value="Solomon Islands">Solomon Islands</option>
-                <option value="Somalia">Somalia</option>
-                <option value="South Africa">South Africa</option>
-                <option value="Spain">Spain</option>
-                <option value="Sri Lanka">Sri Lanka</option>
-                <option value="Sudan">Sudan</option>
-                <option value="Suriname">Suriname</option>
-                <option value="Swaziland">Swaziland</option>
-                <option value="Sweden">Sweden</option>
-                <option value="Switzerland">Switzerland</option>
-                <option value="Taiwan">Taiwan</option>
-                <option value="Tajikistan">Tajikistan</option>
-                <option value="Thailand">Thailand</option>
-                <option value="Timor-leste">Timor-leste</option>
-                <option value="Togo">Togo</option>
-                <option value="Tokelau">Tokelau</option>
-                <option value="Tonga">Tonga</option>
-                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-                <option value="Tunisia">Tunisia</option>
-                <option value="Turkey">Turkey</option>
-                <option value="Turkmenistan">Turkmenistan</option>
-                <option value="Tuvalu">Tuvalu</option>
-                <option value="Uganda">Uganda</option>
-                <option value="Ukraine">Ukraine</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="United States">United States</option>
-                <option value="Uruguay">Uruguay</option>
-                <option value="Uzbekistan">Uzbekistan</option>
-                <option value="Vanuatu">Vanuatu</option>
-                <option value="Venezuela">Venezuela</option>
-                <option value="Viet Nam">Viet Nam</option>
-                <option value="Yemen">Yemen</option>
-                <option value="Zambia">Zambia</option>
-                <option value="Zimbabwe">Zimbabwe</option>
-            </select>
-                        <label for="">Tipo de direccíon</label>
-                        <input type="text">
-            <button type="button" name="submit" onclick="updateDirecciones()">Actualizar</button>
+                        <form class="hide-form-action row g-3"
+                            id="form-direcciones_agregar"
+                            action="?action=actualizar_direccion"
+                            method="PUT">
+
+                            <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
+                            <div class="col-md-6">
+                                <label for="calle_pri" class="form-label">Calle: </label>
+                                <input type="text" name="calle_pri" class="form-control" id="calle_prim" placeholder="Nombre de la calle">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="calle_sec" class="form-label">Esquina: </label>
+                                <input type="text" name="calle_sec" class="form-control" id="calle_seg" placeholder="Esquina">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tipo_dir" class="form-label">Tipo de dirección: </label>
+                                <select id="tipo_dir" class="form-select">
+                                    <option selected value="envio">Envío</option>
+                                    <option value="facturacion">Facturación</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="num_puerta" class="form-label">Número de puerta: </label>
+                                <input class="form-control" id="num_puerta" name="num_puerta" type="text" placeholder="Número de puerta">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="num_apartamento" class="form-label">Número de apartamento: </label>
+                                <input type="text" class="form-control" name="num_apartamento" id="num_apartamento" placeholder="Número de apartamento">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ciudad" class="form-label">Ciudad: </label>
+                                <input type="text" name="ciudad" class="form-control" id="ciudad" placeholder="Ciudad">
+                            </div>
+
+                            <div class="col-12">
+                                <button type="button" onclick="addDirecciones()" class="button-profile">Agregar dirección</button>
+                            </div>
                         </form>
-            ';  ?>
 
-                        <?php
-                        } else {
-                            echo '
-                        <p>Debes agregar al menos una dirección para continuar comprando </p>
-                        
-            <div id="actualizar-direcciones-container">
-            <form
-            id="form-direcciones"
-            action="/perfil/' . $usuario['id'] . '?action=actualizar_direccion"
-            method="POST">
-            <input type="hidden" name="id_direcciones" value="' . htmlspecialchars($direcciones['id_direcciones']) . '">
-            <label for="direccion_envio">Calle primaria</label>
-            <input type="text" name="calle_pri" placeholder="Calle primaria">
-            <label for="">Calle segundaria</label>
-            <input type="text" name="calle_seg" placeholder="Calle secundaria">
-            <label>Número de puerta </label>
-            <input type="number" name="num_puerta" placeholder="Número de puerta"> 
-            <label>Número de apartamento </label>
-            <input type="number" name="num_apartamento" placeholder="Número de apartamento">
-            <label>Ciudad</label>
-            <input type="text" name="ciudad" placeholder="Ciudad"> 
-            <label>País </label>
-             <select id="country" name="pais" class="form-control">
-                <option value="Albania">Albania</option>
-                <option value="Algeria">Algeria</option>
-                <option value="Andorra">Andorra</option>
-                <option value="Angola">Angola</option>
-                <option value="Anguilla">Anguilla</option>
-                <option value="Antarctica">Antarctica</option>
-                <option value="Argentina">Argentina</option>
-                <option value="Armenia">Armenia</option>
-                <option value="Aruba">Aruba</option>
-                <option value="Australia">Australia</option>
-                <option value="Austria">Austria</option>
-                <option value="Azerbaijan">Azerbaijan</option>
-                <option value="Bahamas">Bahamas</option>
-                <option value="Bahrain">Bahrain</option>
-                <option value="Bangladesh">Bangladesh</option>
-                <option value="Barbados">Barbados</option>
-                <option value="Belarus">Belarus</option>
-                <option value="Belgium">Belgium</option>
-                <option value="Belize">Belize</option>
-                <option value="Benin">Benin</option>
-                <option value="Bermuda">Bermuda</option>
-                <option value="Bhutan">Bhutan</option>
-                <option value="Bolivia">Bolivia</option>
-                <option value="Brazil">Brazil</option>
-                <option value="Bulgaria">Bulgaria</option>
-                <option value="Burkina Faso">Burkina Faso</option>
-                <option value="Burundi">Burundi</option>
-                <option value="Cambodia">Cambodia</option>
-                <option value="Cameroon">Cameroon</option>
-                <option value="Canada">Canada</option>
-                <option value="Cape Verde">Cape Verde</option>
-                <option value="Cayman Islands">Cayman Islands</option>
-                <option value="Chad">Chad</option>
-                <option value="Chile">Chile</option>
-                <option value="China">China</option>
-                <option value="Colombia">Colombia</option>
-                <option value="Comoros">Comoros</option>
-                <option value="Congo">Congo</option>
-                <option value="Cook Islands">Cook Islands</option>
-                <option value="Costa Rica">Costa Rica</option>
-                <option value="Croatia">Croatia</option>
-                <option value="Cuba">Cuba</option>
-                <option value="Cyprus">Cyprus</option>
-                <option value="Czech Republic">Czech Republic</option>
-                <option value="Denmark">Denmark</option>
-                <option value="Djibouti">Djibouti</option>
-                <option value="Dominica">Dominica</option>
-                <option value="Dominican Republic">Dominican Republic</option>
-                <option value="Ecuador">Ecuador</option>
-                <option value="Egypt">Egypt</option>
-                <option value="El Salvador">El Salvador</option>
-                <option value="Equatorial Guinea">Equatorial Guinea</option>
-                <option value="Fiji">Fiji</option>
-                <option value="Finland">Finland</option>
-                <option value="France">France</option>
-                <option value="Gabon">Gabon</option>
-                <option value="Gambia">Gambia</option>
-                <option value="Georgia">Georgia</option>
-                <option value="Germany">Germany</option>
-                <option value="Ghana">Ghana</option>
-                <option value="Gibraltar">Gibraltar</option>
-                <option value="Greece">Greece</option>
-                <option value="Greenland">Greenland</option>
-                <option value="Grenada">Grenada</option>
-                <option value="Guadeloupe">Guadeloupe</option>
-                <option value="Guam">Guam</option>
-                <option value="Guatemala">Guatemala</option>
-                <option value="Guernsey">Guernsey</option>
-                <option value="Guinea">Guinea</option>
-                <option value="Guinea-bissau">Guinea-bissau</option>
-                <option value="Guyana">Guyana</option>
-                <option value="Haiti">Haiti</option>
-                <option value="Honduras">Honduras</option>
-                <option value="Hong Kong">Hong Kong</option>
-                <option value="Hungary">Hungary</option>
-                <option value="Iceland">Iceland</option>
-                <option value="India">India</option>
-                <option value="Indonesia">Indonesia</option>
-                <option value="Iraq">Iraq</option>
-                <option value="Ireland">Ireland</option>
-                <option value="Isle of Man">Isle of Man</option>
-                <option value="Israel">Israel</option>
-                <option value="Italy">Italy</option>
-                <option value="Jamaica">Jamaica</option>
-                <option value="Japan">Japan</option>
-                <option value="Jersey">Jersey</option>
-                <option value="Jordan">Jordan</option>
-                <option value="Kenya">Kenya</option>
-                <option value="Kiribati">Kiribati</option>
-                <option value="Kuwait">Kuwait</option>
-                <option value="Latvia">Latvia</option>
-                <option value="Lebanon">Lebanon</option>
-                <option value="Lesotho">Lesotho</option>
-                <option value="Liberia">Liberia</option>
-                <option value="Lithuania">Lithuania</option>
-                <option value="Luxembourg">Luxembourg</option>
-                <option value="Macao">Macao</option>
-                <option value="Madagascar">Madagascar</option>
-                <option value="Malawi">Malawi</option>
-                <option value="Malaysia">Malaysia</option>
-                <option value="Maldives">Maldives</option>
-                <option value="Mali">Mali</option>
-                <option value="Malta">Malta</option>
-                <option value="Martinique">Martinique</option>
-                <option value="Mauritania">Mauritania</option>
-                <option value="Mexico">Mexico</option>
-                <option value="Monaco">Monaco</option>
-                <option value="Mongolia">Mongolia</option>
-                <option value="Montenegro">Montenegro</option>
-                <option value="Montserrat">Montserrat</option>
-                <option value="Morocco">Morocco</option>
-                <option value="Mozambique">Mozambique</option>
-                <option value="Namibia">Namibia</option>
-                <option value="Nauru">Nauru</option>
-                <option value="Nepal">Nepal</option>
-                <option value="Netherlands">Netherlands</option>
-                <option value="New Caledonia">New Caledonia</option>
-                <option value="New Zealand">New Zealand</option>
-                <option value="Nicaragua">Nicaragua</option>
-                <option value="Niger">Niger</option>
-                <option value="Nigeria">Nigeria</option>
-                <option value="Niue">Niue</option>
-                <option value="Norfolk Island">Norfolk Island</option>
-                <option value="Norway">Norway</option>
-                <option value="Oman">Oman</option>
-                <option value="Pakistan">Pakistan</option>
-                <option value="Palau">Palau</option>
-                <option value="Panama">Panama</option>
-                <option value="Papua New Guinea">Papua New Guinea</option>
-                <option value="Paraguay">Paraguay</option>
-                <option value="Peru">Peru</option>
-                <option value="Philippines">Philippines</option>
-                <option value="Pitcairn">Pitcairn</option>
-                <option value="Poland">Poland</option>
-                <option value="Portugal">Portugal</option>
-                <option value="Puerto Rico">Puerto Rico</option>
-                <option value="Qatar">Qatar</option>
-                <option value="Reunion">Reunion</option>
-                <option value="Romania">Romania</option>
-                <option value="Russian Federation">Russian Federation</option>
-                <option value="Rwanda">Rwanda</option>
-                <option value="Saint Helena">Saint Helena</option>
-                <option value="Saint Lucia">Saint Lucia</option>
-                <option value="Samoa">Samoa</option>
-                <option value="San Marino">San Marino</option>
-                <option value="Saudi Arabia">Saudi Arabia</option>
-                <option value="Senegal">Senegal</option>
-                <option value="Serbia">Serbia</option>
-                <option value="Seychelles">Seychelles</option>
-                <option value="Sierra Leone">Sierra Leone</option>
-                <option value="Singapore">Singapore</option>
-                <option value="Slovakia">Slovakia</option>
-                <option value="Slovenia">Slovenia</option>
-                <option value="Solomon Islands">Solomon Islands</option>
-                <option value="Somalia">Somalia</option>
-                <option value="South Africa">South Africa</option>
-                <option value="Spain">Spain</option>
-                <option value="Sri Lanka">Sri Lanka</option>
-                <option value="Sudan">Sudan</option>
-                <option value="Suriname">Suriname</option>
-                <option value="Swaziland">Swaziland</option>
-                <option value="Sweden">Sweden</option>
-                <option value="Switzerland">Switzerland</option>
-                <option value="Taiwan">Taiwan</option>
-                <option value="Tajikistan">Tajikistan</option>
-                <option value="Thailand">Thailand</option>
-                <option value="Timor-leste">Timor-leste</option>
-                <option value="Togo">Togo</option>
-                <option value="Tokelau">Tokelau</option>
-                <option value="Tonga">Tonga</option>
-                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-                <option value="Tunisia">Tunisia</option>
-                <option value="Turkey">Turkey</option>
-                <option value="Turkmenistan">Turkmenistan</option>
-                <option value="Tuvalu">Tuvalu</option>
-                <option value="Uganda">Uganda</option>
-                <option value="Ukraine">Ukraine</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="United States">United States</option>
-                <option value="Uruguay">Uruguay</option>
-                <option value="Uzbekistan">Uzbekistan</option>
-                <option value="Vanuatu">Vanuatu</option>
-                <option value="Venezuela">Venezuela</option>
-                <option value="Viet Nam">Viet Nam</option>
-                <option value="Yemen">Yemen</option>
-                <option value="Zambia">Zambia</option>
-                <option value="Zimbabwe">Zimbabwe</option>
-            </select>
-            <label>Tipo de dirección </label>
-            <select> </select>
-            <button type="button" name="submit" onclick="addDireccion()">Actualizar</button>
-            </form> 
-            <button onclick="hideForm()"> Ocultar </button>
-            </div>
-            
-        
-        <div class="container-response" id="message-resp-direcciones">
-            <p></p>
-            <svg onclick="this.parentElement.style.display=`none`;"
-                width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor"
-                x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
-                <g fill="currentColor">
-                    <g fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6" />
-                        <circle cx="12" cy="12" r="10" />
-                    </g>
-                </g>
-            </svg>
-        </div> 
-                ';
-                        } ?>
-                        <button onclick="showFormDir()">Actualizar mis direcciones</button>
                     </div>
                 </div>
             </div>
+
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                    <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                         <span>
                             Medios de pago
-                        </span> <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h10v-2H4v-6h18V6c0-1.11-.89-2-2-2m0 4H4V6h16zm4 9v2h-3v3h-2v-3h-3v-2h3v-3h2v3z" />
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 128 128">
+                            <path fill="#ffc107" d="M116.34 101.95H11.67c-4.2 0-7.63-3.43-7.63-7.63V33.68c0-4.2 3.43-7.63 7.63-7.63h104.67c4.2 0 7.63 3.43 7.63 7.63v60.64c0 4.2-3.43 7.63-7.63 7.63" />
+                            <path fill="#424242" d="M4.03 38.88h119.95v16.07H4.03z" />
+                            <path fill="#fff" d="M114.2 74.14H13.87c-.98 0-1.79-.8-1.79-1.79v-8.41c0-.98.8-1.79 1.79-1.79H114.2c.98 0 1.79.8 1.79 1.79v8.41c-.01.98-.81 1.79-1.79 1.79" />
+                            <path fill="none" stroke="#424242" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M23.98 70.49c.56-1.08.71-2.34 1.21-3.45s1.59-2.14 2.79-1.95c1.11.18 1.8 1.29 2.21 2.33c.57 1.45.88 3 .92 4.56c.01.32-.01.67-.22.92c-.37.42-1.13.21-1.42-.27s-.22-1.09-.09-1.64c.62-2.55 2.62-4.72 5.11-5.54c.26-.09.53-.16.8-.11c.58.11.9.71 1.16 1.23c.61 1.19 1.35 2.32 2.2 3.35c.34.42.73.83 1.25.99c1.71.5 2.7-2.02 4.35-2.69c1.98-.8 3.91 1.29 6.01 1.68c3.07.57 4.7-1.82 7.39-2.43c.36-.08.75-.13 1.11-.03c.66.19 1.07.82 1.46 1.39c.91 1.34 2.21 2.66 3.83 2.67c1.03.01 1.98-.52 2.92-.97c3.33-1.59 7.26-2.25 10.74-1.03" />
                         </svg>
                     </button>
                 </h2>
-                <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                    <?php
+                    if (count($data['tarjetas']) > 0) {
+                        $tarjetas = $data['tarjetas'];
+                    foreach ($tarjetas as $tarjeta) {
+                    ?>
+                    <section>
+                        <p><?php echo $tarjeta['nombre_tarjeta'] ?></p>
+                    </section>
+
+                    <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
+                    <?php
+                    }
+                    } else {
+                        ?>
+                    <p><b>No tienes ningun medio de pago asociado a tu cuenta</b></p>
+
+                    <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
+                    <?php
+                    }
+                    ?>  
+                    <form class="hide-form-action row g-3"
+                            id="form-card_agregar"
+                            action="?action=agregar_card"
+                            method="POST">
+
+                            <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
+                            <div class="col-12">
+                                <label for="calle_pri" class="form-label">Nombre del titular de la tarjeta: </label>
+                                <input type="text" name="calle_pri" class="form-control" id="calle_prim" placeholder="Nombre en la tarjeta">
+                            </div>
+                            <div class="col-12">
+                                <label for="calle_pri" class="form-label">Número de la tarjeta: </label>
+                                <input type="text" name="calle_pri" class="form-control" id="calle_prim" placeholder="0000 0000 0000 0000">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="calle_sec" class="form-label">Fecha de vencimiento: </label>
+                                <input type="text" name="calle_sec" class="form-control" id="calle_seg" placeholder="01/25">
+                            </div>
+                           
+                            <div class="col-md-4">
+                                <label for="num_puerta" class="form-label">Código de seguridad </label>
+                                <input class="form-control" id="num_puerta" name="num_puerta" type="text" placeholder="CVV">
+                            </div>
+                           
+
+                            <div class="col-12">
+                                <button type="button" onclick="addDirecciones()" class="button-profile">Agregar tarjeta</button>
+                            </div>
+                        </form>
+                </div>
                 </div>
             </div>
         </div>

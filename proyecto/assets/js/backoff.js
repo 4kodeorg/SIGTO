@@ -230,7 +230,7 @@ async function disableProduct(ev, el) {
 
 }
 
-async function productsForm() {
+async function addProductsForm() {
     const imageInput = document.getElementById('images');
 
     if (imageInput.files.length > 6) {
@@ -273,3 +273,29 @@ async function productsForm() {
     }
 }
 };
+
+async function getSubCategories(el) {
+    const selectSubCategories = document.getElementById('subcategory');
+    const idCategory = el.value;
+    try {
+        const response = await fetch (`http://localhost/admin/productos?action=get_subcategories&id_cat=${idCategory}`);
+        const data = await response.json();
+        if (data.success) {
+            const subcategories = data.subcategories;
+            selectSubCategories.innerHTML = '';
+            subcategories.forEach(subcat => {
+                selectSubCategories.insertAdjacentHTML('beforeend', `<option value="${subcat.id}">${subcat.nombre}</option>`)
+            })
+        } else {
+            selectSubCategories.innerHTML = "Error al cargar subcategorias";
+        }
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
+}
+
+function toggleDescFields() {
+    const discountSection = document.getElementById('desc_container');
+    const hasDiscount = document.getElementById('has_discount').value;
+    discountSection.style.display = hasDiscount === 'si' ? 'block' : 'none';
+}

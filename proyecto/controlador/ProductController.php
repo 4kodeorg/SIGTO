@@ -11,8 +11,11 @@ class ProductController extends Database
         $producto->setNombre($data['nombre']);
         $producto->setDescripcion($data['descripcion']);
         $producto->setOrigen($data['origen']);
+        $producto->setEstado($data['estado']);
         $producto->setStock($data['stock']);
         $producto->setPrecio($data['precio']);
+        $producto->setIdCategory($data['id_cat']);
+        $producto->setIdSubCategory($data['id_subcat']);
 
         $images = $data['images'] ?? [];
 
@@ -26,27 +29,31 @@ class ProductController extends Database
 
     public function createProduct($producto, $images)
     {
-        $query = 'INSERT INTO productos (id_usu_ven, nombre, precio, origen, stock, descripcion, estado) 
-              VALUES (?, ?, ?, ?, ?, ?, ?);';
+        $query = 'INSERT INTO productos (id_usu_ven, nombre, precio, origen, stock, descripcion, estado, id_cat, id_subcat) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);';
         $stmt = $this->conn->prepare($query);
 
         $idUsuVen = $producto->getIdUsuVen();
-        $titulo = $producto->getTitulo();
+        $titulo = $producto->getNombre();
         $precio = $producto->getPrecio();
         $origen = $producto->getOrigen();
         $stock = $producto->getStock();
         $descripcion = $producto->getDescripcion();
         $estado = $producto->getEstado();
+        $idCat = $producto->getIdCategory();
+        $idSubCat = $producto->getIdSubCategory();
 
         $stmt->bind_param(
-            'ssdssss',
+            'ssdsissii',
             $idUsuVen,
             $titulo,
             $precio,
             $origen,
             $stock,
             $descripcion,
-            $estado
+            $estado,
+            $idCat,
+            $idSubCat
         );
 
         if ($stmt->execute()) {
@@ -55,13 +62,44 @@ class ProductController extends Database
             foreach ($images as $image) {
                 $this->insertProductImage($productId, $image);
             }
-
             return true;
         } else {
             throw new Exception("Error al crear producto: " . $stmt->error);
         }
     }
-    private function insertProductImage($productId, $image)
+    public function getLastInsertedSku()
+    {
+        $query = "SELECT LAST_INSERT_ID() AS last_sku";
+        $stmt = $this->conn->prepare($query);
+        
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            return $row['last_sku'];
+        } else {
+            return null; 
+        }
+    }
+    public function createDiscount($data) {
+        $query = 'INSERT INTO descuentos (sku, tipo, valor, fecha_inicio, fecha_fin, activo);';
+        $stmt = $this->conn->prepare($query);
+
+        $skuProd = $data['sku'];
+        $tipo = $data['tipo'];
+        $valor = $data['valor'];
+        $fecha_ini = $data['fecha_inicio'];
+        $fecha_fin = $data['fecha_fin'];
+        $activo = $data['activo'];
+        $stmt->bind_param('isissi', $skuProd, $tipo, $valor, $fecha_ini, $fecha_fin, $activo);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function insertProductImage($productId, $image)
     {
         $query = 'INSERT INTO producto_imagenes (producto_sku, imagen_url) VALUES (?, ?);';
         $stmt = $this->conn->prepare($query);
@@ -70,6 +108,12 @@ class ProductController extends Database
         if (!$stmt->execute()) {
             throw new Exception("Error al insertar imagen: " . $stmt->error);
         }
+    }
+
+    public function getProductsByCategory($idCategory) {
+        $query = "SELECT * FROM productos where id_cat=?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $idCategory);
     }
 
     public function getCategories()
@@ -87,6 +131,22 @@ class ProductController extends Database
             return $categories ?? [];
         } else {
             throw new Exception("Error al cargar categorias");
+        }
+    }
+    public function getSubCategories($idCategory) {
+        $query = "SELECT * FROM subcategorias WHERE id_categoria =?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $idCategory);
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+
+            $subcategories = [];
+            while ($row = $result->fetch_assoc()) {
+                $subcategories[] = $row;
+            }
+            return $subcategories ?? [];
+        } else {
+            throw new Exception("Error al cargar subcategorias");
         }
     }
 
@@ -107,7 +167,7 @@ class ProductController extends Database
 
     public function searchProductsByTitleOrDescripcion($searchTerm)
     {
-        $query = 'SELECT * FROM productos WHERE activo=1 AND (titulo LIKE ? OR descripcion LIKE ?);';
+        $query = 'SELECT * FROM productos WHERE activo=1 AND (nombre LIKE ? OR descripcion LIKE ?);';
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Error al buscar");

@@ -3,13 +3,15 @@
 class Producto
 {
 
-    private int $idUsuVen;
+    private string $idUsuVen;
     private string $nombre;
     private string $descripcion;
     private float $precio;
     private string $origen;
     private int $stock;
     private string $estado;
+    private int $idCategory;
+    private int $idSubCategory;
 
 
     public function setIdUsuVen($idUsuVen)
@@ -25,6 +27,7 @@ class Producto
     {
         $this->descripcion = $descripcion;
     }
+  
     public function setPrecio($precio)
     {
         $this->precio = $precio;
@@ -42,6 +45,12 @@ class Producto
     {
         $this->estado = $estado;
     }
+    public function setIdCategory($idCategory) {
+        $this->idCategory = $idCategory;
+    }
+    public function setIdSubCategory($idSubCategory) {
+        $this->idSubCategory = $idSubCategory;
+    }
 
     public function getIdUsuVen()
     {
@@ -55,19 +64,25 @@ class Producto
     {
         return $this->descripcion;
     }
-    public function getPrecio(): float
+    public function getPrecio()
     {
         return $this->precio;
     }
-    public function getOrigen(): string
+    public function getOrigen()
     {
         return $this->origen;
     }
-    public function getStock(): int
+    public function getIdCategory() {
+        return $this->idCategory;
+    }
+    public function getIdSubCategory() {
+        return $this->idSubCategory;
+    }
+    public function getStock()
     {
         return $this->stock;
     }
-    public function getEstado(): string
+    public function getEstado()
     {
         return $this->estado;
     }

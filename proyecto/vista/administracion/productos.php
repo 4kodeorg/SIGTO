@@ -173,39 +173,76 @@ require('headerback.php')
                 method="POST"
                 enctype="multipart/form-data"
                 class="form-product">
-                <input type="hidden" name="id_usu_ven" value="">
-                <label for="titulo">Nombre del producto</label>
-                <input id="titulo" placeholder="Título del producto" type="text" name="nombre" required>
+                <input type="hidden" name="id_usu_ven" value="<?php echo $id ?>">
+                <label for="nombre">Nombre del producto</label>
+                <input id="nombre" placeholder="Título del producto" type="text" name="nombre" required>
 
                 <label for="descr">Descripción</label>
                 <input id="descr" placeholder="Descripción del producto" type="text" name="descripcion" required>
 
                 <label for="origen">Origen</label>
-                <input type="text" placeholder="Origen del producto" name="origen" id="origen" required>
+                <select name="origen" id="origen">
+                <option value="Nacional">Nacional</option>
+                <option value="Internacional">Internacional</option>
+
+                </select>
 
                 <label for="category">Categoría</label>
-                <select name="acategory" id="category">
+                <select name="category" id="category" onchange="getSubCategories(this)">
                     <option value="">Selecciona una categoría</option>
                     <?php  if (isset($data['categorias']) && !empty($data['categorias'])) {
                         foreach ($data['categorias'] as $category) {
-                            echo '<option value="'. $category['id_categorias'] .'">
-                             '.$category['Nombre'].'</option>';
+                            echo '<option value="'. $category['id_categoria'] .'">
+                             '.$category['nombre'].'</option>';
                         }
                     }
                     ?>
                 </select>
+                <label for="subcategory">Subcategoría</label>
+                <select name="subcategory" id="subcategory">
+                    <option value="">Selecciona una categoría primero</option>
+
+                </select>
 
                 <label for="stock">Cantidad de unidades</label>
                 <input type="text" placeholder="Stock del producto" name="stock" id="stock" required>
-
+                <label for="estado">Estado</label>
+                <select name="estado" id="estado">
+                    <option value="">Selecciona un estado</option>
+                    <option value="Nuevo">Nuevo</option>
+                    <option value="Usado">Usado</option>
+                </select>
                 <label for="precio">Precio</label>
                 <input id="precio" placeholder="Precio del producto en pesos" type="text" name="precio" required>
 
                 <label for="images">Imágenes del producto (máximo 6)</label>
                 <input type="file" name="images[]" id="images" accept="image/*" multiple required>
 
+                <label for="has_discount">¿Agregar descuento?</label>
+    <select id="has_discount" name="has_discount" onchange="toggleDescFields()">
+        <option value="no">No</option>
+        <option value="si">Sí</option>
+    </select>
 
-                <button class="send-product" name="submit" onclick="productsForm()" type="button">Agregar producto</button>
+    <div class="desc-container" id="desc_container" style="display:none;">
+        <label for="tipo_descuento">Tipo de descuento</label>
+        <select name="tipo_descuento" id="tipo_descuento">
+            <option value="">Selecciona el tipo</option>
+            <option value="Porcentaje">Porcentaje</option>
+            <option value="Fijo">Fijo</option>
+        </select>
+
+        <label for="valor_descuento">Valor del descuento</label>
+        <input id="valor_descuento" placeholder="Ej: 10 para 10% o $10" type="text" name="valor_descuento">
+
+        <label for="fecha_inicio_descuento">Fecha de inicio del descuento</label>
+        <input type="date" id="fecha_inicio_descuento" name="fecha_inicio_descuento">
+
+        <label for="fecha_fin_descuento">Fecha de fin del descuento</label>
+        <input type="date" id="fecha_fin_descuento" name="fecha_fin_descuento">
+    </div>
+
+                <button class="send-product" name="submit" onclick="addProductsForm()" type="button">Agregar producto</button>
             </form>
             <div id="sub-product" class="added-product">
                 <p></p>

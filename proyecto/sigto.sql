@@ -46,7 +46,6 @@ CREATE TABLE comprador_direccion (
     num_puerta VARCHAR(10) NOT NULL,
     num_apartamento VARCHAR(5) NOT NULL,
     ciudad VARCHAR(30) NOT NULL,
-    pais VARCHAR(30) NOT NULL,
     tipo_dir VARCHAR(11) NOT NULL,
     CONSTRAINT chk_tipo_direccion CHECK (tipo_dir IN ('Facturacion','Envio')),
     FOREIGN KEY (email) REFERENCES comprador(email)
@@ -60,15 +59,13 @@ CREATE TABLE comprador_telefono (
     CONSTRAINT chk_comprador_telefono_format CHECK (telefono REGEXP '^[0-9]{7,15}$')
 );
 
--- DONE HASTA ACÁ
-
-CREATE TABLE comprador_mis_metodos_pago (
+CREATE TABLE comprador_metodos_pago (
     id_tarjeta INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(50) NOT NULL,   
     nom_titular VARCHAR(50) NOT NULL,
     numero VARCHAR(20) NOT NULL,
     fecha_ven DATE NOT NULL,
-    nom_tarjeta VARCHAR(50) NOT NULL,
+    codigo_seg CHAR(4) NOT NULL,
     FOREIGN KEY (email) REFERENCES comprador(email)
 );
 
@@ -77,37 +74,12 @@ CREATE TABLE vendedor (
     razon_social VARCHAR(50) NOT NULL,
     password VARCHAR (255) NOT NULL,
     fecha_registro DATETIME NOT NULL, 
-    nombre VARCHAR(30),
-    apellido VARCHAR(30),
+    nombre VARCHAR(30) NOT NULL,
+    apellido VARCHAR(30) NOT NULL,
     fecha_nac DATE NOT NULL, 
     CONSTRAINT chk_vendedor_email_format CHECK (email LIKE '%_@__%.__%')
 );
 
-CREATE TABLE sesionCliente (
-    id_session INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50),
-    fecha_ini_ses DATETIME NOT NULL,
-    FOREIGN KEY (email) REFERENCES cliente(email)
-);
-
-CREATE TABLE vendedor_telefono (
-    email VARCHAR(50),
-    telefono VARCHAR(18),
-    PRIMARY KEY (email,telefono),
-    FOREIGN KEY (email) REFERENCES vendedor(email),
-    CONSTRAINT chk_vendedor_telefono_format CHECK (telefono REGEXP '^[0-9]{7,15}$')
-);
-
-CREATE TABLE vendedor_direccion (
-    id_direccion INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50) NOT NULL,
-    calle_pri VARCHAR(50),
-    calle_sec VARCHAR(50),
-    num_puerta VARCHAR(5),
-    ciudad VARCHAR(30),
-    pais VARCHAR(30),
-    FOREIGN KEY (email) REFERENCES vendedor(email)
-);
 
 CREATE TABLE productos (
     sku INT AUTO_INCREMENT PRIMARY KEY,
@@ -126,6 +98,7 @@ CREATE TABLE productos (
     FOREIGN KEY (id_subcat) REFERENCES subcategorias(id) ON DELETE SET NULL,
     FOREIGN KEY (id_usu_ven) REFERENCES vendedor(email)
 ) AUTO_INCREMENT=4500;
+
 
 CREATE TABLE categorias (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
@@ -155,12 +128,18 @@ CREATE TABLE favoritos (
     FOREIGN KEY (id_usuario) REFERENCES cliente(email)
 );
 
-CREATE TABLE medio_pago (
-    id_pago INT AUTO_INCREMENT PRIMARY KEY,
-    monto_total DECIMAL(10, 2) CHECK (monto_total > 0),
-    estado VARCHAR(30),
-    tipo_pago VARCHAR(30),
-    nombre_met_pago VARCHAR(30)
+CREATE TABLE vendedorSesion (
+    id_session_vendedor INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50),
+    fecha_ini_ses DATETIME NOT NULL,
+    FOREIGN KEY (email) REFERENCES vendedor(email)
+);
+
+CREATE TABLE sesionCliente (
+    id_session INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50),
+    fecha_ini_ses DATETIME NOT NULL,
+    FOREIGN KEY (email) REFERENCES cliente(email)
 );
 
 CREATE TABLE carrito (
@@ -174,6 +153,38 @@ CREATE TABLE carrito (
     FOREIGN KEY (sku_prod) REFERENCES productos(sku),
     FOREIGN KEY (id_usu_com) REFERENCES cliente(email)
 )AUTO_INCREMENT = 7000;
+
+
+-- DONE HASTA ACÁ
+
+
+CREATE TABLE vendedor_telefono (
+    email VARCHAR(50),
+    telefono VARCHAR(18),
+    PRIMARY KEY (email,telefono),
+    FOREIGN KEY (email) REFERENCES vendedor(email),
+    CONSTRAINT chk_vendedor_telefono_format CHECK (telefono REGEXP '^[0-9]{7,15}$')
+);
+
+CREATE TABLE vendedor_direccion (
+    id_direccion INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    calle_pri VARCHAR(50),
+    calle_sec VARCHAR(50),
+    num_puerta VARCHAR(5),
+    ciudad VARCHAR(30),
+    pais VARCHAR(30),
+    FOREIGN KEY (email) REFERENCES vendedor(email)
+);
+
+
+CREATE TABLE medio_pago (
+    id_pago INT AUTO_INCREMENT PRIMARY KEY,
+    monto_total DECIMAL(10, 2) CHECK (monto_total > 0),
+    estado VARCHAR(30),
+    tipo_pago VARCHAR(30),
+    nombre_met_pago VARCHAR(30)
+);
 
 
 CREATE TABLE pertenece (

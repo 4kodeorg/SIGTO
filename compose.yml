@@ -8,17 +8,16 @@ services:
       - ./php_logs:/var/log/
     depends_on:
       - db
-    environment:
-      - DB_HOST=db
+    env_file:
+      - .env
     ports:
       - 80:80
   db: 
     image: mysql:8.0
     volumes:
       - ./proyecto/db:/var/lib/mysql
-    environment:
-    - MYSQL_ROOT_PASSWORD=passwd123
-    - MYSQL_DATABASE=sigto
+    env_file:
+      - .env
     expose:
       - "3306"
     ports:
@@ -26,7 +25,6 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - 8001:80
-    environment:
-      - PMA_HOST=db
-      - PMA_PORT=3306
+      - 8001:80 
+    env_file:
+      - .env

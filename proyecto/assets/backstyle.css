@@ -333,6 +333,9 @@ a {
 #edit_product_modal {
   display: none;
 }
+.desc-container {
+  display: none;
+}
 
 /* LOADING ANIM */
 .wrapper {

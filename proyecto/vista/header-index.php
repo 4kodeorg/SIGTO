@@ -66,19 +66,20 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
         <ul class="ul-for-nav">
           <?php
           if (isset($username) && !empty(trim($username)) && $usId != 0) {
-            echo '<li class="nav-item dropdown">
+            ?>
+        <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" 
-        aria-expanded="false">Hola ' . ucfirst($username) . ' </a>
+        aria-expanded="false">Hola  <?php echo ucfirst($username) ?></a>
         <ul class="dropdown-menu drodown-menu-end">
-        <li><a class="dropdown-item" href="/perfil/' . $usId . '">Mi perfil </a> </li>
-        <li><a class="dropdown-item" href="/favoritos/' . $usId . '">Favoritos </a> </li>
-        <li><a class="dropdown-item" href="/history/' . $usId . '">Historial de compra </a> </li>
+        <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>">Mi perfil </a> </li>
+        <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>/favoritos">Favoritos </a> </li>
+        <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>/compras">Historial de compra </a> </li>
         <hr class="dropdown-divider">
         <li><a class="dropdown-item" href="/logout" onclick="sessionStorage.clear();"> Cerrar sesión</a> </li>
         </ul>
-        </li>';
-          } else {
-            echo '<li class="nav-item dropdown">
+        </li>
+         <?php } else { ?>
+        <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         Mi cuenta
         </a>
@@ -90,9 +91,9 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
         <li><a class="dropdown-item" href="/cuenta">Inicia sesión</a></li>
 
         </ul>
-        </li>';
-          }
-          ?>
+        </li>
+         <?php }
+           ?>
           <li class="nav-item">
             <a href="" class="nav-link">Ayuda</a>
           </li>

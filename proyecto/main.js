@@ -10,12 +10,13 @@ const cartItem = document.getElementById('cart-item');
 const cartForm = document.getElementById('form-cart-item');
 
 const mainSearchForm = document.getElementById('search-form');
-const actDirecciones = document.getElementById('form-direcciones');
-const containerDirecciones = document.getElementById('actualizar-direcciones-container');
+const actDirecciones = document.getElementById('form-direcciones_actualizar');
 
-const containerInfo = document.getElementById('actualizar-info');
-const formPersonalInfo = document.getElementById('form-personal-info');
-const phoneForm = document.querySelector('.form-phone');
+const addDireccion = document.getElementById('form-direcciones_agregar');
+const containerDirecciones = document.getElementById('actualizar-direcciones-container');
+const formInfo = document.getElementById('form-personal-info');
+const phoneForm = document.getElementById('form-phone-user');
+const cardForm = document.getElementById('form-card_agregar');
 //
 
 let currentIndex = 0;
@@ -24,21 +25,25 @@ function goLeft() { document.querySelector('.profile-section-page').style.margin
 
 function getBack() { document.querySelector('.profile-section-page').style.marginLeft = 0; };
 
+function showFormAddCard(el) {
+    cardForm.classList.toggle('hide-form-action');
+    el.innerHTML = cardForm.classList.contains('hide-form-action') ? 'Agregar medio de pago' : 'Ocultar';
+}
 updateSlider();
-
+function showFormAddDir(el) {
+    addDireccion.classList.toggle('hide-form-action');
+    el.innerHTML = addDireccion.classList.contains('hide-form-action') ? 'Agregar dirección' : 'Ocultar';
+}
 spinRight();
-function showNow() { 
-    containerInfo.style.display = 'flex';
+function showNow(el) { 
+    formInfo.classList.toggle('hide-form-action')
+    el.innerHTML = formInfo.classList.contains('hide-form-action') ? 'Actualizar información personal' : 'Ocultar';
 }
-function hideNow() {
-    containerInfo.style.display = 'none'; 
+function showPhoneForm(el) {
+    phoneForm.classList.toggle('hide-form-action')
+    el.innerHTML = phoneForm.classList.contains('hide-form-action') ? 'Actualizar número de telefono' : 'Ocultar';
 }
-function showPhoneForm() {
-    phoneForm.style.display = 'flex';
-}
-function hidePhoneForm() {
-    phoneForm.style.display = 'none';
-}
+
 
 function showFormDir() { containerDirecciones.style.display = 'flex'; }
 function hideForm() { containerDirecciones.style.display = 'none'; }
@@ -477,18 +482,43 @@ async function updateInfo() {
         console.log(`Error: ${error}}`)
     }
 }
+async function addDirecciones() {
+    const messageResponse = document.getElementById('message-resp-direcciones');
+    const userData = new FormData(addDireccion);
+    userData.append('submit', 'submit');
+    const userId = userData.get('id_username')
+    try {
+        const response = await fetch (`http://localhost/perfil/${userId}?action=agregar_direccion`, {
+            method: 'POST',
+            body: userData,
+        })
+        const data = await response.json();
+        if (data.success) {
+            messageResponse.style.display= 'flex';
+            messageResponse.querySelector('p').innerHTML = data.message
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            messageResponse.style.display = 'none'
+        }
+        else {
+            messageResponse.style.display= 'flex';
+            messageResponse.querySelector('p').innerHTML = data.message
+        }
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
+}
 
 async function updateDirecciones() {
     const messageResponse = document.getElementById('message-resp-direcciones');
     const userDirecciones = new FormData(actDirecciones);
 
     userDirecciones.append('submit', 'submit');
-    const userId = userDirecciones.get('idusername');
+    const userId = userDirecciones.get('id_username');
     const APIdireccion = `http://localhost/perfil/${userId}?action=actualizar_direccion`;
 
     try {
         const respuesta = await fetch(APIdireccion, {
-            method: 'POST',
+            method: 'PUT',
             body: userDirecciones
         }
         );
@@ -497,6 +527,7 @@ async function updateDirecciones() {
             messageResponse.style.display= 'flex';
             messageResponse.querySelector('p').innerHTML = data.message
             await new Promise(resolve => setTimeout(resolve, 1500));
+            messageResponse.style.display = 'none';
         }
         else {
             messageResponse.style.display= 'flex';
