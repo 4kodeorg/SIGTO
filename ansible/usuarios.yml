@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: Crear usuario sysadmin
+    user:
+      name: sysadmin
+      comment: Usuario admin sigto
+      password : "{{ 'password123' | password_hash('sha512') }}"
+      create_home: false
+      groups:
+        - wheel

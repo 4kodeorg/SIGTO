@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Instalar Git
+      yum:
+        name: git
+        state: present
+        update_cache: yes
+    - name: Clonar Repositorio git
+      git:
+        repo: https://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@github.com/4kodeorg/SIGTO.git
+        dest: /home/sigto-repositorio/

@@ -87,7 +87,6 @@ CREATE TABLE productos (
     nombre VARCHAR(100) NOT NULL,
     precio DECIMAL(10, 2) CHECK (precio > 0),
     origen ENUM('Nacional', 'Internacional'),
-    oferta ENUM('SI','NO'),
     stock int not null check (stock > 0),
     descripcion TEXT,
     estado ENUM('Nuevo', 'Usado'),
@@ -99,6 +98,16 @@ CREATE TABLE productos (
     FOREIGN KEY (id_usu_ven) REFERENCES vendedor(email)
 ) AUTO_INCREMENT=4500;
 
+CREATE TABLE descuentos (
+    id_descuento INT AUTO_INCREMENT PRIMARY KEY,
+    sku INT,
+    tipo ENUM('Porcentaje', 'Fijo') NOT NULL,
+    valor DECIMAL(5, 2) CHECK (valor > 0), 
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    activo TINYINT(1) DEFAULT 1 CHECK (activo IN (0, 1)),
+    FOREIGN KEY (sku) REFERENCES productos(sku) ON DELETE CASCADE
+);
 
 CREATE TABLE categorias (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,

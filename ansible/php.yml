@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: install php package
+    yum:
+      name: php
+      state: latest

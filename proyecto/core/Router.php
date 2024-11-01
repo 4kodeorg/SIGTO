@@ -394,12 +394,12 @@ class Router
 
         $response = ['success' => false, 'message' => ''];
         $data = [
-            'product_id' => htmlspecialchars($_POST['id_producto']),
-            'new_titulo' => htmlspecialchars($_POST['new_titulo']),
-            'new_descripcion' => htmlspecialchars($_POST['new_descripcion']),
-            'new_origen' => htmlspecialchars($_POST['new_origen']),
-            'new_cantidad' =>  htmlspecialchars($_POST['new_cantidad']),
-            'new_precio' => htmlspecialchars($_POST['new_precio'])
+            'product_sku' => htmlspecialchars($_POST['id_producto']),
+            'nombre' => htmlspecialchars($_POST['new_titulo']),
+            'descripcion' => htmlspecialchars($_POST['new_descripcion']),
+            'origen' => htmlspecialchars($_POST['new_origen']),
+            'stock' =>  htmlspecialchars($_POST['new_cantidad']),
+            'precio' => htmlspecialchars($_POST['new_precio'])
 
         ];
         $emptyFields = false;
@@ -413,6 +413,20 @@ class Router
             $productController = new ProductController();
             $result = $productController->updateProductData($data);
             if ($result) {
+                if ($_POST['has_discount'] == 'si') {
+                    $descuentoData = [
+                        'sku' => $_POST['id_producto'],
+                        'tipo' => $_POST['tipo_descuento'],
+                        'valor' => $_POST['valor_descuento'],
+                        'fecha_inicio' => $_POST['fecha_inicio_descuento'],
+                        'fecha_fin' => $_POST['fecha_fin_descuento'],
+                        'activo' => 1
+                    ];
+                    if ($productController->createDiscount($descuentoData)) {
+                        $resp['success'] = true;
+                        $resp['message_descuento'] = 'Descuento creado con exito';
+                    }
+                }
                 $response['success'] = true;
                 $response['message'] = "Producto actualizado con exito";
             } else {

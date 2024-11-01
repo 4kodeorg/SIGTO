@@ -263,7 +263,7 @@ class ProductController extends Database
     }
     public function activateProduct($productId)
     {
-        $query = "UPDATE productos set estado=1 where id=?;";
+        $query = "UPDATE productos set activo=1 where sku=?;";
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Error al intentar activar el producto");
@@ -280,7 +280,7 @@ class ProductController extends Database
 
     public function disableProductById($productId)
     {
-        $query = "UPDATE productos set estado=0 where id=?;";
+        $query = "UPDATE productos set activo=0 where sku=?;";
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Error al intentar desactivar el producto");

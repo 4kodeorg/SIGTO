@@ -3,7 +3,7 @@ const formProducts = document.getElementById('add_product_form');
 const msgContainer = document.getElementById('sub-product');
 
 async function showEditForm(buttonElement) {
-    const productId = buttonElement.dataset.productId;
+    const productId = buttonElement.getAttribute('data-product-id');
 
     try {
         const response = await fetch(`http://localhost/admin/productos/${productId}`);
@@ -11,11 +11,11 @@ async function showEditForm(buttonElement) {
         const data = await response.json();
         if (data.success) {
             const product = data.product;
-            document.getElementById("edit_product_id").value = productId;
-            document.getElementById("new_titulo").value = product.titulo;
+            document.getElementById("edit_product_id").value = product.sku;
+            document.getElementById("new_titulo").value = product.nombre;
             document.getElementById("new_descripcion").value = product.descripcion;
             document.getElementById("new_origen").value = product.origen;
-            document.getElementById("new_cantidad").value = product.cantidad;
+            document.getElementById("new_cantidad").value = product.stock;
             document.getElementById("new_precio").value = product.precio;
     
             document.getElementById("edit_product_modal").style.display = "block";
@@ -46,7 +46,7 @@ async function getDisabledProds() {
         
         console.log(productos.disabledprods);
         if (productos.success) {
-
+            const disabledProds = productos.disabledprods;
             headerContainer.innerHTML = '';
             headerContainer.innerHTML = `<h4>Artículos desactivados</h4><button onclick="reloadPage()" class="products-btn"> Volver a mis productos
             <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24"><path fill="currentColor" d="M11.92 19.92L4 12l7.92-7.92l1.41 1.42l-5.5 5.5H22v2H7.83l5.51 5.5zM4 12V2H2v20h2z"/></svg>                            
@@ -59,7 +59,7 @@ async function getDisabledProds() {
                                     <th scope="col">Estado</th>
                                     <th scope="col">Activar</th> `;
             productsContainer.innerHTML = '';
-            productos.disabledprods.forEach(prod => {
+            disabledProds.forEach(prod => {
                 productsContainer.insertAdjacentHTML('beforeend', renderProducts(prod));
             });
         } else {
@@ -73,13 +73,13 @@ async function getDisabledProds() {
 }
 function renderProducts (product) {
    return `<tr>
-        <th>${product.id}</th>
-        <td>${product.titulo}</td>
+        <th>${product.sku}</th>
+        <td>${product.nombre}</td>
         <td>${product.origen}</td>
         <td>${product.precio}</td>
         <td>Desactivado</td>
         <td>
-        <button class="button-product-actions" data-product-id="${product.id}" onclick="activateProduct(event, this)"> 
+        <button class="button-product-actions" data-product-id="${product.sku}" onclick="activateProduct(event, this)"> 
         <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24">
         <path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/>
         </svg>
@@ -163,13 +163,13 @@ async function loadMoreProducts(el) {
             products.forEach(prod => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <th>${prod.id}</th>
-                    <td>${prod.titulo}</td>
+                    <th>${prod.sku}</th>
+                    <td>${prod.nombre}</td>
                     <td>${prod.origen}</td>
                     <td>${prod.precio}</td>
                     <td>Publicado</td>
                     <td>
-                        <button class='button-product-actions edit' data-product-id="${prod.id}" onclick='showEditForm(this)'> 
+                        <button class='button-product-actions edit' data-product-id="${prod.sku}" onclick='showEditForm(this)'> 
                             <svg xmlns='http://www.w3.org/2000/svg' width='40px' height='40px' viewBox='0 0 24 24'>
                                 <g fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'>
                                     <path d='M9.533 11.15A1.82 1.82 0 0 0 9 12.438V15h2.578c.483 0 .947-.192 1.289-.534l7.6-7.604a1.82 1.82 0 0 0 0-2.577l-.751-.751a1.82 1.82 0 0 0-2.578 0z'/>
@@ -179,7 +179,7 @@ async function loadMoreProducts(el) {
                         </button>
                     </td>
                     <td>
-                        <button class='button-product-actions delete' data-product-id="${prod.id}" onclick='disableProduct(event, this)'> 
+                        <button class='button-product-actions delete' data-product-id="${prod.sku}" onclick='disableProduct(event, this)'> 
                             <svg xmlns='http://www.w3.org/2000/svg' width='40px' height='40px' viewBox='0 0 24 24'>
                                 <path fill='currentColor' d='M12 7c2.76 0 5 2.24 5 5c0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75c-1.73-4.39-6-7.5-11-7.5c-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7M2 4.27l2.28 2.28l.46.46A11.8 11.8 0 0 0 1 12c1.73 4.39 6 7.5 11 7.5c1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22L21 20.73L3.27 3zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65c0 1.66 1.34 3 3 3c.22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53c-2.76 0-5-2.24-5-5c0-.79.2-1.53.53-2.2m4.31-.78l3.15 3.15l.02-.16c0-1.66-1.34-3-3-3z'/>
                             </svg>
@@ -294,8 +294,33 @@ async function getSubCategories(el) {
     }
 }
 
-function toggleDescFields() {
-    const discountSection = document.getElementById('desc_container');
-    const hasDiscount = document.getElementById('has_discount').value;
-    discountSection.style.display = hasDiscount === 'si' ? 'block' : 'none';
+function toggleDescFields(el) {
+    const discountSection = el.nextElementSibling;
+    const hasDiscount = el.value;
+    discountSection.style.display = hasDiscount === 'si' ? 'flex' : 'none';
 }
+
+function disccFields() {
+    return `<div class="desc-container" id="desc_container_add">
+                    <label for="tipo_descuento">Tipo de descuento</label>
+                    <select name="tipo_descuento" id="tipo_descuento">
+                        <option value="">Selecciona el tipo</option>
+                        <option value="Porcentaje">Porcentaje</option>
+                        <option value="Fijo">Fijo</option>
+                    </select>
+
+                    <label for="valor_descuento">Valor del descuento</label>
+                    <input id="valor_descuento" placeholder="Ej: 10 para 10% o $10" type="text" name="valor_descuento">
+
+                    <label for="fecha_inicio_descuento">Fecha de inicio del descuento</label>
+                    <input type="date" id="fecha_inicio_descuento" name="fecha_inicio_descuento">
+
+                    <label for="fecha_fin_descuento">Fecha de fin del descuento</label>
+                    <input type="date" id="fecha_fin_descuento" name="fecha_fin_descuento">
+                </div>`
+}
+// function toggleDescFields(el) {
+//     const discountSection = document.getElementById('desc_container_edit');
+//     const hasDiscount = el.value;
+//     discountSection.style.display = hasDiscount === 'si' ? 'flex' : 'none';
+// }
