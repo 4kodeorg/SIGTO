@@ -4,13 +4,13 @@
             <div class="heading-footer">
                 <h2>Información ùtil</h2>
             </div>
-            <a href="">
+            <a href="/terminos-y-condiciones">
                 <li>Términos y condiciones</li>
             </a>
-            <a href="">
+            <a href="/devolucion-de-productos">
                 <li>Políticas de devolución de productos</li>
             </a>
-            <a href="">
+            <a href="#">
                 <li>Medios de pago</li>
             </a>
         </ul>
@@ -19,13 +19,13 @@
             <div class="heading-footer">
                 <h2>Preguntas frecuentes</h2>
             </div>
-            <a href="">
+            <a href="#">
                 <li>Envíos</li>
             </a>
-            <a href="">
+            <a href="/sustentabilidad">
                 <li>Sustentabilidad</li>
             </a>
-            <a href="">
+            <a href="/compra-protegida">
                 <li>Compra protegida</li>
             </a>
         </ul>
@@ -38,10 +38,10 @@
                     Para empresas
                 </li>
             </a>
-            <a href="">
+            <a href="#">
                 <li>Politica de privacidad</li>
             </a>
-            <a href="">
+            <a href="#">
                 <li>Términos y condiciones para empresas</li>
             </a>
             <a href="/faq">
@@ -49,7 +49,7 @@
             </a>
         </ul>
         <div class="div-for-small">
-            <small class="tienda-copy"> &copy;<span>Mercado Ya! 2024</span> </small>
+            <small class="tienda-copy text-success"> &copy;<span>Mercado Ya! 2024</span> </small>
         </div>
     </section>
 </footer>

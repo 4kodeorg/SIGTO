@@ -1,10 +1,11 @@
 <?php
 include('header-index.php');
 ?>
-<div class="container-fluid">
+<div class="max-container-size">
+<div class="container-terminos p-2">
     <h2 class="text-center">Preguntas Frecuentes - Mercado Ya!</h2>
     <p class="text-center py-4"> Si no encuentras la respuesta que buscabas siempre puedes ponerte en contacto con soporte,
-         estamos las 24 Horas del dia para ayudarte</p>
+         estamos las 24 horas del dia para ayudarte</p>
 <div class="accordion accordion-flush" id="accordionFlushExample">
     <div class="accordion-item">
         <h2 class="accordion-header">
@@ -128,6 +129,7 @@ include('header-index.php');
 </div>
 
 <p class="text-center my-4">Por atención al cliente comunicate a <b>mercadoya_soporte@4kode.com.uy</b></p>
+</div>
 </div>
 
 

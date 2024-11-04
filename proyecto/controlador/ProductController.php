@@ -138,7 +138,7 @@ class ProductController extends Database
     {
         $query = 'SELECT * FROM productos WHERE (id_usu_ven=? AND activo=1 ) LIMIT ?, ?;';
         $stmt = $this->conn->prepare($query);
-        
+
         $offset = max(0, (int)$offset);
         $limit = max(1, (int)$limit);
     
@@ -194,10 +194,25 @@ class ProductController extends Database
         $stmt->close();
         return $producto;
     }
+    public function getRelatedProducts($idCat) {
+        $query = "SELECT * FROM productos where activo=1 AND id_cat=?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $idCat);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $productos = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $productos ?? [];
+
+    }
+
     public function getDisabledProducts()
     {
-        $query = "SELECT * FROM productos WHERE activo=0;";
+        $query = "SELECT * FROM productos WHERE id_usu_ven =? AND activo=0;";
         $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $idVendedor);
         if (!$stmt) {
             throw new Exception("Error al traer los productos desactivados");
         }

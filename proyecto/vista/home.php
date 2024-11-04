@@ -15,12 +15,12 @@ function isFavorite($productId, $favorites)
 function renderProductRow($product, $idComprador, $isFavorite)
 {
     return "
-    <tr>
-        <th><a href='/product/{$product['sku']}'>{$product['nombre']}</a></th>
+    <div class='individual-card'>
+        <b><a href='/product/{$product['sku']}'>{$product['nombre']}</a></b>
       
-        <td>{$product['descripcion']}</td>
-        <td>{$product['precio']}</td>
-        <td>
+        <p>{$product['descripcion']}</p>
+        <b>{$product['precio']}</b>
+        <section>
             <form id='form-cart-item-{$product['sku']}' method='POST' action='?action=add_to_cart'>
                 <input class='product-quant' type='number' name='quantity' value='1'>
                 <input type='hidden' name='id_product' value='{$product['sku']}'>
@@ -29,7 +29,7 @@ function renderProductRow($product, $idComprador, $isFavorite)
                 <input type='hidden' name='titulo' value='{$product['nombre']}'>
                 <input type='hidden' name='price' value='{$product['precio']}'>
                 
-                <button class='cart-btn' type='button' data-id='{$product['sku']}' onclick='addToCart(this)'>
+                <button class='cart-btn' type='button' data-id='{$product['sku']}' onclick='addToCart(this, event)'>
                 <svg class='cart' fill='currentColor' viewBox='0 0 576 512' height='25px' width='25px' xmlns='http://www.w3.org/2000/svg'><path d='M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z'></path></svg>
                 <svg xmlns='http://www.w3.org/2000/svg' height='20px' width='20px' viewBox='0 0 640 512' class='product'><path d='M211.8 0c7.8 0 14.3 5.7 16.7 13.2C240.8 51.9 277.1 80 320 80s79.2-28.1 91.5-66.8C413.9 5.7 420.4 0 428.2 0h12.6c22.5 0 44.2 7.9 61.5 22.3L628.5 127.4c6.6 5.5 10.7 13.5 11.4 22.1s-2.1 17.1-7.8 23.6l-56 64c-11.4 13.1-31.2 14.6-44.6 3.5L480 197.7V448c0 35.3-28.7 64-64 64H224c-35.3 0-64-28.7-64-64V197.7l-51.5 42.9c-13.3 11.1-33.1 9.6-44.6-3.5l-56-64c-5.7-6.5-8.5-15-7.8-23.6s4.8-16.6 11.4-22.1L137.7 22.3C155 7.9 176.7 0 199.2 0h12.6z'>
                 </path></svg>
@@ -42,47 +42,51 @@ function renderProductRow($product, $idComprador, $isFavorite)
                 <svg xmlns='http://www.w3.org/2000/svg' width='28px' height='28px' viewBox='0 0 24 24'><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M7.75 3.5C5.127 3.5 3 5.76 3 8.547C3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79c-.78-1.654-2.39-2.79-4.25-2.79'/>
                      </svg> 
             </button>
-        </td>
-    </tr>";
+        </section>
+    </div>";
 }
 
 ?>
 
 <div id='container-modal-login' class='modal-home-login'> </div>
-<div class='container-prods' id='result-container'>
+<div class='container-fluid' id='result-container'>
+    
     <?php
     if (isset($data['message']) && !empty($data['message'])) {
         echo "<h2>{$data['message']}</h2>";
     } elseif (!empty($data['resultados'])) {
-        echo "<table class='table px-4 my-5'>
-            <thead>
-                <tr><th colspan='5'><h2 class='mx-auto pt-5'>Resultados de busqueda</h2><hr></th></tr>
-                <tr>
-                <th scope='col'>Titulo</th>
-                <th scope='col'>Descripcion</th>
-                <th scope='col'>Precio</th>
-                <th scope='col'>Cantidad</th></tr>
-            </thead><tbody>";
+        echo "<div>
+        <div>
+            <section>
+                <h2 class='mx-auto pt-5'>Resultados de busqueda</h2>
+                <hr>
+            </section>
+        </div>
+
+    </div>
+        <main class='main-home container my-5'>
+            <div>";
 
         foreach ($data['resultados'] as $product) {
             $isInFavorites = isFavorite($product['sku'], $data['favoritos']);
             echo renderProductRow($product, $idComprador, $isInFavorites);
         }
-        echo "</tbody></table>";
+        echo "</div></main>";
     } elseif (!empty($data['productos'])) {
-        echo "<table class='table px-4 my-5'>
-            <thead>
-                <tr><th colspan='5'><h2 class='mx-auto pt-5'>Articulos publicados</h2><hr></th></tr>
-                <tr><th scope='col'>Titulo</th><th scope='col'>Descripcion</th><th scope='col'>Precio</th><th scope='col'>Cantidad</th></tr>
-            </thead><tbody>";
+
+        echo "<div>
+                <div><section><h2 class='mx-auto pt-5'>Articulos publicados</h2><hr></section></div>
+            </div>
+        <main class='main-home container my-5'>
+            <div>";
 
         foreach ($data['productos'] as $product) {
             $isFavorite = isFavorite($product['sku'], $data['favoritos']);
             echo renderProductRow($product, $idComprador, $isFavorite);
         }
-        echo "</tbody></table>";
+        echo "</div></main>";
     } else {
-        echo "<tr><td colspan='4'>No hay productos disponibles</td></tr>";
+        echo "<div><section class=''>No hay productos disponibles</td></div>";
     }
     ?>
     <div class="loading-container">

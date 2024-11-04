@@ -11453,3 +11453,44 @@ Stack trace:
 [03-Nov-2024 22:54:32 UTC] PHP Warning:  Undefined array key "price_product" in /var/www/html/vista/checkout.php on line 52
 [03-Nov-2024 22:57:03 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/checkout.php on line 46
 [03-Nov-2024 22:57:03 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/checkout.php on line 46
+[04-Nov-2024 01:28:11 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/vista/product.php on line 6
+[04-Nov-2024 01:28:11 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/vista/product.php on line 6
+[04-Nov-2024 01:28:11 UTC] PHP Warning:  Undefined array key "cantidad" in /var/www/html/vista/product.php on line 9
+[04-Nov-2024 01:28:11 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/vista/product.php on line 9
+[04-Nov-2024 01:28:11 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/product.php on line 13
+[04-Nov-2024 01:28:11 UTC] PHP Warning:  Undefined array key "id" in /var/www/html/vista/product.php on line 14
+[04-Nov-2024 01:37:32 UTC] Error: Duplicate entry 'presidente@gmail.com' for key 'vendedor.PRIMARY'
+[04-Nov-2024 03:09:47 UTC] PHP Warning:  Undefined array key "cantidad" in /var/www/html/vista/product.php on line 9
+[04-Nov-2024 03:09:47 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/vista/product.php on line 9
+[04-Nov-2024 14:04:07 UTC] PHP Warning:  Undefined array key "data" in /var/www/html/vista/home.php on line 73
+[04-Nov-2024 17:01:39 UTC] PHP Warning:  Undefined array key "id_comprador" in /var/www/html/core/Router.php on line 494
+[04-Nov-2024 17:01:39 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_usuario' cannot be null in /var/www/html/controlador/UsuarioController.php:342
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(342): mysqli_stmt->execute()
+#1 /var/www/html/core/Router.php(495): UsuarioController->addToFav(NULL, '4528')
+#2 /var/www/html/core/Router.php(219): Router->addToFavoritos()
+#3 /var/www/html/core/Router.php(85): Router->homeActions()
+#4 /var/www/html/index.php(19): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 342
+[04-Nov-2024 17:09:01 UTC] PHP Warning:  Undefined array key "id_vendedor" in /var/www/html/core/Router.php on line 1438
+[04-Nov-2024 17:09:01 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/core/Router.php on line 1438
+[04-Nov-2024 17:09:01 UTC] PHP Warning:  Undefined array key "titulo" in /var/www/html/core/Router.php on line 1439
+[04-Nov-2024 17:09:01 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/core/Router.php on line 1439
+[04-Nov-2024 17:09:01 UTC] PHP Warning:  Undefined array key "price" in /var/www/html/core/Router.php on line 1441
+[04-Nov-2024 17:09:01 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/core/Router.php on line 1441
+[04-Nov-2024 17:09:01 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:1438) in /var/www/html/core/Router.php on line 1489
+[04-Nov-2024 17:12:38 UTC] PHP Warning:  Undefined array key "price" in /var/www/html/core/Router.php on line 1441
+[04-Nov-2024 17:12:38 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/core/Router.php on line 1441
+[04-Nov-2024 17:12:38 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:1441) in /var/www/html/core/Router.php on line 1489
+[04-Nov-2024 17:12:48 UTC] PHP Warning:  Undefined array key "price" in /var/www/html/core/Router.php on line 1441
+[04-Nov-2024 17:12:48 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/core/Router.php on line 1441
+[04-Nov-2024 17:12:48 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Check constraint 'carrito_chk_2' is violated. in /var/www/html/controlador/CartController.php:60
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(60): mysqli_stmt->execute()
+#1 /var/www/html/core/Router.php(1457): CartController->updateCart(Array)
+#2 /var/www/html/core/Router.php(228): Router->formCarrito()
+#3 /var/www/html/core/Router.php(85): Router->homeActions()
+#4 /var/www/html/index.php(19): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/CartController.php on line 60

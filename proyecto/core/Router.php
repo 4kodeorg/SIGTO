@@ -27,7 +27,7 @@ class Router
     public function route()
     {
         $routes = [
-            'echo' => 'renderPage',
+            'admin-sys' => 'renderSysAdmin',
             'registro' => 'formRegistration',
             'product' => 'renderProduct',
             'cuenta' => 'formAccount',
@@ -35,6 +35,10 @@ class Router
             'carrito' => 'renderPage',
             'empresa' => 'formRegistroEmpresa',
             'faq' => 'renderPage',
+            'sustentabilidad' => 'renderPage',
+            'compra-protegida' => 'renderPage',
+            'devolucion-de-productos' => 'renderPage',
+            'terminos-y-condiciones' => 'renderPage',
             'admin_cuenta' => 'formAccountEmpresa',
             'admin' => 'redirectMain',
             'admin/main' => 'renderBackOffice',
@@ -107,6 +111,25 @@ class Router
             default:
                 $this->renderAdminPerfil($vendedorEmail);
                 break;
+        }
+    }
+    private function renderAdminSite($page, $data = [])
+    {
+
+        $file = $_SERVER['DOCUMENT_ROOT'] . "/vista/admin-site/{$page}.php";
+        if (file_exists($file)) {
+            extract($data);
+            include($file);
+        } else {
+            http_response_code(404);
+            echo "404 - Page not found";
+        }
+    }
+    private function renderSysAdmin () {
+        if (isset($_SESSION['sys-admin-email'])) {
+            $this->renderAdminSite('admin-site');
+        } else {
+            $this->renderAdminSite('admin-loggin');
         }
     }
     private function assignPage($method, $route)
@@ -233,7 +256,7 @@ class Router
                 $this->getMoreProducts($idVendedor);
                 break;
             case 'get_disabled_products':
-                $this->getDisabledProds();
+                $this->getDisabledProds($idVendedor);
                 break;
             case 'activate_product':
                 $this->activateProductAdmin();
@@ -243,13 +266,13 @@ class Router
                 break;
         }
     }
-    private function getDisabledProds()
+    private function getDisabledProds($idVendedor)
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
         $response = ['success' => false, 'message' => '', 'disabledprods' => []];
         header('Content-type: application/json');
         $productController = new ProductController();
-        $disabledProducts = $productController->getDisabledProducts();
+        $disabledProducts = $productController->getDisabledProducts($idVendedor);
         if (count($disabledProducts) > 0) {
             $response['success'] = true;
             $response['message'] = "Productos desactivados";
@@ -644,6 +667,7 @@ class Router
                     if ($vendedor && $vendedorId) {
                         if ($sessionController->createSesionVend($username)) {
                             $response['success'] = true;
+                            $_SESSION = [];
                             $response['url'] = '/admin';
                             $response['id'] = bin2hex($username);
                             $_SESSION['id_producto'] = $vendedorId;
@@ -707,10 +731,10 @@ class Router
                                     if ($vendedorData && $vendedorCreateId) {
                                         if ($sessionController->createSesionVend($vendedorData['email'])) {
                                             $response['success'] = true;
+                                            $_SESSION = [];
                                             $response['id'] = bin2hex($vendedorData['email']);
                                             $_SESSION['vendedor_id'] = bin2hex($vendedorData['email']);
                                             $_SESSION['id_producto'] = $vendedorId;
-                                            $_SESSION['data'] = $data;
                                             $_SESSION['backoffice_username'] = $vendedorData['email'];
                                             $response['url'] = 'admin/perfil/' . bin2hex($vendedorData['email']);
                                         } else {
@@ -789,12 +813,12 @@ class Router
                                             if ($sessionController->createSesion($newUser['email'])) {
                                                 $sessIdfragment = date('Y:m:d_H:i:s') . "-" . bin2hex($newUser['email']);
                                                 $response['success'] = true;
+                                                $_SESSION = [];
                                                 $response['id'] = bin2hex($newUser['email']);
                                                 $response['username'] = $newUser['username'];
                                                 $response['message'] = "Registro exitoso, redireccionando..";
                                                 $response['url'] = "/perfil/" . bin2hex($newUser['email']);
                                                 $_SESSION['carrito'] = [];
-                                                $_SESSION['data'] = $data;
                                                 $_SESSION['uri_fragment'] = $sessIdfragment;
                                                 $_SESSION['id_comprador'] = $compradorId['id_usu_com'];
                                                 $_SESSION['username'] = $newUser['username'];
@@ -859,14 +883,15 @@ class Router
                         $compradorId = $userController->getIdForComprador($usuario['email']);
                         if ($sessionController->createSesion($username)) {
                             $res['success'] = true;
+                            $_SESSION = [];
                             $sessIdfragment = date('Ymd_His') . "-" . bin2hex($usuario['email']);
-                            // $carrito = $cartController->getUserCarrito($usuario['email']);
-                            // $_SESSION['carrito'] = $carrito;
+                            $carrito = $cartController->getUserCarrito($compradorId['id_usu_com']);
+                            $_SESSION['carrito'] = $carrito;
                             $_SESSION['id_comprador'] = $compradorId['id_usu_com'];
                             $_SESSION['id_username'] = bin2hex($usuario['email']);
                             $_SESSION['uri_fragment'] = $sessIdfragment;
                             $_SESSION['username'] = $usuario['username'];
-                            // $res['carrito'] = $carrito;
+                            $res['carrito'] = $carrito;
                             $res['url'] = '/home';
                         } else {
                             $res['mssg'] = 'Ocurrió un error al iniciar la sesión';
@@ -1206,9 +1231,10 @@ class Router
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
         $productController = new ProductController();
         $product = $productController->getProductById($productId);
-
+        $idCat = $product['id_cat'] ?? null;
+        $relatedProducts = $productController->getRelatedProducts($idCat);
         if ($product) {
-            $this->renderPage('product', ['product' => $product]);
+            $this->renderPage('product', ['product' => $product ,'related_products' => $relatedProducts]);
         } else {
             http_response_code(404);
             $this->renderPage('error');

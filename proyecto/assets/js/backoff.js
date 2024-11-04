@@ -314,19 +314,20 @@ async function addProductsForm() {
     }
     if (data.success) {
         if (table.children.length <= 15) {
-            table.insertAdjacentHTML('afterbegin', '<small class="text-center">Puede haber cambios sin reflejar</small>');
+            table.insertAdjacentHTML('afterbegin', `<tr colspan="5"><td>
+                        <small class="text-center">Puede haber cambios sin reflejar</small></td></tr>`);
         }
         msgContainer.classList.add('success-prod');
         formProducts.reset();
     }
+    else {
+        msgContainer.classList.add('error-prod');
+        msgContainer.style.margin = '1rem 0';
+        msgParrafo.innerHTML = data.mssg; 
+    }
 }
     catch(err) {
-        msgContainer.style.display = 'flex';
-        msgContainer.style.margin = '1rem 0';
-    if (msgParrafo) {
-        msgContainer.style.margin = '1rem 0';
-        msgParrafo.innerHTML = `Error: ${err}`;
-    }
+    console.error(`Error: ${err}`);
 }
 };
 

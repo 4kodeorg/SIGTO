@@ -9,7 +9,7 @@
             <a href="/politicas_privacidad">
                 <li>Politica de privacidad</li>
             </a>
-            <a href="/terminos_y_condiciones">
+            <a href="/terminos-y-condiciones-empresas">
                 <li>Términos y condiciones para empresas</li>
             </a>
             <a href="/faq">

@@ -96,7 +96,6 @@ require('headerback.php')
             </thead>
             <tbody id="row-of-products">
                 <?php
-                var_dump($_SESSION);
                     foreach ($data['productos'] as $prod) {
                         echo "
             <tr>
@@ -179,7 +178,7 @@ require('headerback.php')
                     <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 12l-7-9v4.99L3 8v8h11v5z" />
                     </svg>
-                </button>';
+                </button>
                
             </div>
             <form

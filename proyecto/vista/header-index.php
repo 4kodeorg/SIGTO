@@ -246,7 +246,11 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
             Registrar mi empresa
               </a>
 
-            <a href="/registro" class="menu-normal-actions">Regístrate</a>
+            <a href="/registro" class="menu-normal-actions">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M15 14c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4m-9-4V7H4v3H1v2h3v3h2v-3h3v-2m6 2a4 4 0 0 0 4-4a4 4 0 0 0-4-4a4 4 0 0 0-4 4a4 4 0 0 0 4 4"/>
+            </svg>
+            Regístrate</a>
             <a class="menu-normal-actions">
               <svg width="28px" height="28px" viewBox="0 0 32 32" fill="currentColor" x="217" y="217" role="img" xmlns="http://www.w3.org/2000/svg">
                 <g fill="currentColor">

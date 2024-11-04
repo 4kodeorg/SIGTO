@@ -271,6 +271,7 @@ CREATE TABLE detalle_factura (
     id_pago INT,
     sku VARCHAR(50),
     cantidad INT NOT NULL CHECK (cantidad > 0),
+    UNIQUE (num_factura, sku),
     PRIMARY KEY (num_factura,renglon),
     FOREIGN KEY (sku) REFERENCES producto(sku),
     FOREIGN KEY (num_factura) REFERENCES factura(num_factura),

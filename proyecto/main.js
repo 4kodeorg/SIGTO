@@ -364,7 +364,14 @@ function closeModalLogin(elem, modal) {
     modal.innerHTML = '';
 }
 
-async function addToCart(button) {
+async function shopNow(btn, ev) {
+    ev.preventDefault();
+    const userId = btn.getAttribute('data-user-id');
+    await addToCart(btn);
+    window.location.href = `/finalizar_compra/${userId}`;
+}
+async function addToCart(button, ev) {
+    ev.preventDefault();
     const itemId = button.getAttribute('data-id')
     const formElement = document.getElementById(`form-cart-item-${itemId}`)
     const cartItem = new FormData(formElement);
