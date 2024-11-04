@@ -44,7 +44,7 @@
             <a href="">
                 <li>Términos y condiciones para empresas</li>
             </a>
-            <a href="">
+            <a href="/faq">
                 <li>Preguntas frecuentes</li>
             </a>
         </ul>

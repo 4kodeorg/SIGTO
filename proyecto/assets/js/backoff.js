@@ -1,12 +1,63 @@
 const linksBackoff = document.querySelectorAll('.nav-option');
 const formProducts = document.getElementById('add_product_form');
 const msgContainer = document.getElementById('sub-product');
+const server = window.location.origin;
+
+async function getCompradorProds() {
+    try {
+        const response = await fetch(`${server}/admin/productos?action=get_prods`)
+        const data = await response.json();
+        if (data.success) {
+            const userProds = data.productos;
+        } else {
+
+        }
+    } catch (error) {
+        
+    }
+}
+
+async function addPhone () {
+    const formData = new FormData();
+    try {
+        const response = await fetch(`${server}/admin/perfil/${userId}?action=add_phone`, {
+            method: 'POST',
+
+        })
+    } catch (error) {
+        
+    }
+
+}
+async function addDireccion () {
+
+    try {
+        const response = await fetch(`${server}/admin/${userId}?action=add_direccion`)
+    } catch (error) {
+        
+    }
+}
+
+async function updateInfo () {
+    try {
+        const response = await fetch(`${server}/admin/${userId}?action=update_info`)
+    } catch (error) {
+        
+    }
+}
+async function updateDireccion () {
+    try {
+        const response = await fetch(`${server}/admin/${userId}?action=update_direccion`)
+    } catch (error) {
+        
+    }
+}
 
 async function showEditForm(buttonElement) {
     const productId = buttonElement.getAttribute('data-product-id');
 
     try {
-        const response = await fetch(`http://localhost/admin/productos/${productId}`);
+        const response = await fetch(`${server}/admin/productos/${productId}`);
         
         const data = await response.json();
         if (data.success) {
@@ -40,7 +91,7 @@ function reloadPage() {
 async function getDisabledProds() {
     
     try {
-        const response = await fetch('http://localhost/admin/productos?action=get_disabled_products');
+        const response = await fetch(`${server}/admin/productos?action=get_disabled_products`);
         btnLoadProds.remove();
         const productos = await response.json();
         
@@ -91,7 +142,7 @@ function renderProducts (product) {
 async function activateProduct(ev, el) {
     const productId = el.getAttribute('data-product-id');
     try {
-        const response = await fetch("http://localhost/admin/productos?action=activate_product", {
+        const response = await fetch(`${server}/admin/productos?action=activate_product`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
@@ -120,7 +171,7 @@ async function submitEditForm(e) {
     const formData = new FormData(document.getElementById("edit_product_form"));
     
     try {
-        const response = await fetch("http://localhost/admin/productos?action=edit_producto", {
+        const response = await fetch(`${server}/admin/productos?action=edit_producto`, {
             method: 'POST',
             body: formData
         });
@@ -140,17 +191,18 @@ async function submitEditForm(e) {
         console.error('Error submitting form:', error);
     }
 }
-let currentPage = 1;
-const productsPerPage = 15;
+const productsPerPage = 5;
 
 async function loadMoreProducts(el) {
-    currentPage++;
+    
+    const tbody = document.querySelector("tbody");
+    currentOfset = tbody.children.length;
     const wrapper = document.querySelector('.wrapper');
     
     wrapper.style.display = 'block';
     el.style.display = 'none';
     try {
-        const response = await fetch(`/admin/productos?action=get_productos&offset=${(currentPage - 1) * productsPerPage}&limit=${productsPerPage}`);
+        const response = await fetch(`${server}/admin/productos?action=get_productos&offset=${currentOfset}&limit=${productsPerPage}`);
         const products = await response.json();
        
         await new Promise(resolve => setTimeout(resolve, 2000));
@@ -159,7 +211,6 @@ async function loadMoreProducts(el) {
         el.style.display = 'inline-block';
       
         if (products.length > 0) {
-            const tbody = document.querySelector("tbody");
             products.forEach(prod => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
@@ -167,6 +218,7 @@ async function loadMoreProducts(el) {
                     <td>${prod.nombre}</td>
                     <td>${prod.origen}</td>
                     <td>${prod.precio}</td>
+                    <td>${prod.stock}</td>
                     <td>Publicado</td>
                     <td>
                         <button class='button-product-actions edit' data-product-id="${prod.sku}" onclick='showEditForm(this)'> 
@@ -188,6 +240,7 @@ async function loadMoreProducts(el) {
                 `;
                 tbody.appendChild(row);
             });
+            
         } else {
             el.classList.add('button-show-products')
             el.textContent = "No hay más productos para cargar";
@@ -202,7 +255,7 @@ async function disableProduct(ev, el) {
     const productId = el.getAttribute('data-product-id');
     if (confirm("Estás seguro que deseas desactivar el producto?")) {
     try {
-        const response = await fetch("http://localhost/admin/productos?action=dis_producto", {
+        const response = await fetch(`${server}/admin/productos?action=dis_producto`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
@@ -232,7 +285,7 @@ async function disableProduct(ev, el) {
 
 async function addProductsForm() {
     const imageInput = document.getElementById('images');
-
+    const table = document.querySelector('tbody');
     if (imageInput.files.length > 6) {
         msgContainer.style.display = 'flex';
         msgContainer.style.margin = '1rem 0';
@@ -246,7 +299,7 @@ async function addProductsForm() {
     productsData.append('submit', 'submit');
     const msgParrafo = msgContainer.querySelector('p')
     try {
-    const response = await fetch("http://localhost/admin/productos?action=agregar_producto",
+    const response = await fetch(`${server}/admin/productos?action=agregar_producto`,
          {
     method: 'POST',
     body: productsData
@@ -260,6 +313,9 @@ async function addProductsForm() {
         msgParrafo.innerHTML = data.mssg; 
     }
     if (data.success) {
+        if (table.children.length <= 15) {
+            table.insertAdjacentHTML('afterbegin', '<small class="text-center">Puede haber cambios sin reflejar</small>');
+        }
         msgContainer.classList.add('success-prod');
         formProducts.reset();
     }
@@ -278,7 +334,7 @@ async function getSubCategories(el) {
     const selectSubCategories = document.getElementById('subcategory');
     const idCategory = el.value;
     try {
-        const response = await fetch (`http://localhost/admin/productos?action=get_subcategories&id_cat=${idCategory}`);
+        const response = await fetch (`${server}/admin/productos?action=get_subcategories&id_cat=${idCategory}`);
         const data = await response.json();
         if (data.success) {
             const subcategories = data.subcategories;
@@ -293,34 +349,3 @@ async function getSubCategories(el) {
         console.error(`Error: ${error}`);
     }
 }
-
-function toggleDescFields(el) {
-    const discountSection = el.nextElementSibling;
-    const hasDiscount = el.value;
-    discountSection.style.display = hasDiscount === 'si' ? 'flex' : 'none';
-}
-
-function disccFields() {
-    return `<div class="desc-container" id="desc_container_add">
-                    <label for="tipo_descuento">Tipo de descuento</label>
-                    <select name="tipo_descuento" id="tipo_descuento">
-                        <option value="">Selecciona el tipo</option>
-                        <option value="Porcentaje">Porcentaje</option>
-                        <option value="Fijo">Fijo</option>
-                    </select>
-
-                    <label for="valor_descuento">Valor del descuento</label>
-                    <input id="valor_descuento" placeholder="Ej: 10 para 10% o $10" type="text" name="valor_descuento">
-
-                    <label for="fecha_inicio_descuento">Fecha de inicio del descuento</label>
-                    <input type="date" id="fecha_inicio_descuento" name="fecha_inicio_descuento">
-
-                    <label for="fecha_fin_descuento">Fecha de fin del descuento</label>
-                    <input type="date" id="fecha_fin_descuento" name="fecha_fin_descuento">
-                </div>`
-}
-// function toggleDescFields(el) {
-//     const discountSection = document.getElementById('desc_container_edit');
-//     const hasDiscount = el.value;
-//     discountSection.style.display = hasDiscount === 'si' ? 'flex' : 'none';
-// }

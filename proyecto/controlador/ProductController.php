@@ -13,6 +13,7 @@ class ProductController extends Database
         $producto->setOrigen($data['origen']);
         $producto->setEstado($data['estado']);
         $producto->setStock($data['stock']);
+        $producto->setOferta($data['oferta']);
         $producto->setPrecio($data['precio']);
         $producto->setIdCategory($data['id_cat']);
         $producto->setIdSubCategory($data['id_subcat']);
@@ -29,8 +30,8 @@ class ProductController extends Database
 
     public function createProduct($producto, $images)
     {
-        $query = 'INSERT INTO productos (id_usu_ven, nombre, precio, origen, stock, descripcion, estado, id_cat, id_subcat) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);';
+        $query = 'INSERT INTO productos (id_usu_ven, nombre, precio, origen, stock, descripcion, estado, oferta, id_cat, id_subcat) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
         $stmt = $this->conn->prepare($query);
 
         $idUsuVen = $producto->getIdUsuVen();
@@ -39,12 +40,13 @@ class ProductController extends Database
         $origen = $producto->getOrigen();
         $stock = $producto->getStock();
         $descripcion = $producto->getDescripcion();
+        $oferta = $producto->getOferta();
         $estado = $producto->getEstado();
         $idCat = $producto->getIdCategory();
         $idSubCat = $producto->getIdSubCategory();
 
         $stmt->bind_param(
-            'ssdsissii',
+            'isdsisssii',
             $idUsuVen,
             $titulo,
             $precio,
@@ -52,6 +54,7 @@ class ProductController extends Database
             $stock,
             $descripcion,
             $estado,
+            $oferta,
             $idCat,
             $idSubCat
         );
@@ -78,24 +81,6 @@ class ProductController extends Database
             return $row['last_sku'];
         } else {
             return null; 
-        }
-    }
-    public function createDiscount($data) {
-        $query = 'INSERT INTO descuentos (sku, tipo, valor, fecha_inicio, fecha_fin, activo);';
-        $stmt = $this->conn->prepare($query);
-
-        $skuProd = $data['sku'];
-        $tipo = $data['tipo'];
-        $valor = $data['valor'];
-        $fecha_ini = $data['fecha_inicio'];
-        $fecha_fin = $data['fecha_fin'];
-        $activo = $data['activo'];
-        $stmt->bind_param('isissi', $skuProd, $tipo, $valor, $fecha_ini, $fecha_fin, $activo);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -149,7 +134,24 @@ class ProductController extends Database
             throw new Exception("Error al cargar subcategorias");
         }
     }
-
+    public function getProductsByLimitVend($idVendedor ,$offset = 0, $limit = 15,)
+    {
+        $query = 'SELECT * FROM productos WHERE (id_usu_ven=? AND activo=1 ) LIMIT ?, ?;';
+        $stmt = $this->conn->prepare($query);
+        
+        $offset = max(0, (int)$offset);
+        $limit = max(1, (int)$limit);
+    
+        $stmt->bind_param('iii',$idVendedor, $offset, $limit);
+        try {
+            if ($stmt->execute()) {
+                $result = $stmt->get_result();
+                return $result->fetch_all(MYSQLI_ASSOC);
+            }
+        } catch (Exception $err) {
+            echo "Error en la base de datos" . $err->getMessage();
+        }
+    }
     public function getProductsByLimit($offset = 0, $limit = 15)
     {
         $query = 'SELECT * FROM productos WHERE activo=1 LIMIT ?, ?;';
@@ -165,15 +167,15 @@ class ProductController extends Database
         }
     }
 
-    public function searchProductsByTitleOrDescripcion($searchTerm)
+    public function searchProductsByTitleOrDescripcion($idCat, $searchTerm)
     {
-        $query = 'SELECT * FROM productos WHERE activo=1 AND (nombre LIKE ? OR descripcion LIKE ?);';
+        $query = 'SELECT * FROM productos WHERE activo = 1 AND (nombre LIKE ? OR descripcion LIKE ?) OR id_cat =?;';
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Error al buscar");
         }
         $searchParamComodines = '%' . $searchTerm . '%';
-        $stmt->bind_param('ss', $searchParamComodines, $searchParamComodines);
+        $stmt->bind_param('iss', $searchParamComodines, $searchParamComodines, $idCat);
         $stmt->execute();
 
         $result = $stmt->get_result();

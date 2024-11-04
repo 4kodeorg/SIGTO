@@ -1,6 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/cfg.php';
 $usId = isset($_SESSION['id_username']) ? $_SESSION['id_username'] : 0;
+$idComprador = isset($_SESSION['id_comprador']) ? $_SESSION['id_comprador'] : 0;
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
 $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
@@ -27,7 +28,7 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
   <title>Mercado Ya!</title>
 </head>
 
-<div id="userId" data-user-id="<?php echo $usId; ?>"></div>
+<div id="userId" data-user-id="<?php echo $idComprador ?>"></div>
 
 <body>
   <div class="container-fluid navigation">
@@ -39,8 +40,17 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
           </a>
           <div class="search-form-container">
             <form class="searchbar2" role="search" action="/home?action=search" method="get" id="search-form">
-              <select name="acategory" id="">
-                <option value="0">Todas las categorías</option>
+            <label for="acategory"></label>  
+            <select name="acategory" id="acategory">
+                <option value="">Todas las categorías</option>
+                <?php
+                if (isset($data['categorias']) && !empty($data['categorias'])) {
+                  foreach ($data['categorias'] as $cate) {
+                    echo '<option value="'. $cate['id_categoria']. '">
+                    ' . $cate['nombre'] . ' </option>';
+                  }
+                }
+                ?>
               </select>
               <label for="busqueda"></label>
               <input type="text" id="busqueda" name="buscar" autocomplete="off" placeholder="Buscar cualquier artículo">
@@ -66,34 +76,35 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
         <ul class="ul-for-nav">
           <?php
           if (isset($username) && !empty(trim($username)) && $usId != 0) {
-            ?>
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" 
-        aria-expanded="false">Hola  <?php echo ucfirst($username) ?></a>
-        <ul class="dropdown-menu drodown-menu-end">
-        <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>">Mi perfil </a> </li>
-        <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>/favoritos">Favoritos </a> </li>
-        <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>/compras">Historial de compra </a> </li>
-        <hr class="dropdown-divider">
-        <li><a class="dropdown-item" href="/logout" onclick="sessionStorage.clear();"> Cerrar sesión</a> </li>
-        </ul>
-        </li>
-         <?php } else { ?>
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Mi cuenta
-        </a>
-        <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="/registro">Registrate</a></li>
-        <li>
-        <hr class="dropdown-divider">
-        </li>
-        <li><a class="dropdown-item" href="/cuenta">Inicia sesión</a></li>
-
-        </ul>
-        </li>
-         <?php }
-           ?>
+          ?>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">Hola <?php echo ucfirst($username) ?></a>
+              <ul class="dropdown-menu drodown-menu-end">
+                <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>">Mi perfil </a> </li>
+                <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>/favoritos">Favoritos </a> </li>
+                <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>/compras">Historial de compra </a> </li>
+                <hr class="dropdown-divider">
+                <li><a class="dropdown-item" href="/logout" onclick="sessionStorage.clear();"> Cerrar sesión</a> </li>
+              </ul>
+            </li>
+          <?php } else { ?>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Mi cuenta
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/registro">Registrate</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/cuenta">Inicia sesión</a></li>
+                  <hr class="dropdown-divider">
+                 <li><a href="/empresa" class="dropdown-item">Registrar mi empresa</a></li> 
+              </ul>
+            </li>
+          <?php }
+          ?>
           <li class="nav-item">
             <a href="" class="nav-link">Ayuda</a>
           </li>
@@ -228,6 +239,12 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
                 </g>
               </svg>
               Mi cuenta</a>
+              <a href="/empresa" class="menu-normal-action">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M18 19h-2.5q-.213 0-.356-.144T15 18.499t.144-.356T15.5 18H18v-2.5q0-.213.144-.356t.357-.144t.356.144t.143.356V18h2.5q.213 0 .356.144t.144.357t-.144.356T21.5 19H19v2.5q0 .213-.144.356t-.357.144t-.356-.144T18 21.5zm-13.961.5q-.344 0-.576-.232t-.232-.576V13.5h-.445q-.378 0-.63-.305t-.152-.684l1-4.384q.061-.274.288-.45q.226-.177.514-.177h12.388q.288 0 .514.176q.227.177.288.451l1 4.384q.1.38-.152.684t-.63.305h-.445v2.77q0 .212-.144.356t-.356.143t-.356-.143t-.144-.357V13.5h-4.538v5.192q0 .344-.232.576t-.576.232zm.192-1h6v-5h-6zm-.577-13q-.213 0-.357-.144t-.143-.357t.143-.356t.357-.143h12.692q.213 0 .356.144t.144.357t-.144.356t-.356.143z"/>
+            </svg>
+            Registrar mi empresa
+              </a>
 
             <a href="/registro" class="menu-normal-actions">Regístrate</a>
             <a class="menu-normal-actions">

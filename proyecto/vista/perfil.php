@@ -7,7 +7,7 @@ include('header-index.php');
         <nav class="nav-sidenav fixed-left" onmouseover="goLeft()" onmouseout="getBack()">
             <div class="settings-place"></div>
             <div class="scroll-place" id="scroll-container">
-                <a href="/perfil/<?php echo bin2hex($usuario['email'])?>">
+                <a href="/perfil/<?php echo bin2hex($usuario['email']) ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                             <path d="M3 9.4c0-2.24 0-3.36.436-4.216a4 4 0 0 1 1.748-1.748C6.04 3 7.16 3 9.4 3h5.2c2.24 0 3.36 0 4.216.436a4 4 0 0 1 1.748 1.748C21 6.04 21 7.16 21 9.4v5.2c0 2.24 0 3.36-.436 4.216a4 4 0 0 1-1.748 1.748C17.96 21 16.84 21 14.6 21H9.4c-2.24 0-3.36 0-4.216-.436a4 4 0 0 1-1.748-1.748C3 17.96 3 16.84 3 14.6z" />
@@ -25,18 +25,23 @@ include('header-index.php');
                     </svg>
                     <span class="span-sidenav-text">Inicio</span>
                 </a>
-                <a href="/perfil/<?php echo bin2hex($usuario['email'])?>/compras">
+                <button
+                    onclick="getCompras(event, this)"
+                    data-user-id="<?php echo bin2hex($usuario['email']) ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.935 7H7.773c-1.072 0-1.962.81-2.038 1.858l-.73 10C4.921 20.015 5.858 21 7.043 21h9.914c1.185 0 2.122-.985 2.038-2.142l-.73-10C18.189 7.81 17.299 7 16.227 7h-1.162m-6.13 0V5c0-1.105.915-2 2.043-2h2.044c1.128 0 2.043.895 2.043 2v2m-6.13 0h6.13" />
                     </svg>
                     <span class="span-sidenav-text">Compras</span>
-                </a>
-                <a href="/perfil/<?php echo bin2hex($usuario['email'])?>/favoritos">
+                </button>
+                <button
+
+                    onclick="getFavorites(event, this)"
+                    data-user-id="<?php echo bin2hex($usuario['email']) ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.75 3.5C5.127 3.5 3 5.76 3 8.547C3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79c-.78-1.654-2.39-2.79-4.25-2.79" />
                     </svg>
                     <span class="span-sidenav-text">Favoritos</span>
-                </a>
+                </button>
 
                 <a href="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
@@ -50,7 +55,7 @@ include('header-index.php');
             </div>
         </nav>
     </div>
-    <div class="profile-section-page">
+    <div class="profile-section-page" id="profile-section-items">
         <div class="user-profile">
             <a href="">
                 <figure class="figure-profile-icon">
@@ -60,8 +65,8 @@ include('header-index.php');
                 </figure>
             </a>
         </div>
-
-        <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div id="favorites-container"></div>
+        <div class="accordion accordion-flush" id="accordionFlushContainer">
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button id="accordion-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -75,7 +80,7 @@ include('header-index.php');
                         </svg>
                     </button>
                 </h2>
-                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushContainer">
                     <div class="accordion-body">
                         <table class="user-info-table">
                             <tr>
@@ -127,51 +132,51 @@ include('header-index.php');
                             <button class="button-profile" onclick="showPhoneForm(this)">Actualizar número de teléfono</button>
                         </div>
 
-                       
-                            <form class="hide-form-action row g-3" id="form-personal-info" action="?action=actualizar_info" method="POST">
-                                <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
-                          <div class="col-12">
-                          <label for="nombre1">Primer nombre</label>
-                          <input class="form-control" type="text" id="nombre1" name="nombre1" placeholder="Primer nombre">
-                          </div>
-                              <div class="col-12">
-                              <label for="nombre2">Segundo nombre</label>
-                              <input class="form-control" type="text" id="nombre2" name="nombre2" placeholder="Segundo nombre">
-                              </div>
-                              <div class="col-12">
 
-                              <label for="apellido1">Primer apellido</label>
+                        <form class="hide-form-action row g-3" id="form-personal-info" action="?action=actualizar_info" method="POST">
+                            <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
+                            <div class="col-12">
+                                <label for="nombre1">Primer nombre</label>
+                                <input class="form-control" type="text" id="nombre1" name="nombre1" placeholder="Primer nombre">
+                            </div>
+                            <div class="col-12">
+                                <label for="nombre2">Segundo nombre</label>
+                                <input class="form-control" type="text" id="nombre2" name="nombre2" placeholder="Segundo nombre">
+                            </div>
+                            <div class="col-12">
+
+                                <label for="apellido1">Primer apellido</label>
                                 <input class="form-control" type="text" id="apellido1" name="apellido1" placeholder="Primer apellido">
-                              </div>
-                              <div class="col-12">
+                            </div>
+                            <div class="col-12">
 
-                              <label for="apellido2">Segundo apellido</label>
+                                <label for="apellido2">Segundo apellido</label>
                                 <input class="form-control" type="text" id="apellido2" name="apellido2" placeholder="Segundo apellido">
-                              </div>
-                              <div class="col-12">
-                                  <button class="button-profile" type="button" name="submit" onclick="updateInfo(event)">Actualizar</button>
+                            </div>
+                            <div class="col-12">
+                                <button class="button-profile" type="button" name="submit" onclick="updateInfo(event)">Actualizar</button>
 
-                              </div>
-                            </form>
+                            </div>
+                        </form>
 
                         <?php $action = !isset($data['userphone']['telefono']) ? 'add_phone' : 'update_phone'; ?>
-                        
-                            <form
-                                class="hide-form-action row g-3"
-                                action="?action=<?php echo $action ?>"
-                                method="POST"
-                                id="form-phone-user">
-                                <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
-                                <div class="col-12">
-                                    <label class="form-label" for="phone">Número de teléfono</label>
-                                    <input class="form-control" type="text" id="phone" name="phone" placeholder="Número de teléfono">
-                                </div>
-                                <div class="col-12">
 
-                                    <button class="button-profile" type="submit" name="submit" onclick="updateUserPhone(event)">Actualizar número</button>
-                                </div>
-                            </form>
-                        
+                        <form
+                            class="hide-form-action row g-3"
+                            action="?action=<?php echo $action ?>"
+                            method="POST"
+                            id="form-phone-user">
+                            <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
+                            <div class="col-12">
+                                <label class="form-label" for="phone">Número de teléfono</label>
+                                <input class="form-control" type="text" id="phone" name="phone" placeholder="Número de teléfono">
+                            </div>
+                            <div class="col-12">
+
+                                <button class="button-profile" type="submit" name="submit" onclick="updateUserPhone(event)">Actualizar número</button>
+                            </div>
+                        </form>
+
 
                         <div class="container-response-mssg" id="message-resp-info">
                             <p></p>
@@ -205,7 +210,7 @@ include('header-index.php');
                         </svg>
                     </button>
                 </h2>
-                <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushContainer">
                     <div class="accordion-body">
                         <p>Datos de envío:</p>
                         <?php if (count($data['direcciones']) > 0) {
@@ -234,24 +239,38 @@ include('header-index.php');
                                         <td><?php echo $dir['tipo_dir'] ?></td>
                                     </tr>
                                 </table>
+                                <div class="container-response" id="message-resp-direcciones2">
+                                    <p></p>
+                                    <svg onclick="this.parentElement.style.display='none';"
+                                        width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor"
+                                        x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                                        <g fill="currentColor">
+                                            <g fill="none" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6" />
+                                                <circle cx="12" cy="12" r="10" />
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
 
-                                <form class="row g-3"
+                                <form class="hide-form-action row g-3"
                                     id="form-direcciones_actualizar"
                                     action="?action=actualizar_direccion"
                                     method="PUT">
+                                    <small>Actualizar dirección <?php echo $dir['calle_pri'] . $dir['calle_sec'] ?></small>
                                     <input type="hidden" name="id_direccion" value="<?php echo $dir['id_direccion'] ?>">
                                     <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
                                     <div class="col-md-6">
                                         <label for="calle_pri" class="form-label">Calle: </label>
-                                        <input type="text" name="calle_pri" class="form-control" placeholder="Nombre de la calle" id="calle_prim">
+                                        <input type="text" name="calle_prim" class="form-control" placeholder="Nombre de la calle" id="calle_prim">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="calle_sec" class="form-label">Esquina: </label>
-                                        <input type="text" name="calle_sec" class="form-control" placeholder="Esquina" id="calle_seg">
+                                        <input type="text" name="calle_seg" class="form-control" placeholder="Esquina" id="calle_seg">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="tipo_dir" class="form-label">Tipo de dirección: </label>
-                                        <select id="tipo_dir" class="form-select">
+                                        <select id="tipo_dir" name="tipo_dir" class="form-select">
                                             <option selected value="envio">Envío</option>
                                             <option value="facturacion">Facturación</option>
                                         </select>
@@ -270,17 +289,34 @@ include('header-index.php');
                                     </div>
 
                                     <div class="col-12">
-                                        <button type="button" onclick="updateDirecciones()" class="button-profile">Actualizar mis direcciones</button>
+                                        <button type="button" onclick="updateDirecciones()" class="button-profile">Actualizar dirección</button>
                                     </div>
+
                                 </form>
-                                <button onclick="hideFormDir()"> Ocultar </button>
+
+                                <div>
+                                    <button data-direccion-id="<?php echo $dir['id_direccion'] ?>" onclick="showFormUpdateDir(this)" class="button-profile">Actualizar dirección</button>
+
+                                </div>
                             <?php }
                         } else { ?>
                             <b>No tienes una dirección asociada a tu cuenta aún</b>
                             <p>Debes agregar al menos una dirección</p>
-                            <button class="button-profile" id="add-dir-btn" onclick="showFormAddDir(this)">Agregar dirección</button>
                         <?php } ?>
-
+                        <button class="button-profile" id="add-dir-btn" onclick="showFormAddDir(this)">Agregar dirección</button>
+                        <div class="container-response" id="message-resp-direcciones">
+                            <p></p>
+                            <svg onclick="this.parentElement.style.display='none';"
+                                width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor"
+                                x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                                <g fill="currentColor">
+                                    <g fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6" />
+                                        <circle cx="12" cy="12" r="10" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
                         <form class="hide-form-action row g-3"
                             id="form-direcciones_agregar"
                             action="?action=actualizar_direccion"
@@ -289,15 +325,15 @@ include('header-index.php');
                             <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
                             <div class="col-md-6">
                                 <label for="calle_pri" class="form-label">Calle: </label>
-                                <input type="text" name="calle_pri" class="form-control" id="calle_prim" placeholder="Nombre de la calle">
+                                <input type="text" name="calle_prim" class="form-control" id="calle_prim" placeholder="Nombre de la calle">
                             </div>
                             <div class="col-md-6">
                                 <label for="calle_sec" class="form-label">Esquina: </label>
-                                <input type="text" name="calle_sec" class="form-control" id="calle_seg" placeholder="Esquina">
+                                <input type="text" name="calle_seg" class="form-control" id="calle_seg" placeholder="Esquina">
                             </div>
                             <div class="col-md-6">
                                 <label for="tipo_dir" class="form-label">Tipo de dirección: </label>
-                                <select id="tipo_dir" class="form-select">
+                                <select id="tipo_dir" name="tipo_dir" class="form-select">
                                     <option selected value="envio">Envío</option>
                                     <option value="facturacion">Facturación</option>
                                 </select>
@@ -318,6 +354,7 @@ include('header-index.php');
                             <div class="col-12">
                                 <button type="button" onclick="addDirecciones()" class="button-profile">Agregar dirección</button>
                             </div>
+
                         </form>
 
                     </div>
@@ -340,27 +377,27 @@ include('header-index.php');
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                    <?php
-                    if (count($data['tarjetas']) > 0) {
-                        $tarjetas = $data['tarjetas'];
-                    foreach ($tarjetas as $tarjeta) {
-                    ?>
-                    <section>
-                        <p><?php echo $tarjeta['nombre_tarjeta'] ?></p>
-                    </section>
-
-                    <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
-                    <?php
-                    }
-                    } else {
+                        <?php
+                        if (count($data['tarjetas']) > 0) {
+                            $tarjetas = $data['tarjetas'];
+                            foreach ($tarjetas as $tarjeta) {
                         ?>
-                    <p><b>No tienes ningun medio de pago asociado a tu cuenta</b></p>
+                                <section>
+                                    <p><?php echo $tarjeta['nombre_tarjeta'] ?></p>
+                                </section>
 
-                    <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
-                    <?php
-                    }
-                    ?>  
-                    <form class="hide-form-action row g-3"
+                                <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
+                            <?php
+                            }
+                        } else {
+                            ?>
+                            <p><b>No tienes ningun medio de pago asociado a tu cuenta</b></p>
+
+                            <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
+                        <?php
+                        }
+                        ?>
+                        <form class="hide-form-action row g-3"
                             id="form-card_agregar"
                             action="?action=agregar_card"
                             method="POST">
@@ -378,35 +415,24 @@ include('header-index.php');
                                 <label for="calle_sec" class="form-label">Fecha de vencimiento: </label>
                                 <input type="text" name="calle_sec" class="form-control" id="calle_seg" placeholder="01/25">
                             </div>
-                           
+
                             <div class="col-md-4">
                                 <label for="num_puerta" class="form-label">Código de seguridad </label>
                                 <input class="form-control" id="num_puerta" name="num_puerta" type="text" placeholder="CVV">
                             </div>
-                           
+
 
                             <div class="col-12">
                                 <button type="button" onclick="addDirecciones()" class="button-profile">Agregar tarjeta</button>
                             </div>
                         </form>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="container-response" id="message-resp-direcciones">
-            <p></p>
-            <svg onclick="this.parentElement.style.display=`none`;"
-                width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor"
-                x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
-                <g fill="currentColor">
-                    <g fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6" />
-                        <circle cx="12" cy="12" r="10" />
-                    </g>
-                </g>
-            </svg>
-        </div>
+
     </div>
+
 </div>
 
 

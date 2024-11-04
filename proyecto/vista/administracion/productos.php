@@ -69,16 +69,18 @@ require('headerback.php')
                 </svg>
             </div>
         </div>
-
         <table class="table px-4 mt-5">
             <thead>
                 <div class="report-header">
+                    <?php if (isset($data['productos']) && !empty($data['productos'])) {
+                       ?>
                     <h2 class="mx-auto">Articulos publicados</h2>
                     <button class="products-btn" onclick="getDisabledProds()">Ver productos desactivados
                         <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24">
                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 12l-7-9v4.99L3 8v8h11v5z" />
                         </svg>
                     </button>
+
                 </div>
                 <hr>
                 <tr class="table-headers">
@@ -86,6 +88,7 @@ require('headerback.php')
                     <th scope="col">Titulo</th>
                     <th scope="col">Origen</th>
                     <th scope="col">Precio</th>
+                    <th scope="col">Stock</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Editar</th>
                     <th scope="col">Desactivar</th>
@@ -93,7 +96,7 @@ require('headerback.php')
             </thead>
             <tbody id="row-of-products">
                 <?php
-                if (isset($data['productos']) && !empty($data['productos'])) {
+                var_dump($_SESSION);
                     foreach ($data['productos'] as $prod) {
                         echo "
             <tr>
@@ -101,6 +104,7 @@ require('headerback.php')
             <td>" . ($prod["nombre"]) . " </td>
             <td>" . ($prod["origen"]) . "</td>
             <td>" . ($prod["precio"]) . "</td>
+            <td>" . ($prod["stock"]) . " </td>
             <td>Publicado</td>
             <td> 
             <button class='button-product-actions edit' data-product-id=" . $prod['sku'] . " onclick='showEditForm(this)'> 
@@ -118,10 +122,19 @@ require('headerback.php')
             </tr>
             ";
                     }
+                } else {
+                ?>
+                <tr>
+                    <th colspan="6" class="text-center">No tienes productos publicados aún</th>
+                </tr>
+                </thead>
+                <?php
                 }
                 ?>
             </tbody>
+           
         </table>
+        
         <div class="product-form">
 
             <div id="edit_product_modal" class="modal">
@@ -145,29 +158,6 @@ require('headerback.php')
                         <label for="new_precio">Precio:</label>
                         <input type="number" id="new_precio" name="new_precio" required>
 
-                        <label for="has_discount_edit">¿Agregar descuento?</label>
-                        <select id="has_discount_edit" name="has_discount" onchange="toggleDescFields(this)">
-                            <option value="no">No</option>
-                            <option value="si">Sí</option>
-                        </select>
-
-                        <div class="desc-container" id="desc_container_edit">
-                            <label for="tipo_descuento">Tipo de descuento</label>
-                            <select name="tipo_descuento" id="tipo_descuento">
-                                <option value="">Selecciona el tipo</option>
-                                <option value="Porcentaje">Porcentaje</option>
-                                <option value="Fijo">Fijo</option>
-                            </select>
-
-                            <label for="valor_descuento">Valor del descuento</label>
-                            <input id="valor_descuento" placeholder="Ej: 10 para 10% o $10" type="text" name="valor_descuento">
-
-                            <label for="fecha_inicio_descuento">Fecha de inicio del descuento</label>
-                            <input type="date" id="fecha_inicio_descuento" name="fecha_inicio_descuento">
-
-                            <label for="fecha_fin_descuento">Fecha de fin del descuento</label>
-                            <input type="date" id="fecha_fin_descuento" name="fecha_fin_descuento">
-                        </div>
 
                         <button type="submit" onclick="submitEditForm(event)">Actualizar</button>
                         <button type="button" onclick="closeEditForm()">Cancelar</button>
@@ -185,11 +175,12 @@ require('headerback.php')
                     <div class="shadow"></div>
                     <div class="shadow"></div>
                 </div>
-                <button id="btn-load-prods" onclick="loadMoreProducts(this)" class="products-btn">Cargar más
+                 <button id="btn-load-prods" onclick="loadMoreProducts(this)" class="products-btn">Cargar más
                     <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 12l-7-9v4.99L3 8v8h11v5z" />
                     </svg>
-                </button>
+                </button>';
+               
             </div>
             <form
                 id="add_product_form"
@@ -197,7 +188,7 @@ require('headerback.php')
                 method="POST"
                 enctype="multipart/form-data"
                 class="form-product">
-                <input type="hidden" name="id_usu_ven" value="<?php echo $id ?>">
+                <input type="hidden" name="id_usu_ven" value="<?php echo $idProducto['id_usu_ven'] ?>">
                 <label for="nombre">Nombre del producto</label>
                 <input id="nombre" placeholder="Título del producto" type="text" name="nombre" required>
 
@@ -242,29 +233,11 @@ require('headerback.php')
                 <label for="images">Imágenes del producto (máximo 6)</label>
                 <input type="file" name="images[]" id="images" accept="image/*" multiple required>
 
-                <label for="has_discount_add">¿Agregar descuento?</label>
-                <select id="has_discount_add" name="has_discount" onchange="toggleDescFields(this)">
-                    <option value="no">No</option>
-                    <option value="si">Sí</option>
+                <label for="ofertas">Permitir que se apliquen ofertas en fechas especiales</label>
+                <select id="ofertas" name="ofertas_esp">
+                    <option value="si">Si</option>
+                    <option value="no">No </option>
                 </select>
-
-                <div class="desc-container" id="desc_container_add">
-                    <label for="tipo_descuento">Tipo de descuento</label>
-                    <select name="tipo_descuento" id="tipo_descuento">
-                        <option value="">Selecciona el tipo</option>
-                        <option value="Porcentaje">Porcentaje</option>
-                        <option value="Fijo">Fijo</option>
-                    </select>
-
-                    <label for="valor_descuento">Valor del descuento</label>
-                    <input id="valor_descuento" placeholder="Ej: 10 para 10% o $10" type="text" name="valor_descuento">
-
-                    <label for="fecha_inicio_descuento">Fecha de inicio del descuento</label>
-                    <input type="date" id="fecha_inicio_descuento" name="fecha_inicio_descuento">
-
-                    <label for="fecha_fin_descuento">Fecha de fin del descuento</label>
-                    <input type="date" id="fecha_fin_descuento" name="fecha_fin_descuento">
-                </div>
 
                 <button class="send-product" name="submit" onclick="addProductsForm()" type="button">Agregar producto</button>
             </form>
@@ -283,8 +256,6 @@ require('headerback.php')
 
             </div>
         </div>
-
-        <canvas id="companyCharts" class="canvas-container"></canvas>
     </div>
 </div>
 

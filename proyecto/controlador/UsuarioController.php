@@ -109,9 +109,9 @@ class UsuarioController extends Database
     }
     public function addUserDirecciones($data)
     {
-        $query = "INSERT INTO comprador_direccion (email, calle_pri, calle_sec, num_puerta, num_apartamento, ciudad, tipo_direccion) VALUES (?, ?, ?, ?, ?, ?) ;";
+        $query = "INSERT INTO comprador_direccion (email, calle_pri, calle_sec, num_puerta, num_apartamento, ciudad, tipo_dir) VALUES (?, ?, ?, ?, ?, ?, ?) ;";
         $stmt = $this->conn->prepare($query);
-        $email = $data['email'];
+        $email = pack("H*", $data['email']);
         $callePrimaria = $data['calle_pri'];
         $calleSecundaria = $data['calle_seg'];
         $numPuerta = $data['num_puerta'];
@@ -120,14 +120,13 @@ class UsuarioController extends Database
         $tipoDireccion = $data['tipo_dir'];
 
         $stmt->bind_param(
-            'sssiisss',
-            pack("H*", $email),
+            'sssiiss',
+            $email,
             $callePrimaria,
             $calleSecundaria,
             $numPuerta,
             $numApartamento,
             $ciudad,
-            $pais,
             $tipoDireccion
         );
 
@@ -137,11 +136,12 @@ class UsuarioController extends Database
             return false;
         }
     }
-    public function getUserCards($email) {
+    public function getUserCards($email)
+    {
         $query = "SELECT * FROM comprador_metodos_pago where email=?;";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param('s',$email);
+        $stmt->bind_param('s', $email);
         if ($stmt->execute()) {
             $res = $stmt->get_result();
             if ($res->num_rows > 0) {
@@ -154,23 +154,24 @@ class UsuarioController extends Database
             $stmt->close();
             return false;
         }
-
     }
     public function getCompradorDirecciones($email)
     {
-        $query = "SELECT * FROM comprador_direccion where email=?;";
+        $query = "SELECT * FROM comprador_direccion WHERE email = ?";
         $stmt = $this->conn->prepare($query);
-
+    
         $stmt->bind_param('s', $email);
-
+    
         if ($stmt->execute()) {
             $res = $stmt->get_result();
-            if ($res->num_rows > 0) {
-                $stmt->close();
-                return $res->fetch_assoc();
-            } else {
-                return [];
+            $addresses = [];
+    
+            while ($row = $res->fetch_assoc()) {
+                $addresses[] = $row;
             }
+    
+            $stmt->close();
+            return $addresses;
         } else {
             $stmt->close();
             return false;
@@ -188,7 +189,7 @@ class UsuarioController extends Database
         $ciudad = $userData['ciudad'];
         $tipoDireccion = $userData['tipo_dir'];
         $idDireccion = $userData['id_direccion'];
-        $stmt->bind_param('ssiisssi', $callePrimaria, $calleSecundaria, $numPuerta, $numApartamento, $ciudad, $tipoDireccion, $idDireccion);
+        $stmt->bind_param('ssiissi', $callePrimaria, $calleSecundaria, $numPuerta, $numApartamento, $ciudad, $tipoDireccion, $idDireccion);
 
         if ($stmt->execute()) {
             return true;
@@ -196,17 +197,18 @@ class UsuarioController extends Database
             return false;
         }
     }
-    public function getUserProductFavs($userId)
+    public function getUserProductFavs($userEmail)
     {
-        $query = "
-            SELECT productos.* 
-            FROM productos
-            INNER JOIN favoritos ON productos.sku = favoritos.sku
-            WHERE favoritos.id_usuario = ?;
+        $query = " SELECT *
+            FROM productos p
+            JOIN favoritos f ON p.sku = f.sku
+            JOIN usuario_comprador uc ON f.id_usuario = uc.id_usu_com
+            JOIN comprador c ON uc.email = c.email
+            WHERE c.email = ?;
         ";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $userId);
+        $stmt->bind_param("s", $userEmail);
 
 
         if ($stmt->execute()) {
@@ -305,12 +307,38 @@ class UsuarioController extends Database
             throw new Exception("Error en la base datos");
         }
     }
+    public function createIdComprador($email) {
+        $query = "INSERT INTO usuario_comprador (email) values (?);";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('s', $email);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getIdForComprador($email) {
+        $query = "SELECT * FROM usuario_comprador WHERE email =? ;";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param('s', $email);
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            if ($result->num_rows == 1) {
+                return $result->fetch_assoc();
+            }
+        } else {
+            return false;
+        }
+    }
 
     public function addToFav($idUser, $idProd)
     {
         $query = "INSERT into favoritos (sku, id_usuario) VALUES (?, ?);";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('ii', $idUser, $idProd);
+        $stmt->bind_param('ii', $idProd, $idUser);
         if ($stmt->execute()) {
             return true;
         } else {
@@ -338,9 +366,9 @@ class UsuarioController extends Database
     }
     public function deleteFromFavorites($idUser, $idProd)
     {
-        $query = "DELETE FROM favoritos WHERE id_usuario=? AND id_sku=?;";
+        $query = "DELETE FROM favoritos WHERE sku=? AND id_usuario=?;";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('ii', $idUser, $idProd);
+        $stmt->bind_param('ii', $idProd, $idUser);
         if ($stmt->execute()) {
             $stmt->close();
             return true;

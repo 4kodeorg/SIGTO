@@ -53,10 +53,36 @@ class VendController extends Database
             return false;
         } 
     }
+    public function insertUserVendId ($email) {
+        $query = "INSERT INTO usuario_ven (email) values (?);";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('s', $email);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getUserVendId ($email) {
+        $query = "SELECT * FROM usuario_ven WHERE email=?;";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('s',$email);
+
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            if ($res->num_rows == 1) {
+                return $res->fetch_assoc();
+            }
+        } else {
+            return false;
+        }
+    }
     public function getUserById($vendedorId) {
         $query = "SELECT * FROM vendedor WHERE email = ?;";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('i', $vendedorId);
+        $stmt->bind_param('s', $vendedorId);
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $vendedor = $result->fetch_assoc();
@@ -98,11 +124,11 @@ class VendController extends Database
             throw new Exception("Error en el servidor");
         }
     }
-    public function getUserProducts($email) {
-        $query = "SELECT * FROM productos WHERE id_usu_ven =?;";
+    public function getUserProducts($idVendedor) {
+        $query = "SELECT * FROM productos WHERE id_usu_ven =? AND activo=1;";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param('s', $email);
+        $stmt->bind_param('i', $idVendedor);
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $productos = [];

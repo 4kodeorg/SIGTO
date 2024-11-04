@@ -1,3 +1,5 @@
+const server = window.location.origin;
+
 const menuItems = document.querySelectorAll('.menu-normal-actions')
 
 const sections = document.querySelectorAll('.gallery-section');
@@ -10,13 +12,16 @@ const cartItem = document.getElementById('cart-item');
 const cartForm = document.getElementById('form-cart-item');
 
 const mainSearchForm = document.getElementById('search-form');
-const actDirecciones = document.getElementById('form-direcciones_actualizar');
 
-const addDireccion = document.getElementById('form-direcciones_agregar');
 const containerDirecciones = document.getElementById('actualizar-direcciones-container');
 const formInfo = document.getElementById('form-personal-info');
+const formDireccionesAdd = document.getElementById('form-direcciones_agregar')
+const formUpdateDireccion = document.getElementById('form-direcciones_actualizar');
 const phoneForm = document.getElementById('form-phone-user');
 const cardForm = document.getElementById('form-card_agregar');
+
+const favvButtons = document.querySelectorAll('.add-to-fav-btn');
+
 //
 
 let currentIndex = 0;
@@ -25,14 +30,20 @@ function goLeft() { document.querySelector('.profile-section-page').style.margin
 
 function getBack() { document.querySelector('.profile-section-page').style.marginLeft = 0; };
 
+function showFormUpdateDir(el) {
+    formUpdateDireccion.classList.toggle('hide-form-action');
+    el.innerHTML = formUpdateDireccion.classList.contains('hide-form-action') ? 'Actualizar esta dirección' : 'Ocultar';
+    
+}
+
 function showFormAddCard(el) {
     cardForm.classList.toggle('hide-form-action');
     el.innerHTML = cardForm.classList.contains('hide-form-action') ? 'Agregar medio de pago' : 'Ocultar';
 }
 updateSlider();
 function showFormAddDir(el) {
-    addDireccion.classList.toggle('hide-form-action');
-    el.innerHTML = addDireccion.classList.contains('hide-form-action') ? 'Agregar dirección' : 'Ocultar';
+    formDireccionesAdd.classList.toggle('hide-form-action');
+    el.innerHTML = formDireccionesAdd.classList.contains('hide-form-action') ? 'Agregar dirección' : 'Ocultar';
 }
 spinRight();
 function showNow(el) { 
@@ -79,18 +90,86 @@ menuItems.forEach(link => {
         link.classList.add('active')
     })
 })
+async function getFavorites(ev, el) {
+    const userId = el.getAttribute('data-user-id');
+    const infoSection = document.getElementById('accordionFlushContainer');
+    infoSection.remove();
+    const containerProducts = document.getElementById('favorites-container');
+    containerProducts.insertAdjacentHTML('afterbegin', `<table class="table">
+        <thead>
+          <tr>
+            <th colspan="5" class="fs-2">Mis favoritos</th>
+            
+          </tr>
+        </thead>
+        <tbody id="fav-products-table">
+          </tbody>`)
 
-const inputSearch = document.getElementById('busqueda');
-async function liveSearchRes(e) {
 
+    const tableFavoritos = document.getElementById('fav-products-table');
+    try {
+        const response = await fetch(`${server}/perfil/${userId}?action=get_favorites&id_user=${userId}`);
+        const data = await response.json();
+        if (data.success) {
+            
+            const favoritos = data.favoritos;
+            console.log(favoritos);
+            if (favoritos.length > 0) {
+                favoritos.forEach(prod => {
+                    tableFavoritos.insertAdjacentHTML('beforeend', renderProductFavs(prod));
+                })
+
+            } else {
+                tableFavoritos.insertAdjacentHTML('beforeend', `<tr> <td colspan="5"> ${data.message} </td> </tr>`)
+            }
+        } else {
+            containerProducts.insertAdjacentHTML('afterbegin', `<p> ${data.message} </p>`)
+        }
+    } catch (error) {
+        
+    }
 }
-const favvButtons = document.querySelectorAll('.add-to-fav-btn');
 
+async function getUserCompras(ev, el) {
+    const userId = el.getAttribute('data-user-id');
+    try {
+        const response = await fetch(`${server}/perfil/${userId}?action=get_compras`)
+    } catch (error) {
+        
+    }
+}
+async function removeFav(ev, el) {
+    const prodId = el.getAttribute('data-product-id');
+    const fullUrlRoute = window.location.href;
+    const routeArray = fullUrlRoute.split('/');
+    const userId = routeArray[4];
+    try {
+        const response = await fetch(`${server}/home?action=remove_fav`,{
+            method: 'DELETE',
+            headers : { 'Content-type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                'id_product' : prodId
+            })
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            const currRow = el.closest('tr');
+            currRow.innerHTML = `<td colspan="5">Eliminado de favoritos</td>`;
+            currRow.style.cursor = 'not-allowed';
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            currRow.remove();
+        } else {
+            alert(data.message);
+        }
+
+    } catch (error) {
+
+    }
+}
 async function updateFavorites(ev, el) {
     ev.preventDefault();
     
     const prodId = el.getAttribute('data-product-id');
-    const userId = el.getAttribute('data-user-id');
     
     const isFavorite = el.classList.contains('favoritos');
     
@@ -98,11 +177,10 @@ async function updateFavorites(ev, el) {
     const method = isFavorite ? 'DELETE' : 'POST';
     
     try {
-        const response = await fetch(`http://localhost/home?action=${action}`, {
+        const response = await fetch(`${server}/home?action=${action}`, {
             method: method,
             headers: { 'Content-type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
-                'id_user': userId,
                 'id_product': prodId
             })
         });
@@ -137,9 +215,8 @@ async function updateFavorites(ev, el) {
 }
 
 async function getCartData(userId) {
-    
     try {
-        const response = await fetch(`http://localhost/home?action=get_cart&id=${userId}`);
+        const response = await fetch(`${server}/home?action=get_cart&id=${userId}`);
         return await response.json();
     } catch (error) {
         console.error("Error al obtener los datos del carrito:", error);
@@ -153,7 +230,7 @@ async function removeFromCart(el) {
     const idProduct = el.getAttribute('data-product-id');
 
     try {
-        const response = await fetch(`http://localhost/home?idUs=${userId}&action=remove_product_cart`, {
+        const response = await fetch(`${server}/home?idUs=${userId}&action=remove_product_cart`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
@@ -176,20 +253,7 @@ async function removeFromCart(el) {
     }
     
 }
-function renderCartItems(item, cantidad) {
-    return `<div class="item-container-cart"> 
-        <h4>${item.titulo}</h4>
-        <p>Cantidad: ${item.cantidad}</p>
-        <b>Precio: $ ${item.price_product}</b>
-        <button 
-        data-product-id='${item.id_prod}'
-        data-user-id='${item.id_usuario}'
-        onclick='removeFromCart(this)'>Eliminar del carrito
-        <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m7.5 5.5l-3.447 5.29a1.64 1.64 0 0 0-.043 1.723L7.5 18.5h11.36a1.64 1.64 0 0 0 1.64-1.641V7.14a1.64 1.64 0 0 0-1.64-1.641zm2.5 3l7 7m-7 0l6.93-7"/>
-        </svg></button>
-    
-        </div>`
-}
+
 async function loggInModal(e) {
     e.preventDefault();
     const formData = document.getElementById('form-modal-login');
@@ -197,7 +261,7 @@ async function loggInModal(e) {
     logginData.append('submit', 'submit');
     
     try {
-        const response = await fetch('http://localhost/home?action=init_sess', {
+        const response = await fetch(`${server}/home?action=init_sess`, {
             method: 'POST',
             body: logginData
         });
@@ -243,7 +307,7 @@ async function getCarritoItems(userId) {
             imgCart.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACTElEQVR4nO2ZzUuUQRyAn62gCDtn4F6CcjMlRLz0FxTRsdUOhqEhhkgIgbf+gg5B4MFLh8g+1JAlvRQR3b14kKBTKumSWOFBcLdi4Lfwsrwfu+v8Zt4XemAu78yPmWdm3vlg4D/p4wawCfyNSXvAJ+AOkCOlbCRI1KdnaZXZCDTyW0SZs8AIsC/lzMikjusiYySuJZQdFZFVMs5J4IfIXG4ytgi8BwoR+beA5Zh86zwXkYkmYgaAQ4nbAbpDJOPyVahNr/kGyw8BlboFYxvokvw24HtMvhoXpbJyA6vXYKCn61Ow5wshMjsuRmZLKovrtdshIxEm05Mg06Mp8kIquh+RfxeoNrgvlRNkypoyY1LJqyNKeJcpBIY+lbt8K/+Js3Vfi5dNTh+N9NGGyHgKRL7aEOlKgcgjGyI52YF9SfwBzmOJNx5FPmCRCY8iQzZFuj1J/AJO2xTJyaboWmQWBRY8iFzVEJl0LPFF61h0xbHINErkAvd47VQF8ijy1pHICso8cCRS1BbpdSCxC5zSFjkmFWmKPMURS8oifa5EphQl1nBIn6LIlEuR4/KOYlviEGjHMSWFy9MTPPBQGjBDxukXkXUyzgm59JgpcY6MU5JRGSbj3BMR8wqcac4EjvWPgUsuzkha3AQOLC7Dn33L2BKpAB2+RGqPpu+kER3yamu+zUXEzLUQo07tsSbYk3n5Zo78YezGxJhl3Qu/Yxr102KMOovSgGVpTF7u3HFP24stxKjTGXFrNN8uWIzBBWaKvJb5bZLp1aQGtRLDP753M+G6dfn9AAAAAElFTkSuQmCC";
             carrito.forEach(item => {
             totalItems += Number.parseInt(item.cantidad);
-            totalPrice += Number.parseInt(item.price_product) * Number.parseInt(item.cantidad); 
+            totalPrice += Number.parseInt(item.precio_prod) * Number.parseInt(item.cantidad); 
            })
            
             counterItems.innerHTML = '';
@@ -258,51 +322,42 @@ async function getCarritoItems(userId) {
         
     }
 }
-async function updateCartContainer (userId){
-    const itemsContainerCart = document.getElementById('offcanvas-carrito')
-
+async function updateCartContainer(userId) {
+    const itemsContainerCart = document.getElementById('offcanvas-carrito');
     itemsContainerCart.innerHTML = '';
     let totalPriceCart = 0;
+    
     try {
         const data = await getCartData(userId);
-       
+        
         if (data.success) {
-          const carrito = data.carrito;
-          if (carrito.length > 0) {
-            console.log("here");
-            itemsContainerCart.insertAdjacentHTML('afterbegin', renderSvg());
-            if (carrito.length === 1) {
-                 console.log(carrito)
-                itemsContainerCart.insertAdjacentHTML('beforeend',renderCartItems(carrito[0]));
-                itemsContainerCart.insertAdjacentHTML('beforeend', renderButtonCheckout(carrito));
-              
-            } else {
-                carrito.forEach(item => {
-                  
-                  itemsContainerCart.insertAdjacentHTML('beforeend',renderCartItems(item));
-                  totalPriceCart += Number.parseInt(item.price_product) * Number.parseInt(item.cantidad);
-                });
-                itemsContainerCart.insertAdjacentHTML('beforeend', renderButtonCheckout(carrito));
-            }
-            const totalCart = document.getElementById('total-cart-price');
-              totalCart.innerHTML = ''
-              totalCart.innerHTML = `Total de compra: $${totalPriceCart}`;
-
-          } else {
-            getCarritoItems(userId);
-            itemsContainerCart.innerHTML = '';
-            itemsContainerCart.insertAdjacentHTML('afterbegin',renderAnimationEmpty(data.message));
+            const carrito = data.carrito;
             
-          }
-          
+            if (carrito.length > 0) {
+                itemsContainerCart.insertAdjacentHTML('afterbegin', renderSvg());
+
+                carrito.forEach(item => {
+                    itemsContainerCart.insertAdjacentHTML('beforeend', renderCartItems(item));
+                    totalPriceCart += Number.parseInt(item.precio_prod) * Number.parseInt(item.cantidad);
+                });
+                
+                itemsContainerCart.insertAdjacentHTML('beforeend', renderButtonCheckout(carrito[0].id_usu_com));
+
+                const totalCart = document.getElementById('total-cart-price');
+                totalCart.innerHTML = `Total de compra: $ ${totalPriceCart}`;
+            } else {
+                itemsContainerCart.insertAdjacentHTML('afterbegin', renderAnimationEmpty(data.message));
+            }
         } else {
-            itemsContainerCart.insertAdjacentHTML('afterbegin' ,renderLoginCarrito());
+            itemsContainerCart.insertAdjacentHTML('afterbegin', renderLoginCarrito());
         }
     } catch (error) {
-
+        console.error("An error occurred:", error);
     }
+    
     getCarritoItems(userId);
 }
+
 function closeModalLogin(elem, modal) {
     elem.style.overflow = 'unset';
     modal.style.display = 'none';
@@ -315,11 +370,11 @@ async function addToCart(button) {
     const cartItem = new FormData(formElement);
     const mssgCarritoSuccess = document.getElementById("success-carrito-message");
     const paraphMsg = mssgCarritoSuccess.querySelector('p');
-    const userId = cartItem.get('id_user');
     const modalLogin = document.getElementById('container-modal-login');
+    const userId = cartItem.get('id_user');
 
     try {
-        const response = await fetch('http://localhost/home?action=add_to_cart' ,{
+        const response = await fetch(`${server}/home?action=add_to_cart` ,{
             method: 'POST',
             body: cartItem
         })
@@ -365,7 +420,7 @@ async function fetchMoreProducts(usId) {
     footer.classList.add('hide-some');
     sectionBelow.classList.add('hide-some');
     try {
-        const response = await fetch(`http://localhost/home?offset=${currentOffset}&limit=${limit}`);
+        const response = await fetch(`${server}/home?offset=${currentOffset}&limit=${limit}`);
         const productsData = await response.json();
         await new Promise(resolve => setTimeout(resolve, 1800));
         spinnerLoad.classList.remove('show-loader');
@@ -375,8 +430,8 @@ async function fetchMoreProducts(usId) {
             const tbody = document.querySelector(".container-prods table tbody");
 
             productsData.productos.forEach(product => {
-                const isFavorite = productsData.favoritos.some(fav => fav.id_prod === product.id);
-                if (!document.querySelector(`#product-row-${product.id}`)) {
+                const isFavorite = productsData.favoritos.some(fav => fav.sku === product.sku);
+                if (!document.querySelector(`#product-row-${product.sku}`)) {
                     tbody.insertAdjacentHTML('beforeend', renderProductRow(product, usId, isFavorite));
                 }
             });
@@ -393,6 +448,7 @@ function observeLastRow(usId) {
     if (rows.length === 0) {
         return;
     }
+
     const lastRow = rows[rows.length - 1];
 
     const options = {
@@ -410,13 +466,15 @@ function observeLastRow(usId) {
 
     observer.observe(lastRow);
 }
-const usId = document.getElementById("userId").getAttribute('data-user-id');
 
 document.addEventListener("DOMContentLoaded", () => {
+    if (!document.getElementById('userId')) {
+        return;
+    } 
+    const usId = document.getElementById("userId").getAttribute('data-user-id');
     observeLastRow(usId);
     updateCartContainer(usId);
 });
-
 
 async function updateUserPhone(e) {
     e.preventDefault();
@@ -430,7 +488,7 @@ async function updateUserPhone(e) {
     formData.append('submit', 'submit');
 
     try {
-        const response = await fetch(`http://localhost/perfil/${userId}?${arrAction[1]}`,{
+        const response = await fetch(`${server}/perfil/${userId}?${arrAction[1]}`,{
             method : 'POST',
             body: formData
         })
@@ -454,13 +512,14 @@ async function updateUserPhone(e) {
 }
 
 async function updateInfo() {
-    const messageInfo = document.getElementById('message-resp-info');
-    const userInformation = new FormData(formPersonalInfo);
+    const userInformation = new FormData(formInfo);
     const userId = userInformation.get('id_username');
-    const APIinfouser = `http://localhost/perfil/${userId}?action=actualizar_info`;
+    const APIinfouser = `${server}/perfil/${userId}?action=actualizar_info`;
+
+    const messageInfo = document.getElementById('message-resp-info');
 
     userInformation.append('submit', 'submit');
-
+    
     try {
         const respuesta = await fetch(APIinfouser, {
             method: 'POST',
@@ -470,10 +529,10 @@ async function updateInfo() {
         if (data.success) {
             messageInfo.style.display = 'flex';
             messageInfo.querySelector('p').innerHTML = data.message;
+            
             await new Promise(resolve => setTimeout(resolve, 1800));
             location.reload();
         } else {
-
             messageInfo.style.display = 'flex';
             messageInfo.querySelector('p').innerHTML = data.message;
         }
@@ -483,25 +542,27 @@ async function updateInfo() {
     }
 }
 async function addDirecciones() {
-    const messageResponse = document.getElementById('message-resp-direcciones');
-    const userData = new FormData(addDireccion);
+    const messResponseDir = document.getElementById('message-resp-direcciones');
+    const userData = new FormData(formDireccionesAdd);
     userData.append('submit', 'submit');
     const userId = userData.get('id_username')
     try {
-        const response = await fetch (`http://localhost/perfil/${userId}?action=agregar_direccion`, {
+        const response = await fetch (`${server}/perfil/${userId}?action=agregar_direccion`, {
             method: 'POST',
             body: userData,
         })
         const data = await response.json();
         if (data.success) {
-            messageResponse.style.display= 'flex';
-            messageResponse.querySelector('p').innerHTML = data.message
+
+            messResponseDir.style.display= 'flex';
+            messResponseDir.querySelector('p').innerHTML = data.message;
             await new Promise(resolve => setTimeout(resolve, 1500));
-            messageResponse.style.display = 'none'
+            messResponseDir.style.display = 'none'
+            location.reload();
         }
         else {
-            messageResponse.style.display= 'flex';
-            messageResponse.querySelector('p').innerHTML = data.message
+            messResponseDir.style.display= 'flex';
+            messResponseDir.querySelector('p').innerHTML = data.message;
         }
     } catch (error) {
         console.error(`Error: ${error}`);
@@ -509,29 +570,49 @@ async function addDirecciones() {
 }
 
 async function updateDirecciones() {
-    const messageResponse = document.getElementById('message-resp-direcciones');
-    const userDirecciones = new FormData(actDirecciones);
+    const messageResp = document.getElementById('message-resp-direcciones2')
+    const actualizarDirecciones = document.getElementById('form-direcciones_actualizar');
+    const userDirecciones = new FormData(actualizarDirecciones);
 
     userDirecciones.append('submit', 'submit');
     const userId = userDirecciones.get('id_username');
-    const APIdireccion = `http://localhost/perfil/${userId}?action=actualizar_direccion`;
+    const idDireccion = userDirecciones.get('id_direccion');
+    const callePrim = userDirecciones.get('calle_prim');
+    const calleSeg = userDirecciones.get('calle_seg');
+    const numPuerta = userDirecciones.get('num_puerta');
+    const numApto = userDirecciones.get('num_apartamento');
+    const ciudad = userDirecciones.get('ciudad');
+    const tipoDir = userDirecciones.get('tipo_dir');
+
+    const APIdireccion = `${server}/perfil/${userId}?action=actualizar_direccion`;
 
     try {
         const respuesta = await fetch(APIdireccion, {
             method: 'PUT',
-            body: userDirecciones
-        }
+            headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                'id_direccion' : idDireccion,
+                'id_username' : userId,
+                'calle_prim' : callePrim,
+                'calle_seg' : calleSeg,
+                'num_puerta' : numPuerta,
+                'num_apartamento' : numApto,
+                'ciudad' : ciudad,
+                'tipo_dir': tipoDir,
+            })
+            }
         );
         const data = await respuesta.json();
         if (data.success) {
-            messageResponse.style.display= 'flex';
-            messageResponse.querySelector('p').innerHTML = data.message
+            messageResp.style.display= 'flex';
+            messageResp.querySelector('p').innerHTML = data.message;
             await new Promise(resolve => setTimeout(resolve, 1500));
-            messageResponse.style.display = 'none';
+            messageResp.style.display = 'none';
+            location.reload();
         }
         else {
-            messageResponse.style.display= 'flex';
-            messageResponse.querySelector('p').innerHTML = data.message
+            messageResp.style.display= 'flex';
+            messageResp.querySelector('p').innerHTML = data.message;
         }
 
     }
@@ -568,7 +649,7 @@ window.onload = function() {
     
             async createOrder() {
                 try {
-                    const response = await fetch(`http://localhost/finalizar_compra/paypal/${userId}`, {
+                    const response = await fetch(`${server}/finalizar_compra/paypal/${userId}`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -594,7 +675,7 @@ window.onload = function() {
             async onApprove(data, actions) {
                 try {
                     const response = await fetch(
-                        `http://localhost/finalizar_compra/paypal/?pyid=${data.orderID}&action=capture`,
+                        `${server}/finalizar_compra/paypal/?pyid=${data.orderID}&action=capture`,
                         {
                             method: "POST",
                             headers: {
@@ -652,6 +733,21 @@ window.onload = function() {
         .render("#paypal-button-container"); 
 }
 
+function renderCartItems(item, cantidad) {
+    return `<div class="item-container-cart"> 
+        <h4>${item.titulo}</h4>
+        <p>Cantidad: ${item.cantidad}</p>
+        <b>Precio: $ ${item.precio_prod}</b>
+        <button 
+        data-product-id='${item.sku_prod}'
+        data-user-id='${item.id_usu_com}'
+        onclick='removeFromCart(this)'>Eliminar del carrito
+        <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m7.5 5.5l-3.447 5.29a1.64 1.64 0 0 0-.043 1.723L7.5 18.5h11.36a1.64 1.64 0 0 0 1.64-1.641V7.14a1.64 1.64 0 0 0-1.64-1.641zm2.5 3l7 7m-7 0l6.93-7"/>
+        </svg></button>
+    
+        </div>`
+}
+
 function renderLoginCarrito() {
     return `<div class="empty-cart-container"><p>Tienes que iniciar sesión para seguir comprando</p> 
             <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="180.84799" height="290.07702" 
@@ -681,19 +777,20 @@ function renderLoginCarrito() {
 function renderProductRow(product, usId, isFavorite) {
     return `
     <tr>
-        <th><a href='/product/${product.id}'>${product.titulo}</a></th>
+        <th><a href='/product/${product.sku}'>${product.nombre}</a></th>
        
         <td>${product.descripcion}</td>
         <td>${product.precio}</td>
         
         <td>
-            <form id='form-cart-item-${product.id}' method='POST' action='?action=add_to_cart'>
+            <form id='form-cart-item-${product.sku}' method='POST' action='?action=add_to_cart'>
                 <input class='product-quant' type='number' name='quantity' value='1'>
-                <input type='hidden' name='id_product' value='${product.id}'>
+                <input type='hidden' name='id_product' value='${product.sku}'>
                 <input type='hidden' name='id_user' value='${usId}'>
-                <input type='hidden' name='titulo' value='${product.titulo}'>
+                <input type='hidden' name='id_vendedor' value='${product.id_usu_ven}'>
+                <input type='hidden' name='titulo' value='${product.nombre}'>
                 <input type='hidden' name='price' value='${product.precio}'>
-                <button class='cart-btn' type='button' data-id='${product.id}' onclick='addToCart(this)'>
+                <button class='cart-btn' type='button' data-id='${product.sku}' onclick='addToCart(this)'>
                    <svg class='cart' fill='currentColor' viewBox='0 0 576 512' height='25px' width='25px' xmlns='http://www.w3.org/2000/svg'><path d='M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z'></path></svg>
                 <svg xmlns='http://www.w3.org/2000/svg' height='20px' width='20px' viewBox='0 0 640 512' class='product'><path d='M211.8 0c7.8 0 14.3 5.7 16.7 13.2C240.8 51.9 277.1 80 320 80s79.2-28.1 91.5-66.8C413.9 5.7 420.4 0 428.2 0h12.6c22.5 0 44.2 7.9 61.5 22.3L628.5 127.4c6.6 5.5 10.7 13.5 11.4 22.1s-2.1 17.1-7.8 23.6l-56 64c-11.4 13.1-31.2 14.6-44.6 3.5L480 197.7V448c0 35.3-28.7 64-64 64H224c-35.3 0-64-28.7-64-64V197.7l-51.5 42.9c-13.3 11.1-33.1 9.6-44.6-3.5l-56-64c-5.7-6.5-8.5-15-7.8-23.6s4.8-16.6 11.4-22.1L137.7 22.3C155 7.9 176.7 0 199.2 0h12.6z'>
                 </path></svg>
@@ -701,8 +798,7 @@ function renderProductRow(product, usId, isFavorite) {
             </form>
             <button class='add-to-fav-btn ${isFavorite ? "favoritos" : ""}' 
                     onclick='updateFavorites(event, this)' 
-                    data-product-id='${product.id}' 
-                    data-user-id='${usId}'>
+                    data-product-id='${product.sku}'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='28px' height='28px' viewBox='0 0 24 24'>
                     <path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M7.75 3.5C5.127 3.5 3 5.76 3 8.547C3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79c-.78-1.654-2.39-2.79-4.25-2.79'/>
                 </svg> 
@@ -744,9 +840,9 @@ function renderLoginModal() {
             </section>`
 }
 
-function renderButtonCheckout(carrito) {
+function renderButtonCheckout(comprador) {
     return `<div> <p id="total-cart-price"></p>
-                <a class="complete-transa-btn" href="/finalizar_compra/${carrito[0].id_usuario}">Finalizar compra
+                <a class="complete-transa-btn" href="/finalizar_compra/${comprador}">Finalizar compra
                 <svg xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" width="32px" height="32px" viewBox="0 0 24 24">
                 <title>Cerrar</title
                 <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -893,4 +989,24 @@ function renderAnimationEmpty(message) {
     </svg>
         
     </div>`
+}
+
+
+function renderProductFavs(product) {
+    return `<tr>
+   <td>
+    <img src="..." class="card-img-top" alt="..."></td>
+   <td> 
+    <h5 class="card-title">${product.nombre}</h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">${product.descripcion}</h6></td>
+    <td><h5 class="card-title"><b>${product.estado} </b></h5> 
+    <h6 class="card-subtitle mb-2 text-body-secondary">Precio $: ${product.precio}</h6>
+    </p></td>
+    <td>
+    <button data-product-id="${product.sku}" class="button-profile" type="button" onclick="removeFav(event, this)">Eliminar de favoritos
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 1216 1312"><path fill="currentColor" d="M1202 1066q0 40-28 68l-136 136q-28 28-68 28t-68-28L608 976l-294 294q-28 28-68 28t-68-28L42 1134q-28-28-28-68t28-68l294-294L42 410q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294l294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68L880 704l294 294q28 28 28 68"/>
+    </svg>
+    </button>
+    </td>
+</tr>`
 }

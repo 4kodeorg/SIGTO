@@ -3,13 +3,14 @@
 class Producto
 {
 
-    private string $idUsuVen;
+    private int $idUsuVen;
     private string $nombre;
     private string $descripcion;
     private float $precio;
     private string $origen;
     private int $stock;
     private string $estado;
+    private string $oferta;
     private int $idCategory;
     private int $idSubCategory;
 
@@ -27,7 +28,9 @@ class Producto
     {
         $this->descripcion = $descripcion;
     }
-  
+    public function setOferta($oferta) {
+        $this->oferta = $oferta;
+    }
     public function setPrecio($precio)
     {
         $this->precio = $precio;
@@ -63,6 +66,9 @@ class Producto
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+    public function getOferta() {
+        return $this->oferta;
     }
     public function getPrecio()
     {

@@ -34,6 +34,7 @@ class Router
             'perfil' => 'renderProfile',
             'carrito' => 'renderPage',
             'empresa' => 'formRegistroEmpresa',
+            'faq' => 'renderPage',
             'admin_cuenta' => 'formAccountEmpresa',
             'admin' => 'redirectMain',
             'admin/main' => 'renderBackOffice',
@@ -49,8 +50,7 @@ class Router
             $productId = intval($matches[1]);
             $this->renderProductData($productId);
             return;
-        }
-        elseif (preg_match('/^admin\/perfil\/([a-fA-F0-9]+)$/', $this->request, $matches)) {
+        } elseif (preg_match('/^admin\/perfil\/([a-fA-F0-9]+)$/', $this->request, $matches)) {
             $vendedorId = $matches[1];
             if ($this->checkVendedorMiddleware($vendedorId)) {
                 $vendedorEmail = pack("H*", $vendedorId);
@@ -59,7 +59,7 @@ class Router
         } elseif (preg_match('/^product\/(\w+)$/', $this->request, $matches)) {
             $productId = $matches[1];
             $this->renderProduct($productId);
-        } elseif (preg_match('/^finalizar_compra\/(\w+)$/', $this->request, $matches)) {
+        } elseif (preg_match('/^finalizar_compra\/(\d+)$/', $this->request, $matches)) {
             $idUserCarrito = $matches[1];
             $this->renderCheckoutPage($idUserCarrito);
         } elseif (preg_match('/^finalizar_compra\/paypal\/(\w+)$/', $this->request, $matches)) {
@@ -78,11 +78,13 @@ class Router
                 $message = "Acceso no autorizado";
                 $this->renderPage('error', ['message' => $message]);
             }
+
         } elseif ($this->request === 'home') {
             $this->homeActions();
             return;
         } elseif ($this->request === 'admin/productos') {
-            $this->adminActions();
+            $idVendedor = $_SESSION['id_producto'] ?? 0;
+            $this->adminActions($idVendedor);
             return;
         } elseif (isset($routes[$this->request])) {
             $this->assignPage($routes[$this->request], $this->request);
@@ -91,7 +93,8 @@ class Router
             $this->renderPage('error', ['message' => $message]);
         }
     }
-    private function vendedorActions($vendedorEmail) {
+    private function vendedorActions($vendedorEmail)
+    {
         switch ($this->action) {
             case 'add_phone':
                 break;
@@ -103,9 +106,8 @@ class Router
                 break;
             default:
                 $this->renderAdminPerfil($vendedorEmail);
-            break;
+                break;
         }
-
     }
     private function assignPage($method, $route)
     {
@@ -169,6 +171,12 @@ class Router
             case 'actualizar_direccion':
                 $this->updateDirecciones();
                 break;
+            case 'get_favorites':
+                $this->getUserFavorites();
+                break;
+            case 'get_compras':
+                $this->getUserCompras();
+                break;
             case 'add_phone':
                 $this->addUserPhone();
                 break;
@@ -209,7 +217,7 @@ class Router
                 break;
         }
     }
-    private function adminActions()
+    private function adminActions($idVendedor)
     {
         switch ($this->action) {
             case 'agregar_producto':
@@ -222,7 +230,7 @@ class Router
                 $this->editProductAdmin();
                 break;
             case 'get_productos':
-                $this->getMoreProducts();
+                $this->getMoreProducts($idVendedor);
                 break;
             case 'get_disabled_products':
                 $this->getDisabledProds();
@@ -231,7 +239,7 @@ class Router
                 $this->activateProductAdmin();
                 break;
             default:
-                $this->pageProductsAdmin();
+                $this->pageProductsAdmin($idVendedor);
                 break;
         }
     }
@@ -271,10 +279,12 @@ class Router
             $response['message'] = "Solicitud invalida";
         }
         header('Content-type: application/json');
-        echo(json_encode($response));
+        echo (json_encode($response));
         exit();
     }
-    private function addUserPhone() {
+   
+    private function addUserPhone()
+    {
         $response = ['success' => false, 'message' => ''];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
@@ -291,7 +301,7 @@ class Router
             $response['message'] = "Solicitud invalida";
         }
         header('Content-type: application/json');
-        echo(json_encode($response));
+        echo (json_encode($response));
         exit();
     }
     private function updatePayment() {}
@@ -413,20 +423,6 @@ class Router
             $productController = new ProductController();
             $result = $productController->updateProductData($data);
             if ($result) {
-                if ($_POST['has_discount'] == 'si') {
-                    $descuentoData = [
-                        'sku' => $_POST['id_producto'],
-                        'tipo' => $_POST['tipo_descuento'],
-                        'valor' => $_POST['valor_descuento'],
-                        'fecha_inicio' => $_POST['fecha_inicio_descuento'],
-                        'fecha_fin' => $_POST['fecha_fin_descuento'],
-                        'activo' => 1
-                    ];
-                    if ($productController->createDiscount($descuentoData)) {
-                        $resp['success'] = true;
-                        $resp['message_descuento'] = 'Descuento creado con exito';
-                    }
-                }
                 $response['success'] = true;
                 $response['message'] = "Producto actualizado con exito";
             } else {
@@ -448,11 +444,11 @@ class Router
             $usuarioController = new UsuarioController();
             parse_str(file_get_contents("php://input"), $favData);
 
-            $idUser = $favData['id_user'] ?? null;
             $idProduct = $favData['id_product'] ?? null;
-            if ($idUser && $idProduct) {
+            if ($idProduct) {
+                $userId = $_SESSION['id_comprador'];
                 try {
-                    $res = $usuarioController->deleteFromFavorites($idUser, $idProduct);
+                    $res = $usuarioController->deleteFromFavorites($userId, $idProduct);
                     if ($res) {
                         echo json_encode(['status' => 'success']);
                     } else {
@@ -470,13 +466,12 @@ class Router
     private function addToFavoritos()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $idUser = $_POST['id_user'];
             $idProduct = $_POST['id_product'];
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
 
             $userController = new UsuarioController();
-
-            $result = $userController->addToFav($idUser, $idProduct);
+            $userId = $_SESSION['id_comprador'];
+            $result = $userController->addToFav($userId, $idProduct);
 
             if ($result) {
                 echo json_encode(['status' => 'success', 'message' => 'Producto añadido a favoritos']);
@@ -489,7 +484,8 @@ class Router
             exit();
         }
     }
-    private function checkVendedorMiddleware($vendedorId) {
+    private function checkVendedorMiddleware($vendedorId)
+    {
         if (isset($_SESSION['vendedor_id'])) {
             $loggedVendedor = $_SESSION['vendedor_id'];
             if ($loggedVendedor == $vendedorId) {
@@ -515,8 +511,9 @@ class Router
             $this->renderPage('error', ['message' => 'Debes iniciar sesión']);
         }
     }
-    private function getUserDirecciones() {
-        require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/UsuarioController.php';
+    private function getUserDirecciones()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         header('Content-type: application/json');
         $response = ['success' => false, 'message' => '', 'userdirecciones' => []];
 
@@ -531,13 +528,12 @@ class Router
             $response = ['success' => false, 'message' => ''];
             $userData = [
                 'id_direccion' => $data['id_direccion'],
-                'email' => $data['id_username'],
+                'email' => pack("H*" ,$data['id_username']),
                 'calle_prim' => $data['calle_prim'],
                 'calle_seg' => $data['calle_seg'],
                 'num_puerta' => $data['num_puerta'],
                 'num_apartamento' => $data['num_apartamento'],
                 'ciudad' => $data['ciudad'],
-                'pais' => $data['pais'],
                 'tipo_dir' => $data['tipo_dir']
             ];
 
@@ -570,7 +566,7 @@ class Router
         $response = ['success' => false, 'message' => ''];
         $data = [
             'email' => htmlspecialchars($_POST['id_username']) ?? '',
-            'calle_prim' => htmlspecialchars($_POST['calle_prim']) ?? '',
+            'calle_pri' => htmlspecialchars($_POST['calle_prim']) ?? '',
             'calle_seg' => htmlspecialchars($_POST['calle_seg']) ?? '',
             'num_puerta' => htmlspecialchars($_POST['num_puerta']) ?? '',
             'num_apartamento' => htmlspecialchars($_POST['num_apartamento']) ?? '',
@@ -581,7 +577,7 @@ class Router
         foreach ($data as $key => $val) {
             if (empty(trim($val)) || $val == 0) {
                 $emptyFields = true;
-                $response['message'] = 'El campo' . $key . 'es requerido';
+                $response['message'] = 'El campo ' . $key . 'es requerido';
             }
         }
         if (!$emptyFields) {
@@ -607,12 +603,13 @@ class Router
         $nombre2 = htmlspecialchars($_POST['nombre2']) ?? '';
         $apellido1 = htmlspecialchars($_POST['apellido1']) ?? '';
         $apellido2 = htmlspecialchars($_POST['apellido2']) ?? '';
-        if (!empty(trim($nombre1)) && !empty(trim($nombre2))
+        if (
+            !empty(trim($nombre1)) && !empty(trim($nombre2))
             && !empty(trim($apellido1)) && !empty(trim($apellido2))
         ) {
             $userController = new UsuarioController();
             $userInfoUpdatedOk = $userController->updateUserData($nombre1, $nombre2, $apellido1, $apellido2, pack("H*", $email));
-           
+
             if ($userInfoUpdatedOk) {
                 $response['success'] = true;
                 $response['message'] = "Información actualizada con éxito";
@@ -624,12 +621,13 @@ class Router
         echo (json_encode($response));
         exit();
     }
-    private function formAccountEmpresa() {
+    private function formAccountEmpresa()
+    {
         if ($this->action === 'login_adm' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-            require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/VendController.php';
-            require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/SessionController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/VendController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/SessionController.php';
 
-            $response = ['success' => false, 'id' => 0, 'message' => '' ,'username' => '','url' => ''];
+            $response = ['success' => false, 'id' => 0, 'message' => '', 'username' => '', 'url' => ''];
             if (isset($_POST['submit'])) {
                 $errors = array();
                 $username = htmlspecialchars(trim($_POST['username']));
@@ -642,20 +640,22 @@ class Router
                     $vendController = new VendController();
                     $sessionController = new SessionController();
                     $vendedor = $vendController->validateUser($username, $password);
-                    if ($vendedor) {
+                    $vendedorId = $vendController->getUserVendId($username);
+                    if ($vendedor && $vendedorId) {
                         if ($sessionController->createSesionVend($username)) {
                             $response['success'] = true;
                             $response['url'] = '/admin';
                             $response['id'] = bin2hex($username);
+                            $_SESSION['id_producto'] = $vendedorId;
                             $_SESSION['vendedor_id'] = bin2hex($username);
-                            $_SESSION['backoffice_username'] = $username;                         
+                            $_SESSION['backoffice_username'] = $username;
                         }
                     }
                 } else {
                     $response['message'] = 'Credenciales inválidas';
                 }
             }
-            echo(json_encode($response));
+            echo (json_encode($response));
             exit();
         }
         $this->renderPage('account_admin');
@@ -663,7 +663,7 @@ class Router
     private function formRegistroEmpresa()
     {
         if ($this->action === 'registrar_emp' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-            require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/VendController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/VendController.php';
             require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/SessionController.php';
 
             $response = ['success' => false, 'id' => 0, 'message' => '', 'username' => '', 'url' => ''];
@@ -689,42 +689,51 @@ class Router
                             $response['message'] = 'El campo' . $clave . 'es requerido';
                         }
                     }
-                    if (!$emptyFields) {
-                        if (strlen($data['password']) < 5) {
-                            array_push($errors, "La contraseña debe tener al menos 5 caracteres");
-                            $response['message'] = "La contraseña debe tener al menos 5 caracteres";
-                        } else {
-
-                            if ($data['confirm_pwd'] === $data['password']) {
-                                $data['confirm_pwd'] = password_hash($data['confirm_pwd'], PASSWORD_BCRYPT);
-                                $vendedor = new VendController();
-                                $sessionController = new SessionController();
-                                $vendedorData = $vendedor->create($data);
-                                if ($vendedorData) {
-                                    if($sessionController->createSesionVend($vendedorData['email'])) {
-                                        $response['success'] = true;
-                                        $response['id'] = bin2hex($vendedorData['email']);
-                                        $_SESSION['vendedor_id'] = bin2hex($vendedorData['email']);
-                                        $_SESSION['backoffice_username'] = $vendedorData['email'];
-                                        $response['url'] = 'admin/perfil/'.bin2hex($vendedorData['email']);
+                    $fechaNacUser = new DateTime($data['fecha_nac']);
+                    $fechaNacYear = $fechaNacUser->format('Y');
+                    if (intval((date('Y') - $fechaNacYear)) > 18) {
+                        if (!$emptyFields) {
+                            if (strlen($data['password']) < 5) {
+                                array_push($errors, "La contraseña debe tener al menos 5 caracteres");
+                                $response['message'] = "La contraseña debe tener al menos 5 caracteres";
+                            } else {
+                                if ($data['confirm_pwd'] === $data['password']) {
+                                    $data['confirm_pwd'] = password_hash($data['confirm_pwd'], PASSWORD_BCRYPT);
+                                    $vendedor = new VendController();
+                                    $sessionController = new SessionController();
+                                    $vendedorData = $vendedor->create($data);
+                                    $vendedorCreateId = $vendedor->insertUserVendId($data['email']);
+                                    $vendedorId = $vendedor->getUserVendId($data['email']);
+                                    if ($vendedorData && $vendedorCreateId) {
+                                        if ($sessionController->createSesionVend($vendedorData['email'])) {
+                                            $response['success'] = true;
+                                            $response['id'] = bin2hex($vendedorData['email']);
+                                            $_SESSION['vendedor_id'] = bin2hex($vendedorData['email']);
+                                            $_SESSION['id_producto'] = $vendedorId;
+                                            $_SESSION['data'] = $data;
+                                            $_SESSION['backoffice_username'] = $vendedorData['email'];
+                                            $response['url'] = 'admin/perfil/' . bin2hex($vendedorData['email']);
+                                        } else {
+                                            $response['success'] = true;
+                                            $response['message'] = "Error al iniciar sesión";
+                                        }
                                     } else {
-                                        $response['success'] = true;
-                                        $response['message'] = "Error al iniciar sesión";
+                                        $response['message'] = 'Error al crear usuario';
                                     }
                                 } else {
-                                    $response['message'] = 'Error al crear usuario';
+                                    $response['message'] = 'Las contraseñas no coinciden';
                                 }
-                            } else {
-                                $response['message'] = 'Las contraseñas no coinciden';
                             }
                         }
+                    } else {
+                        $response['message'] = "Debes ser mayor de 18 años para registrarte";
                     }
                 } else {
                     $response['message'] = 'El email no es válido';
                 }
             }
-            
-            echo(json_encode($response));
+
+            echo (json_encode($response));
             exit();
         }
         $this->renderPage('sellerregister');
@@ -755,51 +764,61 @@ class Router
                     foreach ($data as $clave => $valor) {
                         if (empty(trim($valor)) || $valor == 0) {
                             $emptyFields = true;
-                            array_push($errors, "Campo faltante: ".$valor);
+                            array_push($errors, "Campo faltante: " . $valor);
                             $response['message'] = 'El campo' . $clave . 'es requerido';
                         }
                     }
-                    if (!$emptyFields) {
-                        if (strlen($data['password']) < 5) {
-                            array_push($errors, "La contraseña debe tener al menos 5 caracteres");
-                            $response['message'] = "La contraseña debe tener al menos 5 caracteres";
-                        } else {
-                            if ($data['confirm_pwd'] === $data['password']) {
-                                $data['confirm_pwd'] = password_hash($data['confirm_pwd'], PASSWORD_BCRYPT);
-                                if (count($errors) === 0) {
-                                    $userController = new UsuarioController();
-                                    $sessionController = new SessionController();
-                                    $newUser = $userController->create($data);
-
-                                    if ($newUser) {
-                                        if ($sessionController->createSesion($newUser['email'])) {
-                                            $sessIdfragment = date('Y:m:d_H:i:s') . "-" . bin2hex($newUser['email']);
-                                            $response['success'] = true;
-                                            $response['id'] = bin2hex($newUser['email']);
-                                            $response['username'] = $newUser['username'];
-                                            $response['message'] = "Registro exitoso, redireccionando..";
-                                            $response['url'] = "/perfil/" . bin2hex($newUser['email']);
-                                            $_SESSION['carrito'] = [];
-                                            $_SESSION['uri_fragment'] = $sessIdfragment;
-                                            $_SESSION['username'] = $newUser['username'];
-                                            $_SESSION['id_username'] = bin2hex($newUser['email']);
+                    $fechaNacUser = new DateTime($data['fecha_nac']);
+                    $fechaNacYear = $fechaNacUser->format('Y');
+                    if (intval((date('Y') - $fechaNacYear)) > 18) {
+                        if (!$emptyFields) {
+                            if (strlen($data['password']) < 5) {
+                                array_push($errors, "La contraseña debe tener al menos 5 caracteres");
+                                $response['message'] = "La contraseña debe tener al menos 5 caracteres";
+                            } else {
+                                if ($data['confirm_pwd'] === $data['password']) {
+                                    $data['confirm_pwd'] = password_hash($data['confirm_pwd'], PASSWORD_BCRYPT);
+                                    if (count($errors) === 0) {
+                                        $userController = new UsuarioController();
+                                        $sessionController = new SessionController();
+                                        $newUser = $userController->create($data);
+                                        $createCompradorId = $userController->createIdComprador($data['email']);
+    
+                                        if ($newUser && $createCompradorId) {
+                                            $compradorId = $userController->getIdForComprador($newUser['email']);
+                                            if ($sessionController->createSesion($newUser['email'])) {
+                                                $sessIdfragment = date('Y:m:d_H:i:s') . "-" . bin2hex($newUser['email']);
+                                                $response['success'] = true;
+                                                $response['id'] = bin2hex($newUser['email']);
+                                                $response['username'] = $newUser['username'];
+                                                $response['message'] = "Registro exitoso, redireccionando..";
+                                                $response['url'] = "/perfil/" . bin2hex($newUser['email']);
+                                                $_SESSION['carrito'] = [];
+                                                $_SESSION['data'] = $data;
+                                                $_SESSION['uri_fragment'] = $sessIdfragment;
+                                                $_SESSION['id_comprador'] = $compradorId['id_usu_com'];
+                                                $_SESSION['username'] = $newUser['username'];
+                                                $_SESSION['id_username'] = bin2hex($newUser['email']);
+                                            } else {
+                                                $response['message'] = "Ocurrió un error al iniciar la sesión";
+                                                $response['success'] = true;
+                                                $response['url'] = '/cuenta';
+                                            }
                                         } else {
-                                            $response['message'] = "Ocurrió un error al iniciar la sesión";
-                                            $response['success'] = true;
-                                            $response['url'] = '/cuenta';
+                                            $response['message'] = "Error al crear el usuario, intente nuevamente";
                                         }
                                     } else {
                                         $response['message'] = "Error al crear el usuario, intente nuevamente";
                                     }
                                 } else {
-                                    $response['message'] = "Error al crear el usuario, intente nuevamente";
+                                    $response['message'] = "Las contraseñas no coinciden";
                                 }
-                            } else {
-                                $response['message'] = "Las contraseñas no coinciden";
                             }
+                        } else {
+                            $response['message'] = "Todos los campos son requeridos";
                         }
                     } else {
-                        $response['message'] = "Todos los campos son requeridos";
+                        $response['message'] = "Debes ser mayor de 18 años para registrarte";
                     }
                 } else {
                     array_push($errors, "El email es inválido");
@@ -837,11 +856,13 @@ class Router
 
                     $usuario = $userController->validateUser($username, $password);
                     if ($usuario) {
+                        $compradorId = $userController->getIdForComprador($usuario['email']);
                         if ($sessionController->createSesion($username)) {
                             $res['success'] = true;
                             $sessIdfragment = date('Ymd_His') . "-" . bin2hex($usuario['email']);
                             // $carrito = $cartController->getUserCarrito($usuario['email']);
                             // $_SESSION['carrito'] = $carrito;
+                            $_SESSION['id_comprador'] = $compradorId['id_usu_com'];
                             $_SESSION['id_username'] = bin2hex($usuario['email']);
                             $_SESSION['uri_fragment'] = $sessIdfragment;
                             $_SESSION['username'] = $usuario['username'];
@@ -903,15 +924,40 @@ class Router
         }
         $this->renderPage('account', ['client' => $client]);
     }
-    private function renderAdminPerfil($vendedorId) {
+    private function renderAdminPerfil($vendedorId)
+    {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/VendController.php';
         $vendedorController = new VendController();
         $vendedor = $vendedorController->getUserById($vendedorId);
-        $productosVendedor = $vendedorController->getUserProducts($vendedorId);
+        $vendedorIdProducts = $vendedorController->getUserVendId($vendedorId);
+        $productosVendedor = $vendedorController->getUserProducts($vendedorIdProducts['id_usu_ven']);
         if ($vendedor) {
             $this->renderBackOffice('profile', ['vendedor' => $vendedor, 'productos' => $productosVendedor]);
+        } else {
+            $this->renderPage('error', ['message' => 'No autorizado']);
         }
-        else {
+    }
+    private function getUserCompras() {}
+    private function getUserFavorites()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+        $userController = new UsuarioController();
+        $response = ['success' => false, 'message' => '','favoritos' => []];
+        if (isset($_GET['id_user']) && $_GET['id_user'] != 0) {
+            $idUsername = $_GET['id_user'];
+            $usernameEmail = pack("H*", $idUsername);
+            $favProducts = $userController->getUserProductFavs($usernameEmail);
+            if (count($favProducts) > 0) {
+               $response['success'] = true;
+               $response['favoritos'] = $favProducts;
+
+            } else {
+                $response['success'] = true;
+                $response['message'] = 'Aún no tienes productos agregados a favoritos';
+            }
+            echo(json_encode($response));
+            exit();
+        } else {
             $this->renderPage('error', ['message' => 'No autorizado']);
         }
     }
@@ -926,12 +972,14 @@ class Router
         $telComprador = $userController->getUserPhones($userId);
         $direccionesComprador = $userController->getCompradorDirecciones($userId);
         if ($usuario) {
-            $this->renderPage('perfil', ['usuario' => $usuario, 
-                                        'userphone' => $telComprador, 
-                                        'favoritos' => $favoritos, 
-                                        'comprador' => $datosComprador,
-                                        'tarjetas' => $metodosPago,
-                                        'direcciones' => $direccionesComprador]);
+            $this->renderPage('perfil', [
+                'usuario' => $usuario,
+                'userphone' => $telComprador,
+                'favoritos' => $favoritos,
+                'comprador' => $datosComprador,
+                'tarjetas' => $metodosPago,
+                'direcciones' => $direccionesComprador
+            ]);
         } else {
             http_response_code(404);
             $this->renderPage('error', ['message' => 'No autorizado']);
@@ -948,8 +996,9 @@ class Router
 
         $response = ['success' => false, 'message' => '', 'results' => []];
 
-        if (isset($_SESSION['id_username'])) {
-            $userId = $_SESSION['id_username'];
+        $categorias = $product->getCategories();
+        if (isset($_SESSION['id_comprador'])) {
+            $userId = $_SESSION['id_comprador'];
             $favoritos = $userController->getUserFavorites($userId);
         } else {
             $favoritos = [];
@@ -957,26 +1006,28 @@ class Router
 
         if (isset($_GET['buscar'])) {
             $searchParam = htmlspecialchars($_GET['buscar']);
+            $idCat = isset($_GET['acategory']) ? (int)$_GET['acategory'] : 0;
             $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
             $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
 
             if (!empty(trim($searchParam))) {
-                $resultados = $product->searchProductsByTitleOrDescripcion($searchParam);
+                $resultados = $product->searchProductsByTitleOrDescripcion($searchParam, $idCat);
 
                 if ($resultados) {
                     $this->renderPage('home', [
                         'resultados' => $resultados,
+                        'categorias' => $categorias,
                         'favoritos' => $favoritos
                     ]);
                     return;
                 } else {
                     $message = "No se encontraron resultados";
-                    $this->renderPage('home', ['message' => $message]);
+                    $this->renderPage('home', ['message' => $message, 'categorias' => $categorias]);
                     return;
                 }
             } else {
                 $message = "Ingresa algún producto para buscar";
-                $this->renderPage('home', ['message' => $message, 'favoritos' => $favoritos]);
+                $this->renderPage('home', ['message' => $message, 'categorias' => $categorias, 'favoritos' => $favoritos]);
                 return;
             }
         }
@@ -991,20 +1042,19 @@ class Router
             ]);
             return;
         }
-
         $dataProductos = $product->getProductsByLimit(0, 15);
-        $this->renderPage('home', ['productos' => $dataProductos, 'favoritos' => $favoritos]);
+        $this->renderPage('home', ['productos' => $dataProductos, 'favoritos' => $favoritos, 'categorias' => $categorias]);
     }
-    private function getMoreProducts()
+    private function getMoreProducts($idVendedor)
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
 
-        if (isset($_SESSION['username']) && !empty(trim($_SESSION['username']))) {
+        if (isset($_SESSION['backoffice_username']) && !empty(trim($_SESSION['backoffice_username']))) {
             $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
             $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 15;
 
             $productController = new ProductController();
-            $productos = $productController->getProductsByLimit($offset, $limit);
+            $productos = $productController->getProductsByLimitVend($idVendedor['id_usu_ven'], $offset, $limit);
 
             if (!empty($productos)) {
                 echo json_encode($productos);
@@ -1016,32 +1066,35 @@ class Router
         }
     }
 
-    private function pageProductsAdmin()
+    private function pageProductsAdmin($idVendedor)
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/VendController.php';
+
+
+        $productController = new ProductController();
+        $vendController = new VendController();
 
         if (isset($_SESSION['backoffice_username']) && !empty(trim($_SESSION['backoffice_username']))) {
 
             if ($this->action === 'get_subcategories' && $_SERVER['REQUEST_METHOD'] == 'GET') {
-                
+
                 $idCategory = $_GET['id_cat'] ?? '';
                 if (!empty($idCategory)) {
-                    $productController = new ProductController();
                     header('Content-type: application/json');
                     $response = ['success' => false, 'subcategories' => []];
                     $response['success'] = true;
                     $response['subcategories'] = $productController->getSubCategories($idCategory);
                     echo json_encode($response);
                     exit();
-
                 }
             }
 
             $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 15;
             $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
-            $productController = new ProductController();
-            $productos = $productController->getProductsByLimit($offset, $limit);
+            $productos = $productController->getProductsByLimitVend($idVendedor['id_usu_ven'], $offset, $limit );
+
             $categorias = $productController->getCategories();
             if (count($productos) > 0 || count($categorias) > 0) {
                 $this->renderBackOffice('productos', ['productos' => $productos, 'categorias' => $categorias]);
@@ -1057,7 +1110,7 @@ class Router
     private function formProductAdmin()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
-        $resp = ['success' => false, 'mssg' => '' ,'message_descuento' => ''];
+        $resp = ['success' => false, 'mssg' => '', 'message_descuento' => ''];
         $productController = new ProductController();
 
         if (isset($_POST['submit'])) {
@@ -1073,11 +1126,11 @@ class Router
                 foreach ($_FILES['images']['name'] as $key => $imageName) {
                     $imageTmpPath = $_FILES['images']['tmp_name'][$key];
                     $imageType = $_FILES['images']['type'][$key];
-                    
+
                     if (in_array($imageType, ['image/jpeg', 'image/png', 'image/gif']) && $_FILES['images']['size'][$key] <= 5000000) {
                         $newImageName = uniqid() . '_' . basename($imageName);
                         $imagePath = $uploadDir . $newImageName;
-                        
+
                         if (move_uploaded_file($imageTmpPath, $imagePath)) {
                             $imagesPaths[] = '/imagenes/productos/' . $newImageName;
                         } else {
@@ -1088,15 +1141,13 @@ class Router
                     }
                 }
             }
-           
-
-            $email = pack("H*", $_POST['id_usu_ven']);
             $data = [
-                'id_usu_ven' => $email,
+                'id_usu_ven' => $_POST['id_usu_ven'],
                 'descripcion' => $_POST['descripcion'],
                 'origen' => $_POST['origen'],
                 'nombre' => $_POST['nombre'],
                 'stock' => $_POST['stock'],
+                'oferta' => $_POST['ofertas_esp'],
                 'estado' => $_POST['estado'],
                 'precio' => $_POST['precio'],
                 'id_cat' => $_POST['category'],
@@ -1119,20 +1170,6 @@ class Router
                     foreach ($imagesPaths as $path) {
                         $productController->insertProductImage($productSku, $path);
                     }
-                    if ($_POST['has_discount'] == 'si') {
-                        $descuentoData = [
-                            'sku' => $productSku,
-                            'tipo' => $_POST['tipo_descuento'],
-                            'valor' => $_POST['valor_descuento'],
-                            'fecha_inicio' => $_POST['fecha_inicio_descuento'],
-                            'fecha_fin' => $_POST['fecha_fin_descuento'],
-                            'activo' => 1
-                        ];
-                        if ($productController->createDiscount($descuentoData)) {
-                            $resp['success'] = true;
-                            $resp['message_descuento'] = 'Descuento creado con exito';
-                        }
-                    }
                     $resp['success'] = true;
                     $resp['mssg'] = 'Producto agregado exitosamente';
                 } else {
@@ -1141,7 +1178,6 @@ class Router
             } else {
                 $resp['mssg'] = 'No se pudo agregar el producto, todos los campos son requeridos';
             }
-
             header('Content-Type: application/json');
             echo (json_encode($resp));
             exit();
@@ -1282,14 +1318,25 @@ class Router
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+        $usuario = new UsuarioController();
+        $usuarioEmail = $_SESSION['id_username'];
 
-        if ($this->checkUserMiddleware($userId)) {
+        if ($this->checkUserMiddleware($usuarioEmail)) {
+            $email = pack("H*", $_SESSION['id_username']);
             $cartController = new CartController();
             $userController = new UsuarioController();
             $userCarrito = $cartController->getUserCarrito($userId);
-            $usuario = $userController->getUserbyId($userId);
+            $datosComprador = $userController->getUserComprador($email);
+            $phoneComprador = $userController->getUserPhones($email);
+            $compradorDirecciones = $userController->getCompradorDirecciones($email);
+            $pagoComprador = $userController->getUserCards($email);
             if (!empty($userCarrito) && !empty($usuario)) {
-                $this->renderPage('checkout', ['carrito' => $userCarrito, 'usuario' => $usuario]);
+                $this->renderPage('checkout', [
+                                    'carrito' => $userCarrito, 
+                                    'usuario' => $datosComprador,
+                                    'usuario_telefono' => $phoneComprador,
+                                    'comp_direcciones' => $compradorDirecciones,
+                                    'pago_comp' => $pagoComprador]);
             } else {
                 $this->renderPage('error', ['message' => "No has añadido nada a tu carrito"]);
             }
@@ -1312,7 +1359,6 @@ class Router
                 $response['success'] = true;
                 $response['message'] = "Tu carrito está vacio";
             } else {
-                $response['prevCarrito'] = $_SESSION['carrito'];
                 $_SESSION['carrito'] = [];
                 $_SESSION['carrito'] = $userCart;
                 $response['success'] = true;
@@ -1340,7 +1386,6 @@ class Router
                 if ($removedProd) {
                     $response['success'] = true;
                     $response['message'] = 'Producto eliminado';
-
                     $_SESSION['carrito'] = [];
                     $_SESSION['carrito'] = $cartController->getUserCarrito($idUser);
                 } else {
@@ -1366,14 +1411,16 @@ class Router
 
                 $productId = htmlspecialchars($_POST['id_product']);
                 $userId = htmlspecialchars($_POST['id_user']);
+                $vendedorId = htmlspecialchars($_POST['id_vendedor']);
                 $productTitulo = htmlspecialchars($_POST['titulo']);
                 $quantity = htmlspecialchars($_POST['quantity']);
                 $priceProduct = htmlspecialchars($_POST['price']);
 
 
                 $itemData = [
-                    'id_prod' => $productId,
-                    'id_usuario' => $userId,
+                    'sku' => $productId,
+                    'id_vendedor' => $vendedorId,
+                    'id_comprador' => $userId,
                     'titulo' => $productTitulo,
                     'cantidad' => (int) $quantity,
                     'price_product' => (int) $priceProduct
@@ -1392,9 +1439,8 @@ class Router
 
                     if (!empty($_SESSION['carrito'])) {
                         foreach ($_SESSION['carrito'] as &$sessionItem) {
-                            if (
-                                $sessionItem['id_prod'] == $productId
-                                && $sessionItem['id_usuario'] == $userId
+                            if ($sessionItem['sku_prod'] == $productId
+                                && $sessionItem['id_usu_com'] == $userId
                             ) {
                                 $itemExistsInSession = true;
                                 $sessionItem['cantidad'] += $itemData['cantidad'];
@@ -1408,9 +1454,10 @@ class Router
                     } else {
                         $_SESSION['carrito'] = $itemData;
                         $response['message'] = 'Producto añadido al carrito';
+                        
                     }
-                    $response['success'] = true;
-                    $response['carrito'] = $lateCart;
+                        $response['success'] = true;
+                        $response['carrito'] = $lateCart;
                 } else {
                     $response['message'] = 'Ocurrió un error inesperado';
                 }

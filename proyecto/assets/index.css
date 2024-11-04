@@ -439,20 +439,22 @@ p {
     animation: scroll 10s linear alternate-reverse infinite;
 }
 .figure-profile-icon {
-    max-width: 240px;
+    max-width: 200px;
     border-bottom: .5px solid #020202;
     padding: 1rem;
     margin: auto;
+    
 }
 .figure-profile-icon figcaption {
     padding: 8px 0;
     font-size: 1.287rem;
 }
+
 .container-response {
     display: none;
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
 }
 .container-response svg {
@@ -787,7 +789,12 @@ ul {
 #accordion-button svg {
     width: 100%;
 }
-.nav-sidenav a {
+.nav-sidenav button {
+    border: none;
+    text-rendering: unset;
+    text-align: unset;
+}
+.nav-sidenav a, .nav-sidenav button {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -798,16 +805,16 @@ ul {
     transition: background-color 0.3s ease;
 }
 
-.nav-sidenav a:hover {
+.nav-sidenav a:hover, .nav-sidenav button:hover {
     background-color: #cfe2ff;
 }
 
-.nav-sidenav a svg {
+.nav-sidenav a svg, .nav-sidenav button svg {
     margin-right: 10px;
     font-size: 24px;
 }
 
-.nav-sidenav a span {
+.nav-sidenav a span,.nav-sidenav button span {
     display: none;
     margin-left: 10px;
 }
@@ -817,7 +824,7 @@ ul {
     transition: width 0.3s ease; 
 }
 
-.nav-sidenav:hover a span {
+.nav-sidenav:hover a span , .nav-sidenav:hover button span{
     display: flex;
     align-items: center;
     justify-content: start;

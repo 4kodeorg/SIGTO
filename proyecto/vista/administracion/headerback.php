@@ -1,6 +1,7 @@
 <?php
 if (isset($_SESSION['backoffice_username'])) {
     $username = $_SESSION['backoffice_username'];
+    $idProducto = $_SESSION['id_producto'];
     $id = $_SESSION['vendedor_id'];
 }
 ?>

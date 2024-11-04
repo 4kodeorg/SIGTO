@@ -72,6 +72,8 @@ require('headerback.php');
 </div>
 </div>
 </div>
+
+<canvas id="companyCharts" class="canvas-container"></canvas>
 </div>
 <?php 
 include('footeradm.php');
