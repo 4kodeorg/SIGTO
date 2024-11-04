@@ -16,7 +16,7 @@ function renderProductRow($product, $idComprador, $isFavorite)
 {
     return "
     <div class='individual-card'>
-        <b><a href='/product/{$product['sku']}'>{$product['nombre']}</a></b>
+        <a href='/product/{$product['sku']}'><b>{$product['nombre']}</b>
       
         <p>{$product['descripcion']}</p>
         <b>{$product['precio']}</b>
@@ -43,6 +43,7 @@ function renderProductRow($product, $idComprador, $isFavorite)
                      </svg> 
             </button>
         </section>
+        </a>
     </div>";
 }
 

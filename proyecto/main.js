@@ -783,13 +783,13 @@ function renderLoginCarrito() {
 
 function renderProductRow(product, usId, isFavorite) {
     return `
-    <tr>
-        <th><a href='/product/${product.sku}'>${product.nombre}</a></th>
+    <div class="individual-card">
+        <a href='/product/${product.sku}'><b>${product.nombre}</b>
        
-        <td>${product.descripcion}</td>
-        <td>${product.precio}</td>
+        <p>${product.descripcion}</p>
+        <p>${product.precio}</p>
         
-        <td>
+        <section>
             <form id='form-cart-item-${product.sku}' method='POST' action='?action=add_to_cart'>
                 <input class='product-quant' type='number' name='quantity' value='1'>
                 <input type='hidden' name='id_product' value='${product.sku}'>
@@ -810,8 +810,9 @@ function renderProductRow(product, usId, isFavorite) {
                     <path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M7.75 3.5C5.127 3.5 3 5.76 3 8.547C3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79c-.78-1.654-2.39-2.79-4.25-2.79'/>
                 </svg> 
             </button>
-        </td>
-    </tr>`;
+            </section>
+        </a>
+    </div>`;
 }
 
 function renderLoginModal() {
