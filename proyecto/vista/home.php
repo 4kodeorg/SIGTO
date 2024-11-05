@@ -76,24 +76,16 @@ function renderProductRow($product, $idComprador, $isFavorite)
             $isInFavorites = isFavorite($product['sku'], $data['favoritos']);
             echo renderProductRow($product, $idComprador, $isInFavorites);
         }
-        echo "</main>";
-    } elseif (!empty($data['productos'])) {
+    }
+       ?>
 
-        echo "<div>
+        <div>
                 <section><h2 class='mx-auto pt-5'>Articulos publicados</h2><hr></section>
             </div>
         <main id='main-home-products' class='main-home container my-5'>
-            ";
-
-        foreach ($data['productos'] as $product) {
-            $isFavorite = isFavorite($product['sku'], $data['favoritos']);
-            echo renderProductRow($product, $idComprador, $isFavorite);
-        }
-        echo "</main>";
-    } else {
-        echo "<div><section class=''>No hay productos disponibles</td></div>";
-    }
-    ?>
+     
+        </main>
+  
     <div class="loading-container">
         <div class="loader">
             <div class="spinner"></div>

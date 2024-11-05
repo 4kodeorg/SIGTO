@@ -368,7 +368,7 @@ async function shopNow(btn, ev) {
     const userId = btn.getAttribute('data-user-id');
     const prodId = btn.getAttribute('data-id');
     
-    const formDataEl = document.getElementById(`form-cart-item-${prodId}`);
+    const formDataEl = btn.closest('form')
     const itemData = new FormData(formDataEl);
 
     try {
@@ -427,8 +427,8 @@ async function addToCart(button, ev) {
             paraphMsg.innerHTML = '';
 }
 
-let currentOffset = 15; 
-const limit = 5;
+let currentOffset = 0; 
+const limit = 10;
 
 async function fetchMoreProducts(usId) {
     
@@ -443,24 +443,29 @@ async function fetchMoreProducts(usId) {
     if (search) {
         return;
     }
+    const fullRoute = window.location.href.split('/');
+    if (fullRoute[3] != 'home') {
+        return;
+    }
     spinnerLoad.classList.add('show-loader');
     footer.classList.add('hide-some');
     sectionBelow.classList.add('hide-some');
     try {
         const response = await fetch(`${server}/home?offset=${currentOffset}&limit=${limit}`);
         const productsData = await response.json();
-        await new Promise(resolve => setTimeout(resolve, 1800));
+        await new Promise(resolve => setTimeout(resolve, 1300));
         spinnerLoad.classList.remove('show-loader');
         footer.classList.remove('hide-some');
         sectionBelow.classList.remove('hide-some');
+        console.log(productsData.productImages);
         if (productsData.productos.length > 0) {
             const mainDiv = document.getElementById('main-home-products');
-
             productsData.productos.forEach(product => {
                 const isFavorite = productsData.favoritos.some(fav => fav.sku === product.sku);
+                const prodImg = productsData.productImages.filter(img => img.producto_sku === product.sku);    
                 if (!document.querySelector(`#product-card-${product.sku}`)) {
-                    mainDiv.insertAdjacentHTML('beforeend', renderProductCard(product, usId, isFavorite));
-                }
+                        mainDiv.insertAdjacentHTML('beforeend', renderProductCard(product, prodImg ,usId, isFavorite));
+                    }
             });
             currentOffset += limit;
             observeLastRow(usId);
@@ -501,6 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const usId = document.getElementById("userId").getAttribute('data-user-id');
     observeLastRow(usId);
     updateCartContainer(usId);
+    fetchMoreProducts(usId);
 });
 
 async function updateUserPhone(e) {
@@ -806,8 +812,13 @@ function renderLoginCarrito() {
             </div>`
 }
 
-function renderProductCard(product, usId, isFavorite) {
+function renderProductCard(product, imgs, usId, isFavorite) {
+    const imgElements = imgs.map(img => `<img src="${img.imagen_url}" alt="Producto Random">`).join('');
+
     return `<div id="product-card-${product.sku}" class="individual-card">
+        <div class="row">
+        ${imgElements}
+        </div>
         <a href='/product/${product.sku}'><b>${product.nombre}</b>
        
         <p>${product.descripcion}</p>

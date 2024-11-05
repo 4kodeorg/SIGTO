@@ -152,6 +152,17 @@ class ProductController extends Database
             echo "Error en la base de datos" . $err->getMessage();
         }
     }
+    public function getProductosEnOferta () {
+        $query = "SELECT * FROM productos where oferta='Si';";
+        $stmt = $this->conn->prepare($query);
+
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            return $res->fetch_all(MYSQLI_ASSOC);
+        } else {
+            return false;
+        }
+    }
     public function getProductsByLimit($offset = 0, $limit = 15)
     {
         $query = 'SELECT * FROM productos WHERE activo=1 LIMIT ?, ?;';

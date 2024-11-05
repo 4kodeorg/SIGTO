@@ -1066,16 +1066,25 @@ class Router
             $limit = $_GET['limit'];
             $offset = $_GET['offset'];
             $moreProducts = $product->getProductsByLimit($offset, $limit);
+            $productImages = $product->getProductImages();
             header('Content-type: application/json');
             echo json_encode([
                 'productos' => $moreProducts,
+                'productImages' => $productImages,
                 'favoritos' => $favoritos
             ]);
             return;
         }
-        $dataProductos = $product->getProductsByLimit(0, 15);
-        $this->renderPage('home', ['productos' => $dataProductos, 'favoritos' => $favoritos, 'categorias' => $categorias]);
+        $dataProductosOferta = $product->getProductosEnOferta();
+        $this->renderPage('home', ['productos_oferta' => $dataProductosOferta, 'favoritos' => $favoritos, 'categorias' => $categorias]);
     }
+
+    // private function ProductImages() {
+    //     require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/ProductController.php';
+    //     $product = new ProductController();
+
+        
+    // }
     private function getMoreProducts($idVendedor)
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
