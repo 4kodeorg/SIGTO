@@ -194,6 +194,28 @@ class ProductController extends Database
         $stmt->close();
         return $producto;
     }
+
+    public function getProductImages() {
+        $query = "SELECT * FROM 
+                producto_imagenes pimg 
+                JOIN productos prod ON 
+                pimg.producto_sku = prod.sku 
+                WHERE prod.activo=1;";
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Error". $this->conn->error);
+        }
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            $productosImagenes = $result->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+            return $productosImagenes ?? [];
+        }
+        else {
+            $stmt->close();
+            return false;
+        }
+    }
     public function getRelatedProducts($idCat) {
         $query = "SELECT * FROM productos where activo=1 AND id_cat=?;";
         $stmt = $this->conn->prepare($query);

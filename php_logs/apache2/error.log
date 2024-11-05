@@ -209,3 +209,5 @@ AH00558: apache2: Could not reliably determine the server's fully qualified doma
 [Thu Oct 31 23:55:07.667805 2024] [mpm_prefork:notice] [pid 1:tid 1] AH00163: Apache/2.4.62 (Debian) PHP/8.3.12 configured -- resuming normal operations
 [Thu Oct 31 23:55:07.669902 2024] [core:notice] [pid 1:tid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
 [Mon Nov 04 01:35:19.128183 2024] [rewrite:error] [pid 24:tid 24] [client 192.168.65.1:47483] AH10411: Rewritten query string contains control characters or spaces, referer: http://localhost/finalizar_compra/1004
+[Tue Nov 05 04:56:03.448965 2024] [rewrite:error] [pid 18:tid 18] [client 192.168.65.1:64493] AH10411: Rewritten query string contains control characters or spaces, referer: http://localhost/finalizar_compra/1004
+[Tue Nov 05 05:00:42.930779 2024] [rewrite:error] [pid 23:tid 23] [client 192.168.65.1:25172] AH10411: Rewritten query string contains control characters or spaces, referer: http://localhost/finalizar_compra/1004

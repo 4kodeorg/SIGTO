@@ -318,7 +318,20 @@ class UsuarioController extends Database
             return false;
         }
     }
+    public function getEmailComprador ($userIdCom) {
+        $query = "SELECT * FROM usuario_comprador WHERE id_usu_com=?;";
+        $stmt = $this->conn->prepare($query);
 
+        $stmt->bind_param('i', $userIdCom);
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            if ($res->num_rows == 1) {
+                return $res->fetch_assoc();
+            }
+        } else {
+            return false;
+        }
+    }
     public function getIdForComprador($email) {
         $query = "SELECT * FROM usuario_comprador WHERE email =? ;";
         $stmt = $this->conn->prepare($query);

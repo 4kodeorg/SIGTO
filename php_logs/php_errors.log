@@ -11494,3 +11494,30 @@ Stack trace:
 #4 /var/www/html/index.php(19): Router->route()
 #5 {main}
   thrown in /var/www/html/controlador/CartController.php on line 60
+[05-Nov-2024 03:10:46 UTC] PHP Warning:  Undefined array key "id_comprador" in /var/www/html/core/Router.php on line 496
+[05-Nov-2024 03:10:46 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_usuario' cannot be null in /var/www/html/controlador/UsuarioController.php:342
+Stack trace:
+#0 /var/www/html/controlador/UsuarioController.php(342): mysqli_stmt->execute()
+#1 /var/www/html/core/Router.php(497): UsuarioController->addToFav(NULL, '4507')
+#2 /var/www/html/core/Router.php(221): Router->addToFavoritos()
+#3 /var/www/html/core/Router.php(87): Router->homeActions()
+#4 /var/www/html/index.php(19): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/UsuarioController.php on line 342
+[05-Nov-2024 03:51:13 UTC] PHP Warning:  Undefined variable $compradorId in /var/www/html/core/Router.php on line 380
+[05-Nov-2024 03:51:13 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 380
+[05-Nov-2024 03:51:13 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:380) in /var/www/html/core/Router.php on line 388
+[05-Nov-2024 03:52:09 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`sigto`.`carrito`, CONSTRAINT `carrito_ibfk_3` FOREIGN KEY (`id_usu_com`) REFERENCES `usuario_comprador` (`id_usu_com`)) in /var/www/html/controlador/CartController.php:60
+Stack trace:
+#0 /var/www/html/controlador/CartController.php(60): mysqli_stmt->execute()
+#1 /var/www/html/core/Router.php(1462): CartController->updateCart(Array)
+#2 /var/www/html/core/Router.php(230): Router->formCarrito()
+#3 /var/www/html/core/Router.php(86): Router->homeActions()
+#4 /var/www/html/index.php(19): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/CartController.php on line 60
+[05-Nov-2024 05:18:31 UTC] PHP Warning:  Undefined array key "price_product" in /var/www/html/core/Router.php on line 1260
+[05-Nov-2024 05:18:31 UTC] PHP Warning:  Undefined array key "price_product" in /var/www/html/core/Router.php on line 1260
+[05-Nov-2024 05:18:31 UTC] PHP Warning:  Undefined array key "price_product" in /var/www/html/core/Router.php on line 1260
+[05-Nov-2024 05:18:31 UTC] PHP Warning:  Undefined array key "price_product" in /var/www/html/core/Router.php on line 1260
+[05-Nov-2024 05:18:31 UTC] PHP Warning:  Undefined array key "price_product" in /var/www/html/core/Router.php on line 1260

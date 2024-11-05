@@ -8,7 +8,7 @@ include 'header-index.php';
 <table class="table">
   <thead>
     <tr>
-      <th colspan="2">Datos de facturación</th> 
+      <th class="badge rounded-pill text-bg-success" colspan="2">Datos de facturación</th> 
     </tr>
   </thead>
   <tbody>
@@ -46,6 +46,8 @@ include 'header-index.php';
             <form id="form-product-checkout'.$item['sku_prod'].'" class="container-fluid mt-2">
                 <label>'. $item['titulo'].'</label>
                 <input type="hidden" name="titulo" value="'. $item['titulo'].'">
+                <input type="hidden" name="id_user_comp" value="'.$item['id_usu_com'].'">
+                <input type="hidden" name="id_user_vend" value="'. $item['id_usu_ven'] .'">
                 <label>Cantidad: '. $item['cantidad'].'</label>
                 <input type="hidden" name="cantidad" value="'.$item['cantidad'].'">
                 <label>P/U: '. $item['precio_prod'] .' </label>

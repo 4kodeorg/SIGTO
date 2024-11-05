@@ -492,10 +492,74 @@ p {
     justify-content: center;
 }
 .product-details {
-    max-height: 400px;
+    margin: 1rem auto 2rem;
+    align-items: center;
+    gap: 1rem;
 }
 .product-details p {
     font-size: 0.87rem;
+    padding: 11px 0;
+}
+.medios-de-pago-row {
+    margin: 1rem auto 1.5rem;
+}
+.medios-de-pago-cont {
+    display: flex;
+    aspect-ratio: 10/.8;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    gap: .5rem;
+}
+.medios-de-pago-cont img {
+    max-width: 45px;
+}
+.product-content {
+    display: flex;
+    padding: 1rem .5rem;
+    flex-direction: column;
+    gap: .5rem;
+}
+.below-img {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+}
+.img-active-product {
+    max-width: 400px;
+}
+.below-img img {
+    width: 100px;
+    height: 100px;
+}
+.checkout-btn-prod {
+    width: 166px;
+    font-size: 11.7px;
+    margin: 0 11px;
+    border: .5px solid #020202;
+}
+.checkout-btn-prod:hover {
+    background-color: #f2f2f2ac;
+}
+.checkout-btn-prod svg path {
+    fill: #2f8d46;
+}
+.button-remove-cart {
+    width: 120px;
+    font-size: 10px;
+    padding: 3px 0;
+    border: .5px solid #020202;
+    background-color: transparent;
+}
+.button-remove-cart:hover {
+    background-color: #ecb6ac;
+}
+.button-remove-cart svg {
+    vertical-align: middle;
+}
+.button-remove-cart svg path {
+    fill: #fd9582;
 }
 .container-response {
     display: none;
@@ -899,11 +963,9 @@ ul {
     bottom: 0;
 }
 .form-container-modal {
-    width: 50%;
+    width: 70%;
     margin: auto;
     display: flex;
-    /* visibility: hidden; */
-    /* content-visibility: hidden; */
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -915,10 +977,9 @@ ul {
     margin: auto;
     background-color: #fff;
     justify-content: center; 
-    height: 66.7%;
     padding: 1.367rem;
     gap: .5rem;
-    width: 77.78%;
+    width: 87.78%;
 }
 .login-home-modalform label {
     font-size: 1.13rem;
@@ -935,10 +996,9 @@ ul {
 }
 
 .login-home-modalform input, .login-home-modalform button {
-    padding: 4px;
+    padding: 14px 6px;
     margin: .8rem 0;
     text-align: left;
-    border-radius: 8px;
 }
 .login-home-modalform button[type="button"] {
     background-color: transparent;

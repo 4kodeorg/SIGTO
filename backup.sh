@@ -15,4 +15,4 @@ for table in $tables; do
     echo "Respaldo de $table para ${table}_backup.sql"
 done
 
-echo "Respaldo completo en : $BACKUP_DIR"
+echo "Respaldo completo en : $BACKUP_DIR" 

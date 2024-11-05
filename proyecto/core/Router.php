@@ -66,9 +66,13 @@ class Router
         } elseif (preg_match('/^finalizar_compra\/(\d+)$/', $this->request, $matches)) {
             $idUserCarrito = $matches[1];
             $this->renderCheckoutPage($idUserCarrito);
-        } elseif (preg_match('/^finalizar_compra\/paypal\/(\w+)$/', $this->request, $matches)) {
+        } elseif (preg_match('/^finalizar_compra\/paypal\/(\d+)$/', $this->request, $matches)) {
             $userId = $matches[1];
-            if ($this->checkUserMiddleware(($userId))) {
+            require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/UsuarioController.php';
+            $userController = new UsuarioController();
+            $comprador = $userController->getEmailComprador($userId);
+            $emailToCheck = bin2hex($comprador['email']);
+            if ($this->checkUserMiddleware($emailToCheck)) {
                 $this->processPaymentPayPal($userId);
             } else {
                 $this->renderPage('error', ['message' => 'Ocurrió un error inesperado']);
@@ -82,7 +86,6 @@ class Router
                 $message = "Acceso no autorizado";
                 $this->renderPage('error', ['message' => $message]);
             }
-
         } elseif ($this->request === 'home') {
             $this->homeActions();
             return;
@@ -125,7 +128,8 @@ class Router
             echo "404 - Page not found";
         }
     }
-    private function renderSysAdmin () {
+    private function renderSysAdmin()
+    {
         if (isset($_SESSION['sys-admin-email'])) {
             $this->renderAdminSite('admin-site');
         } else {
@@ -305,7 +309,7 @@ class Router
         echo (json_encode($response));
         exit();
     }
-   
+
     private function addUserPhone()
     {
         $response = ['success' => false, 'message' => ''];
@@ -371,14 +375,17 @@ class Router
             $password = trim($_POST['passwd']);
 
             $usuario = $userController->validateUser($username, $password);
-            if ($usuario) {
+            $idComprador = $userController->getIdForComprador($username);
+            if ($usuario && $idComprador && !empty($idComprador)) {
                 $res['success'] = true;
                 $sessIdfragment = date('Ymd_His') . "-" . md5($usuario['email']);
-                $carrito = $cartController->getUserCarrito($usuario['email']);
+                $carrito = $cartController->getUserCarrito($idComprador['id_usu_com']);
                 $_SESSION['carrito'] = $carrito;
-                $_SESSION['id_username'] = md5($usuario['email']);
+                $_SESSION['id_comprador'] = $idComprador['id_usu_com'];
+                $_SESSION['id_username'] = bin2hex($usuario['email']);
                 $_SESSION['uri_fragment'] = $sessIdfragment;
                 $_SESSION['username'] = $usuario['username'];
+                $_SESSION['uri_fragment'] = $sessIdfragment;
             } else {
                 $res['mssg'] = 'Credenciales inválidas.';
             }
@@ -551,7 +558,7 @@ class Router
             $response = ['success' => false, 'message' => ''];
             $userData = [
                 'id_direccion' => $data['id_direccion'],
-                'email' => pack("H*" ,$data['id_username']),
+                'email' => pack("H*", $data['id_username']),
                 'calle_prim' => $data['calle_prim'],
                 'calle_seg' => $data['calle_seg'],
                 'num_puerta' => $data['num_puerta'],
@@ -807,7 +814,7 @@ class Router
                                         $sessionController = new SessionController();
                                         $newUser = $userController->create($data);
                                         $createCompradorId = $userController->createIdComprador($data['email']);
-    
+
                                         if ($newUser && $createCompradorId) {
                                             $compradorId = $userController->getIdForComprador($newUser['email']);
                                             if ($sessionController->createSesion($newUser['email'])) {
@@ -967,20 +974,19 @@ class Router
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         $userController = new UsuarioController();
-        $response = ['success' => false, 'message' => '','favoritos' => []];
+        $response = ['success' => false, 'message' => '', 'favoritos' => []];
         if (isset($_GET['id_user']) && $_GET['id_user'] != 0) {
             $idUsername = $_GET['id_user'];
             $usernameEmail = pack("H*", $idUsername);
             $favProducts = $userController->getUserProductFavs($usernameEmail);
             if (count($favProducts) > 0) {
-               $response['success'] = true;
-               $response['favoritos'] = $favProducts;
-
+                $response['success'] = true;
+                $response['favoritos'] = $favProducts;
             } else {
                 $response['success'] = true;
                 $response['message'] = 'Aún no tienes productos agregados a favoritos';
             }
-            echo(json_encode($response));
+            echo (json_encode($response));
             exit();
         } else {
             $this->renderPage('error', ['message' => 'No autorizado']);
@@ -1118,7 +1124,7 @@ class Router
             $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 15;
             $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
-            $productos = $productController->getProductsByLimitVend($idVendedor['id_usu_ven'], $offset, $limit );
+            $productos = $productController->getProductsByLimitVend($idVendedor['id_usu_ven'], $offset, $limit);
 
             $categorias = $productController->getCategories();
             if (count($productos) > 0 || count($categorias) > 0) {
@@ -1234,7 +1240,7 @@ class Router
         $idCat = $product['id_cat'] ?? null;
         $relatedProducts = $productController->getRelatedProducts($idCat);
         if ($product) {
-            $this->renderPage('product', ['product' => $product ,'related_products' => $relatedProducts]);
+            $this->renderPage('product', ['product' => $product, 'related_products' => $relatedProducts]);
         } else {
             http_response_code(404);
             $this->renderPage('error');
@@ -1251,7 +1257,7 @@ class Router
         $userCart = $cartController->getUserCarrito($userId);
         $cartTotal = 0;
         foreach ($userCart as $item) {
-            $cartTotal += $item['cantidad'] * $item['price_product'];
+            $cartTotal += $item['cantidad'] * $item['precio_prod'];
         }
 
         $paypal_client_id = PAYPAL_CLIENT_ID;
@@ -1358,11 +1364,12 @@ class Router
             $pagoComprador = $userController->getUserCards($email);
             if (!empty($userCarrito) && !empty($usuario)) {
                 $this->renderPage('checkout', [
-                                    'carrito' => $userCarrito, 
-                                    'usuario' => $datosComprador,
-                                    'usuario_telefono' => $phoneComprador,
-                                    'comp_direcciones' => $compradorDirecciones,
-                                    'pago_comp' => $pagoComprador]);
+                    'carrito' => $userCarrito,
+                    'usuario' => $datosComprador,
+                    'usuario_telefono' => $phoneComprador,
+                    'comp_direcciones' => $compradorDirecciones,
+                    'pago_comp' => $pagoComprador
+                ]);
             } else {
                 $this->renderPage('error', ['message' => "No has añadido nada a tu carrito"]);
             }
@@ -1465,7 +1472,8 @@ class Router
 
                     if (!empty($_SESSION['carrito'])) {
                         foreach ($_SESSION['carrito'] as &$sessionItem) {
-                            if ($sessionItem['sku_prod'] == $productId
+                            if (
+                                $sessionItem['sku_prod'] == $productId
                                 && $sessionItem['id_usu_com'] == $userId
                             ) {
                                 $itemExistsInSession = true;
@@ -1480,10 +1488,9 @@ class Router
                     } else {
                         $_SESSION['carrito'] = $itemData;
                         $response['message'] = 'Producto añadido al carrito';
-                        
                     }
-                        $response['success'] = true;
-                        $response['carrito'] = $lateCart;
+                    $response['success'] = true;
+                    $response['carrito'] = $lateCart;
                 } else {
                     $response['message'] = 'Ocurrió un error inesperado';
                 }
