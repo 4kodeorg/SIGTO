@@ -653,11 +653,13 @@ p {
 .error-link:hover {
     background-color: var(--main-hover-color);
 }
-.figure-chat-support {
+.link-chat-support {
     max-width: 80px;
-    background-color: var(--main-brand-color);
-    border-radius: 30px;
-    position: relative;
+    border-radius: 30%;
+    position: fixed;
+    z-index: 99238;
+    right: 0;
+    bottom: 0;
 }
 /*  */
 

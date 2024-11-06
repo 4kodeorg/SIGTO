@@ -282,3 +282,7 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
       </div>
     </div>
   </div>
+  <a class="link-chat-support fs-6" href="https://wa.me/+59892518127?text=Hola,%20necesito%20ayuda%20para%20..">
+       <img src="../assets/imgs/ilustrationsd/chatbubble.svg" alt="">
+           Estamos aquì para ayudarte! 
+    </a>
