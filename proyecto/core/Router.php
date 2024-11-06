@@ -1369,6 +1369,7 @@ class Router
         function handleResponse($response)
         {
             $jsonResponse = json_decode($response->getBody(), true);
+    
             return [
                 "jsonResponse" => $jsonResponse,
                 "httpStatusCode" => $response->getStatusCode(),
@@ -1380,10 +1381,10 @@ class Router
          */
         function createOrder($cart)
         {
+            file_put_contents("paypal_logs.txt", "Capture Response: " . print_r($cart, true) . PHP_EOL, FILE_APPEND);
+
             $cartTotal = 0;
-            if (!is_array($cart)) {
-                throw new Exception("Error en el formato de dato.");
-            }
+            
             foreach ($cart as $item) {
                 $cartTotal += $item['cantidad'] * $item['price_product'];
             }
@@ -1399,8 +1400,10 @@ class Router
             $apiResponse = $client->getOrdersController()->ordersCreate($orderBody);
             return handleResponse($apiResponse);
         }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = json_decode(file_get_contents("php://input"), true);
+            file_put_contents("paypal_logs.txt", "Capture Response: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
+
             $cart = $data['cart'];
             try {
                 $orderResponse = createOrder($cart);
@@ -1425,19 +1428,22 @@ class Router
                 "id" => $orderID,
             ];
             $apiResponse = $client->getOrdersController()->ordersCapture($captureBody);
-            return handleResponse($apiResponse);
+            $response = handleResponse($apiResponse);
+            file_put_contents("paypal_logs.txt", "Capture Response: " . print_r($response, true) . PHP_EOL, FILE_APPEND);
+            return $response;
         }
-        if (isset($this->action) && $this->action === 'capture') {
-            $orderID = $_GET['pyid'];
+            if ($this->action === 'capture') {
+                $orderID = $_GET['pyid'];
+                try {
+                    $captureResponse = captureOrder($orderID);
+                    echo json_encode($captureResponse["jsonResponse"]);
+                } catch (Exception $e) {
+                    echo json_encode(["error" => $e->getMessage()]);
+                    http_response_code(500);
+                }
 
-            try {
-                $captureResponse = captureOrder($orderID);
-                echo json_encode($captureResponse["jsonResponse"]);
-            } catch (Exception $e) {
-                echo json_encode(["error" => $e->getMessage()]);
-                http_response_code(500);
             }
-        }
+        
     }
 
     private function renderCheckoutPage($userId)

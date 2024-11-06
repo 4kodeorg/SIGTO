@@ -565,6 +565,99 @@ p {
     width: 100px;
     height: 100px;
 }
+.input-direcciones {
+    display: none;
+    margin: .5rem 0;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+.input-pickup {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    margin: .5rem 0;
+}
+.hide-pp-btn {
+    display: none;
+    visibility: hidden;
+}
+.button-pay-paypal {
+    padding: 1.3em 3em;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin: 2rem 0;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .button-pay-paypal:hover {
+    background-color: #23c483;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+  
+  .button-pay-paypal:active {
+    transform: translateY(-1px);
+  }
+
+.button-confirm-dir {
+    padding: 15px 25px;
+    border: unset;
+    border-radius: 15px;
+    color: #212121;
+    z-index: 1;
+    margin: 1rem 0;
+    background: #e8e8e8;
+    position: relative;
+    font-weight: 700;
+    font-size: 14px;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    transition: all 250ms;
+    overflow: hidden;
+   }
+   
+   .button-confirm-dir::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 15px;
+    background-color: #212121;
+    z-index: -1;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    transition: all 250ms
+   }
+   
+   .button-confirm-dir:hover {
+    color: #e8e8e8;
+   }
+   
+   .button-confirm-dir:hover::before {
+    width: 100%;
+   }
+
+.small-caption-eco {
+    font-size: 0.675rem;
+}
+.container-vehiculo-select {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
 .checkout-btn-prod {
     width: 166px;
     font-size: 11.7px;

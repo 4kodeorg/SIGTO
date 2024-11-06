@@ -11624,3 +11624,44 @@ Stack trace:
 #4 /var/www/html/index.php(19): Router->route()
 #5 {main}
   thrown in /var/www/html/controlador/UsuarioController.php on line 134
+[06-Nov-2024 04:24:06 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "PAYPAL_CLIENT_SECRET" in /var/www/html/core/Router.php:1358
+Stack trace:
+#0 /var/www/html/core/Router.php(76): Router->processPaymentPayPal('1004')
+#1 /var/www/html/index.php(19): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 1358
+[06-Nov-2024 04:24:30 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "PAYPAL_CLIENT_SECRET" in /var/www/html/core/Router.php:1358
+Stack trace:
+#0 /var/www/html/core/Router.php(76): Router->processPaymentPayPal('1004')
+#1 /var/www/html/index.php(19): Router->route()
+#2 {main}
+  thrown in /var/www/html/core/Router.php on line 1358
+[06-Nov-2024 05:06:27 UTC] PHP Warning:  Array to string conversion in /var/www/html/core/Router.php on line 1372
+[06-Nov-2024 05:08:04 UTC] PHP Warning:  Array to string conversion in /var/www/html/core/Router.php on line 1372
+[06-Nov-2024 05:29:35 UTC] PHP Warning:  Undefined array key "pyid" in /var/www/html/core/Router.php on line 1431
+[06-Nov-2024 05:43:10 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1405
+[06-Nov-2024 05:43:10 UTC] PHP Warning:  http_response_code(): Cannot set response code - headers already sent (output started at /var/www/html/core/Router.php:1405) in /var/www/html/core/Router.php on line 1414
+[06-Nov-2024 05:45:21 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1405
+[06-Nov-2024 05:45:21 UTC] PHP Warning:  http_response_code(): Cannot set response code - headers already sent (output started at /var/www/html/core/Router.php:1405) in /var/www/html/core/Router.php on line 1414
+[06-Nov-2024 05:46:16 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1405
+[06-Nov-2024 05:46:16 UTC] PHP Warning:  http_response_code(): Cannot set response code - headers already sent (output started at /var/www/html/core/Router.php:1405) in /var/www/html/core/Router.php on line 1414
+[06-Nov-2024 05:46:35 UTC] PHP Warning:  Undefined array key "cart" in /var/www/html/core/Router.php on line 1405
+[06-Nov-2024 05:46:35 UTC] PHP Warning:  http_response_code(): Cannot set response code - headers already sent (output started at /var/www/html/core/Router.php:1405) in /var/www/html/core/Router.php on line 1414
+[06-Nov-2024 05:47:05 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1405
+[06-Nov-2024 05:47:05 UTC] PHP Warning:  http_response_code(): Cannot set response code - headers already sent (output started at /var/www/html/core/Router.php:1405) in /var/www/html/core/Router.php on line 1414
+[06-Nov-2024 13:46:33 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1405
+[06-Nov-2024 13:46:33 UTC] PHP Warning:  http_response_code(): Cannot set response code - headers already sent (output started at /var/www/html/core/Router.php:1405) in /var/www/html/core/Router.php on line 1414
+[06-Nov-2024 13:53:48 UTC] PHP Warning:  Array to string conversion in /var/www/html/core/Router.php on line 1384
+[06-Nov-2024 13:53:48 UTC] PHP Warning:  Undefined variable $Array in /var/www/html/core/Router.php on line 1384
+[06-Nov-2024 13:54:28 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1407
+[06-Nov-2024 13:54:28 UTC] PHP Warning:  http_response_code(): Cannot set response code - headers already sent (output started at /var/www/html/core/Router.php:1407) in /var/www/html/core/Router.php on line 1416
+[06-Nov-2024 14:11:29 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1407
+[06-Nov-2024 14:11:29 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /var/www/html/core/Router.php on line 1388
+[06-Nov-2024 14:25:38 UTC] PHP Warning:  Undefined array key "cart" in /var/www/html/core/Router.php on line 1404
+[06-Nov-2024 14:25:38 UTC] PHP Warning:  Undefined variable $cart in /var/www/html/core/Router.php on line 1408
+[06-Nov-2024 14:25:38 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /var/www/html/core/Router.php on line 1388
+[06-Nov-2024 14:26:17 UTC] PHP Warning:  Undefined array key "cart" in /var/www/html/core/Router.php on line 1404
+[06-Nov-2024 14:26:17 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /var/www/html/core/Router.php on line 1388
+[06-Nov-2024 15:00:07 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in /var/www/html/core/Router.php on line 1388
+[06-Nov-2024 15:01:44 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1407
+[06-Nov-2024 15:01:44 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /var/www/html/core/Router.php on line 1388

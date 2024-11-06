@@ -35,6 +35,42 @@ function showFormUpdateDir(el) {
     el.innerHTML = formUpdateDireccion.classList.contains('hide-form-action') ? 'Actualizar esta dirección' : 'Ocultar';
     
 }
+function toggleTipoVehiculo(el) {
+
+    const showOptVehiculo = document.getElementById('select-option-vehiculo');
+    if (el.value.length > 0) {
+        showOptVehiculo.style.display = 'flex';
+    } else {
+        showOptVehiculo.style.display = 'none';
+    }
+}
+
+function toggleDeliveryOptions(el) {
+    const containerDir = document.getElementById('envio-container-options');
+    const pickupContainer = document.getElementById('pickup-container-options');
+
+    if (el.value === 'Envio') {
+        containerDir.style.display = 'flex';
+        pickupContainer.style.display = 'none'; 
+    } else {
+        containerDir.style.display = 'none';
+    }
+}
+function togglePickUpOptions(el) {
+    const containerDir = document.getElementById('envio-container-options');
+    const pickupContainer = document.getElementById('pickup-container-options');
+
+    if (el.value === 'Pick-Up') {
+        containerDir.style.display = 'none';
+        pickupContainer.style.display = 'flex'; 
+    } else {
+        pickupContainer.style.display = 'none';
+    }
+}
+function togglePaypalButton() {
+    const ppButton = document.getElementById('paypal-button-container');
+    ppButton.classList.toggle('hide-pp-btn');
+}
 
 function showFormAddCard(el) {
     cardForm.classList.toggle('hide-form-action');
@@ -90,6 +126,18 @@ menuItems.forEach(link => {
         link.classList.add('active')
     })
 })
+
+async function confirmMetodoEnvio(el, ev) {
+    const formEnvio = document.getElementById('form-metodo-envio');
+    const dataEnvio = new FormData(formEnvio);
+    console.log(dataEnvio);
+    ev.preventDefault();
+    try {
+        
+    } catch (error) {
+        
+    }
+}
 async function getFavorites(ev, el) {
     const userId = el.getAttribute('data-user-id');
     const infoSection = document.getElementById('accordionFlushContainer');
@@ -795,16 +843,14 @@ const userId = cartData[0].id_user_comp;
             },
     
             async createOrder() {
-                
+                console.log(JSON.stringify(cartData));
                 try {
                     const response = await fetch(`${server}/finalizar_compra/paypal/${userId}`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({
-                            cart: cartData
-                        }),
+                        body: JSON.stringify({ 'cart' : cartData})
                     });
     
                     const orderData = await response.json();
@@ -823,7 +869,7 @@ const userId = cartData[0].id_user_comp;
             async onApprove(data, actions) {
                 try {
                     const response = await fetch(
-                        `${server}/finalizar_compra/paypal/?pyid=${data.orderID}&action=capture`,
+                        `${server}/finalizar_compra/paypal/${userId}?pyid=${data.orderID}&action=capture`,
                         {
                             method: "POST",
                             headers: {
@@ -833,12 +879,11 @@ const userId = cartData[0].id_user_comp;
                     );
     
                     const orderData = await response.json();
+                    console.log(orderData)
                     // Three cases to handle:
                     //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
                     //   (2) Other non-recoverable errors -> Show a failure message
                     //   (3) Successful transaction -> Show confirmation or thank you message
-    
-                    const errorDetail = orderData?.details?.[0];
     
                     if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
                         // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
@@ -846,6 +891,8 @@ const userId = cartData[0].id_user_comp;
                         // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
                         return actions.restart();
                     } else if (errorDetail) {
+                        console.log(errorDetail)
+                        console.log("Here ")
                         // (2) Other non-recoverable errors -> Show a failure message
                         throw new Error(
                             `${errorDetail.description} (${orderData.debug_id})`
@@ -853,17 +900,10 @@ const userId = cartData[0].id_user_comp;
                     } else if (!orderData.purchase_units) {
                         throw new Error(JSON.stringify(orderData));
                     } else {
+                        alert("Transaccion exitosa");
                         // (3) Successful transaction -> Show confirmation or thank you message
                         // Or go to another URL:  actions.redirect('thank_you.html');
-                        const transaction =
-                            orderData?.purchase_units?.[0]?.payments
-                                ?.captures?.[0] ||
-                            orderData?.purchase_units?.[0]?.payments
-                                ?.authorizations?.[0];
-                        resultMessage(
-                            `Transaction ${transaction.status}: ${transaction.id}<br>
-              <br>See console for all available details`
-                        );
+                        
                         console.log(
                             "Capture result",
                             orderData,
@@ -872,9 +912,7 @@ const userId = cartData[0].id_user_comp;
                     }
                 } catch (error) {
                     console.error(error);
-                    resultMessage(
-                        `Sorry, your transaction could not be processed...<br><br>${error}`
-                    );
+                    
                 }
             } ,
         })

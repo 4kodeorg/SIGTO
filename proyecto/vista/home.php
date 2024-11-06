@@ -113,12 +113,7 @@ function renderProductRow($product, $idComprador, $isFavorite)
             <img src="../assets/imgs/redpagos.png" alt="">
         </div>
     </section>
-    <div class="container-message-support">
-        <figure class="figure-chat-support">
-            <img src="../assets/imgs/chatbubble.svg" alt="">
-            <figcaption>Estamos aquì para ayudarte!</figcaption>
-        </figure>
-    </div>
+    
 </section>
 <div id="success-carrito-message" class="container-ok-message">
     <p></p>
