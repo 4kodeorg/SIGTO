@@ -213,6 +213,9 @@ class Router
             case 'agregar_card':
                 $this->updatePayment();
                 break;
+            case 'remove_card':
+                $this->removeThisCard();
+                break;
             default:
                 $this->renderProfile($userId);
                 break;
@@ -331,7 +334,88 @@ class Router
         echo (json_encode($response));
         exit();
     }
-    private function updatePayment() {}
+    private function updatePayment() {
+        require_once $_SERVER['DOCUMENT_ROOT']. '/controlador/UsuarioController.php';
+        $response = ['success' => false, 'message' => ''];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            parse_str(file_get_contents("php://input"), $dataCard);
+            $data = [
+                'email' => htmlspecialchars(pack("H*" ,$dataCard['id_username'])),
+                'nom_titular' => htmlspecialchars($dataCard['nom_titular']),
+                'numero' => htmlspecialchars($dataCard['numero']),
+                'nombre_tarjeta' => htmlspecialchars($dataCard['nombre_tarjeta']),
+                'fecha_ven' => htmlspecialchars($dataCard['fecha_ven']),
+                'codigo_seg' => htmlspecialchars($dataCard['codigo_seg'])
+            ];
+            $emptyFields = false;
+            foreach ($data as $key => $value) {
+                if (empty($value) || $value == 0) {
+                    $emptyFields = true;
+                    $response['message'] = "El campo ".$key ." es requerido";
+                }
+            }
+            if (strlen(trim($data['numero'])) < 13) {
+                $emptyFields = true;
+                $response['message'] = "El número de tu tarjeta no pudo ser verificado";
+            }  else {
+                $expiration = explode('/', $data['fecha_ven']);
+                if (count($expiration) == 2) {
+                    $expMonth = (int) $expiration[0];
+                    $expYear = (int) ('20' . $expiration[1]);
+        
+                    $currentYear = (int) date('Y');
+                    $currentMonth = (int) date('m');
+        
+                    if ($expYear < $currentYear || ($expYear == $currentYear && $expMonth < $currentMonth)) {
+                        $emptyFields = true;
+                        $response['message'] = "La tarjeta está vencida.";
+                    }
+                } else {
+                    $emptyFields = true;
+                    $response['message'] = "La fecha de vencimiento no es válida.";
+                }
+            }
+            if (!$emptyFields) {
+                $usuarioController = new UsuarioController();
+                $datosAgregadosSuccess = $usuarioController->insertPaymentMethod($data);
+                if ($datosAgregadosSuccess) {
+                    $response['success'] = true;
+                    $response['message'] = "Medio de pago agregado con éxito";
+                }
+                else {
+                    $response['message'] = "Ocurrió un error, intenta nuevamente";
+                }
+            }
+            echo json_encode($response);
+            exit();
+        }
+    }
+
+    private function removeThisCard() {
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/UsuarioController.php';
+            $response = ['success' => false, 'message' => ''];
+            $userController = new UsuarioController();
+            parse_str(file_get_contents("php://input"), $deleteCard);
+            $userId = pack("H*", $deleteCard['id_username']);
+            $cardId = $deleteCard['id_card'];
+            if (!empty($userId) && !empty($cardId)) {
+                $deletedCard = $userController->deleteCardFromUser($cardId, $userId);
+                if ($deletedCard) {
+                    $response['success'] = true;
+                    $response['message'] = "Tarjeta eliminada con éxito";
+                }
+                else {
+                    $response['message'] = "No se pudo eliminar la tarjeta";
+                }
+            } else {
+                $response['message'] = "No fue posible procesar la solicitud";
+            }
+            echo json_encode($response);
+            exit();
+        }
+    }
+
     private function activateProductAdmin()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
@@ -562,14 +646,18 @@ class Router
                 'calle_prim' => $data['calle_prim'],
                 'calle_seg' => $data['calle_seg'],
                 'num_puerta' => $data['num_puerta'],
-                'num_apartamento' => $data['num_apartamento'],
                 'ciudad' => $data['ciudad'],
-                'tipo_dir' => $data['tipo_dir']
+                'tipo_dir' => $data['tipo_dir'],
+                'num_apartamento' => $data['num_apartamento'] ?? null
+                
             ];
 
             $emptyFields = false;
             foreach ($data as $key => $val) {
                 if (empty(trim($val)) || $val == 0) {
+                    if ($key == 'num_apartamento') {
+                        break;
+                    }
                     $emptyFields = true;
                     $response['message'] = "El campo " . $key . "es requerido";
                 }
@@ -630,13 +718,10 @@ class Router
         $response = ['success' => false, 'message' => ''];
         $email = htmlspecialchars($_POST['id_username']) ?? '';
         $nombre1 = htmlspecialchars($_POST['nombre1']) ?? '';
-        $nombre2 = htmlspecialchars($_POST['nombre2']) ?? '';
+        $nombre2 = htmlspecialchars($_POST['nombre2']) ?? null;
         $apellido1 = htmlspecialchars($_POST['apellido1']) ?? '';
-        $apellido2 = htmlspecialchars($_POST['apellido2']) ?? '';
-        if (
-            !empty(trim($nombre1)) && !empty(trim($nombre2))
-            && !empty(trim($apellido1)) && !empty(trim($apellido2))
-        ) {
+        $apellido2 = htmlspecialchars($_POST['apellido2']) ?? null;
+        if (!empty(trim($nombre1)) && !empty(trim($apellido1)) ) {
             $userController = new UsuarioController();
             $userInfoUpdatedOk = $userController->updateUserData($nombre1, $nombre2, $apellido1, $apellido2, pack("H*", $email));
 
@@ -645,7 +730,7 @@ class Router
                 $response['message'] = "Información actualizada con éxito";
             }
         } else {
-            $response['message'] = "Todos los campos son requeridos";
+            $response['message'] = "Debes ingresar al menos un nombre y un apellido";
         }
         header('Content-type: application/json');
         echo (json_encode($response));
@@ -1391,12 +1476,15 @@ class Router
     {
 
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
 
-        $response = ['success' => false, 'message' => '', 'carrito' => [], 'prevCarrito' => []];
+        $response = ['success' => false, 'message' => '', 'carrito' => [], 'prevCarrito' => [], 'prodImages' => []];
         if (isset($_GET['id']) && $_GET['id'] != 0) {
             $userId = $_GET['id'];
             $cartController = new CartController();
+            $productController = new ProductController();
             $userCart = $cartController->getUserCarrito($userId);
+            $prodImages = $productController->getProductImages();
             if (count($userCart) === 0) {
                 $response['success'] = true;
                 $response['message'] = "Tu carrito está vacio";
@@ -1404,6 +1492,7 @@ class Router
                 $_SESSION['carrito'] = [];
                 $_SESSION['carrito'] = $userCart;
                 $response['success'] = true;
+                $response['prodImages'] = $prodImages;
                 $response['carrito'] = $userCart;
             }
         } else {

@@ -3,7 +3,7 @@
 class Vendedor
 {
     private string $email;
-    private int $razon_social;
+    private string $razon_social;
     private string $password;
     private string $fecha_registro;
     private string $nombre;

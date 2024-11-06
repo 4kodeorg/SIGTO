@@ -60,21 +60,6 @@ class UsuarioController extends Database
             return false;
         }
     }
-    public function updateUserPersonalData($emailUser, $name1, $name2, $lastname1, $lastname2)
-    {
-        $query = "UPDATE comprador SET nombre1=?, nombre2=? ,apellido1=?, apellido2=? WHERE email=?;";
-        $stmt = $this->conn->prepare($query);
-
-        if (!$stmt) {
-            throw new Exception("Error: " . $this->conn->error);
-        }
-        $stmt->bind_param('sssss', $name1, $name2, $lastname1, $lastname2, $emailUser);
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
     public function validateUser($username, $password)
     {
 
@@ -115,7 +100,7 @@ class UsuarioController extends Database
         $callePrimaria = $data['calle_pri'];
         $calleSecundaria = $data['calle_seg'];
         $numPuerta = $data['num_puerta'];
-        $numApartamento = $data['num_apartamento'];
+        $numApartamento = $data['num_apartamento'] ?? null;
         $ciudad = $data['ciudad'];
         $tipoDireccion = $data['tipo_dir'];
 
@@ -136,6 +121,19 @@ class UsuarioController extends Database
             return false;
         }
     }
+    public function deleteCardFromUser ($idCard, $email) {
+        $query = "DELETE FROM comprador_metodos_pago WHERE id_tarjeta=? AND email=?;";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param('is', $idCard, $email);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public function getUserCards($email)
     {
         $query = "SELECT * FROM comprador_metodos_pago where email=?;";
@@ -145,11 +143,12 @@ class UsuarioController extends Database
         if ($stmt->execute()) {
             $res = $stmt->get_result();
             if ($res->num_rows > 0) {
-                $stmt->close();
-                return $res->fetch_assoc();
+                return $res->fetch_all(MYSQLI_ASSOC);
+                
             } else {
                 return [];
             }
+            $stmt->close();
         } else {
             $stmt->close();
             return false;
@@ -177,6 +176,25 @@ class UsuarioController extends Database
             return false;
         }
     }
+    public function insertPaymentMethod($data) {
+        $query = "INSERT INTO comprador_metodos_pago 
+                (email, nom_titular, numero, nombre_tarjeta, fecha_ven, codigo_seg)
+                VALUES (?, ?, ?, ?, ?, ?);";
+        $stmt = $this->conn->prepare($query);
+        $email = $data['email'];
+        $nomTitular = $data['nom_titular'];
+        $numer = $data['numero'];
+        $nombreTarjeta = $data['nombre_tarjeta'];
+        $fechaVen = $data['fecha_ven'];
+        $codigoSeg = $data['codigo_seg'];
+        $stmt->bind_param('ssissi', $email, $nomTitular, $numer, $nombreTarjeta, $fechaVen, $codigoSeg);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public function updateUserDirecciones($userData)
     {
         $query = "UPDATE comprador_direccion SET calle_pri= ?, calle_sec= ?, num_puerta= ?, num_apartamento= ?, ciudad= ?, tipo_dir=? WHERE id_direccion= ?;";
@@ -197,6 +215,7 @@ class UsuarioController extends Database
             return false;
         }
     }
+
     public function getUserProductFavs($userEmail)
     {
         $query = " SELECT *
@@ -286,6 +305,9 @@ class UsuarioController extends Database
         $query = "UPDATE comprador SET nombre1=?, nombre2=?, apellido1=?, apellido2=? WHERE email=?;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('sssss', $nombre1, $nombre2, $apellido1, $apellido2, $email);
+        if (!$stmt) {
+            throw new Exception("Error: " . $this->conn->error);
+        }
         if ($stmt->execute()) {
             return true;
         } else {

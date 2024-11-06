@@ -38,7 +38,7 @@ class VendController extends Database
             $apellido = $vendedor->getApellido();
             $fecha_nac = $vendedor->getFechaNac();
 
-            $stmt->bind_param('sisssss', $email, $razon_social, $password, $fecha_reg, $nombre, $apellido, $fecha_nac);
+            $stmt->bind_param('sssssss', $email, $razon_social, $password, $fecha_reg, $nombre, $apellido, $fecha_nac);
 
             if ($stmt->execute()) {
                 $stmt->close();

@@ -383,7 +383,20 @@ include('header-index.php');
                             foreach ($tarjetas as $tarjeta) {
                         ?>
                                 <section>
+                                    <h2>Mis tarjetas</h2>
+                                    <p><?php echo $tarjeta['nom_titular'] ?></p>
                                     <p><?php echo $tarjeta['nombre_tarjeta'] ?></p>
+                                <button 
+                                    type="button"
+                                    class="button-remove-card"
+                                    onclick="removeThisCard(this, event)"
+                                    data-id-card="<?php echo $tarjeta['id_tarjeta']?>" 
+                                    data-id-user="<?php echo bin2hex($tarjeta['email'])?>"> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19px" height="19px" 
+                                    viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" 
+                                    d="M5.75 3V1.5h4.5V3zm-1.5 0V1a1 1 0 0 1 1-1h5.5a1 1 0 0 1 1 1v2h2.5a.75.75 0 0 1 0 1.5h-.365l-.743 9.653A2 2 0 0 1 11.148 16H4.852a2 2 0 0 1-1.994-1.847L2.115 4.5H1.75a.75.75 0 0 1 0-1.5zm-.63 1.5h8.76l-.734 9.538a.5.5 0 0 1-.498.462H4.852a.5.5 0 0 1-.498-.462z" 
+                                    clip-rule="evenodd"/>
+                                </svg></button>
                                 </section>
 
                                 <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
@@ -404,28 +417,42 @@ include('header-index.php');
 
                             <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
                             <div class="col-12">
-                                <label for="calle_pri" class="form-label">Nombre del titular de la tarjeta: </label>
-                                <input type="text" name="calle_pri" class="form-control" id="calle_prim" placeholder="Nombre en la tarjeta">
+                                <label for="nom_titular" class="form-label">Nombre del titular de la tarjeta: </label>
+                                <input type="text" name="nom_titular" class="form-control" id="nom_titular" placeholder="Nombre en la tarjeta">
                             </div>
-                            <div class="col-12">
-                                <label for="calle_pri" class="form-label">Número de la tarjeta: </label>
-                                <input type="text" name="calle_pri" class="form-control" id="calle_prim" placeholder="0000 0000 0000 0000">
+                            <div class="col-12 input-container">
+                                <label for="numer" class="form-label">Número de la tarjeta: </label>
+                                <input type="text" name="numero" class="form-control" id="numer" placeholder="0000 0000 0000 0000">
+                                <div id="card-emitter-display" class="icon"></div>
                             </div>
                             <div class="col-md-4">
-                                <label for="calle_sec" class="form-label">Fecha de vencimiento: </label>
-                                <input type="text" name="calle_sec" class="form-control" id="calle_seg" placeholder="01/25">
+                                <label for="fecha_ven" class="form-label">Fecha de vencimiento: </label>
+                                <input type="text" name="fecha_ven" class="form-control" id="fecha_ven" placeholder="01/25">
                             </div>
 
                             <div class="col-md-4">
-                                <label for="num_puerta" class="form-label">Código de seguridad </label>
-                                <input class="form-control" id="num_puerta" name="num_puerta" type="text" placeholder="CVV">
+                                <label for="codigo_seg" class="form-label">Código de seguridad </label>
+                                <input class="form-control" id="codigo_seg" name="codigo_seg" type="text" placeholder="CVV">
                             </div>
 
 
                             <div class="col-12">
-                                <button type="button" onclick="addDirecciones()" class="button-profile">Agregar tarjeta</button>
+                                <button type="button" name="submit" onclick="addPaymentCard(this, event)" data-user-id="<?php echo bin2hex($usuario['email'])?>" class="button-profile">Agregar tarjeta</button>
                             </div>
                         </form>
+                        <div class="container-response" id="message-resp-cards">
+                            <p></p>
+                            <svg onclick="this.parentElement.style.display='none';"
+                                width="36px" height="36px" viewBox="0 0 24 24" fill="currentColor"
+                                x="128" y="128" role="img" xmlns="http://www.w3.org/2000/svg">
+                                <g fill="currentColor">
+                                    <g fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" d="M15 15L9 9m6 0l-6 6" />
+                                        <circle cx="12" cy="12" r="10" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
