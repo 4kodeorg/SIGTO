@@ -177,16 +177,32 @@ class ProductController extends Database
             echo "Error en la base de datos" . $err->getMessage();
         }
     }
-
-    public function searchProductsByTitleOrDescripcion($idCat, $searchTerm)
+    public function searchProductsByTitleOrDescripcion($searchTerm)
     {
-        $query = 'SELECT * FROM productos WHERE activo = 1 AND (nombre LIKE ? OR descripcion LIKE ?) OR id_cat =?;';
+        $query = 'SELECT * FROM productos WHERE activo = 1 AND (nombre LIKE ? OR descripcion LIKE ?);';
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Error al buscar");
         }
         $searchParamComodines = '%' . $searchTerm . '%';
-        $stmt->bind_param('iss', $searchParamComodines, $searchParamComodines, $idCat);
+        $stmt->bind_param('ss', $searchParamComodines, $searchParamComodines);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $productos = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $productos ?: [];
+    }
+
+    public function searchProductsByTitleOrDescripcionAndCat($searchTerm, $idCat)
+    {
+        $query = 'SELECT * FROM productos WHERE activo = 1 AND (nombre LIKE ? OR descripcion LIKE ?) AND id_cat =?;';
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Error al buscar");
+        }
+        $searchParamComodines = '%' . $searchTerm . '%';
+        $stmt->bind_param('ssi', $searchParamComodines, $searchParamComodines, $idCat);
         $stmt->execute();
 
         $result = $stmt->get_result();

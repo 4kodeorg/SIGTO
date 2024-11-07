@@ -220,3 +220,9 @@ AH00558: apache2: Could not reliably determine the server's fully qualified doma
 [Wed Nov 06 04:23:36.287651 2024] [mpm_prefork:notice] [pid 1:tid 1] AH00163: Apache/2.4.62 (Debian) PHP/8.3.12 configured -- resuming normal operations
 [Wed Nov 06 04:23:36.287837 2024] [core:notice] [pid 1:tid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
 [Wed Nov 06 17:09:46.773414 2024] [mpm_prefork:notice] [pid 1:tid 1] AH00170: caught SIGWINCH, shutting down gracefully
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.18.0.4. Set the 'ServerName' directive globally to suppress this message
+[Wed Nov 06 17:23:19.818837 2024] [mpm_prefork:notice] [pid 1:tid 1] AH00163: Apache/2.4.62 (Debian) PHP/8.3.12 configured -- resuming normal operations
+[Wed Nov 06 17:23:19.819030 2024] [core:notice] [pid 1:tid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+[Wed Nov 06 18:13:00.456021 2024] [rewrite:error] [pid 19:tid 19] [client 192.168.65.1:25330] AH10411: Rewritten query string contains control characters or spaces, referer: http://localhost/finalizar_compra/1004
+[Wed Nov 06 21:31:16.679790 2024] [rewrite:error] [pid 22:tid 22] [client 192.168.65.1:47628] AH10411: Rewritten query string contains control characters or spaces, referer: http://localhost/finalizar_compra/1004
+[Thu Nov 07 02:13:35.030530 2024] [mpm_prefork:notice] [pid 1:tid 1] AH00170: caught SIGWINCH, shutting down gracefully

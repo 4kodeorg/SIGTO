@@ -169,6 +169,8 @@ CREATE TABLE carrito (
     FOREIGN KEY (id_usu_com) REFERENCES usuario_comprador(id_usu_com)
 )AUTO_INCREMENT = 7000;
 
+ALTER TABLE carrito 
+ADD COLUMN is_deleted BOOLEAN DEFAULT FALSE;
 
 CREATE TABLE vendedor_telefono (
     email VARCHAR(50),
@@ -208,13 +210,15 @@ CREATE TABLE medio_pago (
 );
 
 CREATE TABLE confirmar_compra (
-    id_carrito INT,
+    id_usu_com INT,
+    id_usu_ven INT,
     id_pago INT,
     fecha_confirmacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     estado_confirmacion ENUM('Pendiente', 'Confirmado', 'Cancelado'),
     cupon_desc VARCHAR(50),
-    PRIMARY KEY (id_carrito, id_pago),
-    FOREIGN KEY (id_carrito) REFERENCES carrito(id_carrito),
+    PRIMARY KEY (id_usu_com, id_usu_ven, id_pago),
+    FOREIGN KEY (id_usu_com) REFERENCES carrito(id_usu_com),
+    FOREIGN KEY (id_usu_ven) REFERENCES carrito(id_usu_ven),
     FOREIGN KEY (id_pago) REFERENCES medio_pago(id_pago)
 );
 

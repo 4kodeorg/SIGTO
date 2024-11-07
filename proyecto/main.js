@@ -38,7 +38,12 @@ function showFormUpdateDir(el) {
 function toggleTipoVehiculo(el) {
 
     const showOptVehiculo = document.getElementById('select-option-vehiculo');
-    if (el.value.length > 0) {
+    const envioInp = document.getElementById('envio');
+    const pickupContainer = document.getElementById('pickup-container-options');
+
+    pickupContainer.style.display = 'none';
+
+    if (el.value.length > 0 && envioInp.checked ) {
         showOptVehiculo.style.display = 'flex';
     } else {
         showOptVehiculo.style.display = 'none';
@@ -57,11 +62,18 @@ function toggleDeliveryOptions(el) {
     }
 }
 function togglePickUpOptions(el) {
+    const dirs = document.querySelectorAll('#mis_direcciones');
+    for (let i=0; i < dirs.length; i++) {
+        dirs[i].checked = false;
+    }
     const containerDir = document.getElementById('envio-container-options');
     const pickupContainer = document.getElementById('pickup-container-options');
 
+    const showOptVehiculo = document.getElementById('select-option-vehiculo');
+
     if (el.value === 'Pick-Up') {
         containerDir.style.display = 'none';
+        showOptVehiculo.style.display = 'none';
         pickupContainer.style.display = 'flex'; 
     } else {
         pickupContainer.style.display = 'none';
@@ -126,14 +138,40 @@ menuItems.forEach(link => {
         link.classList.add('active')
     })
 })
+// 200g por milla electrico
+// 350g por milla nafta
 
+function getFootPrintCo2(el) {
+    const milles = Math.floor(Math.random() * 201) + 55;
+    const consumo = [200 * milles, 350 * milles];
+    const smallmssg = document.getElementById('co2foot');
+    if (el.value === 'Electrico') {
+        const consElectrico = consumo[1] - consumo[0]; 
+        smallmssg.innerHTML = `Tu decisión ahorra una huella de carbono de ${consElectrico}g`
+    } else if (el.value === 'Nafta') {
+        const consNafta = consumo[1];
+        smallmssg.innerHTML = `Tu huella de carbono por este envío sería de ${consNafta}g`
+    } else {
+        smallmssg.innerHTML = '';
+    }
+}
 async function confirmMetodoEnvio(el, ev) {
     const formEnvio = document.getElementById('form-metodo-envio');
     const dataEnvio = new FormData(formEnvio);
-    console.log(dataEnvio);
+    
+    for (let [key, value] of dataEnvio.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+   
     ev.preventDefault();
     try {
-        
+        const response = await fetch (`${server}/finalizar_compra${userId}?action=confirm_metodo_entrega`, {
+            method: 'POST',
+            headers : { 'Content-type': 'application/x-www-form-urlencoded'},
+            body: new URLSearchParams({
+
+            })
+        })
     } catch (error) {
         
     }
@@ -275,15 +313,14 @@ async function getCartData(userId) {
 
 async function removeFromCart(el) {
     const userId = el.getAttribute('data-user-id');
-    const idProduct = el.getAttribute('data-product-id');
+    const idCart = el.getAttribute('data-carrito-id');
 
     try {
         const response = await fetch(`${server}/home?idUs=${userId}&action=remove_product_cart`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
-                'id_usuario': userId,
-                'id_prod': idProduct
+                'id_carrito': idCart,
             })
         });
         const data = await response.json();
@@ -615,7 +652,7 @@ async function fetchMoreProducts(usId) {
     try {
         const response = await fetch(`${server}/home?offset=${currentOffset}&limit=${limit}`);
         const productsData = await response.json();
-        await new Promise(resolve => setTimeout(resolve, 1300));
+        await new Promise(resolve => setTimeout(resolve, 1100));
         spinnerLoad.classList.remove('show-loader');
         footer.classList.remove('hide-some');
         sectionBelow.classList.remove('hide-some');
@@ -763,6 +800,31 @@ async function addDirecciones() {
     }
 }
 
+async function removeAllFromCart(btn, ev) {
+    const userId = btn.getAttribute('data-user-id');
+    const itemsCart = document.querySelectorAll('item-container-cart');
+    ev.preventDefault();
+    try {
+        const response = await fetch(`${server}/home?idUs=${userId}&action=clean_carrito`,{
+            method: 'PUT',
+            headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                'id_username': userId 
+            })
+        })
+        const data = await response.json();
+        if (data.success) {
+            itemsCart.forEach(item => {
+                item.remove();
+            });
+            updateCartContainer(userId);
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error(`Error: ${error}`)
+    }
+}
 async function updateDirecciones() {
     const messageResp = document.getElementById('message-resp-direcciones2')
     const actualizarDirecciones = document.getElementById('form-direcciones_actualizar');
@@ -843,7 +905,7 @@ const userId = cartData[0].id_user_comp;
             },
     
             async createOrder() {
-                console.log(JSON.stringify(cartData));
+               
                 try {
                     const response = await fetch(`${server}/finalizar_compra/paypal/${userId}`, {
                         method: "POST",
@@ -854,8 +916,6 @@ const userId = cartData[0].id_user_comp;
                     });
     
                     const orderData = await response.json();
-                    console.log(orderData);
-    
                     if (orderData.id) {
                         return orderData.id;  
                     } else {
@@ -877,22 +937,22 @@ const userId = cartData[0].id_user_comp;
                             },
                         }
                     );
-    
+               
                     const orderData = await response.json();
-                    console.log(orderData)
+                   
+                    const errorDetail = orderData?.details?.[0];
+
                     // Three cases to handle:
                     //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
                     //   (2) Other non-recoverable errors -> Show a failure message
                     //   (3) Successful transaction -> Show confirmation or thank you message
-    
+                    
                     if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
                         // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
                         // recoverable state, per
                         // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
                         return actions.restart();
                     } else if (errorDetail) {
-                        console.log(errorDetail)
-                        console.log("Here ")
                         // (2) Other non-recoverable errors -> Show a failure message
                         throw new Error(
                             `${errorDetail.description} (${orderData.debug_id})`
@@ -900,7 +960,8 @@ const userId = cartData[0].id_user_comp;
                     } else if (!orderData.purchase_units) {
                         throw new Error(JSON.stringify(orderData));
                     } else {
-                        alert("Transaccion exitosa");
+                        actions.redirect(`${server}/finalizar_compra/thanks?success=true&id=${userId}`);
+                        removeAllFromCart({ getAttribute: () => userId }, new Event('click'));
                         // (3) Successful transaction -> Show confirmation or thank you message
                         // Or go to another URL:  actions.redirect('thank_you.html');
                         
@@ -912,7 +973,6 @@ const userId = cartData[0].id_user_comp;
                     }
                 } catch (error) {
                     console.error(error);
-                    
                 }
             } ,
         })
@@ -928,8 +988,8 @@ function renderCartItems(item, imagen) {
         <b>Precio: $ ${item.precio_prod}</b>
         <button
         class="button-remove-cart" 
-        data-product-id='${item.sku_prod}'
         data-user-id='${item.id_usu_com}'
+        data-carrito-id='${item.id_carrito}'
         onclick='removeFromCart(this)'>Eliminar del carrito
         <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m7.5 5.5l-3.447 5.29a1.64 1.64 0 0 0-.043 1.723L7.5 18.5h11.36a1.64 1.64 0 0 0 1.64-1.641V7.14a1.64 1.64 0 0 0-1.64-1.641zm2.5 3l7 7m-7 0l6.93-7"/>
         </svg></button>
@@ -1008,13 +1068,13 @@ function renderProductCard(product, imgs, usId, isFavorite) {
 
     return `<div id="product-card-${product.sku}" class="individual-card">
         <div class="row">
-        ${imgElements}
+        <img src=/assets/imgs/mya.png>
         </div>
         <a href='/product/${product.sku}'><b>${product.nombre}</b>
        
         <p>${product.descripcion}</p>
         <p>${product.precio}</p>
-        
+        </a>
         <section>
             <form id='form-cart-item-${product.sku}' method='POST' action='?action=add_to_cart'>
                 <input class='product-quant' type='number' name='quantity' value='1'>
@@ -1023,8 +1083,8 @@ function renderProductCard(product, imgs, usId, isFavorite) {
                 <input type='hidden' name='id_vendedor' value='${product.id_usu_ven}'>
                 <input type='hidden' name='titulo' value='${product.nombre}'>
                 <input type='hidden' name='price' value='${product.precio}'>
-                <div class="row">
-                <button class='cart-btn' type='button' data-id='${product.sku}' onclick='addToCart(this)'>
+                <div class="row buttons-container-item">
+                <button class='cart-btn' type='button' data-id='${product.sku}' onclick='addToCart(this, event)'>
                    <svg class='cart' fill='currentColor' viewBox='0 0 576 512' height='25px' width='25px' xmlns='http://www.w3.org/2000/svg'><path d='M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z'></path></svg>
                 <svg xmlns='http://www.w3.org/2000/svg' height='20px' width='20px' viewBox='0 0 640 512' class='product'><path d='M211.8 0c7.8 0 14.3 5.7 16.7 13.2C240.8 51.9 277.1 80 320 80s79.2-28.1 91.5-66.8C413.9 5.7 420.4 0 428.2 0h12.6c22.5 0 44.2 7.9 61.5 22.3L628.5 127.4c6.6 5.5 10.7 13.5 11.4 22.1s-2.1 17.1-7.8 23.6l-56 64c-11.4 13.1-31.2 14.6-44.6 3.5L480 197.7V448c0 35.3-28.7 64-64 64H224c-35.3 0-64-28.7-64-64V197.7l-51.5 42.9c-13.3 11.1-33.1 9.6-44.6-3.5l-56-64c-5.7-6.5-8.5-15-7.8-23.6s4.8-16.6 11.4-22.1L137.7 22.3C155 7.9 176.7 0 199.2 0h12.6z'>
                 </path></svg>
@@ -1036,6 +1096,7 @@ function renderProductCard(product, imgs, usId, isFavorite) {
                 </button>
                 </div>
             </form>
+            <div id='container-fav-btn'>
             <button class='add-to-fav-btn ${isFavorite ? "favoritos" : ""}' 
                     onclick='updateFavorites(event, this)' 
                     data-product-id='${product.sku}'>
@@ -1043,8 +1104,9 @@ function renderProductCard(product, imgs, usId, isFavorite) {
                     <path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M7.75 3.5C5.127 3.5 3 5.76 3 8.547C3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79c-.78-1.654-2.39-2.79-4.25-2.79'/>
                 </svg> 
             </button>
+            </div>
             </section>
-        </a>
+        
     </div>`;
 }
 
@@ -1092,7 +1154,9 @@ function renderButtonCheckout(comprador) {
                 </g>
                 </svg>
                 </a>
-                <button>Vaciar carrito
+                <button 
+                    data-user-id="${comprador}"
+                    onclick="removeAllFromCart(this, event)">Vaciar carrito
                 <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 32 32"><circle cx="10" cy="28" r="2" fill="currentColor"/><circle cx="24" cy="28" r="2" fill="currentColor"/><path fill="currentColor" d="M4.98 2.804A1 1 0 0 0 4 2H0v2h3.18l3.84 19.196A1 1 0 0 0 8 24h18v-2H8.82l-.8-4H26a1 1 0 0 0 .976-.783L29.244 7h-2.047l-1.999 9H7.62Z"/><path fill="currentColor" d="M18.41 8L22 4.41L20.59 3L17 6.59L13.41 3L12 4.41L15.59 8L12 11.59L13.41 13L17 9.41L20.59 13L22 11.59z"/>
                 </svg></button></div>`
 }

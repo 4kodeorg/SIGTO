@@ -91,11 +91,12 @@ include 'header-index.php';
 </svg></small>
   <label for="tipo_vehiculo">Tipo de vehículo</label>
   
-  <select name="tipo_vehiculo" id="tipo_vehiculo">
+  <select name="tipo_vehiculo" id="tipo_vehiculo" onchange="getFootPrintCo2(this);">
     <option value="">Seleccionar tipo de vehículo</option>
     <option value="Electrico">Electrico</option>
     <option value="Nafta">Combustión</option>
   </select>
+  <small id="co2foot" class="small-caption-eco"></small>
  </div>
 
  <div id="pickup-container-options" class="input-pickup">

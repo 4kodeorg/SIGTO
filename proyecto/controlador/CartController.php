@@ -19,7 +19,7 @@ class CartController extends Database
             }
         }
         if ($productIdUpdate != 0) {
-            $query = "UPDATE carrito SET cantidad = ? WHERE sku_prod =? AND id_usu_com=?;";
+            $query = "UPDATE carrito SET cantidad = ? WHERE sku_prod =? AND id_usu_com=? AND is_deleted=0;";
             $stmt = $this->conn->prepare($query);
             $newQuantity = $currentQuant + $data['cantidad'];
             $stmt->bind_param('iii', $newQuantity, $productIdUpdate, $idUser);
@@ -66,14 +66,25 @@ class CartController extends Database
     }
         
     }
+    public function removeFromCart ($idCarrito) {
+        $query = "UPDATE carrito SET is_deleted = TRUE WHERE id_carrito = ?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $idCarrito);
     
-    public function removeProductFromCart($productId, $idUsuario)
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false; 
+        }
+    }
+    
+    public function cleanUpCarrito($idUsuario)
     {
-        $query = "DELETE FROM carrito WHERE sku_prod= ? AND id_usu_com=? ;";
+        $query = "UPDATE carrito SET is_deleted=1 WHERE id_usu_com = ? ;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param(
-            'ii',
-            $productId,
+            'i',
+            
             $idUsuario
         );
         if ($stmt->execute()) {
@@ -85,7 +96,7 @@ class CartController extends Database
         }
     }
     public function getUserCartById($cartId) {
-        $query = "SELECT * FROM carrito where id_usu_com= ?;";
+        $query = "SELECT * FROM carrito where id_usu_com=? AND is_deleted =0;";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bind_param('i',$cartId);
@@ -105,7 +116,7 @@ class CartController extends Database
     }
     public function getUserCarrito($userId)
     {
-        $query = "SELECT * FROM carrito WHERE id_usu_com = ?;";
+        $query = "SELECT * FROM carrito WHERE id_usu_com = ? AND is_deleted=0;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $userId);
 

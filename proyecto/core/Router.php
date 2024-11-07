@@ -63,7 +63,28 @@ class Router
         } elseif (preg_match('/^product\/(\w+)$/', $this->request, $matches)) {
             $productId = $matches[1];
             $this->renderProduct($productId);
-        } elseif (preg_match('/^finalizar_compra\/(\d+)$/', $this->request, $matches)) {
+        } 
+        elseif ($this->request === 'finalizar_compra/thanks') {
+              if (isset($_GET['success'], $_GET['id']) && $_GET['success'] === 'true') {
+                $userId = (int)$_GET['id'];
+                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/UsuarioController.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/PaymentController.php';
+                
+                $payments = new PaymentController();
+                $usuario = new UsuarioController();
+                $recentPurchase = $payments->getRecentPurchase($userId);
+                $email = $usuario->getEmailComprador($userId);
+        
+                if ($this->checkUserMiddleware(bin2hex($email['email']))) {
+                    $this->renderPage('thanks', ['compra' => $recentPurchase ]);
+                } else {
+                    $this->renderPage('error', ['message' => "Parece que estás perdido"]);
+                }
+            } else {
+                $this->renderPage('error', ['message' => "No autorizado"]);
+            }
+        }
+        elseif (preg_match('/^finalizar_compra\/(\d+)$/', $this->request, $matches)) {
             $idUserCarrito = $matches[1];
             $this->renderCheckoutPage($idUserCarrito);
         } elseif (preg_match('/^finalizar_compra\/paypal\/(\d+)$/', $this->request, $matches)) {
@@ -232,6 +253,9 @@ class Router
                 break;
             case 'init_sess':
                 $this->initSessionHome();
+                break;
+            case 'clean_carrito':
+                $this->removeAllFromCart();
                 break;
             case 'add_to_cart':
                 $this->formCarrito();
@@ -1126,8 +1150,8 @@ class Router
             $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
             $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
 
-            if (!empty(trim($searchParam))) {
-                $resultados = $product->searchProductsByTitleOrDescripcion($searchParam, $idCat);
+            if (!empty(trim($searchParam)) && empty($idCat)) {
+                $resultados = $product->searchProductsByTitleOrDescripcion($searchParam);
 
                 if ($resultados) {
                     $this->renderPage('home', [
@@ -1141,7 +1165,23 @@ class Router
                     $this->renderPage('home', ['message' => $message, 'categorias' => $categorias]);
                     return;
                 }
-            } else {
+            } elseif (isset($idCat) && $idCat != 0) {
+                $results = $product->searchProductsByTitleOrDescripcionAndCat($searchParam, $idCat);
+                if ($results) {
+                    $this->renderPage('home', [
+                        'resultados' => $results,
+                        'categorias' => $categorias,
+                        'favoritos' => $favoritos
+                    ]);
+                    return;
+                } else {
+                    $message = "No se encontraron resultados";
+                    $this->renderPage('home', ['message' => $message, 'categorias' => $categorias]);
+                    return;
+                }
+            }
+            
+            else {
                 $message = "Ingresa algún producto para buscar";
                 $this->renderPage('home', ['message' => $message, 'categorias' => $categorias, 'favoritos' => $favoritos]);
                 return;
@@ -1381,32 +1421,31 @@ class Router
          */
         function createOrder($cart)
         {
-            file_put_contents("paypal_logs.txt", "Capture Response: " . print_r($cart, true) . PHP_EOL, FILE_APPEND);
+            file_put_contents("paypal_logs.txt", "Capture Response Carrito: " . print_r($cart, true) . PHP_EOL, FILE_APPEND);
 
+            // file_put_contents("paypal_logs.txt", "Capture Response Carrito Total: " . print_r($cartTotal, true) . PHP_EOL, FILE_APPEND);
             $cartTotal = 0;
-            
             foreach ($cart as $item) {
                 $cartTotal += $item['cantidad'] * $item['price_product'];
             }
-            $cartTotal = $cartTotal / 40;
+
             global $client;
             $orderBody = [
                 "body" => OrderRequestBuilder::init("CAPTURE", [
                     PurchaseUnitRequestBuilder::init(
-                        AmountWithBreakdownBuilder::init("USD", $cartTotal)->build()
+                        AmountWithBreakdownBuilder::init("USD", $cartTotal / 40)->build()
                     )->build(),
                 ])->build(),
             ];
             $apiResponse = $client->getOrdersController()->ordersCreate($orderBody);
             return handleResponse($apiResponse);
         }
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($this->action)) {
             $data = json_decode(file_get_contents("php://input"), true);
-            file_put_contents("paypal_logs.txt", "Capture Response: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
+            file_put_contents("paypal_logs.txt", "Capture Response Data: " . print_r($data, true) . PHP_EOL, FILE_APPEND);
 
-            $cart = $data['cart'];
             try {
-                $orderResponse = createOrder($cart);
+                $orderResponse = createOrder($data['cart']);
                 if (!$orderResponse) {
                     throw new Exception("Failed to create PayPal order.");
                 }
@@ -1420,7 +1459,7 @@ class Router
          * Capture payment for the created order to complete the transaction.
          * @see https://developer.paypal.com/docs/api/orders/v2/#orders_capture
          */
-        function captureOrder($orderID)
+        function captureOrder($orderID, $userCart)
         {
             global $client;
 
@@ -1429,13 +1468,29 @@ class Router
             ];
             $apiResponse = $client->getOrdersController()->ordersCapture($captureBody);
             $response = handleResponse($apiResponse);
-            file_put_contents("paypal_logs.txt", "Capture Response: " . print_r($response, true) . PHP_EOL, FILE_APPEND);
-            return $response;
+            $jsonResp = $response['jsonResponse'];
+            if ($jsonResp['status'] === 'COMPLETED') {
+                file_put_contents("paypal_logs.txt", "Capture RESPONSE: " . print_r($jsonResp, true) . PHP_EOL, FILE_APPEND);
+
+                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/PaymentController.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/CartController.php';
+                $idUsuVen = $userCart[0]['id_usu_ven'];
+                $idComprador = $userCart[0]['id_usu_com'];
+                $orderAmount = $jsonResp["purchase_units"][0]["payments"]["captures"][0]["amount"]["value"];
+                $status = 'Completado';
+                $payments = new PaymentController();
+                $transaPay = $payments->insertPayAndConfirmation($orderAmount, $status, "" ,"", null, $idUsuVen, $idComprador);
+                if ($transaPay) {
+                    file_put_contents("paypal_logs.txt", "Capture Response Mysql Insertion: " . print_r($response, true) . PHP_EOL, FILE_APPEND);
+                    return $response;
+                }
+            }
+            
         }
-            if ($this->action === 'capture') {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->action === 'capture') {
                 $orderID = $_GET['pyid'];
                 try {
-                    $captureResponse = captureOrder($orderID);
+                    $captureResponse = captureOrder($orderID, $userCart);
                     echo json_encode($captureResponse["jsonResponse"]);
                 } catch (Exception $e) {
                     echo json_encode(["error" => $e->getMessage()]);
@@ -1507,7 +1562,31 @@ class Router
         echo json_encode($response);
         exit();
     }
+    private function removeAllFromCart() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
+        $response = ['success' => false, 'message' => ''];
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['idUs'])) {
+        parse_str(file_get_contents("php://input"), $userId);
+        $idUser = htmlspecialchars($userId['id_username']) ?? null;
 
+        if ($idUser) {
+            $cartController = new CartController();
+            $cleanCarritou = $cartController->cleanUpCarrito($idUser);
+            if ($cleanCarritou) {
+                $response['success'] = true;
+                $response['message'] = "Carrito vacio";
+                $_SESSION['carrito'] = [];
+            } else {
+                $response['message'] = 'Error en la solicitud';
+            }
+        } else {
+            $response['message'] = 'Solicitud invalida';
+        
+        }
+        echo json_encode($response);
+        exit();
+        }
+    }
     private function removeProductFromCartById()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
@@ -1515,15 +1594,15 @@ class Router
         if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['idUs'])) {
             parse_str(file_get_contents("php://input"), $itemData);
 
-            $idProduct = htmlspecialchars($itemData['id_prod']) ?? null;
-            $idUser = htmlspecialchars($itemData['id_usuario']) ?? null;
-            if ($idProduct && $idUser) {
+            $idCarrito = htmlspecialchars($itemData['id_carrito']) ?? null;
+            if ($idCarrito) {
                 $cartController = new CartController();
-                $removedProd = $cartController->removeProductFromCart($idProduct, $idUser);
+                $removedProd = $cartController->removeFromCart($idCarrito);
                 if ($removedProd) {
                     $response['success'] = true;
                     $response['message'] = 'Producto eliminado';
                     $_SESSION['carrito'] = [];
+                    $idUser = $_SESSION['id_comprador'];
                     $_SESSION['carrito'] = $cartController->getUserCarrito($idUser);
                 } else {
                     $response['message'] = 'Error en la solicitud';
