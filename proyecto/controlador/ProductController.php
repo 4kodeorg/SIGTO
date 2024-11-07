@@ -277,7 +277,7 @@ class ProductController extends Database
 
     }
 
-    public function getDisabledProducts()
+    public function getDisabledProducts($idVendedor)
     {
         $query = "SELECT * FROM productos WHERE id_usu_ven =? AND activo=0;";
         $stmt = $this->conn->prepare($query);
