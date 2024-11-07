@@ -99,6 +99,13 @@ class ProductController extends Database
         $query = "SELECT * FROM productos where id_cat=?;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $idCategory);
+
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            return $res->fetch_all(MYSQLI_ASSOC);
+        } else {
+            return false;
+        }
     }
 
     public function getCategories()
@@ -193,10 +200,23 @@ class ProductController extends Database
         $stmt->close();
         return $productos ?: [];
     }
+    public function getProductBySku($sku) {
+        $query = "SELECT * FROM productos where sku=?;";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param('i', $sku);
+
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            return $res->fetch_assoc();
+        } else {
+            return false;
+        }
+    }
 
     public function searchProductsByTitleOrDescripcionAndCat($searchTerm, $idCat)
     {
-        $query = 'SELECT * FROM productos WHERE activo = 1 AND (nombre LIKE ? OR descripcion LIKE ?) AND id_cat =?;';
+        $query = 'SELECT * FROM productos WHERE activo = 1 AND (nombre LIKE ? OR descripcion LIKE ?) OR id_cat =?;';
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
             throw new Exception("Error al buscar");

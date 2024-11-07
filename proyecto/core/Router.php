@@ -69,14 +69,22 @@ class Router
                 $userId = (int)$_GET['id'];
                 require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/UsuarioController.php';
                 require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/PaymentController.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/ProductController.php';
+
                 
                 $payments = new PaymentController();
                 $usuario = new UsuarioController();
-                $recentPurchase = $payments->getRecentPurchase($userId);
+                $producto = new ProductController();
+                $lastPurchaseProducts = $payments->getLastPurchaseItems($userId);
                 $email = $usuario->getEmailComprador($userId);
-        
+                $skuToLookProd = 0;
+                foreach($lastPurchaseProducts as $prod) {
+                    $skuToLookProd= $prod['sku_prod'];
+                }
+                $productArr = $producto->getProductBySku($skuToLookProd);
+                $productsByCategory = $producto->getProductsByCategory($productArr['id_cat']);
                 if ($this->checkUserMiddleware(bin2hex($email['email']))) {
-                    $this->renderPage('thanks', ['compra' => $recentPurchase ]);
+                    $this->renderPage('thanks', ['products' => $lastPurchaseProducts, 'some_products' => $productsByCategory]);
                 } else {
                     $this->renderPage('error', ['message' => "Parece que estás perdido"]);
                 }
@@ -98,7 +106,8 @@ class Router
             } else {
                 $this->renderPage('error', ['message' => 'Ocurrió un error inesperado']);
             }
-        } elseif (preg_match('/^perfil\/([a-fA-F0-9]+)$/', $this->request, $matches)) {
+        }
+         elseif (preg_match('/^perfil\/([a-fA-F0-9]+)$/', $this->request, $matches)) {
             $userId = $matches[1];
             if ($this->checkUserMiddleware($userId)) {
                 $userEmail = pack("H*", $userId);
@@ -107,7 +116,8 @@ class Router
                 $message = "Acceso no autorizado";
                 $this->renderPage('error', ['message' => $message]);
             }
-        } elseif ($this->request === 'home') {
+        }
+        elseif ($this->request === 'home') {
             $this->homeActions();
             return;
         } elseif ($this->request === 'admin/productos') {
@@ -1078,7 +1088,26 @@ class Router
             $this->renderPage('error', ['message' => 'No autorizado']);
         }
     }
-    private function getUserCompras() {}
+    private function getUserCompras() {
+        require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/UsuarioController.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/PaymentController.php';
+        $response = ['success' => false, 'message' => '', 'compras' => []];
+        if (isset($_SESSION['id_comprador'])) {
+            $payments = new PaymentController();
+            $userId = $_SESSION['id_comprador'];
+            $allCompras = $payments->getHistoryPurchase($userId);
+            if (count($allCompras) > 0) {
+                $response['success'] = true;
+                $response['compras'] = $allCompras;
+            } else {
+                $response['message'] = "No tienes compras realizadas aún";
+            }
+            echo (json_encode($response));
+            exit();
+        } else {
+            $this->renderPage('error', ['message' => 'No autorizado']);
+        }
+    }
     private function getUserFavorites()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
@@ -1092,7 +1121,7 @@ class Router
                 $response['success'] = true;
                 $response['favoritos'] = $favProducts;
             } else {
-                $response['success'] = true;
+            
                 $response['message'] = 'Aún no tienes productos agregados a favoritos';
             }
             echo (json_encode($response));
@@ -1204,12 +1233,6 @@ class Router
         $this->renderPage('home', ['productos_oferta' => $dataProductosOferta, 'favoritos' => $favoritos, 'categorias' => $categorias]);
     }
 
-    // private function ProductImages() {
-    //     require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/ProductController.php';
-    //     $product = new ProductController();
-
-        
-    // }
     private function getMoreProducts($idVendedor)
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';

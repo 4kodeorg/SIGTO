@@ -136,4 +136,13 @@ class CartController extends Database
             return [];
         }
     }
+    public function confirmPurchase($userId, $idPago)
+{
+    $query = "UPDATE carrito SET id_pago = ?, is_deleted = 1 WHERE id_usu_com = ? AND is_deleted = 0";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ii", $idPago, $userId);
+    $stmt->execute();
+    $stmt->close();
+    return true;
+}
 }

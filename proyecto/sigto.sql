@@ -164,6 +164,7 @@ CREATE TABLE carrito (
     cantidad INT NOT NULL CHECK (cantidad > 0),
     titulo VARCHAR (100),
     precio_prod DECIMAL(10, 2) CHECK (precio_prod > 0),
+    is_deleted TINYINT(1) DEFAULT 0
     FOREIGN KEY (id_usu_ven) REFERENCES usuario_ven(id_usu_ven),
     FOREIGN KEY (sku_prod) REFERENCES productos(sku),
     FOREIGN KEY (id_usu_com) REFERENCES usuario_comprador(id_usu_com)
@@ -210,13 +211,14 @@ CREATE TABLE medio_pago (
 );
 
 CREATE TABLE confirmar_compra (
+    registro_compra INT AUTO_INCREMENT,
     id_usu_com INT,
     id_usu_ven INT,
     id_pago INT,
     fecha_confirmacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     estado_confirmacion ENUM('Pendiente', 'Confirmado', 'Cancelado'),
     cupon_desc VARCHAR(50),
-    PRIMARY KEY (id_usu_com, id_usu_ven, id_pago),
+    PRIMARY KEY (registro_compra, id_pago),
     FOREIGN KEY (id_usu_com) REFERENCES carrito(id_usu_com),
     FOREIGN KEY (id_usu_ven) REFERENCES carrito(id_usu_ven),
     FOREIGN KEY (id_pago) REFERENCES medio_pago(id_pago)

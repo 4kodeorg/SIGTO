@@ -85,7 +85,7 @@ function renderProductRow($product, $idComprador, $isFavorite)
                 <section><h2 class='mx-auto pt-5'>Articulos publicados</h2><hr></section>
             </div>
         <main id='main-home-products' class='main-home container my-5'>
-     
+        
         </main>
   <?php }?>
     <div class="loading-container">

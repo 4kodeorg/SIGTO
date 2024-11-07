@@ -5,14 +5,15 @@ include('header-index.php');
 <div class='product-details row'>
     <div class="col">
         <div class="row img-active-product">
-            <img src="../imagenes/productos/polocam.jpeg" alt="">
-
+      
+        <img id="active-img" src=/assets/imgs/mya.png>
+        
         </div>
         <div class="row below-img">
-            <img src="../imagenes/productos/polocamisa.jpeg" alt="">
-            <img src="../imagenes/productos/67242aa8dae68_Screenshot 2024-10-28 at 12.03.21 PM.png" alt="">
-            <img src="../imagenes/productos/672552077f45c_Screenshot 2024-10-29 at 2.20.40 PM.png" alt="">
-            <img src="../imagenes/productos/67257400307b9_Screenshot 2024-10-28 at 12.03.42 PM.png" alt="">
+        <img src=/assets/imgs/mya.png>
+        <img src=/assets/imgs/mya.png>
+        <img src=/assets/imgs/mya.png>
+        <img src=/assets/imgs/mya.png>
         </div>
     </div>
     <div class="col product-content">
@@ -58,15 +59,41 @@ include('header-index.php');
     </div>
 
 </div>
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    const activeImage = document.getElementById("active-img");
+    const belowImages = document.querySelectorAll(".below-img img");
+
+    belowImages.forEach(image => {
+        image.addEventListener("click", function() {
+            activeImage.style.opacity = 0;
+
+            setTimeout(() => {
+                const tempSrc = activeImage.src;
+                activeImage.src = this.src;
+                this.src = tempSrc;
+
+                activeImage.style.opacity = 1;
+            }, 300); 
+        });
+    });
+});
+
+
+</script>
 
 <div class="container-related-prods">
     <?php if (isset($data['related_products']) && count($data['related_products']) > 0) {
         foreach ($data['related_products'] as $prod) {
             if ($prod['sku'] != $product['sku']) {
                 echo '<div class="product-details">
+                <div class="row">
+                 <img src=/assets/imgs/mya.png></div>
+                <a href="/product/'.$prod['sku'].'">
                 <p><strong>'.$prod['nombre']. '</strong></p> 
                                 <p><strong>'.$prod['descripcion'] .' </strong></p>
-                                <p><strong>'. $prod['precio'] .'</strong></p>
+                                <p><strong>'. $prod['precio'] .'</strong></p> </a>
                 <form method="POST" id="form-cart-item-'.$prod['sku'].'" action="?action=add_to_cart">
                 <label for="quantity">Cantidad</label>
                 <input class="product-quant" type="number" id="quantity" name="quantity" value=1>

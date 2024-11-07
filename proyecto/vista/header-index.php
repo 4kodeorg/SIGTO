@@ -82,8 +82,6 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
                 aria-expanded="false">Hola <?php echo ucfirst($username) ?></a>
               <ul class="dropdown-menu drodown-menu-end">
                 <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>">Mi perfil </a> </li>
-                <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>/favoritos">Favoritos </a> </li>
-                <li><a class="dropdown-item" href="/perfil/<?php echo $usId ?>/compras">Historial de compra </a> </li>
                 <hr class="dropdown-divider">
                 <li><a class="dropdown-item" href="/logout" onclick="sessionStorage.clear();"> Cerrar sesión</a> </li>
               </ul>
@@ -106,7 +104,7 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
           <?php }
           ?>
           <li class="nav-item">
-            <a href="" class="nav-link">Ayuda</a>
+            <a href="/faq" class="nav-link">Ayuda</a>
           </li>
 
         </ul>

@@ -176,10 +176,18 @@ async function confirmMetodoEnvio(el, ev) {
         
     }
 }
+
 async function getFavorites(ev, el) {
     const userId = el.getAttribute('data-user-id');
     const infoSection = document.getElementById('accordionFlushContainer');
-    infoSection.remove();
+
+    const comprasTable = document.getElementById('compras-products-table');
+    if (comprasTable) {
+        comprasTable.closest('table').remove();
+    }
+    if (infoSection) {
+        infoSection.remove();
+    }
     const containerProducts = document.getElementById('favorites-container');
     containerProducts.insertAdjacentHTML('afterbegin', `<table class="table">
         <thead>
@@ -191,35 +199,60 @@ async function getFavorites(ev, el) {
         <tbody id="fav-products-table">
           </tbody>`)
 
-
+        
     const tableFavoritos = document.getElementById('fav-products-table');
     try {
         const response = await fetch(`${server}/perfil/${userId}?action=get_favorites&id_user=${userId}`);
         const data = await response.json();
         if (data.success) {
-            
             const favoritos = data.favoritos;
-            console.log(favoritos);
-            if (favoritos.length > 0) {
-                favoritos.forEach(prod => {
-                    tableFavoritos.insertAdjacentHTML('beforeend', renderProductFavs(prod));
-                })
-
-            } else {
-                tableFavoritos.insertAdjacentHTML('beforeend', `<tr> <td colspan="5"> ${data.message} </td> </tr>`)
-            }
+       
+            favoritos.forEach(prod => {
+                tableFavoritos.insertAdjacentHTML('beforeend', renderProductFavs(prod));
+            })
         } else {
-            containerProducts.insertAdjacentHTML('afterbegin', `<p> ${data.message} </p>`)
+            tableFavoritos.insertAdjacentHTML('beforeend', `<tr> <td colspan="5"> ${data.message} </td> </tr>`)
         }
     } catch (error) {
-        
+        console.error(`Error: ${error}`);
     }
 }
 
 async function getUserCompras(ev, el) {
     const userId = el.getAttribute('data-user-id');
+    const infoSection = document.getElementById('accordionFlushContainer');
+    const favTable = document.getElementById('fav-products-table');
+    if (favTable) {
+        favTable.closest('table').remove();
+    }
+    if (infoSection) {
+        infoSection.remove();
+    }
+    const comprasContainer = document.getElementById('compras-cont');
+    comprasContainer.insertAdjacentHTML('afterbegin', `<table class="table">
+        <thead>
+          <tr>
+            <th colspan="5" class="fs-2">Historial de compra</th>
+            
+          </tr>
+        </thead>
+        <tbody id="compras-products-table">
+          </tbody>`);
+        
+    const tableCompras = document.getElementById('compras-products-table');
     try {
         const response = await fetch(`${server}/perfil/${userId}?action=get_compras`)
+        const data = await response.json();
+        if (data.success) {
+            console.log(data);
+            const compras = data.compras;
+            compras.forEach(cmpra => {
+                tableCompras.insertAdjacentHTML('beforeend', renderProductCompras(cmpra))
+                
+            });
+        } else {
+            tableCompras.insertAdjacentHTML('beforeend', `<tr> <td colspan="5"> ${data.message} </td> </tr>`)
+        }
     } catch (error) {
         
     }
@@ -675,16 +708,17 @@ async function fetchMoreProducts(usId) {
 
 function observeLastRow(usId) {
     const cards = document.querySelectorAll(".main-home div");
+    const mainRoot = document.getElementById("main-home-products")
     if (cards.length === 0) {
         return;
     }
 
-    const lastCard = cards[cards.length - 1];
+    const lastCard = cards[cards.length - 2];
 
     const options = {
-        root: null,
-        rootMargin: '50px',
-        threshold: 1 
+        root: mainRoot,
+        rootMargin: '0px',
+        threshold: 0 
     };
 
     const observer = new IntersectionObserver(entries => {
@@ -1221,6 +1255,19 @@ function renderAnimationEmpty(message) {
     </div>`
 }
 
+function renderProductCompras(compra) {
+    return `<tr>
+   <td> 
+    <h5 class="card-title">Método de pago: ${compra.met_pago}</h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">Estado de la compra: ${compra.confirmacion}</h6></td>
+    <td><h5 class="card-title"><b>Precio: $${compra.total} </b></h5> 
+    <h6 class="card-subtitle mb-2 text-body-secondary">Fecha de la compra: ${compra.fecha_com}</h6>
+    </p></td>
+    <td>
+   
+    </td>
+</tr>`
+}
 
 function renderProductFavs(product) {
     return `<tr>
