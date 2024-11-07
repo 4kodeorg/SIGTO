@@ -3,9 +3,10 @@ const loginMsg = document.getElementById('login-message');
 const registerForm = document.getElementById('registration-form');
 const modalRedirect = document.getElementById('modal-redirect');
 const registerMssg = document.getElementById('register-message');
+const servertwo = window.location.origin;
 
-const APIlogin = 'http://localhost/cuenta?action=1';
-const APIregistro = 'http://localhost/registro?action=registrarse';
+const APIlogin = `${servertwo}/cuenta?action=1`;
+const APIregistro = `${servertwo}/registro?action=registrarse`;
 
 
 async function fsr (api, methodApi, dataBody, domEl) {

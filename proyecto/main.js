@@ -632,7 +632,7 @@ async function addPaymentCard(btn, ev) {
    
     const userId = btn.getAttribute('data-user-id');
     try {
-        const response = await fetch(`http://localhost/perfil/${userId}?action=agregar_card`, {
+        const response = await fetch(`${server}/perfil/${userId}?action=agregar_card`, {
             method: 'POST',
             headers : { 'Content-type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({

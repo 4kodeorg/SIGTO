@@ -11865,3 +11865,9 @@ Stack trace:
 [07-Nov-2024 15:23:24 UTC] PHP Warning:  Undefined variable $usuario in /var/www/html/vista/favoritos.php on line 64
 [07-Nov-2024 15:23:24 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/vista/favoritos.php on line 64
 [07-Nov-2024 15:23:24 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /var/www/html/vista/favoritos.php on line 64
+[07-Nov-2024 21:40:46 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from /var/www/html/index.php on line 6) in /var/www/html/core/Router.php on line 164
+[07-Nov-2024 21:42:01 UTC] PHP Warning:  Undefined array key "clientes" in /var/www/html/vista/admin-site/admin-site.php on line 34
+[07-Nov-2024 21:42:01 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /var/www/html/vista/admin-site/admin-site.php on line 35
+[07-Nov-2024 21:48:57 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1028
+[07-Nov-2024 21:48:57 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1030
+[07-Nov-2024 21:48:57 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:1028) in /var/www/html/core/Router.php on line 1046

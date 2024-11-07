@@ -61,37 +61,38 @@ class UsuarioController extends Database
         }
     }
     public function validateUser($username, $password)
-    {
+{
+    $query = 'SELECT * FROM cliente WHERE email=?';
+    $stmt = $this->conn->prepare($query);
 
-        $query = 'SELECT * FROM cliente WHERE email=?';
-        $stmt = $this->conn->prepare($query);
+    if (!$stmt) {
+        throw new Exception("Error en la base de datos");
+    }
+    $stmt->bind_param('s', $username);
 
-        if (!$stmt) {
-            throw new Exception("Error en la base de datos");
-        }
-        $paramUsername = $username;
-        $stmt->bind_param('s', $paramUsername);
-
-        if ($stmt->execute()) {
-            $res = $stmt->get_result();
-            if ($res->num_rows == 1) {
-                $usuario = $res->fetch_assoc();
-                if (!$usuario) {
-                    return false;
-                }
-                $passwd = $usuario['password'];
-                if (password_verify($password, $passwd)) {
-                    return $usuario;
-                } else {
-                    return false;
-                }
+    if ($stmt->execute()) {
+        $res = $stmt->get_result();
+        if ($res->num_rows == 1) {
+            $usuario = $res->fetch_assoc();
+            if (!$usuario) {
+                return false;
+            }
+            if ($usuario['suspended'] == 1) {
+                return false; 
+            }
+            $passwd = $usuario['password'];
+            if (password_verify($password, $passwd)) {
+                return $usuario;
             } else {
                 return false;
             }
         } else {
-            throw new Exception("Error en el servidor");
+            return false;
         }
+    } else {
+        throw new Exception("Error en el servidor");
     }
+}
     public function addUserDirecciones($data)
     {
         $query = "INSERT INTO comprador_direccion (email, calle_pri, calle_sec, num_puerta, num_apartamento, ciudad, tipo_dir) VALUES (?, ?, ?, ?, ?, ?, ?) ;";

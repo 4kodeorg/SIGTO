@@ -2,13 +2,15 @@ const messageRegistro = document.getElementById('register-message');
 const messageLogin = document.getElementById('login-message');
 const formAdmin = document.getElementById('login-form-admin');
 const registroAdmin = document.getElementById('registration-form-admin');
+const server = window.location.origin;
+
 
 async function adminRegistrationForm() {
     const formRegistro = new FormData(registroAdmin);
     formRegistro.append('submit', 'submit');
 
     try {
-        const response = await fetch('http://localhost/empresa?action=registrar_emp', {
+        const response = await fetch(`${server}/empresa?action=registrar_emp`, {
             method: 'POST',
             body: formRegistro
         });
@@ -31,7 +33,7 @@ async function adminLoginForm() {
     formLoginData.append('submit', 'submit');
 
     try {
-        const response = await fetch('http://localhost/admin_cuenta?action=login_adm', {
+        const response = await fetch(`${server}/admin_cuenta?action=login_adm`, {
             method: 'POST',
             body: formLoginData
         })

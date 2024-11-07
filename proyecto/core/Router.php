@@ -63,23 +63,22 @@ class Router
         } elseif (preg_match('/^product\/(\w+)$/', $this->request, $matches)) {
             $productId = $matches[1];
             $this->renderProduct($productId);
-        } 
-        elseif ($this->request === 'finalizar_compra/thanks') {
-              if (isset($_GET['success'], $_GET['id']) && $_GET['success'] === 'true') {
+        } elseif ($this->request === 'finalizar_compra/thanks') {
+            if (isset($_GET['success'], $_GET['id']) && $_GET['success'] === 'true') {
                 $userId = (int)$_GET['id'];
-                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/UsuarioController.php';
-                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/PaymentController.php';
-                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/ProductController.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/PaymentController.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
 
-                
+
                 $payments = new PaymentController();
                 $usuario = new UsuarioController();
                 $producto = new ProductController();
                 $lastPurchaseProducts = $payments->getLastPurchaseItems($userId);
                 $email = $usuario->getEmailComprador($userId);
                 $skuToLookProd = 0;
-                foreach($lastPurchaseProducts as $prod) {
-                    $skuToLookProd= $prod['sku_prod'];
+                foreach ($lastPurchaseProducts as $prod) {
+                    $skuToLookProd = $prod['sku_prod'];
                 }
                 $productArr = $producto->getProductBySku($skuToLookProd);
                 $productsByCategory = $producto->getProductsByCategory($productArr['id_cat']);
@@ -91,13 +90,12 @@ class Router
             } else {
                 $this->renderPage('error', ['message' => "No autorizado"]);
             }
-        }
-        elseif (preg_match('/^finalizar_compra\/(\d+)$/', $this->request, $matches)) {
+        } elseif (preg_match('/^finalizar_compra\/(\d+)$/', $this->request, $matches)) {
             $idUserCarrito = $matches[1];
             $this->renderCheckoutPage($idUserCarrito);
         } elseif (preg_match('/^finalizar_compra\/paypal\/(\d+)$/', $this->request, $matches)) {
             $userId = $matches[1];
-            require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/UsuarioController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
             $userController = new UsuarioController();
             $comprador = $userController->getEmailComprador($userId);
             $emailToCheck = bin2hex($comprador['email']);
@@ -106,8 +104,7 @@ class Router
             } else {
                 $this->renderPage('error', ['message' => 'Ocurrió un error inesperado']);
             }
-        }
-         elseif (preg_match('/^perfil\/([a-fA-F0-9]+)$/', $this->request, $matches)) {
+        } elseif (preg_match('/^perfil\/([a-fA-F0-9]+)$/', $this->request, $matches)) {
             $userId = $matches[1];
             if ($this->checkUserMiddleware($userId)) {
                 $userEmail = pack("H*", $userId);
@@ -116,8 +113,7 @@ class Router
                 $message = "Acceso no autorizado";
                 $this->renderPage('error', ['message' => $message]);
             }
-        }
-        elseif ($this->request === 'home') {
+        } elseif ($this->request === 'home') {
             $this->homeActions();
             return;
         } elseif ($this->request === 'admin/productos') {
@@ -159,11 +155,29 @@ class Router
             echo "404 - Page not found";
         }
     }
+    private function loginAdmin() {}
     private function renderSysAdmin()
     {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/AdminController.php';
+
+        $adminController = new AdminController();
+        $clientes = $adminController->getAllClientes();
         if (isset($_SESSION['sys-admin-email'])) {
-            $this->renderAdminSite('admin-site');
+            $this->renderAdminSite('admin-site', ['clientes' => $clientes]);
         } else {
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+
+                if ($adminController->validateLogin($email, $password)) {
+                    $_SESSION['sys-admin-email'] = $email;
+                    header("refresh:1");
+                    exit();
+                } else {
+                    echo "Credenciales invalidas.";
+                }
+            }
             $this->renderAdminSite('admin-loggin');
         }
     }
@@ -368,13 +382,14 @@ class Router
         echo (json_encode($response));
         exit();
     }
-    private function updatePayment() {
-        require_once $_SERVER['DOCUMENT_ROOT']. '/controlador/UsuarioController.php';
+    private function updatePayment()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         $response = ['success' => false, 'message' => ''];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             parse_str(file_get_contents("php://input"), $dataCard);
             $data = [
-                'email' => htmlspecialchars(pack("H*" ,$dataCard['id_username'])),
+                'email' => htmlspecialchars(pack("H*", $dataCard['id_username'])),
                 'nom_titular' => htmlspecialchars($dataCard['nom_titular']),
                 'numero' => htmlspecialchars($dataCard['numero']),
                 'nombre_tarjeta' => htmlspecialchars($dataCard['nombre_tarjeta']),
@@ -385,21 +400,21 @@ class Router
             foreach ($data as $key => $value) {
                 if (empty($value) || $value == 0) {
                     $emptyFields = true;
-                    $response['message'] = "El campo ".$key ." es requerido";
+                    $response['message'] = "El campo " . $key . " es requerido";
                 }
             }
             if (strlen(trim($data['numero'])) < 13) {
                 $emptyFields = true;
                 $response['message'] = "El número de tu tarjeta no pudo ser verificado";
-            }  else {
+            } else {
                 $expiration = explode('/', $data['fecha_ven']);
                 if (count($expiration) == 2) {
                     $expMonth = (int) $expiration[0];
                     $expYear = (int) ('20' . $expiration[1]);
-        
+
                     $currentYear = (int) date('Y');
                     $currentMonth = (int) date('m');
-        
+
                     if ($expYear < $currentYear || ($expYear == $currentYear && $expMonth < $currentMonth)) {
                         $emptyFields = true;
                         $response['message'] = "La tarjeta está vencida.";
@@ -415,8 +430,7 @@ class Router
                 if ($datosAgregadosSuccess) {
                     $response['success'] = true;
                     $response['message'] = "Medio de pago agregado con éxito";
-                }
-                else {
+                } else {
                     $response['message'] = "Ocurrió un error, intenta nuevamente";
                 }
             }
@@ -425,9 +439,10 @@ class Router
         }
     }
 
-    private function removeThisCard() {
+    private function removeThisCard()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-            require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/UsuarioController.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
             $response = ['success' => false, 'message' => ''];
             $userController = new UsuarioController();
             parse_str(file_get_contents("php://input"), $deleteCard);
@@ -438,8 +453,7 @@ class Router
                 if ($deletedCard) {
                     $response['success'] = true;
                     $response['message'] = "Tarjeta eliminada con éxito";
-                }
-                else {
+                } else {
                     $response['message'] = "No se pudo eliminar la tarjeta";
                 }
             } else {
@@ -683,7 +697,7 @@ class Router
                 'ciudad' => $data['ciudad'],
                 'tipo_dir' => $data['tipo_dir'],
                 'num_apartamento' => $data['num_apartamento'] ?? null
-                
+
             ];
 
             $emptyFields = false;
@@ -755,7 +769,7 @@ class Router
         $nombre2 = htmlspecialchars($_POST['nombre2']) ?? null;
         $apellido1 = htmlspecialchars($_POST['apellido1']) ?? '';
         $apellido2 = htmlspecialchars($_POST['apellido2']) ?? null;
-        if (!empty(trim($nombre1)) && !empty(trim($apellido1)) ) {
+        if (!empty(trim($nombre1)) && !empty(trim($apellido1))) {
             $userController = new UsuarioController();
             $userInfoUpdatedOk = $userController->updateUserData($nombre1, $nombre2, $apellido1, $apellido2, pack("H*", $email));
 
@@ -1088,9 +1102,10 @@ class Router
             $this->renderPage('error', ['message' => 'No autorizado']);
         }
     }
-    private function getUserCompras() {
-        require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/UsuarioController.php';
-        require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/PaymentController.php';
+    private function getUserCompras()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/PaymentController.php';
         $response = ['success' => false, 'message' => '', 'compras' => []];
         if (isset($_SESSION['id_comprador'])) {
             $payments = new PaymentController();
@@ -1121,7 +1136,7 @@ class Router
                 $response['success'] = true;
                 $response['favoritos'] = $favProducts;
             } else {
-            
+
                 $response['message'] = 'Aún no tienes productos agregados a favoritos';
             }
             echo (json_encode($response));
@@ -1208,9 +1223,7 @@ class Router
                     $this->renderPage('home', ['message' => $message, 'categorias' => $categorias]);
                     return;
                 }
-            }
-            
-            else {
+            } else {
                 $message = "Ingresa algún producto para buscar";
                 $this->renderPage('home', ['message' => $message, 'categorias' => $categorias, 'favoritos' => $favoritos]);
                 return;
@@ -1432,7 +1445,7 @@ class Router
         function handleResponse($response)
         {
             $jsonResponse = json_decode($response->getBody(), true);
-    
+
             return [
                 "jsonResponse" => $jsonResponse,
                 "httpStatusCode" => $response->getStatusCode(),
@@ -1495,33 +1508,30 @@ class Router
             if ($jsonResp['status'] === 'COMPLETED') {
                 file_put_contents("paypal_logs.txt", "Capture RESPONSE: " . print_r($jsonResp, true) . PHP_EOL, FILE_APPEND);
 
-                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/PaymentController.php';
-                require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/CartController.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/PaymentController.php';
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
                 $idUsuVen = $userCart[0]['id_usu_ven'];
                 $idComprador = $userCart[0]['id_usu_com'];
                 $orderAmount = $jsonResp["purchase_units"][0]["payments"]["captures"][0]["amount"]["value"];
                 $status = 'Completado';
                 $payments = new PaymentController();
-                $transaPay = $payments->insertPayAndConfirmation($orderAmount, $status, "" ,"", null, $idUsuVen, $idComprador);
+                $transaPay = $payments->insertPayAndConfirmation($orderAmount, $status, "", "", null, $idUsuVen, $idComprador);
                 if ($transaPay) {
                     file_put_contents("paypal_logs.txt", "Capture Response Mysql Insertion: " . print_r($response, true) . PHP_EOL, FILE_APPEND);
                     return $response;
                 }
             }
-            
         }
-            if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->action === 'capture') {
-                $orderID = $_GET['pyid'];
-                try {
-                    $captureResponse = captureOrder($orderID, $userCart);
-                    echo json_encode($captureResponse["jsonResponse"]);
-                } catch (Exception $e) {
-                    echo json_encode(["error" => $e->getMessage()]);
-                    http_response_code(500);
-                }
-
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->action === 'capture') {
+            $orderID = $_GET['pyid'];
+            try {
+                $captureResponse = captureOrder($orderID, $userCart);
+                echo json_encode($captureResponse["jsonResponse"]);
+            } catch (Exception $e) {
+                echo json_encode(["error" => $e->getMessage()]);
+                http_response_code(500);
             }
-        
+        }
     }
 
     private function renderCheckoutPage($userId)
@@ -1585,29 +1595,29 @@ class Router
         echo json_encode($response);
         exit();
     }
-    private function removeAllFromCart() {
+    private function removeAllFromCart()
+    {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/CartController.php';
         $response = ['success' => false, 'message' => ''];
         if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['idUs'])) {
-        parse_str(file_get_contents("php://input"), $userId);
-        $idUser = htmlspecialchars($userId['id_username']) ?? null;
+            parse_str(file_get_contents("php://input"), $userId);
+            $idUser = htmlspecialchars($userId['id_username']) ?? null;
 
-        if ($idUser) {
-            $cartController = new CartController();
-            $cleanCarritou = $cartController->cleanUpCarrito($idUser);
-            if ($cleanCarritou) {
-                $response['success'] = true;
-                $response['message'] = "Carrito vacio";
-                $_SESSION['carrito'] = [];
+            if ($idUser) {
+                $cartController = new CartController();
+                $cleanCarritou = $cartController->cleanUpCarrito($idUser);
+                if ($cleanCarritou) {
+                    $response['success'] = true;
+                    $response['message'] = "Carrito vacio";
+                    $_SESSION['carrito'] = [];
+                } else {
+                    $response['message'] = 'Error en la solicitud';
+                }
             } else {
-                $response['message'] = 'Error en la solicitud';
+                $response['message'] = 'Solicitud invalida';
             }
-        } else {
-            $response['message'] = 'Solicitud invalida';
-        
-        }
-        echo json_encode($response);
-        exit();
+            echo json_encode($response);
+            exit();
         }
     }
     private function removeProductFromCartById()

@@ -7,9 +7,8 @@ CREATE TABLE administrador (
     email VARCHAR(50) PRIMARY KEY,
     nombre VARCHAR(30) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    fecha_registro DATE NOT NULL,
     fecha_ini_ses DATETIME,
-    fecha_fin_ses DATETIME,
+
     CONSTRAINT chk_admin_email_format CHECK (email LIKE '%_@__%.__%')
 );
 
@@ -164,7 +163,8 @@ CREATE TABLE carrito (
     cantidad INT NOT NULL CHECK (cantidad > 0),
     titulo VARCHAR (100),
     precio_prod DECIMAL(10, 2) CHECK (precio_prod > 0),
-    is_deleted TINYINT(1) DEFAULT 0
+    is_deleted TINYINT(1) DEFAULT 0,
+    purchase_id INT NULL,
     FOREIGN KEY (id_usu_ven) REFERENCES usuario_ven(id_usu_ven),
     FOREIGN KEY (sku_prod) REFERENCES productos(sku),
     FOREIGN KEY (id_usu_com) REFERENCES usuario_comprador(id_usu_com)

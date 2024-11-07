@@ -3,11 +3,47 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/config/Database.php';
 
 class AdminController extends Database {
 
-    public function validateLogin($email) {
+    public function validateLogin($email, $password) {
         $query = "SELECT * FROM administrador WHERE email=?;";
         $stmt = $this->conn->prepare($query);
-
+        
         $stmt->bind_param('s', $email);
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            if ($res->num_rows == 1) {
+                $admin = $res->fetch_assoc();
+
+                if ($admin['password'] === $password) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function suspendClienteAcc($email) {
+        $query = "UPDATE cliente SET suspended=1 WHERE email=?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('s', $email);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function unsuspendCliente($email) {
+        $query = "UPDATE cliente SET suspended=0 WHERE email=?;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('s', $email);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
     public function addCategory($nombre, $desc) {
         $query = "INSERT INTO categorias (nombre, descripcion) VALUES (?, ?);";
