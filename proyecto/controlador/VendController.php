@@ -95,6 +95,8 @@ class VendController extends Database
     public function validateUser($username, $password)
     {
 
+        $query = "SELECT * FROM vendedor where email=?;";
+
         $query = 'SELECT * FROM vendedor WHERE email=?';
         $stmt = $this->conn->prepare($query);
 
