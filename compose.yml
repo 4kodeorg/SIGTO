@@ -4,7 +4,6 @@ services:
     build: .
     volumes:
       - ./proyecto:/var/www/html
-      - ./proyecto/imagenes:/var/www/html
       - ./proyecto/php.ini:/usr/local/etc/php/php.ini
       - ./php_logs:/var/log/
     depends_on:
