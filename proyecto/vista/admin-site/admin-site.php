@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && isset($_P
     <title>SIGTO - ADMINISTRACIÓN</title>
 </head>
 <body>
-    <h1 class="badge text-center"></h1>
+    <h1 class="badge text-center">Listado de clientes compradores</h1>
     <div>
         <table class="table">
             <thead>
