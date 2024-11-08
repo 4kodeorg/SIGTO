@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
-
 use PaypalServerSDKLib\Authentication\ClientCredentialsAuthCredentialsBuilder;
 use PaypalServerSDKLib\Environment;
 use PaypalServerSDKLib\PaypalServerSDKClientBuilder;
