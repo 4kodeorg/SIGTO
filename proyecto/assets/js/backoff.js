@@ -307,17 +307,10 @@ async function addProductsForm() {
     const data = await response.json() 
     msgContainer.style.display = 'flex';
     
-    if (msgParrafo) {
-        msgContainer.classList.add('error-prod');
-        msgContainer.style.margin = '1rem 0';
-        msgParrafo.innerHTML = data.mssg; 
-    }
     if (data.success) {
-        if (table.children.length <= 15) {
-            table.insertAdjacentHTML('afterbegin', `<tr colspan="5"><td>
-                        <small class="text-center">Puede haber cambios sin reflejar</small></td></tr>`);
-        }
+        
         msgContainer.classList.add('success-prod');
+        msgParrafo.innerHTML = data.mssg; 
         formProducts.reset();
     }
     else {

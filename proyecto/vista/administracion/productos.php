@@ -73,7 +73,7 @@ require('headerback.php')
             <thead>
                 <div class="report-header">
                     <?php if (isset($data['productos']) && !empty($data['productos'])) {
-                       ?>
+                      ?>
                     <h2 class="mx-auto">Articulos publicados</h2>
                     <button class="products-btn" onclick="getDisabledProds()">Ver productos desactivados
                         <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24">
@@ -122,6 +122,7 @@ require('headerback.php')
             ";
                     }
                 } else {
+                    var_dump($_SESSION);
                 ?>
                 <tr>
                     <th colspan="6" class="text-center">No tienes productos publicados aún</th>
@@ -187,7 +188,7 @@ require('headerback.php')
                 method="POST"
                 enctype="multipart/form-data"
                 class="form-product">
-                <input type="hidden" name="id_usu_ven" value="<?php echo $idProducto['id_usu_ven'] ?>">
+                <input type="hidden" name="id_usu_ven" value="<?php echo $idProducto ?>">
                 <label for="nombre">Nombre del producto</label>
                 <input id="nombre" placeholder="Título del producto" type="text" name="nombre" required>
 

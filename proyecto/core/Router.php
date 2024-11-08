@@ -337,7 +337,7 @@ class Router
         }
         echo json_encode($response);
         exit();
-        return;
+        
     }
     private function updateTelefono()
     {
@@ -810,7 +810,7 @@ class Router
                             $_SESSION = [];
                             $response['url'] = '/admin';
                             $response['id'] = bin2hex($username);
-                            $_SESSION['id_producto'] = $vendedorId;
+                            $_SESSION['id_producto'] = $vendedorId['id_usu_ven'];
                             $_SESSION['vendedor_id'] = bin2hex($username);
                             $_SESSION['backoffice_username'] = $username;
                         }
@@ -874,7 +874,7 @@ class Router
                                             $_SESSION = [];
                                             $response['id'] = bin2hex($vendedorData['email']);
                                             $_SESSION['vendedor_id'] = bin2hex($vendedorData['email']);
-                                            $_SESSION['id_producto'] = $vendedorId;
+                                            $_SESSION['id_producto'] = $vendedorId['id_usu_ven'];
                                             $_SESSION['backoffice_username'] = $vendedorData['email'];
                                             $response['url'] = 'admin/perfil/' . bin2hex($vendedorData['email']);
                                         } else {
@@ -1255,8 +1255,7 @@ class Router
             $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 15;
 
             $productController = new ProductController();
-            $productos = $productController->getProductsByLimitVend($idVendedor['id_usu_ven'], $offset, $limit);
-
+            $productos = $productController->getProductsByLimitVend($idVendedor, $offset, $limit);
             if (!empty($productos)) {
                 echo json_encode($productos);
             } else {
@@ -1294,7 +1293,7 @@ class Router
             $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 15;
             $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
-            $productos = $productController->getProductsByLimitVend($idVendedor['id_usu_ven'], $offset, $limit);
+            $productos = $productController->getProductsByLimitVend($idVendedor, $offset, $limit);
 
             $categorias = $productController->getCategories();
             if (count($productos) > 0 || count($categorias) > 0) {
@@ -1407,10 +1406,11 @@ class Router
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/ProductController.php';
         $productController = new ProductController();
         $product = $productController->getProductById($productId);
+        $productImages = $productController->getProductImages();
         $idCat = $product['id_cat'] ?? null;
         $relatedProducts = $productController->getRelatedProducts($idCat);
         if ($product) {
-            $this->renderPage('product', ['product' => $product, 'related_products' => $relatedProducts]);
+            $this->renderPage('product', ['product' => $product, 'related_products' => $relatedProducts, 'product_images' => $productImages]);
         } else {
             http_response_code(404);
             $this->renderPage('error');

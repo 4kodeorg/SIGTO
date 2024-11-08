@@ -1,20 +1,22 @@
 <?php
 include('header-index.php');
 ?>
-
+<?php $imagenesProds = $data['product_images']?>
 <div class='product-details row'>
     <div class="col">
         <div class="row img-active-product">
-      
-        <img id="active-img" src=/assets/imgs/mya.png>
+        <?php foreach ($imagenesProds as $img) {
+        if ($img['producto_sku'] == $product['sku']) {
+            echo '
+            <img id="active-img" src="'.$img['imagen_url'].'">
+            </div>
+            <div class="row below-img">
+            <img src="'.$img['imagen_url'].'">
+            </div>';
+        }
+        }
+        ?>
         
-        </div>
-        <div class="row below-img">
-        <img src=/assets/imgs/mya.png>
-        <img src=/assets/imgs/mya.png>
-        <img src=/assets/imgs/mya.png>
-        <img src=/assets/imgs/mya.png>
-        </div>
     </div>
     <div class="col product-content">
         <h2 class="fs-1"> <?php echo htmlspecialchars($product['nombre']) ?> </h2>
@@ -86,10 +88,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="container-related-prods">
     <?php if (isset($data['related_products']) && count($data['related_products']) > 0) {
         foreach ($data['related_products'] as $prod) {
+            foreach($imagenesProds as $img) {
+                if ($img['producto_sku'] == $prod['sku']) {
+
             if ($prod['sku'] != $product['sku']) {
                 echo '<div class="product-details">
                 <div class="row">
-                 <img src=/assets/imgs/mya.png></div>
+                 <img src='.$img['imagen_url'] .'>
+                </div>
                 <a href="/product/'.$prod['sku'].'">
                 <p><strong>'.$prod['nombre']. '</strong></p> 
                                 <p><strong>'.$prod['descripcion'] .' </strong></p>
@@ -109,7 +115,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 </form>
                 </div>';
 
-            }
+            } }
+        }
         }
     }
     ?>

@@ -11871,3 +11871,19 @@ Stack trace:
 [07-Nov-2024 21:48:57 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1028
 [07-Nov-2024 21:48:57 UTC] PHP Warning:  Trying to access array offset on null in /var/www/html/core/Router.php on line 1030
 [07-Nov-2024 21:48:57 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:1028) in /var/www/html/core/Router.php on line 1046
+[07-Nov-2024 23:35:40 UTC] PHP Warning:  Trying to access array offset on int in /var/www/html/core/Router.php on line 1297
+[07-Nov-2024 23:35:40 UTC] PHP Warning:  Trying to access array offset on int in /var/www/html/vista/administracion/productos.php on line 190
+[07-Nov-2024 23:36:30 UTC] PHP Warning:  Trying to access array offset on int in /var/www/html/vista/administracion/productos.php on line 190
+[07-Nov-2024 23:37:13 UTC] PHP Warning:  Trying to access array offset on int in /var/www/html/vista/administracion/productos.php on line 191
+[07-Nov-2024 23:37:55 UTC] PHP Fatal error:  Uncaught TypeError: Cannot assign string to property Producto::$idUsuVen of type int in /var/www/html/modelo/Producto.php:20
+Stack trace:
+#0 /var/www/html/controlador/ProductController.php(10): Producto->setIdUsuVen('<br />\r\n<b>Warn...')
+#1 /var/www/html/core/Router.php(1367): ProductController->create(Array)
+#2 /var/www/html/core/Router.php(302): Router->formProductAdmin()
+#3 /var/www/html/core/Router.php(121): Router->adminActions(8)
+#4 /var/www/html/index.php(19): Router->route()
+#5 {main}
+  thrown in /var/www/html/modelo/Producto.php on line 20
+[07-Nov-2024 23:43:47 UTC] PHP Warning:  Trying to access array offset on int in /var/www/html/core/Router.php on line 1258
+[07-Nov-2024 23:57:07 UTC] PHP Warning:  Undefined array key "product_sku" in /var/www/html/vista/product.php on line 9
+[07-Nov-2024 23:57:07 UTC] PHP Warning:  Undefined array key "product_sku" in /var/www/html/vista/product.php on line 9

@@ -685,6 +685,7 @@ async function fetchMoreProducts(usId) {
     try {
         const response = await fetch(`${server}/home?offset=${currentOffset}&limit=${limit}`);
         const productsData = await response.json();
+        console.log(productsData);
         await new Promise(resolve => setTimeout(resolve, 1100));
         spinnerLoad.classList.remove('show-loader');
         footer.classList.remove('hide-some');
@@ -700,7 +701,7 @@ async function fetchMoreProducts(usId) {
             });
             currentOffset += limit;
             observeLastRow(usId);
-        }
+        } 
     } catch (error) {
         console.error("Error cargando los productos:", error);
     }
@@ -713,7 +714,7 @@ function observeLastRow(usId) {
         return;
     }
 
-    const lastCard = cards[cards.length - 2];
+    const lastCard = cards[cards.length - 1];
 
     const options = {
         root: mainRoot,
@@ -1102,7 +1103,7 @@ function renderProductCard(product, imgs, usId, isFavorite) {
 
     return `<div id="product-card-${product.sku}" class="individual-card">
         <div class="row">
-        <img src=/assets/imgs/mya.png>
+        ${imgElements}
         </div>
         <a href='/product/${product.sku}'><b>${product.nombre}</b>
        

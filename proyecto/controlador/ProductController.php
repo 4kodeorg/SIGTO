@@ -143,7 +143,7 @@ class ProductController extends Database
     }
     public function getProductsByLimitVend($idVendedor ,$offset = 0, $limit = 15,)
     {
-        $query = 'SELECT * FROM productos WHERE (id_usu_ven=? AND activo=1 ) LIMIT ?, ?;';
+        $query = 'SELECT * FROM productos WHERE (id_usu_ven=? AND activo=1) LIMIT ?, ?;';
         $stmt = $this->conn->prepare($query);
 
         $offset = max(0, (int)$offset);
