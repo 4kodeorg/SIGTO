@@ -14,9 +14,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer
 
-WORKDIR /var/www/html
-    
 COPY ./proyecto var/www/html
+WORKDIR /var/www/html
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
