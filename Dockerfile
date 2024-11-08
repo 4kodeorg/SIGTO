@@ -17,6 +17,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 COPY ./proyecto var/www/html
 WORKDIR /var/www/html
 
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+RUN composer require paypal/paypal-server-sdk:0.5.1 --no-interaction --prefer-dist --optimize-autoloader
 
 EXPOSE 80
