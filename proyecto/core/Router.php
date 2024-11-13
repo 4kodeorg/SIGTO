@@ -393,7 +393,6 @@ class Router
                 'numero' => htmlspecialchars($dataCard['numero']),
                 'nombre_tarjeta' => htmlspecialchars($dataCard['nombre_tarjeta']),
                 'fecha_ven' => htmlspecialchars($dataCard['fecha_ven']),
-                'codigo_seg' => htmlspecialchars($dataCard['codigo_seg'])
             ];
             $emptyFields = false;
             foreach ($data as $key => $value) {

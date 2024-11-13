@@ -627,7 +627,6 @@ async function addPaymentCard(btn, ev) {
     const cardNumb = cardData.get('numero');
     const nomTitular = cardData.get('nom_titular');
     const fechaVen = cardData.get('fecha_ven');
-    const codigoSeg = cardData.get('codigo_seg');
     const emitterCard = detectCardEmitter(cardNumb);
    
     const userId = btn.getAttribute('data-user-id');
@@ -641,7 +640,6 @@ async function addPaymentCard(btn, ev) {
                 'numero' : cardNumb,
                 'nombre_tarjeta' : emitterCard,
                 'fecha_ven' : fechaVen,
-                'codigo_seg' : codigoSeg
             })
         })
         const data = await response.json();

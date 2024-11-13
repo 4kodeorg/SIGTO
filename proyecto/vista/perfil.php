@@ -379,6 +379,8 @@ include('header-index.php');
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
+                    <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
+
                         <?php
                         if (count($data['tarjetas']) > 0) {
                             $tarjetas = $data['tarjetas'];
@@ -401,9 +403,9 @@ include('header-index.php');
                                 </svg></button>
                                 </section>
 
-                                <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
                             <?php
                             }
+                            
                         } else {
                             ?>
                             <p><b>No tienes ningun medio de pago asociado a tu cuenta</b></p>
@@ -431,12 +433,6 @@ include('header-index.php');
                                 <label for="fecha_ven" class="form-label">Fecha de vencimiento: </label>
                                 <input type="text" name="fecha_ven" class="form-control" id="fecha_ven" placeholder="01/25">
                             </div>
-
-                            <div class="col-md-4">
-                                <label for="codigo_seg" class="form-label">Código de seguridad </label>
-                                <input class="form-control" id="codigo_seg" name="codigo_seg" type="text" placeholder="CVV">
-                            </div>
-
 
                             <div class="col-12">
                                 <button type="button" name="submit" onclick="addPaymentCard(this, event)" data-user-id="<?php echo bin2hex($usuario['email'])?>" class="button-profile">Agregar tarjeta</button>

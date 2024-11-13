@@ -179,16 +179,15 @@ class UsuarioController extends Database
     }
     public function insertPaymentMethod($data) {
         $query = "INSERT INTO comprador_metodos_pago 
-                (email, nom_titular, numero, nombre_tarjeta, fecha_ven, codigo_seg)
-                VALUES (?, ?, ?, ?, ?, ?);";
+                (email, nom_titular, numero, nombre_tarjeta, fecha_ven)
+                VALUES (?, ?, ?, ?, ?);";
         $stmt = $this->conn->prepare($query);
         $email = $data['email'];
         $nomTitular = $data['nom_titular'];
         $numer = $data['numero'];
         $nombreTarjeta = $data['nombre_tarjeta'];
         $fechaVen = $data['fecha_ven'];
-        $codigoSeg = $data['codigo_seg'];
-        $stmt->bind_param('ssissi', $email, $nomTitular, $numer, $nombreTarjeta, $fechaVen, $codigoSeg);
+        $stmt->bind_param('ssiss', $email, $nomTitular, $numer, $nombreTarjeta, $fechaVen);
 
         if ($stmt->execute()) {
             return true;

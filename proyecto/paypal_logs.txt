@@ -14027,3 +14027,1140 @@ Capture Response Mysql Insertion: Array
     [httpStatusCode] => 201
 )
 
+Capture Response Data: Array
+(
+    [cart] => Array
+        (
+            [0] => Array
+                (
+                    [titulo] => Camisa
+                    [id_user_comp] => 1007
+                    [id_user_vend] => 8
+                    [cantidad] => 2
+                    [price_product] => 3200.00
+                )
+
+        )
+
+)
+
+Capture Response Carrito: Array
+(
+    [0] => Array
+        (
+            [titulo] => Camisa
+            [id_user_comp] => 1007
+            [id_user_vend] => 8
+            [cantidad] => 2
+            [price_product] => 3200.00
+        )
+
+)
+
+Capture RESPONSE: Array
+(
+    [id] => 4BP66447TA6858153
+    [status] => COMPLETED
+    [payment_source] => Array
+        (
+            [paypal] => Array
+                (
+                    [email_address] => johncito@gmail.com
+                    [account_id] => J37JSFYJWHLBE
+                    [account_status] => VERIFIED
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Cena
+                        )
+
+                    [address] => Array
+                        (
+                            [country_code] => UY
+                        )
+
+                )
+
+        )
+
+    [purchase_units] => Array
+        (
+            [0] => Array
+                (
+                    [reference_id] => default
+                    [shipping] => Array
+                        (
+                            [name] => Array
+                                (
+                                    [full_name] => John Cena
+                                )
+
+                            [address] => Array
+                                (
+                                    [address_line_1] => Free Trade Zone
+                                    [admin_area_2] => Montevideo
+                                    [admin_area_1] => Montevideo
+                                    [postal_code] => 11200
+                                    [country_code] => UY
+                                )
+
+                        )
+
+                    [payments] => Array
+                        (
+                            [captures] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [id] => 4WW94826CK1671744
+                                            [status] => COMPLETED
+                                            [amount] => Array
+                                                (
+                                                    [currency_code] => USD
+                                                    [value] => 160.00
+                                                )
+
+                                            [final_capture] => 1
+                                            [seller_protection] => Array
+                                                (
+                                                    [status] => ELIGIBLE
+                                                    [dispute_categories] => Array
+                                                        (
+                                                            [0] => ITEM_NOT_RECEIVED
+                                                            [1] => UNAUTHORIZED_TRANSACTION
+                                                        )
+
+                                                )
+
+                                            [seller_receivable_breakdown] => Array
+                                                (
+                                                    [gross_amount] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 160.00
+                                                        )
+
+                                                    [paypal_fee] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 8.94
+                                                        )
+
+                                                    [net_amount] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 151.06
+                                                        )
+
+                                                )
+
+                                            [links] => Array
+                                                (
+                                                    [0] => Array
+                                                        (
+                                                            [href] => https://api.sandbox.paypal.com/v2/payments/captures/4WW94826CK1671744
+                                                            [rel] => self
+                                                            [method] => GET
+                                                        )
+
+                                                    [1] => Array
+                                                        (
+                                                            [href] => https://api.sandbox.paypal.com/v2/payments/captures/4WW94826CK1671744/refund
+                                                            [rel] => refund
+                                                            [method] => POST
+                                                        )
+
+                                                    [2] => Array
+                                                        (
+                                                            [href] => https://api.sandbox.paypal.com/v2/checkout/orders/4BP66447TA6858153
+                                                            [rel] => up
+                                                            [method] => GET
+                                                        )
+
+                                                )
+
+                                            [create_time] => 2024-11-08T18:27:51Z
+                                            [update_time] => 2024-11-08T18:27:51Z
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [payer] => Array
+        (
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Cena
+                )
+
+            [email_address] => johncito@gmail.com
+            [payer_id] => J37JSFYJWHLBE
+            [address] => Array
+                (
+                    [country_code] => UY
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v2/checkout/orders/4BP66447TA6858153
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+)
+
+Capture Response Mysql Insertion: Array
+(
+    [jsonResponse] => Array
+        (
+            [id] => 4BP66447TA6858153
+            [status] => COMPLETED
+            [payment_source] => Array
+                (
+                    [paypal] => Array
+                        (
+                            [email_address] => johncito@gmail.com
+                            [account_id] => J37JSFYJWHLBE
+                            [account_status] => VERIFIED
+                            [name] => Array
+                                (
+                                    [given_name] => John
+                                    [surname] => Cena
+                                )
+
+                            [address] => Array
+                                (
+                                    [country_code] => UY
+                                )
+
+                        )
+
+                )
+
+            [purchase_units] => Array
+                (
+                    [0] => Array
+                        (
+                            [reference_id] => default
+                            [shipping] => Array
+                                (
+                                    [name] => Array
+                                        (
+                                            [full_name] => John Cena
+                                        )
+
+                                    [address] => Array
+                                        (
+                                            [address_line_1] => Free Trade Zone
+                                            [admin_area_2] => Montevideo
+                                            [admin_area_1] => Montevideo
+                                            [postal_code] => 11200
+                                            [country_code] => UY
+                                        )
+
+                                )
+
+                            [payments] => Array
+                                (
+                                    [captures] => Array
+                                        (
+                                            [0] => Array
+                                                (
+                                                    [id] => 4WW94826CK1671744
+                                                    [status] => COMPLETED
+                                                    [amount] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 160.00
+                                                        )
+
+                                                    [final_capture] => 1
+                                                    [seller_protection] => Array
+                                                        (
+                                                            [status] => ELIGIBLE
+                                                            [dispute_categories] => Array
+                                                                (
+                                                                    [0] => ITEM_NOT_RECEIVED
+                                                                    [1] => UNAUTHORIZED_TRANSACTION
+                                                                )
+
+                                                        )
+
+                                                    [seller_receivable_breakdown] => Array
+                                                        (
+                                                            [gross_amount] => Array
+                                                                (
+                                                                    [currency_code] => USD
+                                                                    [value] => 160.00
+                                                                )
+
+                                                            [paypal_fee] => Array
+                                                                (
+                                                                    [currency_code] => USD
+                                                                    [value] => 8.94
+                                                                )
+
+                                                            [net_amount] => Array
+                                                                (
+                                                                    [currency_code] => USD
+                                                                    [value] => 151.06
+                                                                )
+
+                                                        )
+
+                                                    [links] => Array
+                                                        (
+                                                            [0] => Array
+                                                                (
+                                                                    [href] => https://api.sandbox.paypal.com/v2/payments/captures/4WW94826CK1671744
+                                                                    [rel] => self
+                                                                    [method] => GET
+                                                                )
+
+                                                            [1] => Array
+                                                                (
+                                                                    [href] => https://api.sandbox.paypal.com/v2/payments/captures/4WW94826CK1671744/refund
+                                                                    [rel] => refund
+                                                                    [method] => POST
+                                                                )
+
+                                                            [2] => Array
+                                                                (
+                                                                    [href] => https://api.sandbox.paypal.com/v2/checkout/orders/4BP66447TA6858153
+                                                                    [rel] => up
+                                                                    [method] => GET
+                                                                )
+
+                                                        )
+
+                                                    [create_time] => 2024-11-08T18:27:51Z
+                                                    [update_time] => 2024-11-08T18:27:51Z
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [payer] => Array
+                (
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Cena
+                        )
+
+                    [email_address] => johncito@gmail.com
+                    [payer_id] => J37JSFYJWHLBE
+                    [address] => Array
+                        (
+                            [country_code] => UY
+                        )
+
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v2/checkout/orders/4BP66447TA6858153
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+        )
+
+    [httpStatusCode] => 201
+)
+
+Capture Response Data: Array
+(
+    [cart] => Array
+        (
+            [0] => Array
+                (
+                    [titulo] => PlayStation 5
+                    [id_user_comp] => 1008
+                    [id_user_vend] => 9
+                    [cantidad] => 1
+                    [price_product] => 5400.00
+                )
+
+        )
+
+)
+
+Capture Response Carrito: Array
+(
+    [0] => Array
+        (
+            [titulo] => PlayStation 5
+            [id_user_comp] => 1008
+            [id_user_vend] => 9
+            [cantidad] => 1
+            [price_product] => 5400.00
+        )
+
+)
+
+Capture Response Data: Array
+(
+    [cart] => Array
+        (
+            [0] => Array
+                (
+                    [titulo] => Celular
+                    [id_user_comp] => 1008
+                    [id_user_vend] => 9
+                    [cantidad] => 1
+                    [price_product] => 29000.00
+                )
+
+            [1] => Array
+                (
+                    [titulo] => Camisa
+                    [id_user_comp] => 1008
+                    [id_user_vend] => 8
+                    [cantidad] => 1
+                    [price_product] => 3200.00
+                )
+
+        )
+
+)
+
+Capture Response Carrito: Array
+(
+    [0] => Array
+        (
+            [titulo] => Celular
+            [id_user_comp] => 1008
+            [id_user_vend] => 9
+            [cantidad] => 1
+            [price_product] => 29000.00
+        )
+
+    [1] => Array
+        (
+            [titulo] => Camisa
+            [id_user_comp] => 1008
+            [id_user_vend] => 8
+            [cantidad] => 1
+            [price_product] => 3200.00
+        )
+
+)
+
+Capture RESPONSE: Array
+(
+    [id] => 7JY066272M102573S
+    [status] => COMPLETED
+    [payment_source] => Array
+        (
+            [paypal] => Array
+                (
+                    [email_address] => johncito@gmail.com
+                    [account_id] => J37JSFYJWHLBE
+                    [account_status] => VERIFIED
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Cena
+                        )
+
+                    [address] => Array
+                        (
+                            [country_code] => UY
+                        )
+
+                )
+
+        )
+
+    [purchase_units] => Array
+        (
+            [0] => Array
+                (
+                    [reference_id] => default
+                    [shipping] => Array
+                        (
+                            [name] => Array
+                                (
+                                    [full_name] => John Cena
+                                )
+
+                            [address] => Array
+                                (
+                                    [address_line_1] => Free Trade Zone
+                                    [admin_area_2] => Montevideo
+                                    [admin_area_1] => Montevideo
+                                    [postal_code] => 11200
+                                    [country_code] => UY
+                                )
+
+                        )
+
+                    [payments] => Array
+                        (
+                            [captures] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [id] => 0HG22316JF758470M
+                                            [status] => COMPLETED
+                                            [amount] => Array
+                                                (
+                                                    [currency_code] => USD
+                                                    [value] => 805.00
+                                                )
+
+                                            [final_capture] => 1
+                                            [seller_protection] => Array
+                                                (
+                                                    [status] => ELIGIBLE
+                                                    [dispute_categories] => Array
+                                                        (
+                                                            [0] => ITEM_NOT_RECEIVED
+                                                            [1] => UNAUTHORIZED_TRANSACTION
+                                                        )
+
+                                                )
+
+                                            [seller_receivable_breakdown] => Array
+                                                (
+                                                    [gross_amount] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 805.00
+                                                        )
+
+                                                    [paypal_fee] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 43.77
+                                                        )
+
+                                                    [net_amount] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 761.23
+                                                        )
+
+                                                )
+
+                                            [links] => Array
+                                                (
+                                                    [0] => Array
+                                                        (
+                                                            [href] => https://api.sandbox.paypal.com/v2/payments/captures/0HG22316JF758470M
+                                                            [rel] => self
+                                                            [method] => GET
+                                                        )
+
+                                                    [1] => Array
+                                                        (
+                                                            [href] => https://api.sandbox.paypal.com/v2/payments/captures/0HG22316JF758470M/refund
+                                                            [rel] => refund
+                                                            [method] => POST
+                                                        )
+
+                                                    [2] => Array
+                                                        (
+                                                            [href] => https://api.sandbox.paypal.com/v2/checkout/orders/7JY066272M102573S
+                                                            [rel] => up
+                                                            [method] => GET
+                                                        )
+
+                                                )
+
+                                            [create_time] => 2024-11-13T15:36:41Z
+                                            [update_time] => 2024-11-13T15:36:41Z
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [payer] => Array
+        (
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Cena
+                )
+
+            [email_address] => johncito@gmail.com
+            [payer_id] => J37JSFYJWHLBE
+            [address] => Array
+                (
+                    [country_code] => UY
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v2/checkout/orders/7JY066272M102573S
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+)
+
+Capture Response Mysql Insertion: Array
+(
+    [jsonResponse] => Array
+        (
+            [id] => 7JY066272M102573S
+            [status] => COMPLETED
+            [payment_source] => Array
+                (
+                    [paypal] => Array
+                        (
+                            [email_address] => johncito@gmail.com
+                            [account_id] => J37JSFYJWHLBE
+                            [account_status] => VERIFIED
+                            [name] => Array
+                                (
+                                    [given_name] => John
+                                    [surname] => Cena
+                                )
+
+                            [address] => Array
+                                (
+                                    [country_code] => UY
+                                )
+
+                        )
+
+                )
+
+            [purchase_units] => Array
+                (
+                    [0] => Array
+                        (
+                            [reference_id] => default
+                            [shipping] => Array
+                                (
+                                    [name] => Array
+                                        (
+                                            [full_name] => John Cena
+                                        )
+
+                                    [address] => Array
+                                        (
+                                            [address_line_1] => Free Trade Zone
+                                            [admin_area_2] => Montevideo
+                                            [admin_area_1] => Montevideo
+                                            [postal_code] => 11200
+                                            [country_code] => UY
+                                        )
+
+                                )
+
+                            [payments] => Array
+                                (
+                                    [captures] => Array
+                                        (
+                                            [0] => Array
+                                                (
+                                                    [id] => 0HG22316JF758470M
+                                                    [status] => COMPLETED
+                                                    [amount] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 805.00
+                                                        )
+
+                                                    [final_capture] => 1
+                                                    [seller_protection] => Array
+                                                        (
+                                                            [status] => ELIGIBLE
+                                                            [dispute_categories] => Array
+                                                                (
+                                                                    [0] => ITEM_NOT_RECEIVED
+                                                                    [1] => UNAUTHORIZED_TRANSACTION
+                                                                )
+
+                                                        )
+
+                                                    [seller_receivable_breakdown] => Array
+                                                        (
+                                                            [gross_amount] => Array
+                                                                (
+                                                                    [currency_code] => USD
+                                                                    [value] => 805.00
+                                                                )
+
+                                                            [paypal_fee] => Array
+                                                                (
+                                                                    [currency_code] => USD
+                                                                    [value] => 43.77
+                                                                )
+
+                                                            [net_amount] => Array
+                                                                (
+                                                                    [currency_code] => USD
+                                                                    [value] => 761.23
+                                                                )
+
+                                                        )
+
+                                                    [links] => Array
+                                                        (
+                                                            [0] => Array
+                                                                (
+                                                                    [href] => https://api.sandbox.paypal.com/v2/payments/captures/0HG22316JF758470M
+                                                                    [rel] => self
+                                                                    [method] => GET
+                                                                )
+
+                                                            [1] => Array
+                                                                (
+                                                                    [href] => https://api.sandbox.paypal.com/v2/payments/captures/0HG22316JF758470M/refund
+                                                                    [rel] => refund
+                                                                    [method] => POST
+                                                                )
+
+                                                            [2] => Array
+                                                                (
+                                                                    [href] => https://api.sandbox.paypal.com/v2/checkout/orders/7JY066272M102573S
+                                                                    [rel] => up
+                                                                    [method] => GET
+                                                                )
+
+                                                        )
+
+                                                    [create_time] => 2024-11-13T15:36:41Z
+                                                    [update_time] => 2024-11-13T15:36:41Z
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [payer] => Array
+                (
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Cena
+                        )
+
+                    [email_address] => johncito@gmail.com
+                    [payer_id] => J37JSFYJWHLBE
+                    [address] => Array
+                        (
+                            [country_code] => UY
+                        )
+
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v2/checkout/orders/7JY066272M102573S
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+        )
+
+    [httpStatusCode] => 201
+)
+
+Capture Response Data: Array
+(
+    [cart] => Array
+        (
+            [0] => Array
+                (
+                    [titulo] => Celular
+                    [id_user_comp] => 1008
+                    [id_user_vend] => 9
+                    [cantidad] => 1
+                    [price_product] => 29000.00
+                )
+
+        )
+
+)
+
+Capture Response Carrito: Array
+(
+    [0] => Array
+        (
+            [titulo] => Celular
+            [id_user_comp] => 1008
+            [id_user_vend] => 9
+            [cantidad] => 1
+            [price_product] => 29000.00
+        )
+
+)
+
+Capture RESPONSE: Array
+(
+    [id] => 3R5474643K448651Y
+    [status] => COMPLETED
+    [payment_source] => Array
+        (
+            [paypal] => Array
+                (
+                    [email_address] => johncito@gmail.com
+                    [account_id] => J37JSFYJWHLBE
+                    [account_status] => VERIFIED
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Cena
+                        )
+
+                    [address] => Array
+                        (
+                            [country_code] => UY
+                        )
+
+                )
+
+        )
+
+    [purchase_units] => Array
+        (
+            [0] => Array
+                (
+                    [reference_id] => default
+                    [shipping] => Array
+                        (
+                            [name] => Array
+                                (
+                                    [full_name] => John Cena
+                                )
+
+                            [address] => Array
+                                (
+                                    [address_line_1] => Free Trade Zone
+                                    [admin_area_2] => Montevideo
+                                    [admin_area_1] => Montevideo
+                                    [postal_code] => 11200
+                                    [country_code] => UY
+                                )
+
+                        )
+
+                    [payments] => Array
+                        (
+                            [captures] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [id] => 63S16584DC0973228
+                                            [status] => COMPLETED
+                                            [amount] => Array
+                                                (
+                                                    [currency_code] => USD
+                                                    [value] => 725.00
+                                                )
+
+                                            [final_capture] => 1
+                                            [seller_protection] => Array
+                                                (
+                                                    [status] => ELIGIBLE
+                                                    [dispute_categories] => Array
+                                                        (
+                                                            [0] => ITEM_NOT_RECEIVED
+                                                            [1] => UNAUTHORIZED_TRANSACTION
+                                                        )
+
+                                                )
+
+                                            [seller_receivable_breakdown] => Array
+                                                (
+                                                    [gross_amount] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 725.00
+                                                        )
+
+                                                    [paypal_fee] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 39.45
+                                                        )
+
+                                                    [net_amount] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 685.55
+                                                        )
+
+                                                )
+
+                                            [links] => Array
+                                                (
+                                                    [0] => Array
+                                                        (
+                                                            [href] => https://api.sandbox.paypal.com/v2/payments/captures/63S16584DC0973228
+                                                            [rel] => self
+                                                            [method] => GET
+                                                        )
+
+                                                    [1] => Array
+                                                        (
+                                                            [href] => https://api.sandbox.paypal.com/v2/payments/captures/63S16584DC0973228/refund
+                                                            [rel] => refund
+                                                            [method] => POST
+                                                        )
+
+                                                    [2] => Array
+                                                        (
+                                                            [href] => https://api.sandbox.paypal.com/v2/checkout/orders/3R5474643K448651Y
+                                                            [rel] => up
+                                                            [method] => GET
+                                                        )
+
+                                                )
+
+                                            [create_time] => 2024-11-13T15:45:34Z
+                                            [update_time] => 2024-11-13T15:45:34Z
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [payer] => Array
+        (
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Cena
+                )
+
+            [email_address] => johncito@gmail.com
+            [payer_id] => J37JSFYJWHLBE
+            [address] => Array
+                (
+                    [country_code] => UY
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v2/checkout/orders/3R5474643K448651Y
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+)
+
+Capture Response Mysql Insertion: Array
+(
+    [jsonResponse] => Array
+        (
+            [id] => 3R5474643K448651Y
+            [status] => COMPLETED
+            [payment_source] => Array
+                (
+                    [paypal] => Array
+                        (
+                            [email_address] => johncito@gmail.com
+                            [account_id] => J37JSFYJWHLBE
+                            [account_status] => VERIFIED
+                            [name] => Array
+                                (
+                                    [given_name] => John
+                                    [surname] => Cena
+                                )
+
+                            [address] => Array
+                                (
+                                    [country_code] => UY
+                                )
+
+                        )
+
+                )
+
+            [purchase_units] => Array
+                (
+                    [0] => Array
+                        (
+                            [reference_id] => default
+                            [shipping] => Array
+                                (
+                                    [name] => Array
+                                        (
+                                            [full_name] => John Cena
+                                        )
+
+                                    [address] => Array
+                                        (
+                                            [address_line_1] => Free Trade Zone
+                                            [admin_area_2] => Montevideo
+                                            [admin_area_1] => Montevideo
+                                            [postal_code] => 11200
+                                            [country_code] => UY
+                                        )
+
+                                )
+
+                            [payments] => Array
+                                (
+                                    [captures] => Array
+                                        (
+                                            [0] => Array
+                                                (
+                                                    [id] => 63S16584DC0973228
+                                                    [status] => COMPLETED
+                                                    [amount] => Array
+                                                        (
+                                                            [currency_code] => USD
+                                                            [value] => 725.00
+                                                        )
+
+                                                    [final_capture] => 1
+                                                    [seller_protection] => Array
+                                                        (
+                                                            [status] => ELIGIBLE
+                                                            [dispute_categories] => Array
+                                                                (
+                                                                    [0] => ITEM_NOT_RECEIVED
+                                                                    [1] => UNAUTHORIZED_TRANSACTION
+                                                                )
+
+                                                        )
+
+                                                    [seller_receivable_breakdown] => Array
+                                                        (
+                                                            [gross_amount] => Array
+                                                                (
+                                                                    [currency_code] => USD
+                                                                    [value] => 725.00
+                                                                )
+
+                                                            [paypal_fee] => Array
+                                                                (
+                                                                    [currency_code] => USD
+                                                                    [value] => 39.45
+                                                                )
+
+                                                            [net_amount] => Array
+                                                                (
+                                                                    [currency_code] => USD
+                                                                    [value] => 685.55
+                                                                )
+
+                                                        )
+
+                                                    [links] => Array
+                                                        (
+                                                            [0] => Array
+                                                                (
+                                                                    [href] => https://api.sandbox.paypal.com/v2/payments/captures/63S16584DC0973228
+                                                                    [rel] => self
+                                                                    [method] => GET
+                                                                )
+
+                                                            [1] => Array
+                                                                (
+                                                                    [href] => https://api.sandbox.paypal.com/v2/payments/captures/63S16584DC0973228/refund
+                                                                    [rel] => refund
+                                                                    [method] => POST
+                                                                )
+
+                                                            [2] => Array
+                                                                (
+                                                                    [href] => https://api.sandbox.paypal.com/v2/checkout/orders/3R5474643K448651Y
+                                                                    [rel] => up
+                                                                    [method] => GET
+                                                                )
+
+                                                        )
+
+                                                    [create_time] => 2024-11-13T15:45:34Z
+                                                    [update_time] => 2024-11-13T15:45:34Z
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [payer] => Array
+                (
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Cena
+                        )
+
+                    [email_address] => johncito@gmail.com
+                    [payer_id] => J37JSFYJWHLBE
+                    [address] => Array
+                        (
+                            [country_code] => UY
+                        )
+
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v2/checkout/orders/3R5474643K448651Y
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+        )
+
+    [httpStatusCode] => 201
+)
+
