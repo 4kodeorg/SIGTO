@@ -805,33 +805,6 @@ async function updateInfo() {
         console.log(`Error: ${error}}`)
     }
 }
-async function addDirecciones() {
-    const messResponseDir = document.getElementById('message-resp-direcciones');
-    const userData = new FormData(formDireccionesAdd);
-    userData.append('submit', 'submit');
-    const userId = userData.get('id_username')
-    try {
-        const response = await fetch (`${server}/perfil/${userId}?action=agregar_direccion`, {
-            method: 'POST',
-            body: userData,
-        })
-        const data = await response.json();
-        if (data.success) {
-
-            messResponseDir.style.display= 'flex';
-            messResponseDir.querySelector('p').innerHTML = data.message;
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            messResponseDir.style.display = 'none'
-            location.reload();
-        }
-        else {
-            messResponseDir.style.display= 'flex';
-            messResponseDir.querySelector('p').innerHTML = data.message;
-        }
-    } catch (error) {
-        console.error(`Error: ${error}`);
-    }
-}
 
 async function removeAllFromCart(btn, ev) {
     const userId = btn.getAttribute('data-user-id');
@@ -856,6 +829,37 @@ async function removeAllFromCart(btn, ev) {
         }
     } catch (error) {
         console.error(`Error: ${error}`)
+    }
+}
+
+async function addDirecciones() {
+    const messResponseDir = document.getElementById('message-resp-direcciones');
+    const userData = new FormData(formDireccionesAdd);
+    userData.append('submit', 'submit');
+    const userId = userData.get('id_username')
+    
+    try {
+        const response = await fetch (`${server}/perfil/${userId}?action=agregar_direccion`, {
+            method: 'POST',
+            body: userData,
+        })
+        const data = await response.json();
+        if (data.success) {
+            messResponseDir.style.display= 'flex';
+            messResponseDir.classList.add('successNm');
+            messResponseDir.querySelector('p').innerHTML = data.message;
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            messResponseDir.style.display = 'none'
+            
+            location.reload();
+        }
+        else {
+            messResponseDir.classList.add('errorNm');
+            messResponseDir.style.display= 'flex';
+            messResponseDir.querySelector('p').innerHTML = data.message;
+        }
+    } catch (error) {
+        console.error(`Error: ${error}`);
     }
 }
 async function updateDirecciones() {
@@ -885,7 +889,7 @@ async function updateDirecciones() {
                 'calle_prim' : callePrim,
                 'calle_seg' : calleSeg,
                 'num_puerta' : numPuerta,
-                'num_apartamento' : numApto,
+                'num_apartamento' : numApto ?? 'N/A',
                 'ciudad' : ciudad,
                 'tipo_dir': tipoDir,
             })
@@ -894,12 +898,16 @@ async function updateDirecciones() {
         const data = await respuesta.json();
         if (data.success) {
             messageResp.style.display= 'flex';
+            messageResp.classList.add('successNm');
+
             messageResp.querySelector('p').innerHTML = data.message;
             await new Promise(resolve => setTimeout(resolve, 1500));
             messageResp.style.display = 'none';
+           
             location.reload();
         }
         else {
+            messageResp.classList.add('errorNm')
             messageResp.style.display= 'flex';
             messageResp.querySelector('p').innerHTML = data.message;
         }
@@ -1097,11 +1105,26 @@ function renderLoginCarrito() {
 }
 
 function renderProductCard(product, imgs, usId, isFavorite) {
-    const imgElements = imgs.map(img => `<img src="${img.imagen_url}" alt="Producto Random">`).join('');
+    const imgElements = imgs.map((img, index) => 
+            `<img src="${img.imagen_url}" alt="Producto Random" class="carousel-image" 
+                style="position: absolute; top: 0; object-fit:cover; width: 100%; left: ${index * 100}%; transition: transform 0.5s ease;">`
+        )
+        .join('');
 
     return `<div id="product-card-${product.sku}" class="individual-card">
-        <div class="row">
-        ${imgElements}
+        <div class="carousel-container" style="position: relative; overflow: hidden; height: 200px;">
+            <div class="carousel-track" style="position: relative; display: flex; width: 100%; height: 100%;">
+                ${imgElements}
+            </div>
+            
+            <button class="carousel-prev" onclick="moveCarousel('${product.sku}', -1)" 
+                style="position: absolute; border: none; background: transparent; left: 10px; top: 50%; transform: translateY(-50%); z-index: 2;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" d="M9.5 4.5L6 8l3.5 3.5"/></svg>
+                </button>
+            <button class="carousel-next" onclick="moveCarousel('${product.sku}', 1)" 
+                style="position: absolute; border: none; background: transparent; right: 10px; top: 50%; transform: translateY(-50%); z-index: 2;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" d="M6 4.5L9.5 8L6 11.5"/>
+                </svg></button>
         </div>
         <a href='/product/${product.sku}'><b>${product.nombre}</b>
        
@@ -1141,6 +1164,15 @@ function renderProductCard(product, imgs, usId, isFavorite) {
             </section>
         
     </div>`;
+}
+function moveCarousel(cardId, direction) {
+    const carouselTrack = document.querySelector(`#product-card-${cardId} .carousel-track`);
+    const images = carouselTrack.querySelectorAll('.carousel-image');
+    let currentIndex = parseInt(carouselTrack.dataset.currentIndex || '0');
+    console.log(currentIndex);
+    currentIndex = (currentIndex + direction + images.length) % images.length;
+    carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+    carouselTrack.dataset.currentIndex = currentIndex;
 }
 
 function renderLoginModal() {

@@ -214,12 +214,17 @@ include('header-index.php');
                 </h2>
                 <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushContainer">
                     <div class="accordion-body">
-                        <p>Datos de envío:</p>
+                        <p class="fs-3 border-bottom">Datos de envío:</p>
                         <?php if (count($data['direcciones']) > 0) {
                             $direcciones = $data['direcciones'];
                             foreach ($direcciones as $dir) {
                         ?>
-                                <table>
+                                <table class="table p-2">
+                                    <tbody data-dir-id="<?php echo $dir['id_direccion'] ?>" id="table-direcciones">
+                                    <tr>
+                                        <th>Ciudad: </th>
+                                        <td><?php echo $dir['ciudad'] ?></td>
+                                    </tr>
                                     <tr>
                                         <th>Calle: </th>
                                         <td><?php echo $dir['calle_pri'] ?></td>
@@ -234,12 +239,13 @@ include('header-index.php');
                                     </tr>
                                     <tr>
                                         <th>Número de apartamento: </th>
-                                        <td><?php echo $dir['num_apartamento'] ?></td>
+                                        <td><?php echo empty($dir['num_apartamento']) ? 'N/A' : $dir['num_apartamento'] ?></td>
                                     </tr>
                                     <tr>
                                         <th>Tipo de dirección: </th>
                                         <td><?php echo $dir['tipo_dir'] ?></td>
                                     </tr>
+                                    </tbody>
                                 </table>
                                 <div class="container-response" id="message-resp-direcciones2">
                                     <p></p>
@@ -255,10 +261,9 @@ include('header-index.php');
                                     </svg>
                                 </div>
 
-                                <form class="hide-form-action row g-3"
-                                    id="form-direcciones_actualizar"
-                                    action="?action=actualizar_direccion"
-                                    method="PUT">
+                                <form 
+                                    class="hide-form-action row g-3"
+                                    id="form-direcciones_actualizar">
                                     <small>Actualizar dirección <?php echo $dir['calle_pri'] . $dir['calle_sec'] ?></small>
                                     <input type="hidden" name="id_direccion" value="<?php echo $dir['id_direccion'] ?>">
                                     <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
@@ -319,10 +324,9 @@ include('header-index.php');
                                 </g>
                             </svg>
                         </div>
-                        <form class="hide-form-action row g-3"
-                            id="form-direcciones_agregar"
-                            action="?action=actualizar_direccion"
-                            method="PUT">
+                        <form 
+                            class="hide-form-action row g-3"
+                            id="form-direcciones_agregar">
 
                             <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
                             <div class="col-md-6">
@@ -409,15 +413,13 @@ include('header-index.php');
                         } else {
                             ?>
                             <p><b>No tienes ningun medio de pago asociado a tu cuenta</b></p>
-
-                            <button class="button-profile" id="add-dir-btn" onclick="showFormAddCard(this)">Agregar medio de pago</button>
+                            <hr>
                         <?php
                         }
                         ?>
-                        <form class="hide-form-action row g-3"
-                            id="form-card_agregar"
-                            action="?action=agregar_card"
-                            method="POST">
+                        <form 
+                            class="hide-form-action row g-3"
+                            id="form-card_agregar">
 
                             <input type="hidden" name="id_username" value="<?php echo bin2hex($usuario['email']) ?>">
                             <div class="col-12">

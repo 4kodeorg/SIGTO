@@ -11914,3 +11914,7 @@ Stack trace:
 #4 /var/www/html/index.php(19): Router->route()
 #5 {main}
   thrown in /var/www/html/controlador/UsuarioController.php on line 190
+[15-Nov-2024 17:41:15 UTC] PHP Warning:  Undefined variable $email in /var/www/html/core/Router.php on line 681
+[15-Nov-2024 17:45:29 UTC] PHP Warning:  Undefined variable $direcciones in /var/www/html/core/Router.php on line 721
+[15-Nov-2024 17:47:52 UTC] PHP Warning:  Undefined variable $direcciones in /var/www/html/core/Router.php on line 761
+[15-Nov-2024 17:47:52 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:761) in /var/www/html/core/Router.php on line 765

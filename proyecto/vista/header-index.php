@@ -32,8 +32,8 @@ $favoritos = isset($data['favoritos']) ? $data['favoritos'] : [];
 
 <body>
   <div class="container-fluid navigation">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary py-4">
-      <div class="container-fluid px-4">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
         <div class="brand-container">
           <a href="/home" class="navbar-brand">
             <h1 class="logo">Mercado Ya</h1>

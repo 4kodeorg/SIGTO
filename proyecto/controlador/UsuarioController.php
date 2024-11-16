@@ -93,35 +93,6 @@ class UsuarioController extends Database
         throw new Exception("Error en el servidor");
     }
 }
-    public function addUserDirecciones($data)
-    {
-        $query = "INSERT INTO comprador_direccion (email, calle_pri, calle_sec, num_puerta, num_apartamento, ciudad, tipo_dir) VALUES (?, ?, ?, ?, ?, ?, ?) ;";
-        $stmt = $this->conn->prepare($query);
-        $email = pack("H*", $data['email']);
-        $callePrimaria = $data['calle_pri'];
-        $calleSecundaria = $data['calle_seg'];
-        $numPuerta = $data['num_puerta'];
-        $numApartamento = $data['num_apartamento'] ?? null;
-        $ciudad = $data['ciudad'];
-        $tipoDireccion = $data['tipo_dir'];
-
-        $stmt->bind_param(
-            'sssiiss',
-            $email,
-            $callePrimaria,
-            $calleSecundaria,
-            $numPuerta,
-            $numApartamento,
-            $ciudad,
-            $tipoDireccion
-        );
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
     public function deleteCardFromUser ($idCard, $email) {
         $query = "DELETE FROM comprador_metodos_pago WHERE id_tarjeta=? AND email=?;";
         $stmt = $this->conn->prepare($query);
@@ -195,6 +166,36 @@ class UsuarioController extends Database
             return false;
         }
     }
+    public function addUserDirecciones($data)
+    {
+        $query = "INSERT INTO comprador_direccion (email, calle_pri, calle_sec, num_puerta, num_apartamento, ciudad, tipo_dir) VALUES (?, ?, ?, ?, ?, ?, ?) ;";
+        $stmt = $this->conn->prepare($query);
+        $email = $data['email'];
+        $callePrimaria = $data['calle_pri'];
+        $calleSecundaria = $data['calle_seg'];
+        $numPuerta = $data['num_puerta'];
+        $numApartamento = $data['num_apartamento'] ?? 'N/A';
+        $ciudad = $data['ciudad'];
+        $tipoDireccion = $data['tipo_dir'];
+
+        $stmt->bind_param(
+            'sssssss',
+            $email,
+            $callePrimaria,
+            $calleSecundaria,
+            $numPuerta,
+            $numApartamento,
+            $ciudad,
+            $tipoDireccion
+        );
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function updateUserDirecciones($userData)
     {
         $query = "UPDATE comprador_direccion SET calle_pri= ?, calle_sec= ?, num_puerta= ?, num_apartamento= ?, ciudad= ?, tipo_dir=? WHERE id_direccion= ?;";
@@ -207,7 +208,7 @@ class UsuarioController extends Database
         $ciudad = $userData['ciudad'];
         $tipoDireccion = $userData['tipo_dir'];
         $idDireccion = $userData['id_direccion'];
-        $stmt->bind_param('ssiissi', $callePrimaria, $calleSecundaria, $numPuerta, $numApartamento, $ciudad, $tipoDireccion, $idDireccion);
+        $stmt->bind_param('ssssssi', $callePrimaria, $calleSecundaria, $numPuerta, $numApartamento, $ciudad, $tipoDireccion, $idDireccion);
 
         if ($stmt->execute()) {
             return true;

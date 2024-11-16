@@ -675,17 +675,24 @@ class Router
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         header('Content-type: application/json');
-        $response = ['success' => false, 'message' => '', 'userdirecciones' => []];
+        $response = ['message' => '', 'userdirecciones' => []];
 
         $usuarioController = new UsuarioController();
         $direcciones = $usuarioController->getCompradorDirecciones($email);
+        if (count($direcciones) > 0) {
+            $response['userdirecciones'] = $direcciones;
+        } else {
+            $response['message'] = "Aún no tienes direcciones agregadas";
+        }
+        echo json_encode($response);
+        exit();
     }
     private function updateDirecciones()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
             parse_str(file_get_contents('php://input'), $data);
-            $response = ['success' => false, 'message' => ''];
+            $response = ['success' => false, 'message' => '' ,'direcciones' => []];
             $userData = [
                 'id_direccion' => $data['id_direccion'],
                 'email' => pack("H*", $data['id_username']),
@@ -694,15 +701,14 @@ class Router
                 'num_puerta' => $data['num_puerta'],
                 'ciudad' => $data['ciudad'],
                 'tipo_dir' => $data['tipo_dir'],
-                'num_apartamento' => $data['num_apartamento'] ?? null
-
+                'num_apartamento' => $data['num_apartamento'] ?? 'N/A',
             ];
 
             $emptyFields = false;
             foreach ($data as $key => $val) {
                 if (empty(trim($val)) || $val == 0) {
-                    if ($key == 'num_apartamento') {
-                        break;
+                    if ($key === 'num_apartamento') {
+                        continue;
                     }
                     $emptyFields = true;
                     $response['message'] = "El campo " . $key . "es requerido";
@@ -727,21 +733,24 @@ class Router
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
-        $response = ['success' => false, 'message' => ''];
+        $response = ['success' => false, 'message' => '', 'direcciones' => []];
         $data = [
-            'email' => htmlspecialchars($_POST['id_username']) ?? '',
+            'email' => pack("H*" ,htmlspecialchars($_POST['id_username'])) ?? '',
             'calle_pri' => htmlspecialchars($_POST['calle_prim']) ?? '',
             'calle_seg' => htmlspecialchars($_POST['calle_seg']) ?? '',
             'num_puerta' => htmlspecialchars($_POST['num_puerta']) ?? '',
-            'num_apartamento' => htmlspecialchars($_POST['num_apartamento']) ?? '',
+            'num_apartamento' => htmlspecialchars($_POST['num_apartamento']) ?? 'N/A',
             'ciudad' => htmlspecialchars($_POST['ciudad']) ?? '',
             'tipo_dir' =>  htmlspecialchars($_POST['tipo_dir']) ?? ''
         ];
         $emptyFields = false;
         foreach ($data as $key => $val) {
+            if ($key === 'num_apartamento') {
+                continue;
+            }
             if (empty(trim($val)) || $val == 0) {
                 $emptyFields = true;
-                $response['message'] = 'El campo ' . $key . 'es requerido';
+                $response['message'] = 'El campo ' . $key . ' es requerido';
             }
         }
         if (!$emptyFields) {
@@ -756,7 +765,6 @@ class Router
         echo (json_encode($response));
         exit();
     }
-
     private function updateInfo()
     {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/controlador/UsuarioController.php';

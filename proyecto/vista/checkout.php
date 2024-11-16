@@ -61,7 +61,7 @@ include 'header-index.php';
 </section>
 
 </div>
-<section>
+<section class="pay-and-deliver">
   <p class="py-3 text-center">Selecciona un método de entrega</p>
 <form 
   action=""
