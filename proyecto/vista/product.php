@@ -48,7 +48,9 @@ include('header-index.php');
             </button>
             </div>
         </form>
-        <div class="row medios-de-pago-row">
+        
+    </div>
+    <div class="row medios-de-pago-row">
             <h3 class="text-center">Medios de pago</h3>
             <div class="medios-de-pago-cont">
             <img src="../assets/imgs/mastercard.png" alt="">
@@ -58,8 +60,6 @@ include('header-index.php');
 
             </div>
         </div>
-    </div>
-
 </div>
 <script>
 

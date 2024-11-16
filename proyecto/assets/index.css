@@ -1522,6 +1522,9 @@ figure {
 }
 
 @media (width < 690px) {
+    .search-form-container {
+        max-width: 55vw;
+    }
     .brand-container {
         justify-content: space-evenly;
     }
@@ -1534,7 +1537,7 @@ figure {
     }
     .searchbar2 {
         min-width: 260px;
-        width: 50%;
+        width: 80%;
         height: 6vh;
     }
     .searchbtn svg {
@@ -1564,9 +1567,18 @@ figure {
         padding: 0;
     }
 }
-@media (width <= 550px) {
+@media (width <= 560px) {
     .gallery-section {
         justify-content: space-between;
+    }
+    .product-content h2{
+        font-size:.9rem !important;
+    }
+    .product-content section>p {
+        font-size: .66rem;
+    }
+    .checkout-btn-prod {
+        font-size: 9px;
     }
     .hero-button {
         padding: 6px 14px;
