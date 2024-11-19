@@ -71,9 +71,25 @@ require('headerback.php');
     </svg>
 </div>
 </div>
-</div>
 
+<div class="report-header">
+<h2 class="pt-5">Estadísticas en los últimos 30 dias</h2>
+
+</div>
+<hr>
+<?php
+if (isset($data['message'])) {
+  echo '<div><p> '.$data['message'].' </p> </div>';
+}
+ elseif (count($data['ventas']) > 15) {
+    echo '<div><p> Relación de las últimas 15 ventas </p> <div>';
+ }
+ else {
+    echo '<div>No tienes suficientes ventas aún</div>';
+ }
+?>
 <canvas id="companyCharts" class="canvas-container"></canvas>
+</div>
 </div>
 <?php 
 include('footeradm.php');

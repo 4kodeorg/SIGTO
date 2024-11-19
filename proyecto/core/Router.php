@@ -40,8 +40,8 @@ class Router
             'terminos-y-condiciones' => 'renderPage',
             'admin_cuenta' => 'formAccountEmpresa',
             'admin' => 'redirectMain',
-            'admin/main' => 'renderBackOffice',
-            'admin/estadisticas' => 'renderBackOffice',
+            'admin/main' => 'renderVendedorMain',
+            'admin/estadisticas' => 'renderVendedorStats',
             'admin/empresa' => 'renderBackOffice',
             'admin/productos' => 'pageProductsAdmin',
             'admin/perfil' => 'renderAdminPerfil',
@@ -336,6 +336,41 @@ class Router
         }
         echo json_encode($response);
         exit();
+        
+    }
+    private function renderVendedorStats() {
+        require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/VendController.php';
+        $vendedor = new VendController();
+        
+        if (isset($_SESSION['id_producto']) && $_SESSION['id_producto'] != 0) {
+            $idVendedor = $_SESSION['id_producto'];
+            $ventas = $vendedor->getUserVentas($idVendedor);
+            if (count($ventas) > 0) {
+                $this->renderBackOffice('estadisticas', ['ventas' => $ventas]);
+            }
+            else {
+                $this->renderBackOffice('estadisticas', ['message' => "No tienes ventas realizadas aún"]);
+            }
+        } else {
+            $this->renderPage('error', ['message' => "Acceso no autorizado"]);
+        }
+    }
+    private function renderVendedorMain() {
+        require_once $_SERVER['DOCUMENT_ROOT'].'/controlador/VendController.php';
+        $vendedor = new VendController();
+        
+        if (isset($_SESSION['id_producto']) && $_SESSION['id_producto'] != 0) {
+            $idVendedor = $_SESSION['id_producto'];
+            $ventas = $vendedor->getUserVentas($idVendedor);
+            if (count($ventas) > 0) {
+                $this->renderBackOffice('general', ['ventas' => $ventas]);
+            }
+            else {
+                $this->renderBackOffice('general', ['message' => "No tienes ventas realizadas aún"]);
+            }
+        } else {
+            $this->renderPage('error', ['message' => "Acceso no autorizado"]);
+        }
         
     }
     private function updateTelefono()

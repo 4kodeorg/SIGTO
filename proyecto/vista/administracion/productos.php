@@ -122,7 +122,6 @@ require('headerback.php')
             ";
                     }
                 } else {
-                    var_dump($_SESSION);
                 ?>
                 <tr>
                     <th colspan="6" class="text-center">No tienes productos publicados aún</th>

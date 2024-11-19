@@ -44,16 +44,16 @@ class VendController extends Database
                 $stmt->close();
                 $vendedorEmail = $vendedor->getEmail();
                 return $this->getUserById($vendedorEmail);
-            }
-             else {
+            } else {
                 throw new Error("Error al buscar usuario vendedor");
             }
         } catch (Exception $err) {
             error_log("Error: " . $err->getMessage());
             return false;
-        } 
+        }
     }
-    public function insertUserVendId ($email) {
+    public function insertUserVendId($email)
+    {
         $query = "INSERT INTO usuario_ven (email) values (?);";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('s', $email);
@@ -64,11 +64,12 @@ class VendController extends Database
             return false;
         }
     }
-    public function getUserVendId ($email) {
+    public function getUserVendId($email)
+    {
         $query = "SELECT * FROM usuario_ven WHERE email=?;";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('s',$email);
+        $stmt->bind_param('s', $email);
 
         if ($stmt->execute()) {
             $res = $stmt->get_result();
@@ -79,7 +80,40 @@ class VendController extends Database
             return false;
         }
     }
-    public function getUserById($vendedorId) {
+    public function getUserVentas($idVendedor)
+    {
+        $query = "SELECT 
+    c.sku_prod AS product_sku,
+    c.titulo AS product_titulo,
+    c.precio_prod AS product_precio,
+    SUM(c.cantidad) AS cant_vendida,
+    MAX(cc.fecha_confirmacion) AS confirmacion_fecha,
+    cc.estado_confirmacion AS confirmacion_estado,
+    u.email AS vend_email
+    FROM 
+    carrito c
+    JOIN 
+    confirmar_compra cc ON c.id_usu_com = cc.id_usu_com AND c.id_usu_ven = cc.id_usu_ven
+    JOIN 
+    usuario_ven u ON c.id_usu_ven = u.id_usu_ven
+    WHERE 
+    cc.estado_confirmacion = 'Confirmado'
+    AND c.id_usu_ven = ?
+    GROUP BY 
+    c.sku_prod, c.titulo, c.precio_prod, cc.estado_confirmacion, u.email;";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $idVendedor);
+        if ($stmt->execute()) {
+            $res = $stmt->get_result();
+            $ventas = $res->fetch_all(MYSQLI_ASSOC);
+            return $ventas;
+        } else {
+            throw new Exception("Error al traer las ventas");
+        }
+    }
+    public function getUserById($vendedorId)
+    {
         $query = "SELECT * FROM vendedor WHERE email = ?;";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('s', $vendedorId);
@@ -126,7 +160,8 @@ class VendController extends Database
             throw new Exception("Error en el servidor");
         }
     }
-    public function getUserProducts($idVendedor) {
+    public function getUserProducts($idVendedor)
+    {
         $query = "SELECT * FROM productos WHERE id_usu_ven =? AND activo=1;";
         $stmt = $this->conn->prepare($query);
 

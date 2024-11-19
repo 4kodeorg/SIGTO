@@ -72,18 +72,39 @@ require('headerback.php')
     <table class="table px-4 my-5">
     <thead>
         <div class="report-header">
-        <h2 class="pt-5">Articulos recientes</h2>
+        <h2 class="pt-5">Ventas recientes</h2>
         <a href="/admin/productos" class="view mt-5 px-3 py-1">Ver todos</a>
         </div>
         <hr>
             <tr>
             <th scope="col">Identificador</th>
             <th scope="col">Titulo</th>
-            <th scope="col">Visitas</th>
-            <th scope="col">Comentarios</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Unidades Vendidas</th>
+            <th scope="col">Fecha de confirmación</th>
             <th scope="col">Estado</th>
             </tr>
         </thead>
+    <tbody>
+        <?php
+        if (isset($data['message'])) {
+            echo '<tr>
+            <td colspan="5">'.$data['message'] .'</td>
+            </tr>';
+        } else {
+            foreach($data['ventas'] as $ventaProd) {
+                echo '<tr> 
+                <td>'.$ventaProd['product_sku'].' </td>
+                <td>'.$ventaProd['product_titulo'].' </td>
+                <td>'.$ventaProd['product_precio'].' </td>
+                <td>'.$ventaProd['cant_vendida'].' </td>
+                <td>'.$ventaProd['confirmacion_fecha'].' </td>
+                <td>'.$ventaProd['confirmacion_estado'] .'</td> </tr>';
+            }
+        }
+        ?>
+    </tbody>
+    </table>
 
 <?php 
 include('footeradm.php');

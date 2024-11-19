@@ -11918,3 +11918,14 @@ Stack trace:
 [15-Nov-2024 17:45:29 UTC] PHP Warning:  Undefined variable $direcciones in /var/www/html/core/Router.php on line 721
 [15-Nov-2024 17:47:52 UTC] PHP Warning:  Undefined variable $direcciones in /var/www/html/core/Router.php on line 761
 [15-Nov-2024 17:47:52 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/core/Router.php:761) in /var/www/html/core/Router.php on line 765
+[19-Nov-2024 17:20:56 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: No data supplied for parameters in prepared statement in /var/www/html/controlador/VendController.php:104
+Stack trace:
+#0 /var/www/html/controlador/VendController.php(104): mysqli_stmt->execute()
+#1 /var/www/html/core/Router.php(348): VendController->getUserVentas(11)
+#2 /var/www/html/core/Router.php(187): Router->renderVendedorMain('general')
+#3 /var/www/html/core/Router.php(123): Router->assignPage('renderVendedorM...', 'admin/main')
+#4 /var/www/html/index.php(19): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/VendController.php on line 104
+[19-Nov-2024 17:34:31 UTC] PHP Warning:  Undefined array key "ventas" in /var/www/html/vista/administracion/general.php on line 95
+[19-Nov-2024 17:34:31 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /var/www/html/vista/administracion/general.php on line 95
