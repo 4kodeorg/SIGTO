@@ -1,0 +1,699 @@
+-- MySQL dump 10.13  Distrib 8.0.39, for Linux (aarch64)
+--
+-- Host: localhost    Database: sigto
+-- ------------------------------------------------------
+-- Server version	8.0.39
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `administrador`
+--
+
+DROP TABLE IF EXISTS `administrador`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `administrador` (
+  `email` varchar(50) NOT NULL,
+  `nombre` varchar(30) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `fecha_ini_ses` datetime DEFAULT NULL,
+  PRIMARY KEY (`email`),
+  CONSTRAINT `chk_admin_email_format` CHECK ((`email` like _utf8mb4'%_@__%.__%'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `administrador`
+--
+
+LOCK TABLES `administrador` WRITE;
+/*!40000 ALTER TABLE `administrador` DISABLE KEYS */;
+INSERT INTO `administrador` VALUES ('sysadmin@gmail.com','Admin','passwd123',NULL);
+/*!40000 ALTER TABLE `administrador` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `carrito`
+--
+
+DROP TABLE IF EXISTS `carrito`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `carrito` (
+  `id_carrito` int NOT NULL AUTO_INCREMENT,
+  `fecha_gen` datetime NOT NULL,
+  `sku_prod` int DEFAULT NULL,
+  `id_usu_com` int DEFAULT NULL,
+  `id_usu_ven` int DEFAULT NULL,
+  `cantidad` int NOT NULL,
+  `titulo` varchar(100) DEFAULT NULL,
+  `precio_prod` decimal(10,2) DEFAULT NULL,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  `purchase_id` int DEFAULT NULL,
+  PRIMARY KEY (`id_carrito`),
+  KEY `id_usu_ven` (`id_usu_ven`),
+  KEY `sku_prod` (`sku_prod`),
+  KEY `id_usu_com` (`id_usu_com`),
+  CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`id_usu_ven`) REFERENCES `usuario_ven` (`id_usu_ven`),
+  CONSTRAINT `carrito_ibfk_2` FOREIGN KEY (`sku_prod`) REFERENCES `productos` (`sku`),
+  CONSTRAINT `carrito_ibfk_3` FOREIGN KEY (`id_usu_com`) REFERENCES `usuario_comprador` (`id_usu_com`),
+  CONSTRAINT `carrito_chk_1` CHECK ((`cantidad` > 0)),
+  CONSTRAINT `carrito_chk_2` CHECK ((`precio_prod` > 0))
+) ENGINE=InnoDB AUTO_INCREMENT=7092 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carrito`
+--
+
+LOCK TABLES `carrito` WRITE;
+/*!40000 ALTER TABLE `carrito` DISABLE KEYS */;
+INSERT INTO `carrito` VALUES (7076,'2024-11-08 18:25:12',4537,1007,8,2,'Camisa',3200.00,1,4),(7077,'2024-11-08 18:28:24',4536,1007,8,1,'Camisa',550.00,0,NULL),(7078,'2024-11-13 15:28:47',4537,1008,8,1,'Camisa',3200.00,1,NULL),(7079,'2024-11-13 15:31:49',4538,1008,9,1,'Celular',29000.00,1,NULL),(7080,'2024-11-13 15:32:32',4539,1008,9,1,'PlayStation 5',5400.00,1,NULL),(7081,'2024-11-13 15:35:06',4538,1008,9,1,'Celular',29000.00,1,5),(7082,'2024-11-13 15:35:53',4537,1008,8,1,'Camisa',3200.00,1,5),(7083,'2024-11-13 15:44:03',4538,1008,9,2,'Celular',29000.00,1,NULL),(7084,'2024-11-13 15:44:58',4538,1008,9,1,'Celular',29000.00,1,6),(7085,'2024-11-13 22:36:43',4538,1009,9,1,'Celular',29000.00,1,7),(7086,'2024-11-13 22:36:46',4539,1009,9,1,'PlayStation 5',5400.00,1,NULL),(7087,'2024-11-15 19:58:23',4537,1009,8,1,'Camisa',3200.00,1,NULL),(7088,'2024-11-15 20:43:30',4537,1009,8,1,'Camisa',3200.00,0,NULL),(7089,'2024-11-19 17:23:34',4540,1004,11,1,'Televisor',28000.00,1,8),(7090,'2024-11-19 17:48:26',4541,1004,11,1,'Zapatilla',4500.00,1,9),(7091,'2024-11-19 18:00:15',4542,1004,12,1,'Zapatilla',5200.00,1,10);
+/*!40000 ALTER TABLE `carrito` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categorias`
+--
+
+DROP TABLE IF EXISTS `categorias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categorias` (
+  `id_categoria` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) DEFAULT NULL,
+  `descripcion` text,
+  PRIMARY KEY (`id_categoria`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categorias`
+--
+
+LOCK TABLES `categorias` WRITE;
+/*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
+INSERT INTO `categorias` VALUES (8,'Electrodomesticos','Productos de uso domestico como neveras, lavadoras, etc.'),(9,'Celulares','Telefonos moviles de diversas marcas y modelos'),(10,'Herramientas','Herramientas para construccion, reparaciones, y otros usos'),(11,'Juguetes','Juguetes y productos de entretenimiento'),(12,'Ropa','Prendas de vestir para todas las edades y generos'),(13,'Calzado','Calzado de diferentes tipos y estilos'),(14,'Hogar','Articulos para el hogar como muebles, decoraciones, etc.');
+/*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cliente` (
+  `email` varchar(50) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `fecha_registro` date NOT NULL,
+  `fecha_nac` date NOT NULL,
+  `pais` varchar(30) DEFAULT NULL,
+  `suspended` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`email`),
+  CONSTRAINT `chk_cliente_email_format` CHECK ((`email` like _utf8mb4'%_@__%.__%'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cliente`
+--
+
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES ('belen@gmail.com','pepem','$2y$10$k7e2ILbhXeMs6kvGdpKs5.lqXZ/ZZIQEYXYuWR5MrE4dHlntHoUCu','2024-11-03','1998-02-12','Anguilla',0),('estebaa12@gmail.com','stebnn','$2y$10$AeHcTBTde7RkoDVGYVxFHeL0bbvauc1uva5spvbXh.iT2orYl5zLi','2024-11-03','1988-02-12','Antarctica',0),('esteban@gmail.com.uy','steban','$2y$10$1A7WPYWo5I3K5lVqoU9gU.r.eiDWm6EvKRcZw4hG4TbgPs4i1m8O2','2024-11-02','1998-02-12','Anguilla',0),('estebankito@gmail.com','steven99','$2y$10$wUoPX6jH/xKq2mSTB4DdYOVvg3NgKTgsGkKaGq/aYNaXIPdzgkFR2','2024-11-07','1987-02-12','Argentina',0),('estebanquito@gmail.com','esteban26','$2y$10$j/zLN8ECXSlp9853EZ9.8eCaI.5hxHLiLD38e9xRYKrgsbBBMlkSO','2024-11-07','1998-02-12','Uruguay',0),('estebeeen@outlook.com','stevenp','$2y$10$8oDEZAtypsvY.X4ml3aGSOzw3iN9fcK6Nn.n2nbNG8ltBUlqJg2WW','2024-11-03','1998-02-12','Argentina',0),('estebeeen23@outlook.com','steven','$2y$10$TApTExUxtM.J74HZ5iqKqu3cs0W6/wurKXKRdZQ8bcjTMv4Lu358.','2024-11-13','1998-02-12','Argentina',0),('estebita@gmail.com','steven','$2y$10$C7inhDU38rAOXOM/pbrkZu.R4yxlBPobtbtzTC/Z0acSG5pVyNw1K','2024-11-02','1998-02-12','Argentina',0),('martincito@gmail.com','martinchu','$2y$10$w47OT4YD5am7ZVZ6/G1v..tCVJ8edx51oSfI54YqxKCmmEvnltZ.a','2024-11-08','1998-02-12','Argentina',0),('steven123@gmail.com','steven19','$2y$10$IYhh4FiXG37MkKtFdTGoNOQHmXJNUNa1BGJNnhQVY7gIUHbiorMPO','2024-11-04','1998-02-19','Chile',0),('steven22@gmail.com','stevenspi','$2y$10$UIgePGROMIpd2AeXL0jkWepS6PtaHKMU4oZLwIumZLSSOeNVppEtu','2024-11-13','1998-02-12','Uruguay',0);
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comprador`
+--
+
+DROP TABLE IF EXISTS `comprador`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comprador` (
+  `email` varchar(50) NOT NULL,
+  `nombre1` varchar(30) DEFAULT NULL,
+  `nombre2` varchar(30) DEFAULT NULL,
+  `apellido1` varchar(30) DEFAULT NULL,
+  `apellido2` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`email`),
+  CONSTRAINT `comprador_ibfk_1` FOREIGN KEY (`email`) REFERENCES `cliente` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comprador`
+--
+
+LOCK TABLES `comprador` WRITE;
+/*!40000 ALTER TABLE `comprador` DISABLE KEYS */;
+INSERT INTO `comprador` VALUES ('belen@gmail.com',NULL,NULL,NULL,NULL),('estebaa12@gmail.com','Esteban','Damian','Martinez','Gonzalez'),('esteban@gmail.com.uy',NULL,NULL,NULL,NULL),('estebankito@gmail.com',NULL,NULL,NULL,NULL),('estebanquito@gmail.com',NULL,NULL,NULL,NULL),('estebeeen@outlook.com',NULL,NULL,NULL,NULL),('estebeeen23@outlook.com',NULL,NULL,NULL,NULL),('estebita@gmail.com',NULL,NULL,NULL,NULL),('martincito@gmail.com',NULL,NULL,NULL,NULL),('steven123@gmail.com','Pedro','damian','Martinez','Borda'),('steven22@gmail.com','Juan','','Gomez','');
+/*!40000 ALTER TABLE `comprador` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comprador_direccion`
+--
+
+DROP TABLE IF EXISTS `comprador_direccion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comprador_direccion` (
+  `id_direccion` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) NOT NULL,
+  `calle_pri` varchar(50) NOT NULL,
+  `calle_sec` varchar(50) NOT NULL,
+  `num_puerta` varchar(10) NOT NULL,
+  `num_apartamento` varchar(5) NOT NULL,
+  `ciudad` varchar(30) NOT NULL,
+  `tipo_dir` varchar(11) NOT NULL,
+  PRIMARY KEY (`id_direccion`),
+  KEY `email` (`email`),
+  CONSTRAINT `comprador_direccion_ibfk_1` FOREIGN KEY (`email`) REFERENCES `comprador` (`email`),
+  CONSTRAINT `chk_tipo_direccion` CHECK ((`tipo_dir` in (_utf8mb4'Facturacion',_utf8mb4'Envio')))
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comprador_direccion`
+--
+
+LOCK TABLES `comprador_direccion` WRITE;
+/*!40000 ALTER TABLE `comprador_direccion` DISABLE KEYS */;
+INSERT INTO `comprador_direccion` VALUES (1,'estebaa12@gmail.com','Calle 96','Calle 11','672','123','Buenos Vientos','envio'),(2,'estebaa12@gmail.com','Calle 77','Calle 12','98','2','Urugay','envio'),(3,'steven123@gmail.com','Calle 12','Calle 24','672','1','Buenos Vientos','envio'),(4,'steven123@gmail.com','Calle 18','Calle 33','672','21','Palo Santo','envio'),(5,'estebanquito@gmail.com','Calle 12','Calle 24','672','1','Buenos Vientos','envio'),(6,'estebeeen23@outlook.com','Calle 22','Calle 12','12','1','Buenos Vientos','envio'),(7,'steven22@gmail.com','Juan Lopez','Mendoza','21837','','Las Piedras','envio'),(8,'steven22@gmail.com','Espinosa','Centeno','8912','','Saysandu','envio'),(9,'steven22@gmail.com','Calle Juanito','Pedrito','1288','','Santana','envio');
+/*!40000 ALTER TABLE `comprador_direccion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comprador_metodos_pago`
+--
+
+DROP TABLE IF EXISTS `comprador_metodos_pago`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comprador_metodos_pago` (
+  `id_tarjeta` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) NOT NULL,
+  `nom_titular` varchar(50) NOT NULL,
+  `numero` varchar(20) NOT NULL,
+  `nombre_tarjeta` varchar(20) NOT NULL,
+  `fecha_ven` char(6) DEFAULT NULL,
+  PRIMARY KEY (`id_tarjeta`),
+  KEY `email` (`email`),
+  CONSTRAINT `comprador_metodos_pago_ibfk_1` FOREIGN KEY (`email`) REFERENCES `comprador` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comprador_metodos_pago`
+--
+
+LOCK TABLES `comprador_metodos_pago` WRITE;
+/*!40000 ALTER TABLE `comprador_metodos_pago` DISABLE KEYS */;
+INSERT INTO `comprador_metodos_pago` VALUES (3,'estebanquito@gmail.com','Steven Zonaglezs','44332874728123','Visa','01/26'),(4,'estebeeen23@outlook.com','Esteban Martinez','4592','Visa','02/27'),(5,'estebeeen23@outlook.com','Esteban Martinez','2234','Master','02/28'),(6,'estebeeen23@outlook.com','Esteban Martinez','4552213124123','Visa','02/27'),(8,'steven22@gmail.com','Esteban Martinez','4727312991212','Visa','01/28');
+/*!40000 ALTER TABLE `comprador_metodos_pago` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comprador_telefono`
+--
+
+DROP TABLE IF EXISTS `comprador_telefono`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comprador_telefono` (
+  `email` varchar(50) NOT NULL,
+  `telefono` varchar(18) NOT NULL,
+  PRIMARY KEY (`email`),
+  CONSTRAINT `comprador_telefono_ibfk_1` FOREIGN KEY (`email`) REFERENCES `comprador` (`email`),
+  CONSTRAINT `chk_comprador_telefono_format` CHECK (regexp_like(`telefono`,_latin1'^[0-9]{7,15}$'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comprador_telefono`
+--
+
+LOCK TABLES `comprador_telefono` WRITE;
+/*!40000 ALTER TABLE `comprador_telefono` DISABLE KEYS */;
+INSERT INTO `comprador_telefono` VALUES ('steven123@gmail.com','9876471'),('steven22@gmail.com','81277372781');
+/*!40000 ALTER TABLE `comprador_telefono` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `confirmar_compra`
+--
+
+DROP TABLE IF EXISTS `confirmar_compra`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `confirmar_compra` (
+  `registro_compra` int NOT NULL AUTO_INCREMENT,
+  `id_usu_com` int DEFAULT NULL,
+  `id_usu_ven` int DEFAULT NULL,
+  `id_pago` int NOT NULL,
+  `fecha_confirmacion` datetime DEFAULT CURRENT_TIMESTAMP,
+  `estado_confirmacion` enum('Pendiente','Confirmado','Cancelado') DEFAULT NULL,
+  `cupon_desc` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`registro_compra`,`id_pago`),
+  KEY `id_usu_com` (`id_usu_com`),
+  KEY `id_usu_ven` (`id_usu_ven`),
+  KEY `id_pago` (`id_pago`),
+  CONSTRAINT `confirmar_compra_ibfk_1` FOREIGN KEY (`id_usu_com`) REFERENCES `carrito` (`id_usu_com`),
+  CONSTRAINT `confirmar_compra_ibfk_2` FOREIGN KEY (`id_usu_ven`) REFERENCES `carrito` (`id_usu_ven`),
+  CONSTRAINT `confirmar_compra_ibfk_3` FOREIGN KEY (`id_pago`) REFERENCES `medio_pago` (`id_pago`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `confirmar_compra`
+--
+
+LOCK TABLES `confirmar_compra` WRITE;
+/*!40000 ALTER TABLE `confirmar_compra` DISABLE KEYS */;
+INSERT INTO `confirmar_compra` VALUES (4,1007,8,36,'2024-11-08 18:27:52','Confirmado',NULL),(5,1008,9,37,'2024-11-13 15:36:42','Confirmado',NULL),(6,1008,9,38,'2024-11-13 15:45:35','Confirmado',NULL),(7,1009,9,39,'2024-11-13 22:37:30','Confirmado',NULL),(8,1004,11,40,'2024-11-19 17:24:33','Confirmado',NULL),(9,1004,11,41,'2024-11-19 17:49:18','Confirmado',NULL),(10,1004,12,42,'2024-11-19 18:00:31','Confirmado',NULL);
+/*!40000 ALTER TABLE `confirmar_compra` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `favoritos`
+--
+
+DROP TABLE IF EXISTS `favoritos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `favoritos` (
+  `sku` int NOT NULL,
+  `id_usuario` int NOT NULL,
+  PRIMARY KEY (`sku`,`id_usuario`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `favoritos_ibfk_1` FOREIGN KEY (`sku`) REFERENCES `productos` (`sku`),
+  CONSTRAINT `favoritos_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario_comprador` (`id_usu_com`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `favoritos`
+--
+
+LOCK TABLES `favoritos` WRITE;
+/*!40000 ALTER TABLE `favoritos` DISABLE KEYS */;
+INSERT INTO `favoritos` VALUES (4536,1007),(4537,1007);
+/*!40000 ALTER TABLE `favoritos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `medio_pago`
+--
+
+DROP TABLE IF EXISTS `medio_pago`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `medio_pago` (
+  `id_pago` int NOT NULL AUTO_INCREMENT,
+  `monto_total` decimal(10,2) DEFAULT NULL,
+  `estado` enum('Pendiente','Completado','Cancelado') DEFAULT 'Pendiente',
+  `tipo_pago` varchar(30) DEFAULT NULL,
+  `nombre_met_pago` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id_pago`),
+  CONSTRAINT `medio_pago_chk_1` CHECK ((`monto_total` > 0))
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `medio_pago`
+--
+
+LOCK TABLES `medio_pago` WRITE;
+/*!40000 ALTER TABLE `medio_pago` DISABLE KEYS */;
+INSERT INTO `medio_pago` VALUES (35,597.50,'Completado','Paypal','PayPal'),(36,160.00,'Completado','Paypal','PayPal'),(37,805.00,'Completado','Paypal','PayPal'),(38,725.00,'Completado','Paypal','PayPal'),(39,725.00,'Completado','Paypal','PayPal'),(40,700.00,'Completado','Paypal','PayPal'),(41,112.50,'Completado','Paypal','PayPal'),(42,130.00,'Completado','Paypal','PayPal');
+/*!40000 ALTER TABLE `medio_pago` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ofertas_especiales`
+--
+
+DROP TABLE IF EXISTS `ofertas_especiales`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ofertas_especiales` (
+  `id_oferta` int NOT NULL AUTO_INCREMENT,
+  `descuento` decimal(5,2) DEFAULT NULL,
+  `nombre_evento` varchar(100) DEFAULT NULL,
+  `descripcion` text,
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_fin` date DEFAULT NULL,
+  PRIMARY KEY (`id_oferta`),
+  CONSTRAINT `chk_ofertas_fechas` CHECK ((`fecha_inicio` < `fecha_fin`)),
+  CONSTRAINT `ofertas_especiales_chk_1` CHECK ((`descuento` between 0 and 100))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ofertas_especiales`
+--
+
+LOCK TABLES `ofertas_especiales` WRITE;
+/*!40000 ALTER TABLE `ofertas_especiales` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ofertas_especiales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `producto_imagenes`
+--
+
+DROP TABLE IF EXISTS `producto_imagenes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `producto_imagenes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `producto_sku` int DEFAULT NULL,
+  `imagen_url` varchar(1000) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `producto_sku` (`producto_sku`),
+  CONSTRAINT `producto_imagenes_ibfk_1` FOREIGN KEY (`producto_sku`) REFERENCES `productos` (`sku`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `producto_imagenes`
+--
+
+LOCK TABLES `producto_imagenes` WRITE;
+/*!40000 ALTER TABLE `producto_imagenes` DISABLE KEYS */;
+INSERT INTO `producto_imagenes` VALUES (58,4534,'/imagenes/productos/672d4b5b007a4_polocam.jpeg'),(59,4534,'/imagenes/productos/672d4b5b01356_polocamisa.jpeg'),(60,4535,'/imagenes/productos/672d4fabc8cf6_polocam.jpeg'),(61,4535,'/imagenes/productos/672d4fabc9628_polocamisa.jpeg'),(62,4536,'/imagenes/productos/672d50284e84e_polocam.jpeg'),(63,4537,'/imagenes/productos/672d50ae49f18_polroja.jpeg'),(64,4538,'/imagenes/productos/6734c477af2dc_iphon.jpeg'),(65,4538,'/imagenes/productos/6734c477b024b_iphone.jpeg'),(66,4539,'/imagenes/productos/6734c4af55f4e_playt.jpeg'),(67,4539,'/imagenes/productos/6734c4af56ddf_ps5.jpeg'),(68,4540,'/imagenes/productos/673cbf3f74020_sony-bravia.jpeg'),(69,4541,'/imagenes/productos/673ccf4a361b4_vans.jpeg'),(70,4542,'/imagenes/productos/673cd2067eb28_converse.jpeg');
+/*!40000 ALTER TABLE `producto_imagenes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `productos`
+--
+
+DROP TABLE IF EXISTS `productos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `productos` (
+  `sku` int NOT NULL AUTO_INCREMENT,
+  `id_usu_ven` int DEFAULT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `precio` decimal(10,2) DEFAULT NULL,
+  `origen` enum('Nacional','Internacional') DEFAULT NULL,
+  `stock` int NOT NULL,
+  `descripcion` text,
+  `estado` enum('Nuevo','Usado') DEFAULT NULL,
+  `oferta` enum('Si','No') DEFAULT NULL,
+  `activo` tinyint(1) DEFAULT '1',
+  `id_cat` int DEFAULT NULL,
+  `id_subcat` int DEFAULT NULL,
+  PRIMARY KEY (`sku`),
+  KEY `id_cat` (`id_cat`),
+  KEY `id_subcat` (`id_subcat`),
+  KEY `id_usu_ven` (`id_usu_ven`),
+  CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_cat`) REFERENCES `categorias` (`id_categoria`) ON DELETE SET NULL,
+  CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_subcat`) REFERENCES `subcategorias` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_usu_ven`) REFERENCES `usuario_ven` (`id_usu_ven`),
+  CONSTRAINT `productos_chk_1` CHECK ((`precio` > 0)),
+  CONSTRAINT `productos_chk_2` CHECK ((`stock` > 0)),
+  CONSTRAINT `productos_chk_3` CHECK ((`activo` in (0,1)))
+) ENGINE=InnoDB AUTO_INCREMENT=4543 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `productos`
+--
+
+LOCK TABLES `productos` WRITE;
+/*!40000 ALTER TABLE `productos` DISABLE KEYS */;
+INSERT INTO `productos` VALUES (4534,7,'Camisa',4500.00,'Nacional',55,'Camisa blanca polo','Nuevo','Si',0,12,19),(4535,8,'Camisa',5500.00,'Nacional',55,'Camisa Polo Blue','Nuevo','Si',0,12,19),(4536,8,'Camisa',550.00,'Internacional',66,'Camisa Polo blue china','Nuevo','Si',1,12,19),(4537,8,'Camisa',3200.00,'Internacional',44,'Camisa roja chomba','Nuevo','Si',1,12,18),(4538,9,'Celular',29000.00,'Internacional',65,'Iphone 13 pro max 65px','Nuevo','Si',1,9,5),(4539,9,'PlayStation 5',5400.00,'Internacional',70,'PlayStation 5 500 GB','Nuevo','Si',1,8,3),(4540,11,'Televisor',28000.00,'Internacional',65,'Televisor Bravia ULTRA HD 50\"','Nuevo','Si',1,8,3),(4541,11,'Zapatilla',4500.00,'Nacional',300,'Zapatilla Vans talle 43','Nuevo','Si',1,13,14),(4542,12,'Zapatilla',5200.00,'Nacional',500,'Zapatilla Converse Talle 43','Nuevo','Si',1,13,14);
+/*!40000 ALTER TABLE `productos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sesionCliente`
+--
+
+DROP TABLE IF EXISTS `sesionCliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sesionCliente` (
+  `id_session` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) DEFAULT NULL,
+  `fecha_ini_ses` datetime NOT NULL,
+  PRIMARY KEY (`id_session`),
+  KEY `email` (`email`),
+  CONSTRAINT `sesioncliente_ibfk_1` FOREIGN KEY (`email`) REFERENCES `cliente` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sesionCliente`
+--
+
+LOCK TABLES `sesionCliente` WRITE;
+/*!40000 ALTER TABLE `sesionCliente` DISABLE KEYS */;
+INSERT INTO `sesionCliente` VALUES (12,'esteban@gmail.com.uy','2024-11-02 04:17:11'),(13,'estebita@gmail.com','2024-11-02 04:30:49'),(14,'estebeeen@outlook.com','2024-11-03 00:38:45'),(15,'belen@gmail.com','2024-11-03 00:39:56'),(16,'estebaa12@gmail.com','2024-11-03 04:50:45'),(17,'steven123@gmail.com','2024-11-04 01:29:43'),(18,'steven123@gmail.com','2024-11-04 17:02:49'),(19,'steven123@gmail.com','2024-11-06 04:23:53'),(20,'estebanquito@gmail.com','2024-11-07 00:42:46'),(22,'estebankito@gmail.com','2024-11-07 21:54:19'),(23,'estebankito@gmail.com','2024-11-07 21:54:37'),(24,'martincito@gmail.com','2024-11-08 18:25:02'),(25,'estebeeen23@outlook.com','2024-11-13 15:15:44'),(26,'estebeeen23@outlook.com','2024-11-13 15:25:45'),(27,'steven22@gmail.com','2024-11-13 22:35:35'),(28,'steven123@gmail.com','2024-11-19 17:23:28'),(29,'steven123@gmail.com','2024-11-19 17:48:20'),(30,'steven123@gmail.com','2024-11-19 18:00:09');
+/*!40000 ALTER TABLE `sesionCliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `subcategorias`
+--
+
+DROP TABLE IF EXISTS `subcategorias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `subcategorias` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `id_categoria` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nombre` (`nombre`),
+  KEY `id_categoria` (`id_categoria`),
+  CONSTRAINT `subcategorias_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `subcategorias`
+--
+
+LOCK TABLES `subcategorias` WRITE;
+/*!40000 ALTER TABLE `subcategorias` DISABLE KEYS */;
+INSERT INTO `subcategorias` VALUES (1,'Lavadoras',8),(2,'Heladeras',8),(3,'Televisores',8),(4,'Microondas',8),(5,'Iphone',9),(6,'Samsung',9),(7,'Motorola',9),(12,'Manual',10),(13,'Electricas',10),(14,'Zapatos deportivos',13),(15,'Botas',13),(16,'Juegos de mesa',11),(17,'Pelotas',11),(18,'Remeras',12),(19,'Camisas',12),(20,'Pantalones',12),(21,'Muebles',14),(22,'Decoracion',14);
+/*!40000 ALTER TABLE `subcategorias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario_admin`
+--
+
+DROP TABLE IF EXISTS `usuario_admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuario_admin` (
+  `id_usu_admin` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_usu_admin`),
+  KEY `email` (`email`),
+  CONSTRAINT `usuario_admin_ibfk_1` FOREIGN KEY (`email`) REFERENCES `administrador` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario_admin`
+--
+
+LOCK TABLES `usuario_admin` WRITE;
+/*!40000 ALTER TABLE `usuario_admin` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuario_admin` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario_comprador`
+--
+
+DROP TABLE IF EXISTS `usuario_comprador`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuario_comprador` (
+  `id_usu_com` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_usu_com`),
+  KEY `email` (`email`),
+  CONSTRAINT `usuario_comprador_ibfk_1` FOREIGN KEY (`email`) REFERENCES `comprador` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=1010 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario_comprador`
+--
+
+LOCK TABLES `usuario_comprador` WRITE;
+/*!40000 ALTER TABLE `usuario_comprador` DISABLE KEYS */;
+INSERT INTO `usuario_comprador` VALUES (1002,'belen@gmail.com'),(1003,'estebaa12@gmail.com'),(1006,'estebankito@gmail.com'),(1005,'estebanquito@gmail.com'),(1001,'estebeeen@outlook.com'),(1008,'estebeeen23@outlook.com'),(1000,'estebita@gmail.com'),(1007,'martincito@gmail.com'),(1004,'steven123@gmail.com'),(1009,'steven22@gmail.com');
+/*!40000 ALTER TABLE `usuario_comprador` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario_ven`
+--
+
+DROP TABLE IF EXISTS `usuario_ven`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuario_ven` (
+  `id_usu_ven` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_usu_ven`),
+  KEY `email` (`email`),
+  CONSTRAINT `usuario_ven_ibfk_1` FOREIGN KEY (`email`) REFERENCES `vendedor` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario_ven`
+--
+
+LOCK TABLES `usuario_ven` WRITE;
+/*!40000 ALTER TABLE `usuario_ven` DISABLE KEYS */;
+INSERT INTO `usuario_ven` VALUES (12,'diegito@gmail.com'),(11,'diego123@gmail.com'),(9,'esteban12@gmail.com'),(10,'martincho@gmail.com'),(7,'pablito@gmail.com'),(8,'pepe123@gmail.com');
+/*!40000 ALTER TABLE `usuario_ven` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vendedor`
+--
+
+DROP TABLE IF EXISTS `vendedor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vendedor` (
+  `email` varchar(50) NOT NULL,
+  `razon_social` varchar(120) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `fecha_registro` datetime NOT NULL,
+  `nombre` varchar(30) NOT NULL,
+  `apellido` varchar(30) NOT NULL,
+  `fecha_nac` date NOT NULL,
+  PRIMARY KEY (`email`),
+  CONSTRAINT `chk_vendedor_email_format` CHECK ((`email` like _utf8mb4'%_@__%.__%'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vendedor`
+--
+
+LOCK TABLES `vendedor` WRITE;
+/*!40000 ALTER TABLE `vendedor` DISABLE KEYS */;
+INSERT INTO `vendedor` VALUES ('diegito@gmail.com','Salamito SA','$2y$10$4AmCYt3XK4zhujyI.u97OuXAXC6SAKIDaILnjMjpwWnumlGQlFPVu','2024-11-19 17:58:59','diegito','Perez','1989-02-12'),('diego123@gmail.com','Freskita SA','$2y$10$1LCOnY8A7hZmmSPWB55bBO7sYxgDjbxhjFhZo/yHBjnoonb3yL7Q2','2024-11-19 16:38:30','Diego','Gonzalez','1989-02-12'),('esteban12@gmail.com','NIX SA','$2y$10$1lVPdqA1pjh5ZqdJYOiqgO5rHJ/XRhw7ijyOiUrTwy5wH4V4YVzpK','2024-11-13 15:22:35','Esteban','Gonzalrez','1998-02-12'),('martincho@gmail.com','Coca Cola Nix SA','$2y$10$jAMzmFW/AfiYptGNXOgh4uFo1UlfheUmnjtge8wZbY.nJuM5HT7Ui','2024-11-19 16:34:37','Martin','Martinez','1988-02-12'),('pablito@gmail.com','Coca cola SA.','$2y$10$W2WIThPlXjhVoGdiPnEBV.WZ/Ij.WqROgNsHx6MJapQW4x6dNnuGK','2024-11-07 23:19:48','Pablo','Pableke','1998-02-12'),('pepe123@gmail.com','Coca Coca SA','$2y$10$CGUOZTDaMAqstUi2MTTq9OwlBCsPWtZ1dqJOe1fz1CXvq8zILLioC','2024-11-07 23:35:36','Pepito','papito','1987-02-12');
+/*!40000 ALTER TABLE `vendedor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vendedor_direccion`
+--
+
+DROP TABLE IF EXISTS `vendedor_direccion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vendedor_direccion` (
+  `id_direccion` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) NOT NULL,
+  `calle_pri` varchar(50) DEFAULT NULL,
+  `calle_sec` varchar(50) DEFAULT NULL,
+  `num_puerta` varchar(5) DEFAULT NULL,
+  `ciudad` varchar(30) DEFAULT NULL,
+  `pais` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id_direccion`),
+  KEY `email` (`email`),
+  CONSTRAINT `vendedor_direccion_ibfk_1` FOREIGN KEY (`email`) REFERENCES `vendedor` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vendedor_direccion`
+--
+
+LOCK TABLES `vendedor_direccion` WRITE;
+/*!40000 ALTER TABLE `vendedor_direccion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vendedor_direccion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vendedor_telefono`
+--
+
+DROP TABLE IF EXISTS `vendedor_telefono`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vendedor_telefono` (
+  `email` varchar(50) NOT NULL,
+  `telefono` varchar(18) NOT NULL,
+  PRIMARY KEY (`email`,`telefono`),
+  CONSTRAINT `vendedor_telefono_ibfk_1` FOREIGN KEY (`email`) REFERENCES `vendedor` (`email`),
+  CONSTRAINT `chk_vendedor_telefono_format` CHECK (regexp_like(`telefono`,_latin1'^[0-9]{7,15}$'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vendedor_telefono`
+--
+
+LOCK TABLES `vendedor_telefono` WRITE;
+/*!40000 ALTER TABLE `vendedor_telefono` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vendedor_telefono` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vendedorSesion`
+--
+
+DROP TABLE IF EXISTS `vendedorSesion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vendedorSesion` (
+  `id_session_vendedor` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) DEFAULT NULL,
+  `fecha_ini_ses` datetime NOT NULL,
+  PRIMARY KEY (`id_session_vendedor`),
+  KEY `email` (`email`),
+  CONSTRAINT `vendedorsesion_ibfk_1` FOREIGN KEY (`email`) REFERENCES `vendedor` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vendedorSesion`
+--
+
+LOCK TABLES `vendedorSesion` WRITE;
+/*!40000 ALTER TABLE `vendedorSesion` DISABLE KEYS */;
+INSERT INTO `vendedorSesion` VALUES (15,'pablito@gmail.com','2024-11-07 23:19:48'),(16,'pepe123@gmail.com','2024-11-07 23:35:36'),(17,'esteban12@gmail.com','2024-11-13 15:22:35'),(18,'martincho@gmail.com','2024-11-19 16:34:37'),(19,'diego123@gmail.com','2024-11-19 16:38:30'),(20,'diego123@gmail.com','2024-11-19 17:25:31'),(21,'diego123@gmail.com','2024-11-19 17:47:12'),(22,'diego123@gmail.com','2024-11-19 17:49:44'),(23,'diegito@gmail.com','2024-11-19 17:58:59'),(24,'diegito@gmail.com','2024-11-19 18:00:50');
+/*!40000 ALTER TABLE `vendedorSesion` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-11-20  1:10:14
