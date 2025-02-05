@@ -11929,3 +11929,28 @@ Stack trace:
   thrown in /var/www/html/controlador/VendController.php on line 104
 [19-Nov-2024 17:34:31 UTC] PHP Warning:  Undefined array key "ventas" in /var/www/html/vista/administracion/general.php on line 95
 [19-Nov-2024 17:34:31 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /var/www/html/vista/administracion/general.php on line 95
+[10-Jan-2025 15:27:33 UTC] PHP Warning:  mysqli::__construct(): php_network_getaddresses: getaddrinfo for db failed: Name or service not known in /var/www/html/config/Database.php on line 16
+[10-Jan-2025 15:27:33 UTC] PHP Warning:  mysqli::__construct(): php_network_getaddresses: getaddrinfo for db failed: Name or service not known in /var/www/html/config/Database.php on line 16
+[10-Jan-2025 15:27:33 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /var/www/html/controlador/ProductController.php:114
+Stack trace:
+#0 /var/www/html/core/Router.php(1224): ProductController->getCategories()
+#1 /var/www/html/core/Router.php(293): Router->searchForm()
+#2 /var/www/html/core/Router.php(116): Router->homeActions()
+#3 /var/www/html/index.php(19): Router->route()
+#4 {main}
+  thrown in /var/www/html/controlador/ProductController.php on line 114
+[03-Feb-2025 19:20:42 UTC] PHP Warning:  require_once(/var/www/html/vendor/autoload.php): Failed to open stream: No such file or directory in /var/www/html/core/Router.php on line 2
+[03-Feb-2025 19:20:42 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/html/vendor/autoload.php' (include_path='.:/usr/local/lib/php') in /var/www/html/core/Router.php:2
+Stack trace:
+#0 /var/www/html/index.php(16): require_once()
+#1 {main}
+  thrown in /var/www/html/core/Router.php on line 2
+[03-Feb-2025 19:27:19 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'sigto.categorias' doesn't exist in /var/www/html/controlador/ProductController.php:114
+Stack trace:
+#0 /var/www/html/controlador/ProductController.php(114): mysqli->prepare('SELECT id_categ...')
+#1 /var/www/html/core/Router.php(1224): ProductController->getCategories()
+#2 /var/www/html/core/Router.php(293): Router->searchForm()
+#3 /var/www/html/core/Router.php(116): Router->homeActions()
+#4 /var/www/html/index.php(19): Router->route()
+#5 {main}
+  thrown in /var/www/html/controlador/ProductController.php on line 114

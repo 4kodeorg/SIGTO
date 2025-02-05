@@ -7,15 +7,9 @@ CREATE TABLE administrador (
     email VARCHAR(50) PRIMARY KEY,
     nombre VARCHAR(30) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    fecha_ini_ses DATETIME,
+    fecha_registro DATETIME,
 
     CONSTRAINT chk_admin_email_format CHECK (email LIKE '%_@__%.__%')
-);
-
-CREATE TABLE usuario_admin (
-	id_usu_admin INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50),
-    FOREIGN KEY (email) REFERENCES administrador(email)
 );
 
 CREATE TABLE cliente (
@@ -75,8 +69,28 @@ CREATE TABLE vendedor (
     fecha_registro DATETIME NOT NULL, 
     nombre VARCHAR(30) NOT NULL,
     apellido VARCHAR(30) NOT NULL,
-    fecha_nac DATE NOT NULL, 
+    fecha_nac DATE NOT NULL,
+    FOREIGN KEY (email) REFERENCES cliente(email), 
     CONSTRAINT chk_vendedor_email_format CHECK (email LIKE '%_@__%.__%')
+);
+
+CREATE TABLE vendedor_telefono (
+    email VARCHAR(50),
+    telefono VARCHAR(18),
+    PRIMARY KEY (email,telefono),
+    FOREIGN KEY (email) REFERENCES vendedor(email),
+    CONSTRAINT chk_vendedor_telefono_format CHECK (telefono REGEXP '^[0-9]{7,15}$')
+);
+
+CREATE TABLE vendedor_direccion (
+    id_direccion INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    calle_pri VARCHAR(50),
+    calle_sec VARCHAR(50),
+    num_puerta VARCHAR(5),
+    ciudad VARCHAR(30),
+    pais VARCHAR(30),
+    FOREIGN KEY (email) REFERENCES vendedor(email)
 );
 
 CREATE TABLE usuario_ven (
@@ -91,6 +105,18 @@ CREATE TABLE usuario_comprador (
     FOREIGN KEY (email) REFERENCES comprador(email)
 ) AUTO_INCREMENT=1000;
 
+CREATE TABLE categorias (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50),
+    descripcion TEXT
+);
+
+CREATE TABLE subcategorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    id_categoria INT,
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria) ON DELETE CASCADE
+);
 
 CREATE TABLE productos (
     sku INT AUTO_INCREMENT PRIMARY KEY,
@@ -110,20 +136,6 @@ CREATE TABLE productos (
     FOREIGN KEY (id_usu_ven) REFERENCES usuario_ven(id_usu_ven)
 ) AUTO_INCREMENT=4500;
 
-
-
-CREATE TABLE categorias (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50),
-    descripcion TEXT
-);
-
-CREATE TABLE subcategorias (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL UNIQUE,
-    id_categoria INT,
-    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria) ON DELETE CASCADE
-);
 
 CREATE TABLE producto_imagenes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -147,7 +159,7 @@ CREATE TABLE vendedorSesion (
     FOREIGN KEY (email) REFERENCES vendedor(email)
 );
 
-CREATE TABLE sesionCliente (
+CREATE TABLE compradorSesion (
     id_session INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(50),
     fecha_ini_ses DATETIME NOT NULL,
@@ -170,37 +182,6 @@ CREATE TABLE carrito (
     FOREIGN KEY (id_usu_com) REFERENCES usuario_comprador(id_usu_com)
 )AUTO_INCREMENT = 7000;
 
-ALTER TABLE carrito 
-ADD COLUMN is_deleted BOOLEAN DEFAULT FALSE;
-
-CREATE TABLE vendedor_telefono (
-    email VARCHAR(50),
-    telefono VARCHAR(18),
-    PRIMARY KEY (email,telefono),
-    FOREIGN KEY (email) REFERENCES vendedor(email),
-    CONSTRAINT chk_vendedor_telefono_format CHECK (telefono REGEXP '^[0-9]{7,15}$')
-);
-
-CREATE TABLE vendedor_direccion (
-    id_direccion INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50) NOT NULL,
-    calle_pri VARCHAR(50),
-    calle_sec VARCHAR(50),
-    num_puerta VARCHAR(5),
-    ciudad VARCHAR(30),
-    pais VARCHAR(30),
-    FOREIGN KEY (email) REFERENCES vendedor(email)
-);
-
-CREATE TABLE ofertas_especiales (
-    id_oferta INT AUTO_INCREMENT PRIMARY KEY,
-    descuento DECIMAL(5, 2) CHECK (descuento BETWEEN 0 AND 100),
-    nombre_evento VARCHAR(100),
-    descripcion TEXT,
-    fecha_inicio DATE,
-    fecha_fin DATE,
-    CONSTRAINT chk_ofertas_fechas CHECK (fecha_inicio < fecha_fin)
-);
 
 CREATE TABLE medio_pago (
     id_pago INT AUTO_INCREMENT PRIMARY KEY,
@@ -211,14 +192,13 @@ CREATE TABLE medio_pago (
 );
 
 CREATE TABLE confirmar_compra (
-    registro_compra INT AUTO_INCREMENT,
+    registro_compra INT AUTO_INCREMENT PRIMARY KEY,
     id_usu_com INT,
     id_usu_ven INT,
     id_pago INT,
     fecha_confirmacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     estado_confirmacion ENUM('Pendiente', 'Confirmado', 'Cancelado'),
     cupon_desc VARCHAR(50),
-    PRIMARY KEY (registro_compra, id_pago),
     FOREIGN KEY (id_usu_com) REFERENCES carrito(id_usu_com),
     FOREIGN KEY (id_usu_ven) REFERENCES carrito(id_usu_ven),
     FOREIGN KEY (id_pago) REFERENCES medio_pago(id_pago)

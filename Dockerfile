@@ -16,9 +16,10 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer
 
-COPY ./proyecto var/www/html
+COPY ./proyecto /var/www/html
 WORKDIR /var/www/html
 
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 RUN composer require paypal/paypal-server-sdk:0.5.1 --no-interaction --prefer-dist --optimize-autoloader
 
 EXPOSE 80
