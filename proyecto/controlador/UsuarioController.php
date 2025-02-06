@@ -1,9 +1,9 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/modelo/Usuario.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/config/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/controlador/BaseController.php';
 
-class UsuarioController extends Database
+class UsuarioController extends BaseController
 {
     public function create($data)
     {
@@ -106,48 +106,33 @@ class UsuarioController extends Database
         }
     }
     
-    public function getUserCards($email)
+    public function selectAllPayOpts($email)
     {
-        $query = "SELECT * FROM comprador_metodos_pago where email=?;";
-        $stmt = $this->conn->prepare($query);
+        $table = "comprador_metodos_pago";
+        $filter = "email";
+        $type = gettype($email);
+        try {
+            $data = $this->selectAllFrom($table, $filter, $email, $type);
+            return $data;
+        } catch (Exception $e) {
+            throw new Error($e->getMessage());
+        }
+    }
 
-        $stmt->bind_param('s', $email);
-        if ($stmt->execute()) {
-            $res = $stmt->get_result();
-            if ($res->num_rows > 0) {
-                return $res->fetch_all(MYSQLI_ASSOC);
-                
-            } else {
-                return [];
-            }
-            $stmt->close();
-        } else {
-            $stmt->close();
-            return false;
-        }
-    }
-    public function getCompradorDirecciones($email)
+    public function selectCompDirecciones($email)
     {
-        $query = "SELECT * FROM comprador_direccion WHERE email = ?";
-        $stmt = $this->conn->prepare($query);
-    
-        $stmt->bind_param('s', $email);
-    
-        if ($stmt->execute()) {
-            $res = $stmt->get_result();
-            $addresses = [];
-    
-            while ($row = $res->fetch_assoc()) {
-                $addresses[] = $row;
-            }
-    
-            $stmt->close();
-            return $addresses;
-        } else {
-            $stmt->close();
-            return false;
+        $table = "comprador_direccion";
+        $filter = "email";
+        $type = gettype($email);
+
+        try {
+            $data = $this->selectAllFrom($table, $filter, $email, $type);
+            return $data;
+        } catch (Exception $er) {
+            throw new Error($er->getMessage());
         }
     }
+
     public function insertPaymentMethod($data) {
         $query = "INSERT INTO comprador_metodos_pago 
                 (email, nom_titular, numero, nombre_tarjeta, fecha_ven)
@@ -384,22 +369,19 @@ class UsuarioController extends Database
 
     public function getUserFavorites($idUser)
     {
-        $query = "SELECT * FROM favoritos WHERE id_usuario=?;";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('i', $idUser);
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            if ($result->num_rows > 0) {
-                $favoritos = $result->fetch_all(MYSQLI_ASSOC);
-            } else {
-                $favoritos = [];
-            }
-            $stmt->close();
-            return $favoritos;
-        } else {
-            throw new Exception("Error en la base de datos");
+        $table = "favoritos";
+        $filter = "id_usuario";
+        $type = gettype($idUser);
+        try {
+            $data = $this->selectAllFrom($table, $filter, $idUser, $type);
+            return $data;
+        } catch (Exception $er) {
+          
+            throw new Error($er->getMessage());
         }
+
     }
+    
     public function deleteFromFavorites($idUser, $idProd)
     {
         $query = "DELETE FROM favoritos WHERE sku=? AND id_usuario=?;";
