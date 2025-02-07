@@ -23,5 +23,8 @@ class BaseController extends Database {
         }
 
     }
+    public function selectAllFromOne($table, $filter, $field, $type) {
+        
+    }
 
 }
